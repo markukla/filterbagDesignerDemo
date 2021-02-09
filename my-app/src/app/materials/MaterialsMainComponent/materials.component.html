@@ -1,0 +1,54 @@
+
+<!--sss-->
+
+<div>
+
+  <a  [routerLink]="['/materials/add']" routerLinkActive="active">
+    {{ createNewMaterialDescription }}
+  </a>
+</div>
+
+<div class="materialComponent">
+
+<table class="table table-striped border mt-1">
+  <thead>
+  <tr>
+    <th [appSort]="materials" data-order="desc" data-name="materialCode" scope="col">Kod Materiału <br></th>
+    <th [appSort]="materials" data-order="desc" data-name="materialName" scope="col">Nazwa Materiału</th>
+    <th>ilość</th>
+
+  </tr>
+  <tr>
+    <th>
+
+      <input class="tableSearchInput"[appSearch]="materials" serchedColumn="materialCode" id="serchInCodes" placeholder="Wyszukaj" />
+    </th>
+    <th><input class="tableSearchInput" [appSearch]="materials" serchedColumn="materialName" id="serchInNames" placeholder="Wyszukaj" /></th>
+  <th>{{this.recordNumbers}}</th>
+  </tr>
+
+  </thead>
+  <tbody>
+
+  <tr *ngFor="let material of materials">
+    <td>{{material.materialCode}}</td>
+    <td>{{material.materialName}}</td>
+    <td>
+      <text *ngIf="deleTedMaterialMessage">{{deleTedMaterialMessage}}</text>
+      <br>
+      <button (click)="this.deleteSelectedRecord(material.id)" [title]="deleteButtonInfo" >x</button>
+<button (click)="updateSelectedRecord(material.id);" [title]="updateButtonInfo">u</button>
+    </td>
+
+  </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,52 @@
+<div class="createOrUpdateFormWindow">
+  <button id="close button" class="closeButton" (click)="closeAndGoBack() " [title]='"zamknij"'>x</button>
+  <h2>Dodaj Nowe wykończenie Góry</h2>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label class="label" for="code">Kod Wykończenia Góry</label>
+        <input type="text" class="form-control" formControlName="code" id="code"
+               placeholder="Kod wykończenia dna">
+        <div *ngIf="code.invalid && (code.dirty || code.touched)"
+             class="alert alert-danger">
+
+          <div class="validatorInfo" *ngIf="code.errors.required">
+            To pole jest wymagane
+          </div>
+          <div class="validatorInfo" *ngIf="code.errors?.taken">
+            Podana kod jest już zajęty.
+          </div>
+          <div class="validatorInfo" *ngIf="code.errors.minlength">
+            Kod nie może być krótszy niż 2 znaki
+          </div>
+          <div class="validatorInfo" *ngIf="code.errors.maxlength">
+            Kod nie może być dłuższy niż 2 znaki.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div  class="col">
+      <p>{{giveNameForAllLanguagesDescription}}</p> <br>
+      <app-langage-form-component></app-langage-form-component>
+
+    </div>
+    <div class="addButon">
+      <button type="submit" [disabled]="!form.valid" class="btn btn-danger">{{saveButtonDescription}}</button>
+    </div>
+
+
+  </form>
+
+  <div *ngIf="showoperationStatusMessage">
+    <textarea>{{showoperationStatusMessage}}</textarea>
+  </div>
+</div>
+
+
+
+
+
+
+

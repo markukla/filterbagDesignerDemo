@@ -1,0 +1,38 @@
+version: "3"
+services:
+  web4:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: web4
+    container_name: web4
+    restart: unless-stopped
+    env_file: docker.env
+    ports:
+      - "3080:3080"
+    volumes:
+      - ./src:/usr/src/app/src
+    networks:
+      - app-network
+  postgres:
+    container_name: project_db
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    env_file:
+      - docker.env
+    networks:
+      - app-network
+
+
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  node_modules:
+  pgdata:
+

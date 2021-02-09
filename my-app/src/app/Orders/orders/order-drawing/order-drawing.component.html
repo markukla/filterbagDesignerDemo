@@ -1,0 +1,114 @@
+<div id="mainCointener" class="mainContainerClass" #mainContainer>
+  <div id="drawingAndTableContainer" #drawingAndTableContainer class="drawingAndTableContainer">
+    <div id="drawingContainer" #drawingContainer class="drawingContainer">
+      <!--[style.background-image]="'url('+bgImageVariable+')'-->
+      <img id="drawingImage" [src]="bgImageVariable" alt="">
+
+    </div>
+
+    <div class="tableFormContainer">
+      <form [formGroup]="tableForm">
+        <app-product-table-form></app-product-table-form>
+      </form>
+    </div>
+  </div>
+  <div *ngIf="createDimensionClicked=== true" id="createInputFormContainer" class="createInputFormContainer">
+    <p> Wypełnij formularz aby utworzyć wymiar</p>
+    <p> Po utworzeniu: złap i przytrzymaj lewym przyciskiem aby przeciągnąc <br>
+    Aby obrócić lub zmienić rozmiar: <br>
+      1) naciśnij prawym przyciskiem na rysunku poza wymiarem <br>
+      2) aby obrócić naciśnij dwukrotnie lewym przyciskiem na wymiar <br>
+      3) aby zmienić rozmiar użyj aktywnego naroznika <br>
+      4) po edycjj wymiaru naciśnij prawym przyciskiem poza wymiarem żeby ponownie uaktywnić tryb przeciągania <br>
+      5) aby usunąc wymiar najedź na niego kursorem i naciśnij prawym przyciskiem myszy.
+    </p>
+    <form [formGroup]="dimensionRoleForm">
+      <div class="form-group">
+        <p>Wybierz role wymiaru:</p>
+
+        <input type="radio" formControlName="dimensionRole" name="dimensionRole" id="dimensionRoleFirstIndexDimension"
+               [value]="dimensionRoleFirstIndex"
+        >
+        <label for="dimensionRoleFirstIndexDimension">{{this.dimensionRoleFirstIndexDimensionDescription}}</label>
+      </div>
+      <div class="form-group">
+
+
+        <input type="radio" formControlName="dimensionRole" name="dimensionRole"
+               id="dimensionRoleSecondIndexDimension" [value]="dimensionRoleSecondIndex"
+        >
+        <label for="dimensionRoleSecondIndexDimension">{{this.dimensionRoleSecondIndexDimensionDescription}}</label>
+      </div>
+      <div class="form-group">
+
+
+        <input type="radio" formControlName="dimensionRole" name="dimensionRole" id="dimensionRoleNoIndexDimension"
+               [value]="dimensionRoleNoIndex"
+        >
+        <label for="dimensionRoleNoIndexDimension">{{this.dimensionRoleNoIndexDimensionDescription}}</label>
+      </div>
+    </form>
+    <form [formGroup]="createDimensionsForm" (ngSubmit)="onSubmitForInputCreating()">
+      <div class="row">
+        <div *ngIf="dimensionRole.value === dimensionRoleFirstIndex" class="form-group col-md-6">
+          <label class="label" for="firstIndexDimension">Wybierz z listy nazwę wymiaru bedącego pierwszym wymiarem
+            indeksu</label>
+          <select class="form-control" formControlName="dimensionCodeControll" id="firstIndexDimension"
+                  #dimensionIdSelect>
+            <option [ngValue]="null" disabled> Wybierz Kod Wymiaru</option>
+            <option *ngFor="let code of allFirstIndexDimensionCodes" [ngValue]="code.dimensionCode">
+              {{ code.dimensionCode + '-' + code.localizedDimensionName.nameInThisLanguage}}
+            </option>
+          </select>
+
+        </div>
+
+        <div *ngIf="dimensionRole.value === dimensionRoleSecondIndex">
+          <label class="label" for="secondIndex">Wybierz z listy nazwę wymiaru bedącego drugim wymiarem
+            indeksu</label>
+          <select class="form-control" formControlName="dimensionCodeControll" id="secondIndex" #dimensionIdSelect>
+            <option [ngValue]="null" disabled> Wybierz Kod Wymiaru</option>
+            <option *ngFor="let code of allSecondIndexDimensionCOde" [ngValue]="code.dimensionCode">
+              {{ code.dimensionCode + '-' + code.localizedDimensionName.nameInThisLanguage}}
+            </option>
+          </select>
+        </div>
+        <div *ngIf="dimensionRole.value === dimensionRoleNoIndex">
+          <label class="label" for="noIndex">Wybierz z listy nazwę wymiaru, który nie wchodzi do indeksu</label>
+          <select class="form-control" formControlName="dimensionCodeControll" id="noIndex" #dimensionIdSelect>
+            <option [ngValue]="null" disabled> Wybierz Kod Wymiaru</option>
+            <option *ngFor="let code of allNonIndexDimensionCodes" [ngValue]="code.dimensionCode">
+              {{ code.dimensionCode + '-' + code.localizedDimensionName.nameInThisLanguage}}
+            </option>
+          </select>
+        </div>
+
+
+      </div>
+      <div class="addButon">
+        <button type="submit" [disabled]="!createDimensionsForm.valid" class="btn btn-danger">Utwórz</button>
+      </div>
+    </form>
+    <button class="closeButton" (click)="this.createDimensionClicked = false">x</button>
+  </div>
+
+  <div *ngIf="operationFailerStatusMessage" class="alert-danger">
+    <p>{{operationFailerStatusMessage}}</p>
+  </div>
+  <div *ngIf="operationSuccessStatusMessage" class="alert-success">
+    <p>{{operationSuccessStatusMessage}}</p>
+  </div>
+
+
+  <div class="saveButtons">
+    <button *ngIf="createOrUpdateProductMode() === false;" class="saveButton" (click)="onSubmit()">Zatwierdź</button>
+    <button (click)="navigateBack()"> Wstecz </button>
+    <button *ngIf="createOrUpdateProductMode() === true;" class="saveButton" (click)="saveProductInDatabas()">Dodaj produkt</button>
+    <button type="button" *ngIf="createOrUpdateProductMode() === true;" (click)="this.createDimensionClicked = true" >Utwórz wymiar</button>
+    <button (click)="printDrawing();"> Drukuj</button>
+    <div *ngIf=" checkIfShowDrawingMode();">
+      <button class="saveButton" (click)="getDrawingPdf();">Zapisz do pdf</button>
+    </div>
+  </div>
+</div>
+

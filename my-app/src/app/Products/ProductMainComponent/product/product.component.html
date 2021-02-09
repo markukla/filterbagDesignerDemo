@@ -1,0 +1,62 @@
+<a [routerLink]="['/products/tops']" > Wykończenia góry</a>
+<a [routerLink]="['/products/bottoms']" > Wykończenia dna</a>
+<a [routerLink]="['/products/types']" > Typy produktów</a>
+
+<!--sss-->
+
+<div>
+
+  <a (click)="createNewProduct();">
+    {{ createNewMaterialDescription }}
+  </a>
+</div>
+
+<div class="materialComponent">
+
+  <table class="table table-striped border mt-1">
+    <thead>
+    <tr>
+      <th [appSort]="records" data-order="desc" data-name="productTypeCodePlusName" scope="col">Typ produktu <br></th>
+      <th [appSort]="records" data-order="desc" data-name="productTopCodePlusName" scope="col">Wykończenie góry</th>
+      <th [appSort]="records" data-order="desc" data-name="productBottomCodePlusNAme" scope="col">Wykończenie dna</th>
+      <th>ilość</th>
+
+    </tr>
+    <tr>
+      <th>
+
+        <input class="tableSearchInput"  id="serchInType" placeholder="Wyszukaj" [appSearch]="records" serchedColumn="productTypeCodePlusName" /> </th>
+      <th><input class="tableSearchInput"  id="serchInTops" placeholder="Wyszukaj"  [appSearch]="records" serchedColumn="productTopCodePlusName"/> </th>
+      <th><input class="tableSearchInput"  id="serchInBottoms" placeholder="Wyszukaj" [appSearch]="records" serchedColumn="productBottomCodePlusNAme"/></th>
+      <th>{{this.recordNumbers}}</th>
+    </tr>
+
+    </thead>
+    <tbody>
+
+    <tr *ngFor="let record of records">
+      <td>{{record.productTypeCodePlusName}}</td>
+      <td>{{record.productTopCodePlusName}}</td>
+      <td>{{record.productBottomCodePlusNAme}}</td>
+      <td>
+        <text *ngIf="deleTedMaterialMessage">{{deleTedMaterialMessage}}</text>
+        <br>
+        <button  class="deleteButton" (click)="this.deleteSelectedRecord(record.id)" [title]="deleteButtonInfo" >x</button>
+        <button class="updateButton" (click)="updateSelectedRecord(record.id);" [title]="updateButtonInfo">u</button>
+        <button class="showDrawing" (click)="showDrawing(record.id)"> Zobacz Rysunek</button>
+      </td>
+
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+
+
+
+
+
+
+

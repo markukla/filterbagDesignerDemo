@@ -1,0 +1,68 @@
+<div class="createOrUpdateFormWindow">
+  <button id="close button" class="closeButton" (click)="closeAndGoBack() " [title]='closeButtonDescription'>x</button>
+  <h2> Dodaj nowy kod wymiaru</h2>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="row">
+
+      <div class="form-group col-md-6">
+        <label class="label" for="code">Kod Wymiaru</label>
+        <input type="text" class="form-control" formControlName="code" id="code">
+        <div *ngIf="code.invalid && (code.dirty || code.touched)"
+             class="alert alert-danger">
+
+          <div class="validatorInfo" *ngIf="code.errors.required">
+            To pole jest wymagane
+          </div>
+
+        </div>
+
+      </div>
+      <div class="form-group col-md-6">
+        <label class="label" for="role"> Wybierz role wymiaru</label>
+        <select class="form-control" formControlName="role" id="role">
+          <option [ngValue]="this.allDimensionRolesToSelect[0]">
+            Pierwszy wymiar indeksu
+          </option>
+          <option [ngValue]="this.allDimensionRolesToSelect[1]">
+            Drugi wymiar indeksu
+          </option>
+          <option [ngValue]="this.allDimensionRolesToSelect[2]">
+            Wymiar nie wchodzący do indeksu
+          </option>
+        </select>
+        <div *ngIf="role.invalid && (role.dirty || role.touched)"
+             class="alert alert-danger">
+
+          <div class="validatorInfo" *ngIf="role.errors.required">
+           To pole jest wymagane
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+      <div  class="col">
+        <p> Podaj nazwy we wszystkich językach</p> <br>
+<app-langage-form-component></app-langage-form-component>
+
+      </div>
+    <div class="addButon">
+      <button type="submit" [disabled]="!form.valid" class="btn btn-danger"> Zapisz </button>
+    </div>
+
+
+</form>
+
+<div *ngIf="showoperationStatusMessage">
+  <textarea>{{showoperationStatusMessage}}</textarea>
+</div>
+</div>
+
+
+
+
+
+
+
+
+

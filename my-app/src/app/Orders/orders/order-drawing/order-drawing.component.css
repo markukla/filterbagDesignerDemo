@@ -1,0 +1,69 @@
+.mainContainerClass {
+
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  border: 3px solid #8B0000
+
+}
+.drawingAndTableContainer {
+  position: absolute;
+  top: 2%;
+  left: 5%;
+  border: 2px solid #000000;
+  z-index: 20;
+  width: 90%;
+  height: 90%;
+
+}
+.tableFormContainer {
+  position: absolute;
+  bottom: 2%;
+  right: 2%;
+  width: 50%;
+  height: 20%;
+}
+#drawingContainer {
+  /* background-image: url('W702L_V_prawie_ostateczna.png');*/
+  position: absolute;
+  border: 1px solid #008000;
+  z-index: 30;
+  top: 2%;
+  left: 2%;
+  width: 600px;
+  height: 400px;
+  /* if there is no width and height set getBoundingClientReact.width getBoundingClientReact.height does not work because it reads value before div size fits image */
+}
+#drawingImage {
+  max-width: 100%;
+  height: auto;
+}
+
+.dimensionInputHorizontal {
+  width: auto;
+  height: 30px;
+  white-space: nowrap;
+  overflow-x: auto;
+  resize: horizontal;
+}
+.createInputFormContainer {
+  position: absolute;
+  bottom: 2%;
+  right: 2%;
+  border: 3px solid grey;
+  z-index: 40;
+  background-color: burlywood;
+  background-repeat: no-repeat;
+
+}
+.saveButtons {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}
+
+
+
+
+

@@ -1,0 +1,83 @@
+.material-icons {
+  display: inline-flex;
+  vertical-align: middle;
+}/* You can add global styles to this file, and also import other style files */
+.createOrUpdateFormWindow {
+  position: absolute;
+
+  left: 50%;
+
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+
+  border: 5px solid #FFFF00;
+
+
+  padding: 10px;
+}
+.createOrUpdateOrder{
+  position: absolute;
+  top: 5%;
+  width: 50%;
+  left: 30%;
+  height: auto;
+  border: 5px solid #FFFF00;
+
+}
+.formTitle {
+  position: relative;
+  left: 5%;
+  top: 5%;
+}
+.showOperationStatusContainer {
+  width: 100%;
+}
+.closeButton {
+  position: absolute;
+  right: 0%;
+  top: 0%;
+  z-index: 1000;
+}
+.addButon {
+  width: fit-content;
+  position: relative;
+  left: 40%;
+  bottom: 10%;
+
+}
+#materialCodeLabel {
+  width: max-content;
+}
+.form-control {
+  position: relative;
+  width: max-content;
+}
+.label {
+  position: relative;
+  width: max-content;
+}
+.validatorInfo {
+  position: relative;
+  width: max-content;
+}
+.tableSearchInput {
+
+}
+.deleteButton {
+
+}
+.updateButton {
+
+}
+
+
+.confirmOrChangeButton {
+
+}
+.flagImage {
+  width: 40px;
+  height: 40px;
+}
+

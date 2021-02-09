@@ -1,0 +1,71 @@
+<div class="createOrUpdateFormWindow">
+  <button id="close button" class="closeButton" (click)="closeAndGoBack() " [title]='"zamknij"'>x</button>
+  <h2>Dodaj nowy typ produktu</h2>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="row">
+
+        <div class="form-group col-md-6">
+          <label class="label" for="code">Kod typu produktu</label>
+          <input type="text" class="form-control" formControlName="code" id="code"
+                 placeholder="Kod typu produktu">
+          <div *ngIf="code.invalid && (code.dirty || code.touched)"
+               class="alert alert-danger">
+
+            <div class="validatorInfo" *ngIf="code.errors.required">
+              To pole jest wymagane
+            </div>
+            <div class="validatorInfo" *ngIf="code.errors?.taken">
+              Podana kod jest już zajęty.
+            </div>
+            <div class="validatorInfo" *ngIf="code.errors.minlength">
+              Kod nie może być krótszy niż 2 znaki
+            </div>
+            <div class="validatorInfo" *ngIf="code.errors.maxlength">
+              Kod nie może być dłuższy niż 2 znaki.
+            </div>
+          </div>
+
+        </div>
+    </div>
+      <div  class="row-cols-1">
+        <p>{{giveNameForAllLanguagesDescription}}</p> <br>
+        <app-langage-form-component></app-langage-form-component>
+
+      </div>
+      <div class="row">
+        <div class="form-group col-md-6">
+          <p>Wybierz wykończenia góry</p>
+          <div *ngFor="let top of allTopsToSelect">
+
+            <label [for]="'topInput'+top.id"  > {{ top.code +'-' + getNameInSelectedLanguage(top.localizedNames) }}</label>
+            <input  type = "checkbox" [id]="'topInput'+top.id" #topsCheckbox [checked]="setCheckedpropertyOfTopsCheckBoxForUpdateMode(topsCheckbox.id)">
+          </div>
+        </div>
+      <div class="form-group col-md-6">
+        <p>Wybierz wykończenia dna</p>
+        <div *ngFor="let bottom of allBotomsToselect">
+
+          <label [for]="'bottomInput'+bottom .id"  > {{ bottom .code +'-' + getNameInSelectedLanguage(bottom.localizedNames) }}</label>
+          <input type = "checkbox" [id]="'bottomInput'+bottom.id" #bottomCheckbox [checked]="setCheckedpropertyOfBotttomCheckBoxForUpdateMode(bottomCheckbox.id)">
+        </div>
+      </div>
+
+      </div>
+    <div class="addButon">
+      <button type="submit" [disabled]="!form.valid" class="btn btn-danger">Zapisz</button>
+    </div>
+
+  </form>
+
+  <div *ngIf="showoperationStatusMessage">
+    <textarea>{{showoperationStatusMessage}}</textarea>
+  </div>
+</div>
+
+
+
+
+
+
+
+
