@@ -55,6 +55,11 @@ class App {
         this.app.get('/', (req:any,res:any) => {
             res.sendFile(process.cwd()+"/my-app/dist/projekt1FilterFront/index.html")
         });
+        this.app.use(function(req:any, res:any, next:any) {
+            res.header("Access-Control-Allow-Origin", "*");
+            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+            next();
+        });
 
 
     }
