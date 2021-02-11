@@ -18,7 +18,7 @@ import * as cors from "cors";
 
 class App {
     public app: express.Application;
-    public port: number;
+
 
     constructor(controllers:Controller[]) {
         this.app = express();
@@ -73,10 +73,12 @@ class App {
 
 
 
+    host= '0.0.0.0';
+    port: number =  Number(process.env.PORT);
 
     public listen() {
-        this.app.listen(process.env.PORT, () => {
-            console.log(`App listening on the port ${process.env.PORT}`);
+        this.app.listen(this.port, this.host, () => {
+            console.log(`Running on port:${this.port}`);
         });
     }
 }
