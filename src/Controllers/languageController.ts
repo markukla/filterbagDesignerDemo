@@ -101,14 +101,9 @@ class LanguageController implements Controller{
     private deleteOneLanguageById = async (request: express.Request, response: express.Response, next: express.NextFunction)=>{
         const id:string=request.params.id;
         try{
-            const deleTedResponse=await this.service.deleteOneById(id);
-            if(deleTedResponse.affected===1){
-                response.send({
-                    status:200,
-                    message:`languageCode with id= ${id} has beeen removed`
-                })
-            }
+            const deleTedResponse: boolean =await this.service.deleteOneById(id);
 
+            response.send(deleTedResponse);
         }
         catch (error) {
             next(error);

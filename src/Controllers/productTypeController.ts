@@ -135,19 +135,15 @@ class ProductTypeController implements Controller {
     }
     private deleteOneProductTypeById = async (request: express.Request, response: express.Response, next: express.NextFunction) => {
         const id: string = request.params.id;
-        try {
-            const deleTedResponse = await this.service.deleteProductTypeById(id);
-            if (deleTedResponse.affected === 1) {
-                response.send({
-                    status: 200,
-                    message: `Product type with id= ${id} has beeen removed`
-                })
-            } else {
-                next(new ProductTypeNotFoundException(id));
-            }
-        } catch (error) {
+        try{
+            const deleTedResponse: boolean =await this.service.deleteProductTypeById(id);
+
+            response.send(deleTedResponse);
+        }
+        catch (error) {
             next(error);
         }
+
 
     }
 

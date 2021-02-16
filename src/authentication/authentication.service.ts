@@ -1,6 +1,7 @@
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import {getManager, getRepository} from 'typeorm';
+import UserWithThatEmailAlreadyExistsException from '../Exceptions/UserWithThatEmailAlreadyExistsException';
 import DataStoredInToken from '../interfaces/dataStoredInToken';
 import TokenData from '../interfaces/tokenData.interface';
 import User from "../Models/Users/user.entity";

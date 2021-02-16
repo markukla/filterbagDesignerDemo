@@ -8,6 +8,7 @@ import UserController from "./Controllers/userController";
 import RoleController from "./Controllers/roleController";
 import AuthenticationController from "./authentication/authentication.controller";
 import BusinessPartnerController from "./Controllers/businessPartnerController";
+import {config, config_test} from "../ormconfig";
 import {connectToDatabase} from "./utils/DatabaseUtil/manageDatabaseConnection";
 import MaterialController from "./Controllers/materialController";
 import ProductController from "./Controllers/productController";
@@ -18,37 +19,38 @@ import ProductBottomController from "./Controllers/productBottomController";
 import DimensionCodeController from "./Controllers/dimensionCodeController";
 import LanguageController from "./Controllers/languageController";
 import VocabularyController from "./Controllers/vocabullaryController";
-import {config} from "../ormconfig";
+
+validateEnv();
+
 
 validateEnv();
 
 (async () => {
     try {
         await connectToDatabase(config);
-        const app = new App(
-            [
-                new RoleController(),
-                new AuthenticationController(),
-                new UserController(),
-                new BusinessPartnerController(),
-                new MaterialController(),
-                new ProductController(),
-                new OrderController(),
-                new ProductTypeController(),
-                new ProductTopController(),
-                new ProductBottomController(),
-                new DimensionCodeController(),
-                new LanguageController(),
-                new VocabularyController()
-
-
-
-            ],
-        );
-        app.listen();
     } catch (error) {
         console.log('Error while connecting to the database', error);
         return error;
     }
+    const app = new App(
+        [
+            new RoleController(),
+            new AuthenticationController(),
+            new UserController(),
+            new BusinessPartnerController(),
+            new MaterialController(),
+            new ProductController(),
+            new OrderController(),
+            new ProductTypeController(),
+            new ProductTopController(),
+            new ProductBottomController(),
+            new DimensionCodeController(),
+            new LanguageController(),
+            new VocabularyController()
 
+
+
+        ],
+    );
+    app.listen();
 })();

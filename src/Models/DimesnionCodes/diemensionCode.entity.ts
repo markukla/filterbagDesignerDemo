@@ -9,13 +9,15 @@ import DimensionRoleEnum from "./dimensionRoleEnum";
 class DimensionCode {
     @PrimaryGeneratedColumn()
     public id?: number;
-    @Column({unique:true})
+    @Column()
     dimensionCode:string;
 
     @Column({ type:"jsonb"})
     localizedDimensionNames: LocalizedName [];
     @Column({default: DimensionRoleEnum.NOINDEXDIMENSION})
     dimensionRole: DimensionRoleEnum
+    @Column({nullable: true})
+    softDeleteDate?:Date;
 }
 
 export default DimensionCode;

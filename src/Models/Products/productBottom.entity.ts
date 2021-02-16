@@ -11,13 +11,14 @@ class ProductBottom {
     @Column({ type:"jsonb"})
     localizedNames: LocalizedName [];
 
-    @Column({unique:true})
+    @Column()
     code:string;
     @OneToMany(()=>Product,(productWithThisBottom:Product)=>productWithThisBottom.productBottom)
     productsWithThisBottom?:Product[];
     @ManyToMany(()=>ProductType,(productType:ProductType)=>productType.bottomsForThisProductType)
     productTypesWithThisBottom?:ProductType[]
-
+    @Column({nullable: true})
+    softDeleteDate?:Date;
 
 
 

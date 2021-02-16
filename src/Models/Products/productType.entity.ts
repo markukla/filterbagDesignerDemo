@@ -21,7 +21,8 @@ class ProductType {
     @ManyToMany(()=>ProductBottom, (bottomsForThisProductType:ProductBottom) => bottomsForThisProductType.productTypesWithThisBottom)
     @JoinTable({name:"productType_productBottom_id_pairs"})
     bottomsForThisProductType:ProductBottom[];
-
+    @Column({nullable: true})
+    softDeleteDate?:Date;
 
 
 }

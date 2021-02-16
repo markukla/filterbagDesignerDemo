@@ -39,25 +39,35 @@ return foundDimension;
     }
 
     public async findAllDimensionCodes():Promise<DimensionCode[]>{
-        const foundDiemnsionCodes:DimensionCode[] =await this.repository.find();
+        const foundDiemnsionCodes:DimensionCode[] =await this.repository.find( {softDeleteDate: null});
 
         return foundDiemnsionCodes;
 
     }
     public async findallFirstIndexDimensionCodes():Promise<DimensionCode[]>{
-        const foundDiemnsionCodes:DimensionCode[] =await this.repository.find({dimensionRole: DimensionRoleEnum.FIRSTINDEXDIMENSION});
+        const foundDiemnsionCodes:DimensionCode[] =await this.repository.find(
+            {
+                dimensionRole: DimensionRoleEnum.FIRSTINDEXDIMENSION,
+                softDeleteDate: null}
+                );
 
         return foundDiemnsionCodes;
 
     }
     public async findallSecondIndexDimensionCodes():Promise<DimensionCode[]>{
-        const foundDiemnsionCodes:DimensionCode[] =await this.repository.find({dimensionRole: DimensionRoleEnum.SECONDINDEXDIMENSION});
+        const foundDiemnsionCodes:DimensionCode[] =await this.repository.find({
+            dimensionRole: DimensionRoleEnum.SECONDINDEXDIMENSION,
+            softDeleteDate: null
+        });
 
         return foundDiemnsionCodes;
 
     }
     public async findallNoIndexRelatedDimensionCodes():Promise<DimensionCode[]>{
-        const foundDiemnsionCodes:DimensionCode[] =await this.repository.find({dimensionRole: DimensionRoleEnum.NOINDEXDIMENSION});
+        const foundDiemnsionCodes:DimensionCode[] =await this.repository.find({
+            dimensionRole: DimensionRoleEnum.NOINDEXDIMENSION,
+            softDeleteDate: null
+        });
 
         return foundDiemnsionCodes;
 
@@ -65,7 +75,7 @@ return foundDimension;
     public async addOneDimensionCode(createDimensionDto:CreateDimensionCodeDto):Promise<DimensionCode>{
         const dimensionWithThisCodeInDatabase = await this.findOneByDimensionCode(createDimensionDto.dimensionCode)
 
-        if(dimensionWithThisCodeInDatabase){
+        if(dimensionWithThisCodeInDatabase && dimensionWithThisCodeInDatabase.softDeleteDate === null){
             throw new DimensionCodeAlreadyExistException(createDimensionDto.dimensionCode);
         }
 
@@ -82,7 +92,7 @@ return foundDimension;
         if(idOfExistingDimensionCode){
             const dimensionCodeWithThisCodeInDatabase= await this.findOneByDimensionCode(createDimensionDto.dimensionCode)
             // do not allow to update if other material with this code or name already exist and throw exception
-            if(dimensionCodeWithThisCodeInDatabase){
+            if(dimensionCodeWithThisCodeInDatabase && dimensionCodeWithThisCodeInDatabase.softDeleteDate === null){
                 if(dimensionCodeWithThisCodeInDatabase.id!==Number(id)){
                     throw new DimensionCodeAlreadyExistException(createDimensionDto.dimensionCode);
                 }
@@ -103,19 +113,26 @@ return foundDimension;
 
 
     }
-    public async deleteOneById(id:string):Promise<DeleteResult>{
-        const idOfExistingDimensionCode:boolean=await this.findOneById(id)!==null;
-        if(idOfExistingDimensionCode){
-            const deleteResult:DeleteResult= await this.repository.delete(id);
-            return deleteResult;
+    public async deleteOneById(id:string):Promise<boolean>{
+        let softDeletedRecord:DimensionCode;
+        const recordToDelte = await this.findOneById(id);
+        const idOfExistingRecord:boolean=recordToDelte!==null;
+        if(idOfExistingRecord){
+            const recordTosoftDelete: DimensionCode = {
+                ...recordToDelte,
+                softDeleteDate: new Date()
+            };
+             softDeletedRecord= await this.repository.save(recordTosoftDelete);
         }
         else {
             throw new DimensionCodeNotFoundException(id);
         }
-
-
-
-
+        if(softDeletedRecord&&softDeletedRecord.softDeleteDate) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
 

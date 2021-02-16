@@ -9,6 +9,8 @@ import CreateProductBottomDto from "../Models/Products/createProductBottom.dto";
 import ProductBottomAlreadyExistsException from "../Exceptions/ProductBottomAlreadyExistsException";
 import {DeleteResult, getRepository, UpdateResult} from "typeorm";
 import ProductTop from "../Models/Products/productTop.entity";
+import Material from "../Models/Materials/material.entity";
+import DimensionCodeNotFoundException from "../Exceptions/DimensionCodeNotFoundException";
 
 
 class ProductBottomService implements RepositoryService {
@@ -46,7 +48,7 @@ class ProductBottomService implements RepositoryService {
 
 
     public async findAllProductsBottoms(): Promise<ProductBottom[]> {
-        const foundProductBottoms: ProductBottom[] = await this.repository.find();
+        const foundProductBottoms: ProductBottom[] = await this.repository.find({softDeleteDate: null});
 
         return foundProductBottoms;
 
@@ -55,9 +57,9 @@ class ProductBottomService implements RepositoryService {
     public async addOneProductBottom(createProductBottomDto: CreateProductBottomDto): Promise<ProductBottom> {
         // do not allow to add the same product twice
         const productBottomWithThisCodeInDatabase: ProductBottom = await this.findOneProductBottomByBottomCode(createProductBottomDto);
-        let productBottomAlreadyExistInDatabase:boolean=productBottomWithThisCodeInDatabase!==undefined;
 
-        if (productBottomAlreadyExistInDatabase) {
+
+        if (productBottomWithThisCodeInDatabase && productBottomWithThisCodeInDatabase.softDeleteDate === null) {
             throw new ProductBottomAlreadyExistsException();
         }
         const productBottomToSave={
@@ -76,7 +78,7 @@ class ProductBottomService implements RepositoryService {
 
             // do not allow to update if other ProductType with the same filds already exists
             const productBottomWithThisCodeInDatabase: ProductBottom = await this.findOneProductBottomByBottomCode(createProductBottomDto);
-            if (productBottomWithThisCodeInDatabase) {
+            if (productBottomWithThisCodeInDatabase && productBottomWithThisCodeInDatabase.softDeleteDate === null) {
                 if (productBottomWithThisCodeInDatabase.id !== Number(id)) {
                     throw new ProductBottomAlreadyExistsException();
 
@@ -97,18 +99,28 @@ class ProductBottomService implements RepositoryService {
         }
     }
 
-    public async deleteProductBottomById(id: string): Promise<DeleteResult> {
-        const idOfExistingProductBottom: boolean = await this.findOneProductBottomById(id) !==undefined;
-        if (idOfExistingProductBottom) {
-            const deleteResult: DeleteResult = await this.repository.delete(id);
-            return deleteResult;
+    public async deleteProductBottomById(id:string):Promise<boolean>{
+        let softDeletedRecord:ProductBottom;
+        const recordToDelte = await this.findOneProductBottomById(id);
+        const idOfExistingRecord:boolean=recordToDelte!==null;
+        if(idOfExistingRecord){
+            const recordTosoftDelete: ProductBottom = {
+                ...recordToDelte,
+                softDeleteDate: new Date()
+            };
+            softDeletedRecord= await this.repository.save(recordTosoftDelete);
         }
         else {
             throw new ProductBottomNotFoundException(id);
         }
-
-
+        if(softDeletedRecord&&softDeletedRecord.softDeleteDate) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
+
 
 
 }

@@ -101,18 +101,14 @@ class VocabularyController implements Controller{
     private deleteOneVocabularyById = async (request: express.Request, response: express.Response, next: express.NextFunction)=>{
         const id:string=request.params.id;
         try{
-            const deleTedResponse=await this.service.deleteOneRecordById(id);
-            if(deleTedResponse.affected===1){
-                response.send({
-                    status:200,
-                    message:`languageCode with id= ${id} has beeen removed`
-                })
-            }
+            const deleTedResponse: boolean =await this.service.deleteOneRecordById(id);
 
+            response.send(deleTedResponse);
         }
         catch (error) {
             next(error);
         }
+
 
     }
 

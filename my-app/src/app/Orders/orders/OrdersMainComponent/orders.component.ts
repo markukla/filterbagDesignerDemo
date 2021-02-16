@@ -12,6 +12,12 @@ import {BusinesPartnerBackendService} from '../../../BusinessPartners/business-p
 import {GeneralTableService} from '../../../util/GeneralTableService/general-table.service';
 import {SearchService} from '../../../helpers/directive/SearchDirective/search.service';
 import {ProductMiniatureService} from '../productMiniature/productMiniatureService/product-miniature.service';
+import {OperationStatusServiceService} from '../../../OperationStatusComponent/operation-status/operation-status-service.service';
+import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
+import {
+  generalNamesInSelectedLanguage, generalUserNames,
+  orderNames
+} from '../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription';
 
 @Component({
   selector: 'app-orders',
@@ -22,7 +28,7 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
 
   @Input()
   records: OrderforTableCell[];
-  createNewRecordDescription = 'Dodaj Nowy';
+  createNewRecordDescription: string;
   // tslint:disable-next-line:ban-types
   deleTedMaterialMessage: any;
   operationStatusMessage: string;
@@ -33,6 +39,12 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
   recordNumbers: number;
   partnerIdForOrdersShow: string;
   ordersOfBusinessPartner: Order[];
+  showConfirmDeleteWindow: boolean;
+  operationFailerStatusMessage: string;
+  operationSuccessStatusMessage: string;
+  orderNames = orderNames;
+  generalUserNames = generalUserNames;
+  generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
 
 
   constructor(public tableService: GeneralTableService,
@@ -43,7 +55,8 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
               private route: ActivatedRoute,
               private searChService: SearchService,
               private activedIdParam: ActivatedRoute,
-              private authenticationService: AuthenticationService
+              private authenticationService: AuthenticationService,
+              public statusService: OperationStatusServiceService
   ) {
   }
 
@@ -51,10 +64,19 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
     this.route.queryParamMap.subscribe(queryParams => {
       this.partnerIdForOrdersShow = queryParams.get('patnerId');
     });
+    this.initColumnNamesInSelectedLanguage();
     this.getRecords();
     this.materialId = this.tableService.selectedId;
-    this.deleteButtonInfo = 'usuń';
-    this.updateButtonInfo = 'modyfikuj dane';
+  }
+  initColumnNamesInSelectedLanguage(): void {
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.orderNames, this.authenticationService.vocabulariesInSelectedLanguage);
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalUserNames, this.authenticationService.vocabulariesInSelectedLanguage);
+    this.deleteButtonInfo = this.generalNamesInSelectedLanguage.deleteButtonInfo;
+    this.updateButtonInfo = this.generalNamesInSelectedLanguage.updateButtonInfo;
+    this.createNewRecordDescription = this.orderNames.createNewOrder;
   }
 
   ngAfterContentChecked(): void {
@@ -101,14 +123,30 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
     }
   }
 
-  deleteSelectedRecord(currrentOrderId: number): void {
-    this.backendService.deleteOrderWithVersionRegisterByCurrentId(String(currrentOrderId)).subscribe((response) => {
-      this.operationStatusMessage = 'Usunięto Materiał z bazy danych';
-      console.log(`${this.operationStatusMessage}`);
-    }, error => {
-      this.operationStatusMessage = 'Wystąpił bład, nie udało się usunąc materiału';
-      console.log(`${this.operationStatusMessage}`);
-    });
+  selectRecordtoDeleteAndShowConfirmDeleteWindow(materialId: number): void {
+    this.statusService.resetOperationStatus([this.operationFailerStatusMessage, this.operationSuccessStatusMessage]);
+    this.showConfirmDeleteWindow = true;
+    this.tableService.selectedId = materialId;
+  }
+  deleteSelectedRecordFromDatabase(recordId: number, deleteConfirmed: boolean): void {
+    if (deleteConfirmed === true) {
+      this.backendService.deleteOrderWithVersionRegisterByCurrentId(String(recordId)).subscribe((response) => {
+        this.operationSuccessStatusMessage = this.generalNamesInSelectedLanguage.operationDeleteSuccessStatusMessage;
+        this.tableService.selectedId = null;
+        this.showConfirmDeleteWindow = false;
+        this.statusService.makeOperationStatusVisable();
+        this.statusService.resetOperationStatusAfterTimeout([this.operationFailerStatusMessage, this.operationSuccessStatusMessage]);
+      }, error => {
+        this.operationFailerStatusMessage = this.generalNamesInSelectedLanguage.operationDeleteFailerStatusMessage;
+        this.tableService.selectedId = null;
+        this.showConfirmDeleteWindow = false;
+        this.statusService.makeOperationStatusVisable();
+        this.statusService.resetOperationStatusAfterTimeout([this.operationFailerStatusMessage, this.operationSuccessStatusMessage]);
+      });
+    }
+    else {
+      this.showConfirmDeleteWindow = false;
+    }
   }
 
   updateSelectedRecord(selectedId: number): void {

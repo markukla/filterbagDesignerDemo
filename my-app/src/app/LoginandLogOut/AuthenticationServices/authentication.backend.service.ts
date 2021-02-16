@@ -11,7 +11,7 @@ import {ChangePasswordDto} from './changePasswordDto';
   providedIn: 'root'
 })
 export class AuthenticationBackendService {
-rootUrl= API_URL;
+rootUrl = API_URL;
   constructor(private http: HttpClient) { }
   login(loginDto: LogInDto): Observable<HttpResponse<LoggedUser>> {
     // tslint:disable-next-line:max-line-length

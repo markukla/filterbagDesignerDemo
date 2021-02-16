@@ -197,27 +197,18 @@ const id:string=request.params.id;
         catch (error) {
             next(error);
         }
-
-
-
 }
     private deleteOneUserById = async (request: express.Request, response: express.Response, next: express.NextFunction)=>{
         const id:number=Number(request.params.id);
         try{
-            const deleTedResponse=await this.service.deletePrivilegedUserById(id);
-            if(deleTedResponse.affected===1){
-                response.send({
-                    status:200,
-                    message:`user with id= ${id} has beeen removed`
-                })
-            }
-            else {
-                next(new UserNotFoundException(String(id))) ;
-            }
+            const deleTedResponse: boolean =await this.service.deletePrivilegedUserById(id);
+
+            response.send(deleTedResponse);
         }
         catch (error) {
             next(error);
         }
+
 
     }
 

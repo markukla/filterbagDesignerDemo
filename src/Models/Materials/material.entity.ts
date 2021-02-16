@@ -8,15 +8,17 @@ class Material{
     @PrimaryGeneratedColumn()
     public id?: number;
 
-    @Column({unique:true,length:6})
+    @Column({length:6})
 
     materialCode:string;
 
-    @Column({unique:true})
+    @Column()
     materialName:string;
 
     @OneToMany(()=>Order,(order:Order)=>order.productMaterial)
     orders?:Order[];
+    @Column({nullable: true})
+    softDeleteDate?:Date;
 
 
     constructor(materialCode: string, materialName: string) {

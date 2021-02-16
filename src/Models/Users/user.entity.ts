@@ -33,6 +33,8 @@ class User {
     code?: string;
     @Column({nullable:true})
     businesPartnerCompanyName?: string;
+    @Column({nullable: true})
+    softDeleteDate?:Date;
 
 @ManyToMany(()=>Role)  //here we reference to entity name, not table name
     @JoinTable()

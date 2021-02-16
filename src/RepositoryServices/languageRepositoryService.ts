@@ -6,6 +6,8 @@ import CreateVocabularyDto from "../Models/Vocabulary/vocabulary.dto";
 import LanguageNotFoundException from "../Exceptions/LanguageNotFoundException";
 import LanguageAlreadyExistException from "../Exceptions/LanguageAlreadyExistException";
 import LanguageDto from "../Models/Languages/language.dto";
+import DimensionCode from "../Models/DimesnionCodes/diemensionCode.entity";
+import DimensionCodeNotFoundException from "../Exceptions/DimensionCodeNotFoundException";
 
 class LanguageService implements RepositoryService{
 
@@ -30,7 +32,7 @@ class LanguageService implements RepositoryService{
 
 
     public async findAllLanguages():Promise<Language[]>{
-        const foundRecords =await this.repository.find();
+        const foundRecords =await this.repository.find({softDeleteDate: null});
 
         return foundRecords;
 
@@ -38,7 +40,7 @@ class LanguageService implements RepositoryService{
     public async addOneLanguage(createLanguageDto: LanguageDto):Promise<Language>{
         const recordAlreadyExistInDatabase = await this.findOneLanguageByLanguageCode(createLanguageDto.languageCode)
 
-        if(recordAlreadyExistInDatabase){
+        if(recordAlreadyExistInDatabase && recordAlreadyExistInDatabase.softDeleteDate === null){
             throw new LanguageAlreadyExistException(createLanguageDto.languageCode);
         }
 
@@ -55,7 +57,7 @@ class LanguageService implements RepositoryService{
         if(idOfExistingRecord){
             const recordWithThisCodeInDatabase= await this.findOneLanguageByLanguageCode(createLanguageDto.languageCode)
             // do not allow to update if other material with this code or name already exist and throw exception
-            if(recordWithThisCodeInDatabase){
+            if(recordWithThisCodeInDatabase && recordWithThisCodeInDatabase.softDeleteDate === null){
                 if(recordWithThisCodeInDatabase.id!==Number(id)){
                     throw new LanguageAlreadyExistException(createLanguageDto.languageCode);
                 }
@@ -75,27 +77,29 @@ class LanguageService implements RepositoryService{
         else {
             throw new LanguageNotFoundException(id);
         }
-
-
-
     }
-    public async deleteOneById(id:string):Promise<DeleteResult>{
-        const idOfExistingRecord:boolean=await this.findOneById(id)!==null;
+
+    public async deleteOneById(id:string):Promise<boolean>{
+        let softDeletedRecord:Language;
+        const recordToDelte = await this.findOneById(id);
+        const idOfExistingRecord:boolean=recordToDelte!==null;
         if(idOfExistingRecord){
-            const deleteResult:DeleteResult= await this.repository.delete(id);
-            return deleteResult;
+            const recordTosoftDelete: Language = {
+                ...recordToDelte,
+                softDeleteDate: new Date()
+            };
+            softDeletedRecord= await this.repository.save(recordTosoftDelete);
         }
         else {
             throw new LanguageNotFoundException(id);
         }
-
-
-
-
+        if(softDeletedRecord&&softDeletedRecord.softDeleteDate) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
-
-
-
 
 
 }

@@ -134,16 +134,9 @@ class BusinessPartnerController implements Controller{
     private deleteOnePartnerById = async (request: express.Request, response: express.Response, next: express.NextFunction)=>{
         const id:number=Number(request.params.id);
         try{
-            const deleTedResponse=await this.service.deletePartnerById(id);
-            if(deleTedResponse.affected===1){
-                response.send({
-                    status:200,
-                    message:`business partner with id= ${id} has beeen removed`
-                })
-            }
-            else {
-                next(new UserNotFoundException(String(id))) ;
-            }
+            const deleTedResponse: boolean =await this.service.deletePartnerById(id);
+
+                response.send(deleTedResponse);
         }
         catch (error) {
             next(error);

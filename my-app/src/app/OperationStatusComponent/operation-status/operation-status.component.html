@@ -1,0 +1,6 @@
+<div class="operationStatusMessage" *ngIf="operationStatusService.showOperationStatus === true" class="alert-danger">
+  <p>{{operationFailerStatusMessage}}</p>
+</div>
+<div class="operationStatusMessage"*ngIf="operationStatusService.showOperationStatus === true" class="alert-success">
+  <p>{{operationSuccessStatusMessage}}</p>
+</div>

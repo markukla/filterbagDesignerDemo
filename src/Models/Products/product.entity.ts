@@ -29,7 +29,8 @@ class Product{  // this class represents type of product and technical drawing o
 
     @Column({type:"jsonb"})
     dimensionsTextFieldInfo:DimensionTextFIeldInfo[];
-
+    @Column({nullable: true})
+    softDeleteDate?:Date;
 
 
 }

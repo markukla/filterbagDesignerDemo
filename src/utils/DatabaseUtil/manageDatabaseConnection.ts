@@ -7,6 +7,7 @@ import * as typeorm from "typeorm";
 import {PostgresConnectionOptions} from "typeorm/driver/postgres/PostgresConnectionOptions";
 import {config_test} from "../../../ormconfig";
 import {
+    insertInitVocabulariesToDatabase,
     insertRolesToDatabase, insertTestDimensionCodesToDatabase, insertTestLanguagesToDatabase,
     insertTestMaterialsToDatabase,
     insertTestUsersToDatabase
@@ -22,6 +23,7 @@ async function connectToDatabase(config:any){
         await insertTestMaterialsToDatabase();
         await insertTestLanguagesToDatabase();
         await insertTestDimensionCodesToDatabase();
+        await insertInitVocabulariesToDatabase();
 
       } catch (error) {
         console.log('Error while connecting to the database', error);
@@ -30,12 +32,12 @@ async function connectToDatabase(config:any){
 
 
 }
- async function closeConnectionToDatabase(config:PostgresConnectionOptions) {
+ async function closeConnectionToDatabase(config:any) {
    await typeorm.getConnection().close();
     console.log(`connection to database= ${config.database} has been closed`);
 }
 
-async function clearDatabase(config:PostgresConnectionOptions) {
+async function clearDatabase(config:any) {
     await typeorm.getConnection().dropDatabase();
     console.log(` database= ${config.database} has been droped`);
 

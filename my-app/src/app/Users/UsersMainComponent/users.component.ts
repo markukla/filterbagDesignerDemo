@@ -10,6 +10,13 @@ import {UserHasAdminRole, UserHasEditorRoleButIsNotAdmin} from '../../helpers/ot
 import BlockUserDto from '../users/userTypes/blockUseDto';
 import {GeneralTableService} from '../../util/GeneralTableService/general-table.service';
 import {SearchService} from '../../helpers/directive/SearchDirective/search.service';
+import {OperationStatusServiceService} from '../../OperationStatusComponent/operation-status/operation-status-service.service';
+import {
+  generalNamesInSelectedLanguage,
+  generalUserNames
+} from '../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription';
+import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
+import {AuthenticationService} from "../../LoginandLogOut/AuthenticationServices/authentication.service";
 
 @Component({
   selector: 'app-users',
@@ -29,31 +36,45 @@ export class UsersComponent implements OnInit, AfterContentChecked {
   updateButtonInfo;
   selectedId: number;
   recordNumbers: number;
+  showConfirmDeleteWindow: boolean;
+  operationFailerStatusMessage: string;
+  operationSuccessStatusMessage: string;
+  generalUserNames = generalUserNames;
+  generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
 
 
 
-  constructor(public userTableService: GeneralTableService,
-              public userBackendService: UserBackendService,
+  constructor(public tableService: GeneralTableService,
+              public backendService: UserBackendService,
+              public authenticationService: AuthenticationService,
               public searChService: SearchService,
               private router: Router,
-              private activedIdParam: ActivatedRoute) {
+              private activedIdParam: ActivatedRoute,
+              public statusService: OperationStatusServiceService) {
     this.admins = [];
     this.editors = [];
   }
   ngOnInit(): void {
+    this.initColumnNamesInSelectedLanguage();
     this.getRecords();
-    this.selectedId = this.userTableService.selectedId;
-    this.deleteButtonInfo = 'usuń';
-    this.updateButtonInfo = 'modyfikuj dane';
+    this.selectedId = this.tableService.selectedId;
+    this.deleteButtonInfo = this.generalNamesInSelectedLanguage.deleteButtonInfo;
+    this.updateButtonInfo = this.generalNamesInSelectedLanguage.updateButtonInfo;
+  }
+  initColumnNamesInSelectedLanguage(): void {
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalUserNames, this.authenticationService.vocabulariesInSelectedLanguage);
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
   }
 
   setBlockButtonActionInfoMessage(user: User): string{
    let blockButtonActionInfoMessage: string;
    if (user && user.active) {
-       blockButtonActionInfoMessage = 'Zablokuj';
+       blockButtonActionInfoMessage = this.generalUserNames.blockUser;
     }
     else {
-      blockButtonActionInfoMessage = 'Odblokuj';
+      blockButtonActionInfoMessage = this.generalUserNames.unblockUser;
     }
    return blockButtonActionInfoMessage;
   }
@@ -61,10 +82,10 @@ export class UsersComponent implements OnInit, AfterContentChecked {
   setBlockButtonStatusMessage(user: User): string {
     let blockButtonStatusMessage: string;
     if (user && user.active) {
-   blockButtonStatusMessage = 'Aktywny';
+   blockButtonStatusMessage = this.generalUserNames.userStatusActive;
 }
 else {
-    blockButtonStatusMessage = 'Zablokowany';
+    blockButtonStatusMessage = this.generalUserNames.userStatusBlocked;
 }
     return blockButtonStatusMessage;
   }
@@ -81,13 +102,13 @@ else {
     }
   }
   getRecords(): void {
-    this.userBackendService.getAllPriviligedUsers().subscribe((users) => {
-      this.userTableService.records.length = 0;
-      this.userTableService.records = users.body;
-      this.allPriviligedUsers = this.userTableService.getRecords();
+    this.backendService.getAllPriviligedUsers().subscribe((users) => {
+      this.tableService.records.length = 0;
+      this.tableService.records = users.body;
+      this.allPriviligedUsers = this.tableService.getRecords();
       this.updateAdminsTable();
       this.updateEditorsTable();
-      this.searChService.orginalArrayCopy = [...this.userTableService.getRecords()];
+      this.searChService.orginalArrayCopy = [...this.tableService.getRecords()];
     });
 
   }
@@ -108,16 +129,33 @@ else {
     });
   }
 
-  deleteSelectedRecord(materialId: number): void {
-    this.userBackendService.deleteUserlById(String(materialId)).subscribe((response) => {
-      this.operationStatusMessage = 'Usunięto Materiał z bazy danych';
-    }, error => {
-      this.operationStatusMessage = 'Wystąpił bład, nie udało się usunąc materiału';
-    });
+  selectRecordtoDeleteAndShowConfirmDeleteWindow(materialId: number): void {
+    this.statusService.resetOperationStatus([this.operationFailerStatusMessage, this.operationSuccessStatusMessage]);
+    this.showConfirmDeleteWindow = true;
+    this.tableService.selectedId = materialId;
   }
-
+  deleteSelectedRecordFromDatabase(recordId: number, deleteConfirmed: boolean): void {
+    if (deleteConfirmed === true) {
+      this.backendService.deleteUserlById(String(recordId)).subscribe((response) => {
+        this.operationSuccessStatusMessage = this.generalNamesInSelectedLanguage.operationDeleteSuccessStatusMessage;
+        this.tableService.selectedId = null;
+        this.showConfirmDeleteWindow = false;
+        this.statusService.makeOperationStatusVisable();
+        this.statusService.resetOperationStatusAfterTimeout([this.operationFailerStatusMessage, this.operationSuccessStatusMessage]);
+      }, error => {
+        this.operationFailerStatusMessage = this.generalNamesInSelectedLanguage.operationDeleteFailerStatusMessage;
+        this.tableService.selectedId = null;
+        this.showConfirmDeleteWindow = false;
+        this.statusService.makeOperationStatusVisable();
+        this.statusService.resetOperationStatusAfterTimeout([this.operationFailerStatusMessage, this.operationSuccessStatusMessage]);
+      });
+    }
+    else {
+      this.showConfirmDeleteWindow = false;
+    }
+  }
   updateSelectedRecord(userId: number): void {
-    this.userTableService.selectedId = userId;
+    this.tableService.selectedId = userId;
     this.router.navigateByUrl('/users/update');
   }
   blockOrUnblockUser(user: User): void {
@@ -133,17 +171,17 @@ else {
       active: updatedActiveStatus
     };
     // tslint:disable-next-line:no-shadowed-variable
-    this.userBackendService.blodkUserById(String(user.id), blockUserDto).subscribe((user) => {
+    this.backendService.blodkUserById(String(user.id), blockUserDto).subscribe((user) => {
       if (user.body.active) {
-        this.operationStatusMessage = 'uzytkownik został odblokowany';
+        this.operationStatusMessage = this.generalUserNames.userHasBeenUnblockedMessage;
       }
       else {
-        this.operationStatusMessage = 'uzytkownik został zablokowany';
+        this.operationStatusMessage = this.generalUserNames.userHasBennBlockedMessage;
       }
     });
   }
   changePaswordForUserId(id: number): void {
-    this.userTableService.selectedId = id;
+    this.tableService.selectedId = id;
     this.router.navigateByUrl('/users/changePassword');
   }
 

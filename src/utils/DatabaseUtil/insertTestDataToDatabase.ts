@@ -12,6 +12,8 @@ import Language from "../../Models/Languages/language.entity";
 import {Languages} from "../../tests/languageExamplesForTest";
 import DimensionCode from "../../Models/DimesnionCodes/diemensionCode.entity";
 import {initialDimensionsForDatabase} from "../../tests/dimensionCodesForTests";
+import {initialVocabularyForDatabase} from "../../Models/Vocabulary/initialVocabularyToDatabase";
+import Vocabulary from "../../Models/Vocabulary/vocabulary.entity";
 
 
 
@@ -22,10 +24,10 @@ const roles:Role[]=[new Role(RoleEnum.PARTNER),new Role(RoleEnum.EDITOR),new Rol
 async function insertTestUsersToDatabase() {
     const manager=getManager();
     const usersInDatabse: User[] = await manager.find(User);
-   // if(usersInDatabse.length ===0) {
+    if(usersInDatabse.length ===0) {
         await manager.save(User,users);
         console.log("test users inserted to database")
-   // }
+    }
 }
 async function insertRolesToDatabase(){
 
@@ -36,6 +38,15 @@ async function insertRolesToDatabase(){
         console.log("user roles inserted")
     }
 
+}
+async function insertInitVocabulariesToDatabase() {
+    const vocabulariesToInsert= initialVocabularyForDatabase;
+    const repository = getRepository(Vocabulary);
+    const vocabulariesInDatabase = await repository.find();
+    if(vocabulariesInDatabase.length ===0) {
+        await repository.save(vocabulariesToInsert);
+        console.log('initial vocabularies inserted');
+    }
 }
 async function insertTestMaterialsToDatabase(){
 
@@ -71,4 +82,4 @@ async function insertTestDimensionCodesToDatabase(){
     }
 
 }
-export{insertRolesToDatabase,insertTestUsersToDatabase,insertTestMaterialsToDatabase, insertTestLanguagesToDatabase, insertTestDimensionCodesToDatabase};
+export{insertRolesToDatabase,insertTestUsersToDatabase,insertTestMaterialsToDatabase, insertTestLanguagesToDatabase, insertTestDimensionCodesToDatabase, insertInitVocabulariesToDatabase};

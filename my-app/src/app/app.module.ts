@@ -66,6 +66,9 @@ import { VocabularyMainComponentComponent } from './Vocablulaty/vocabulary-main-
 import { CreateOrUpdateVocabularyComponent } from './Vocablulaty/create-or-update-vocabulary/create-or-update-vocabulary.component';
 import { ChangePasswordForLoggedUserComponent } from './change-password-component/change-password-for-logged-user.component';
 import { ProcutMiniatureComponentComponent } from './Orders/orders/productMiniature/procut-miniature-component/procut-miniature-component.component';
+import { ConfirmDeleteComponent } from './ConfirmDelete/confirm-delete/confirm-delete.component';
+import { OperationStatusComponent } from './OperationStatusComponent/operation-status/operation-status.component';
+import { ValidationErrorMessageComponent } from './ValidationMessage/validation-error-message/validation-error-message.component';
 
 
 
@@ -125,7 +128,10 @@ import { ProcutMiniatureComponentComponent } from './Orders/orders/productMiniat
     VocabularyMainComponentComponent,
     CreateOrUpdateVocabularyComponent,
     ChangePasswordForLoggedUserComponent,
-    ProcutMiniatureComponentComponent
+    ProcutMiniatureComponentComponent,
+    ConfirmDeleteComponent,
+    OperationStatusComponent,
+    ValidationErrorMessageComponent
     ],
   imports: [
     BrowserModule,

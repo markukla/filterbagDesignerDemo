@@ -14,6 +14,8 @@ import ProductTop from "../Models/Products/productTop.entity";
 import ProductTopNotFoundException from "../Exceptions/ProductTopNotFoundException";
 import CreateProductTopDto from "../Models/Products/createProductTop.dto";
 import ProductTopAlreadyExistsException from "../Exceptions/ProductTopAlreadyExistsException";
+import Material from "../Models/Materials/material.entity";
+import DimensionCodeNotFoundException from "../Exceptions/DimensionCodeNotFoundException";
 
 
 class ProductTopService implements RepositoryService {
@@ -50,7 +52,7 @@ class ProductTopService implements RepositoryService {
 
 
     public async findAllProductsTops(): Promise<ProductTop[]> {
-        const foundProductTops: ProductTop[] = await this.repository.find();
+        const foundProductTops: ProductTop[] = await this.repository.find({softDeleteDate: null});
 
         return foundProductTops;
 
@@ -59,9 +61,8 @@ class ProductTopService implements RepositoryService {
     public async addOneProductTope(createProductTopDto: CreateProductTopDto): Promise<ProductTop> {
         // do not allow to add the same product twice
         const productTopWithThisCodeInDatabase: ProductTop = await this.findOneProductTopByTopCode(createProductTopDto);
-        let productTopAlreadyExistInDatabase:boolean=productTopWithThisCodeInDatabase!==undefined;
 
-        if (productTopAlreadyExistInDatabase) {
+        if (productTopWithThisCodeInDatabase && productTopWithThisCodeInDatabase.softDeleteDate === null) {
             throw new ProductTopAlreadyExistsException();
         }
         const productTopToSave={
@@ -80,7 +81,7 @@ class ProductTopService implements RepositoryService {
 
             // do not allow to update if other ProductType with the same filds already exists
             const productTopWithThisCodeInDatabase: ProductTop = await this.findOneProductTopByTopCode(createProductTopDto);
-            if (productTopWithThisCodeInDatabase) {
+            if (productTopWithThisCodeInDatabase && productTopWithThisCodeInDatabase.softDeleteDate === null) {
                 if (productTopWithThisCodeInDatabase.id !== Number(id)) {
                     throw new ProductTopAlreadyExistsException();
 
@@ -101,18 +102,28 @@ class ProductTopService implements RepositoryService {
         }
     }
 
-    public async deleteProductTopById(id: string): Promise<DeleteResult> {
-        const idOfExistingProductTop: boolean = await this.findOneProductTopById(id) !==undefined;
-        if (idOfExistingProductTop) {
-            const deleteResult: DeleteResult = await this.repository.delete(id);
-            return deleteResult;
+    public async deleteProductTopById(id:string):Promise<boolean>{
+        let softDeletedRecord:ProductTop;
+        const recordToDelte = await this.findOneProductTopById(id);
+        const idOfExistingRecord:boolean=recordToDelte!==null;
+        if(idOfExistingRecord){
+            const recordTosoftDelete: ProductTop = {
+                ...recordToDelte,
+                softDeleteDate: new Date()
+            };
+            softDeletedRecord= await this.repository.save(recordTosoftDelete);
         }
         else {
             throw new ProductTopNotFoundException(id);
         }
-
-
+        if(softDeletedRecord&&softDeletedRecord.softDeleteDate) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
+
 
 
 }

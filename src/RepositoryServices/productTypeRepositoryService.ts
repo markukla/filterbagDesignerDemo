@@ -9,6 +9,8 @@ import ProductTypeNotFoundException from "../Exceptions/ProductTypeNotFoundExcep
 import CreateProductTypeDto from "../Models/Products/createProductType.dto";
 import ProductTypeAlreadyExistsException from "../Exceptions/ProductTypeAlreadyExistException";
 import ProductTop from "../Models/Products/productTop.entity";
+import Material from "../Models/Materials/material.entity";
+import DimensionCodeNotFoundException from "../Exceptions/DimensionCodeNotFoundException";
 
 
 class ProductTypeService implements RepositoryService {
@@ -27,7 +29,8 @@ class ProductTypeService implements RepositoryService {
 
     public async findOneProductTypeByProductTypeCode(createProductTypeDto: CreateProductTypeDto): Promise<ProductType> {
         const foundProduct: ProductType = await this.repository.findOne({
-            code: createProductTypeDto.code
+            code: createProductTypeDto.code,
+            softDeleteDate: null
         },{relations:["topsForThisProductType","bottomsForThisProductType"]});
 
         return foundProduct;
@@ -46,17 +49,16 @@ class ProductTypeService implements RepositoryService {
 
     public async findAllProductsTypes(): Promise<ProductType[]> {
         const foundProductTypes: ProductType[] = await this.repository.find({relations:["topsForThisProductType","bottomsForThisProductType"]});
-
-        return foundProductTypes;
+        const foundNotDeletedProductTypes: ProductType[] = foundProductTypes.filter(productType => productType.softDeleteDate === null);
+        return foundNotDeletedProductTypes;
 
     }
 
     public async addOneProductType(createProductTypeDto: CreateProductTypeDto): Promise<ProductType> {
         // do not allow to add the same product twice
         const productTypeWithThisCodeInDatabase: ProductType = await this.findOneProductTypeByProductTypeCode(createProductTypeDto);
-        let productTypeAlreadyExistInDatabase: boolean = productTypeWithThisCodeInDatabase !== undefined;
 
-        if (productTypeAlreadyExistInDatabase) {
+        if (productTypeWithThisCodeInDatabase && productTypeWithThisCodeInDatabase.softDeleteDate === null) {
             throw new ProductTypeAlreadyExistsException();
         }
         const productTypeToSave = {
@@ -77,7 +79,7 @@ class ProductTypeService implements RepositoryService {
             const productTypeWithThisCodeInDatabase: ProductType = await this.findOneProductTypeByProductTypeCode(createProductTypeDto);
 
 
-            if (productTypeWithThisCodeInDatabase) {
+            if (productTypeWithThisCodeInDatabase && productTypeWithThisCodeInDatabase.softDeleteDate === null) {
                 if (productTypeWithThisCodeInDatabase.id !== Number(id)) {
                     throw new ProductTypeAlreadyExistsException();
 
@@ -97,16 +99,26 @@ class ProductTypeService implements RepositoryService {
     }
 
 
-    public async deleteProductTypeById(id: string): Promise<DeleteResult> {
-        const idOfExistingProductType: boolean = await this.findOneProductTypeById(id) !== null;
-        if (idOfExistingProductType) {
-            const deleteResult: DeleteResult = await this.repository.delete(id);
-            return deleteResult;
-        } else {
+    public async deleteProductTypeById(id:string):Promise<boolean>{
+        let softDeletedRecord:ProductType;
+        const recordToDelte = await this.findOneProductTypeById(id);
+        const idOfExistingRecord:boolean=recordToDelte!==null;
+        if(idOfExistingRecord){
+            const recordTosoftDelete: ProductType = {
+                ...recordToDelte,
+                softDeleteDate: new Date()
+            };
+            softDeletedRecord= await this.repository.save(recordTosoftDelete);
+        }
+        else {
             throw new ProductTypeNotFoundException(id);
         }
-
-
+        if(softDeletedRecord&&softDeletedRecord.softDeleteDate) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
 

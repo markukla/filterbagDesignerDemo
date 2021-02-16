@@ -5,7 +5,7 @@ import Vocabulary from "../Vocabulary/vocabulary.entity";
 class Language {
     @PrimaryGeneratedColumn()
     public id?: number;
-    @Column({unique: true})
+    @Column()
     languageCode: string;
     @Column()
     languageName: string;
@@ -13,6 +13,8 @@ class Language {
     active: boolean;
     @Column({nullable: true})
     flagUrl: string;
+    @Column({nullable: true})
+    softDeleteDate?:Date;
 }
 
 export default Language;

@@ -8,6 +8,7 @@ import VocabularyAlreadyExistException from "../Exceptions/vocabularyAlreadyExis
 import VocabularyNotFoundException from "../Exceptions/vocabularyNotFoundException";
 import Vocabulary from "../Models/Vocabulary/vocabulary.entity";
 import CreateVocabularyDto from "../Models/Vocabulary/vocabulary.dto";
+import DimensionCodeNotFoundException from "../Exceptions/DimensionCodeNotFoundException";
 
 class VocabularyService implements RepositoryService{
 
@@ -29,7 +30,7 @@ class VocabularyService implements RepositoryService{
 
     }
     public async findAllRecords():Promise<Vocabulary[]>{
-        const records:Vocabulary[]=await this.repository.find();
+        const records:Vocabulary[]=await this.repository.find({softDeleteDate: null});
 
         return records;
 
@@ -78,17 +79,26 @@ class VocabularyService implements RepositoryService{
 
 
     }
-    public async deleteOneRecordById(id:string):Promise<DeleteResult>{
-        const idOfExistingRecord:boolean=await this.findOneLanguageCodeById(id)!==null;
+    public async deleteOneRecordById(id:string):Promise<boolean>{
+        let softDeletedRecord:Vocabulary;
+        const recordToDelte = await this.findOneLanguageCodeById(id);
+        const idOfExistingRecord:boolean=recordToDelte!==null;
         if(idOfExistingRecord){
-            const deleteResult:DeleteResult= await this.repository.delete(id);
-            return deleteResult;
+            const recordTosoftDelete: Vocabulary = {
+                ...recordToDelte,
+                softDeleteDate: new Date()
+            };
+            softDeletedRecord= await this.repository.save(recordTosoftDelete);
         }
-
-
-
-
+        else {
+            throw new VocabularyNotFoundException(id);
+        }
+        if(softDeletedRecord&&softDeletedRecord.softDeleteDate) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
-
 }
 export default VocabularyService;

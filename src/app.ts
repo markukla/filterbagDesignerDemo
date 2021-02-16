@@ -1,3 +1,4 @@
+
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 
@@ -23,7 +24,7 @@ class App {
     constructor(controllers:Controller[]) {
         this.app = express();
 
-       
+
 
 
         this.initializeMiddlewares();
@@ -84,3 +85,4 @@ class App {
 }
 
 export default App;
+

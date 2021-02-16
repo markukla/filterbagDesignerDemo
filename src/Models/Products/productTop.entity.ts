@@ -10,15 +10,14 @@ class ProductTop {
     public id?: number;
     @Column({ type:"jsonb"})
     localizedNames: LocalizedName [];
-
-    @Column({unique:true})
+    @Column()
     code:string;
-
     @OneToMany(()=>Product,(productsWithThisTop :Product)=>productsWithThisTop.productTop)
     productsWithThisTop?:Product[]
     @ManyToMany(()=>ProductType,(productTypeswithThisTop:ProductType)=>productTypeswithThisTop.topsForThisProductType)
     productTypeswithThisTop?:ProductType[]
-
+    @Column({nullable: true})
+    softDeleteDate?:Date;
 }
 
 export default ProductTop;
