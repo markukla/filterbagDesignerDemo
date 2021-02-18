@@ -389,6 +389,24 @@ const generalUser47: Vocabulary = {
 }
 initialVocabularyForDatabase.push(generalUser47);
 
+const generalUser48: Vocabulary = {
+    variableName: 'changeYourPassword',
+    localizedNames: [new LocalizedName('PL', 'Zmień swoje hasło'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalUser48);
+
+const generalUser49: Vocabulary = {
+    variableName: 'currentPassword',
+    localizedNames: [new LocalizedName('PL', 'Aktualne hasło'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalUser49);
+
+const generalUser50: Vocabulary = {
+    variableName: 'newPassword',
+    localizedNames: [new LocalizedName('PL', 'Nowe hasło'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalUser50);
+
 
 
 
@@ -622,6 +640,37 @@ const drawingTableName6: Vocabulary = {
     localizedNames: [new LocalizedName('PL', 'Materiał'), new LocalizedName('CZE', 'CZE ....')]
 }
 initialVocabularyForDatabase.push(drawingTableName6);
+
+const dimensionNames1: Vocabulary = {
+    variableName: 'dimensionCode',
+    localizedNames: [new LocalizedName('PL', 'Kod Wymiaru'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(dimensionNames1);
+
+const dimensionNames2: Vocabulary = {
+    variableName: 'dimensionRole',
+    localizedNames: [new LocalizedName('PL', 'Rola Wymiaru'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(dimensionNames2);
+
+const dimensionNames3: Vocabulary = {
+    variableName: 'dimensionRoleFirstIndex',
+    localizedNames: [new LocalizedName('PL', 'Pierwszy Wymiar Indeksu'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(dimensionNames3);
+
+const dimensionNames4: Vocabulary = {
+    variableName: 'dimensionRoleSecondIndex',
+    localizedNames: [new LocalizedName('PL', 'Drugi Wymiar Indeksu'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(dimensionNames4);
+
+const dimensionNames5: Vocabulary = {
+    variableName: 'dimensionRoleNoIndex',
+    localizedNames: [new LocalizedName('PL', 'Wymiar nie wchodzący do indeksu'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(dimensionNames4);
+
 
 
 

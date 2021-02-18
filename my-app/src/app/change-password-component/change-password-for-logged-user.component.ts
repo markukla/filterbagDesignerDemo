@@ -9,6 +9,11 @@ import {UserHasAdminRole} from '../helpers/otherGeneralUseFunction/checkUserRole
 import {AuthenticationBackendService} from '../LoginandLogOut/AuthenticationServices/authentication.backend.service';
 import {ChangePasswordDto} from '../LoginandLogOut/AuthenticationServices/changePasswordDto';
 import {AuthenticationService} from '../LoginandLogOut/AuthenticationServices/authentication.service';
+import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
+import {
+  generalNamesInSelectedLanguage,
+  generalUserNames, orderNames
+} from "../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
 
 @Component({
   selector: 'app-change-password-component',
@@ -19,6 +24,9 @@ export class ChangePasswordForLoggedUserComponent implements OnInit {
 
   operationStatusMessage: string;
   selectedId: string;
+  userNamesInSelectedLanguage = generalUserNames;
+  generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
+  orderNames = orderNames;
 
   constructor(
     private backendService: AuthenticationBackendService,
@@ -59,10 +67,10 @@ export class ChangePasswordForLoggedUserComponent implements OnInit {
       oldPassword: this.oldPassword.value
     };
     this.backendService.changePasswordByLoggedUser(changePasswordData).subscribe((user) => {
-      this.operationStatusMessage = 'Hasło zostało zmienione';
+      this.operationStatusMessage = this.userNamesInSelectedLanguage.passwordChangeSuccessStatus;
       this.cleanOperationMessage();
     }, error => {
-      this.operationStatusMessage = 'Wystąpił bląd, nie udało się zmienić hasła';
+      this.operationStatusMessage = this.userNamesInSelectedLanguage.passwordChangeFailerStatus;
       this.cleanOperationMessage();
     });
   }
@@ -71,6 +79,14 @@ export class ChangePasswordForLoggedUserComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.initColumnNamesInSelectedLanguage();
+  }
+  initColumnNamesInSelectedLanguage(): void {
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.userNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.orderNames, this.authenticationService.vocabulariesInSelectedLanguage);
   }
   cleanOperationMessage(): void {
     setTimeout(() => {

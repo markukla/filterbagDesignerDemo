@@ -66,6 +66,9 @@ export const generalUserNames = {
   admin: '',
   editor: '',
   status: '',
+  changeYourPassword: 'Zmień swoje hasło',
+  currentPassword: '',
+  newPassword: '',
 };
 
 export const orderNames = {
@@ -116,3 +119,12 @@ export const drawingTableFormNames = {
   workingSideInternal: '',
   material: '',
 };
+export const dimensionNames = {
+  dimensionCode: 'Kod wymiaru',
+  dimensionRole: 'Rola wymiaru',
+  dimensionRoleFirstIndex: 'Pierwszy wymiar indeksu',
+  dimensionRoleSecondIndex: 'Drugi wymiar indeksu',
+  dimensionRoleNoIndex: 'Wymiar nie wchcodzący do indeksu',
+
+
+}

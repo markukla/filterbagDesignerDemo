@@ -16,6 +16,11 @@ import {LanguageFormService} from '../../LanguageForm/language-form.service';
 import BackendErrorResponse from '../../helpers/ErrorHandling/backendErrorResponse';
 import {BackendMessageService} from '../../helpers/ErrorHandling/backend-message.service';
 import {AuthenticationService} from '../../LoginandLogOut/AuthenticationServices/authentication.service';
+import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
+import {
+  dimensionNames,
+  generalNamesInSelectedLanguage
+} from "../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
 
 @Component({
   selector: 'app-create-dimension-code',
@@ -31,9 +36,9 @@ export class CreateDimensionCodeComponent implements OnInit {
   form: FormGroup;
   // tslint:disable-next-line:max-line-length
   allDimensionRolesToSelect: DimensionRoleEnum[] = [DimensionRoleEnum.FIRSTINDEXDIMENSION, DimensionRoleEnum.SECONDINDEXDIMENSION, DimensionRoleEnum.NOINDEXDIMENSION];
-  firstIndexDimensionRole = 'Pierwszy wymiar Indeksu';
-  secondIndexDimensionRole = 'Drugi wymiar indeksu';
-  noIndexDimensionRole = 'Nie wchodzi do Indeksu';
+  firstIndexDimensionRole: string;
+  secondIndexDimensionRole: string;
+  noIndexDimensionRole: string;
   createDimensionCodeDto: CreateDimensionCodeDto;
   localizedNames: LocalizedName[] = [];
   createdDimensinoCode: DimensionCode;
@@ -48,6 +53,9 @@ export class CreateDimensionCodeComponent implements OnInit {
   SelectDimensionRoleDescription: string;
   giveNameForAllLanguagesDescription: string;
   saveButtonDescription: string;
+  generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
+  dimensionCodeNames = dimensionNames;
+
   @Output()
   createdDimensionEmiter: EventEmitter<DimensionCode>;
    selectedRecordToupdateId: string;
@@ -80,6 +88,15 @@ export class CreateDimensionCodeComponent implements OnInit {
 
     }, {updateOn: 'change'});
     await this.getInitDataFromBackend();
+  }
+  initColumnNamesInSelectedLanguage(): void {
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.dimensionCodeNames, this.authenticationService.vocabulariesInSelectedLanguage);
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
+  this.firstIndexDimensionRole = dimensionNames.dimensionRoleFirstIndex;
+  this.secondIndexDimensionRole = dimensionNames.dimensionRoleSecondIndex;
+  this.noIndexDimensionRole = dimensionNames.dimensionRoleNoIndex;
   }
 
   // tslint:disable-next-line:typedef

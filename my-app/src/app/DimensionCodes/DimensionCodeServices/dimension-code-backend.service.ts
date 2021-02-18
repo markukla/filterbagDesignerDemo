@@ -1,13 +1,21 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpResponse} from '@angular/common/http';
-import {ProductTypeTableService} from '../../Products/ProductType/ProductTypeServices/product-type-table.service';
 import {Observable} from 'rxjs';
-import ProductType from '../../Products/ProductTypesAndClasses/productType.entity';
 import {tap} from 'rxjs/operators';
 import {DimensionCodeTableService} from './dimension-code-table.service';
-import DimensionCode from '../DimensionCodesTypesAnClasses/diemensionCode.entity';
 import CreateDimensionCodeDto from '../DimensionCodesTypesAnClasses/createDimensionCode.dto';
 import {API_URL} from '../../Config/apiUrl';
+import {
+  getSelectedLanguageFromNamesInAllLanguages,
+  setTabelColumnAndOtherNamesForSelectedLanguage
+} from "../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
+import {ProductTypeForTableCell} from "../../Products/ProductTypesAndClasses/productTypeForTableCell";
+import {DimensionCodeForTableCell} from "../DimensionCodesTypesAnClasses/dimensionCodeForTableCell";
+import DimensionCode from "../DimensionCodesTypesAnClasses/diemensionCode.entity";
+import {AuthenticationService} from "../../LoginandLogOut/AuthenticationServices/authentication.service";
+import {dimensionNames} from "../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
+import DimensionRoleEnum from "../DimensionCodesTypesAnClasses/dimensionRoleEnum";
+import {GeneralTableService} from "../../util/GeneralTableService/general-table.service";
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +23,11 @@ import {API_URL} from '../../Config/apiUrl';
 export class DimensionCodeBackendService {
   rootURL = API_URL;
   endpointUrl = '/dimensionCodes';
+  dimensionNames = dimensionNames;
 
   constructor(private http: HttpClient,
-              private tableService: DimensionCodeTableService) {
+              private tableService: GeneralTableService,
+              private authenticationService: AuthenticationService) {
   }
 
   getRecords(): Observable<HttpResponse<DimensionCode[]>> {
@@ -43,7 +53,7 @@ export class DimensionCodeBackendService {
     return this.http.post<DimensionCode>(this.rootURL + this.endpointUrl, record, {observe: 'response'}).pipe(
       // tslint:disable-next-line:no-shadowed-variable
       tap((record) => {
-        this.tableService.addRecordToTable(record.body);
+        this.tableService.addRecordToTable(this.createProductTypeForTableCellFromProductTop(record.body));
       }));
   }
 
@@ -61,7 +71,7 @@ export class DimensionCodeBackendService {
     return this.http.patch<DimensionCode>(updateUrl, updatedRecord, {observe: 'response'}).pipe(
       // tslint:disable-next-line:no-shadowed-variable
       tap((record) => {
-        this.tableService.updateTableRecord(Number(id), record.body);
+        this.tableService.updateTableRecord(Number(id), this.createProductTypeForTableCellFromProductTop(record.body));
       }));
   }
 
@@ -88,5 +98,28 @@ export class DimensionCodeBackendService {
   findRecordById(recordToUpdateId: string): Observable<HttpResponse<DimensionCode>> {
     const getUrl = `${this.rootURL + this.endpointUrl}/${recordToUpdateId}`;
     return this.http.get<DimensionCode>(getUrl, {observe: 'response'});
+  }
+
+  createProductTypeForTableCellFromProductTop(diemensionCode: DimensionCode): DimensionCodeForTableCell{
+    // tslint:disable-next-line:max-line-length
+    const localizedNameInSelectedLanguage = getSelectedLanguageFromNamesInAllLanguages(diemensionCode.localizedDimensionNames, this.authenticationService.selectedLanguageCode);
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.dimensionNames, this.authenticationService.vocabulariesInSelectedLanguage);
+    let dimensionRole: string;
+    if(diemensionCode.dimensionRole === DimensionRoleEnum.FIRSTINDEXDIMENSION) {
+      dimensionRole = dimensionNames.dimensionRoleFirstIndex;
+    }
+    else if(diemensionCode.dimensionRole === DimensionRoleEnum.SECONDINDEXDIMENSION) {
+      dimensionRole = dimensionNames.dimensionRoleSecondIndex;
+    }
+    else {
+      dimensionRole = dimensionNames.dimensionRoleNoIndex;
+    }
+    const productTypeForTableCell: DimensionCodeForTableCell = {
+      ...diemensionCode,
+      localizedDimensionName: localizedNameInSelectedLanguage,
+      dimensionRole: dimensionRole
+
+    };
+    return productTypeForTableCell;
   }
 }

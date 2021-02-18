@@ -14,6 +14,7 @@ import OperationModeEnum from '../../util/OperationModeEnum';
 import {SearchService} from '../../helpers/directive/SearchDirective/search.service';
 import {GeneralTableService} from '../../util/GeneralTableService/general-table.service';
 import {OperationStatusServiceService} from '../../OperationStatusComponent/operation-status/operation-status-service.service';
+import {DimensionCodeForTableCell} from "../DimensionCodesTypesAnClasses/dimensionCodeForTableCell";
 
 @Component({
   selector: 'app-dimension-codes-main',
@@ -22,7 +23,7 @@ import {OperationStatusServiceService} from '../../OperationStatusComponent/oper
 })
 export class DimensionCodesMainComponent implements OnInit, AfterContentChecked {
   @Input()
-  records: DimensionCode[];
+  records: DimensionCodeForTableCell[];
   createNewMaterialDescription = 'Dodaj Nowy';
   // tslint:disable-next-line:ban-types
   deleTedRecordMessage: any;
@@ -67,7 +68,10 @@ export class DimensionCodesMainComponent implements OnInit, AfterContentChecked 
   getRecords(): void {
     this.backendService.getRecords().subscribe((records) => {
       this.tableService.records.length = 0;
-      this.tableService.records = records.body;
+      records.body.forEach((record) => {
+        const recorForTableCell = this.backendService.createProductTypeForTableCellFromProductTop(record);
+        this.tableService.records.push(recorForTableCell);
+      });
       this.records = this.tableService.getRecords();
       this.searChService.orginalArrayCopy = [...this.tableService.getRecords()];
     });
