@@ -119,6 +119,66 @@ const generalTable18: Vocabulary = {
 }
 initialVocabularyForDatabase.push(generalTable18);
 
+const generalTable19: Vocabulary = {
+    variableName: 'addNewButtonDescription',
+    localizedNames: [new LocalizedName('PL', 'Dodaj Nowy'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable19);
+
+const generalTable20: Vocabulary = {
+    variableName: 'quantity',
+    localizedNames: [new LocalizedName('PL', 'Ilość'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable20);
+
+const generalTable21: Vocabulary = {
+    variableName: 'addNamesInAllLanguages',
+    localizedNames: [new LocalizedName('PL', 'Podaj nazwy we wszystkich językach'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable20);
+
+const generalTable22: Vocabulary = {
+    variableName: 'selectDrawingToUpload',
+    localizedNames: [new LocalizedName('PL', 'Wybierz rysunke do udostępnienia'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable22);
+
+const generalTable23: Vocabulary = {
+    variableName: 'selectingDrawingIsRequired',
+    localizedNames: [new LocalizedName('PL', 'Wybranie rysunku jest wymagane'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable23);
+
+const generalTable24: Vocabulary = {
+    variableName: 'upload',
+    localizedNames: [new LocalizedName('PL', 'Udostępnij'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable24);
+
+const generalTable25: Vocabulary = {
+    variableName: 'uploadingDrawingIsRequired',
+    localizedNames: [new LocalizedName('PL', 'Udostępnienie rysunku jest wymagane'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable25);
+
+
+const generalTable26: Vocabulary = {
+    variableName: 'drawingAddedSuccessStatus',
+    localizedNames: [new LocalizedName('PL', 'Dodano rysunek'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable26);
+
+const generalTable27: Vocabulary = {
+    variableName: 'drawingAddedFailerStatus',
+    localizedNames: [new LocalizedName('PL', 'Wystąpił błąd nie udało się dodać rysunku'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable27);
+
+const generalTable28: Vocabulary = {
+    variableName: 'onlyPngFormatIsAllowed',
+    localizedNames: [new LocalizedName('PL', 'tylko format .png jest dozwolony'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable28);
 
 
 
@@ -670,6 +730,39 @@ const dimensionNames5: Vocabulary = {
     localizedNames: [new LocalizedName('PL', 'Wymiar nie wchodzący do indeksu'), new LocalizedName('CZE', 'CZE ....')]
 }
 initialVocabularyForDatabase.push(dimensionNames4);
+
+const dimensionNames6: Vocabulary = {
+    variableName: 'dimensionName',
+    localizedNames: [new LocalizedName('PL', 'Nazwa Wymiaru'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(dimensionNames6);
+
+const dimensionNames7: Vocabulary = {
+    variableName: 'selectDimensionRole',
+    localizedNames: [new LocalizedName('PL', 'Wybierz rolę wymiaru'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(dimensionNames7);
+
+const languageNames1: Vocabulary = {
+    variableName: 'languageCode',
+    localizedNames: [new LocalizedName('PL', 'Kod Języka'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(languageNames1);
+
+const languageNames2: Vocabulary = {
+    variableName: 'languageName',
+    localizedNames: [new LocalizedName('PL', 'Nazwa Języka'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(languageNames2);
+
+const languageNames3: Vocabulary = {
+    variableName: 'flag',
+    localizedNames: [new LocalizedName('PL', 'Flaga'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(languageNames3);
+
+
+
 
 
 

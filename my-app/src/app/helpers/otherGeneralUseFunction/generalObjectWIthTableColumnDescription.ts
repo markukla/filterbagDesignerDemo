@@ -16,6 +16,18 @@ export const generalNamesInSelectedLanguage = {
   closeButtonDescription: '',
   thisFieldIsRequired: '',
   saveButtonDescription: '',
+  addNewButtonDescription: '',
+  quantity: '',
+  addNamesInAllLanguages: '',
+  selectDrawingToUpload: 'Wybierz rysunke do udostępnienia',
+  selectingDrawingIsRequired: 'Wybranie rysunku jest wymagane',
+  upload: 'Udostępnij',
+  uploadingDrawingIsRequired: 'Udostępnienie rysunku jest wymagane',
+  drawingAddedSuccessStatus: 'Dodano rysunek',
+  drawingAddedFailerStatus: 'Wystąpił błąd nie udało się dodać rysunku',
+  onlyPngFormatIsAllowed: 'tylko format .png jest dozwolony',
+
+
 };
 
 export const generalUserNames = {
@@ -125,6 +137,13 @@ export const dimensionNames = {
   dimensionRoleFirstIndex: 'Pierwszy wymiar indeksu',
   dimensionRoleSecondIndex: 'Drugi wymiar indeksu',
   dimensionRoleNoIndex: 'Wymiar nie wchcodzący do indeksu',
+  dimensionName:'',
+  selectDimensionRole: ''
 
+}
+export const languageNames = {
+  languageCode: 'Kod Języka',
+  languageName: 'Nazwa Języka',
+  flag: 'Flaga',
 
 }

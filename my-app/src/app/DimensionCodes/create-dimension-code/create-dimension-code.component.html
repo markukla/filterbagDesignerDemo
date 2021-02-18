@@ -1,40 +1,40 @@
 <div class="createOrUpdateFormWindow">
   <button id="close button" class="closeButton" (click)="closeAndGoBack() " [title]='closeButtonDescription'>x</button>
-  <h2> Dodaj nowy kod wymiaru</h2>
+  <h2> {{generalNamesInSelectedLanguage.addNewButtonDescription + dimensionCodeNames.dimensionCode}} </h2>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="row">
 
       <div class="form-group col-md-6">
-        <label class="label" for="code">Kod Wymiaru</label>
+        <label class="label" for="code">{{dimensionCodeNames.dimensionCode}}</label>
         <input type="text" class="form-control" formControlName="code" id="code">
         <div *ngIf="code.invalid && (code.dirty || code.touched)"
              class="alert alert-danger">
 
           <div class="validatorInfo" *ngIf="code.errors.required">
-            To pole jest wymagane
+            {{generalNamesInSelectedLanguage.thisFieldIsRequired}}
           </div>
 
         </div>
 
       </div>
       <div class="form-group col-md-6">
-        <label class="label" for="role"> Wybierz role wymiaru</label>
+        <label class="label" for="role">{{dimensionCodeNames.selectDimensionRole}}</label>
         <select class="form-control" formControlName="role" id="role">
           <option [ngValue]="this.allDimensionRolesToSelect[0]">
-            Pierwszy wymiar indeksu
+            {{dimensionCodeNames.dimensionRoleFirstIndex}}
           </option>
           <option [ngValue]="this.allDimensionRolesToSelect[1]">
-            Drugi wymiar indeksu
+            {{dimensionCodeNames.dimensionRoleSecondIndex}}
           </option>
           <option [ngValue]="this.allDimensionRolesToSelect[2]">
-            Wymiar nie wchodzący do indeksu
+            {{dimensionCodeNames.dimensionRoleNoIndex}}
           </option>
         </select>
         <div *ngIf="role.invalid && (role.dirty || role.touched)"
              class="alert alert-danger">
 
           <div class="validatorInfo" *ngIf="role.errors.required">
-           To pole jest wymagane
+           {{thisFiledIsRequiredDescription}}
           </div>
         </div>
 
@@ -42,12 +42,12 @@
     </div>
 
       <div  class="col">
-        <p> Podaj nazwy we wszystkich językach</p> <br>
+        <p>{{generalNamesInSelectedLanguage.addNamesInAllLanguages}}</p> <br>
 <app-langage-form-component></app-langage-form-component>
 
       </div>
     <div class="addButon">
-      <button type="submit" [disabled]="!form.valid" class="btn btn-danger"> Zapisz </button>
+      <button type="submit" [disabled]="!form.valid" class="btn btn-danger"> {{generalNamesInSelectedLanguage.saveButtonDescription}} </button>
     </div>
 
 

@@ -16,6 +16,12 @@ import {SearchService} from '../../helpers/directive/SearchDirective/search.serv
 import Language from '../LanguageTypesAndClasses/languageEntity';
 import OrderOperationMode from '../../Orders/OrdersTypesAndClasses/orderOperationMode';
 import {getBackendErrrorMesage} from '../../helpers/errorHandlingFucntion/handleBackendError';
+import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
+import {AuthenticationService} from "../../LoginandLogOut/AuthenticationServices/authentication.service";
+import {
+  generalNamesInSelectedLanguage,
+  languageNames
+} from "../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
 
 @Component({
   selector: 'app-create-or-update-language',
@@ -37,11 +43,14 @@ export class CreateOrUpdateLanguageComponent implements OnInit {
   flagDrawing: string;
   uploadOperationMessage: string;
   upladDrawingForm: FormGroup;
+  generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
+  languageNamesInSelectedLanguage = languageNames;
 
   constructor(
     private backendService: LanguageBackendService,
     public validationService: ValidateLanguageService,
     private searchService: SearchService,
+    private authenticationService: AuthenticationService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router) {
@@ -64,7 +73,15 @@ export class CreateOrUpdateLanguageComponent implements OnInit {
       file: new FormControl('', Validators.required),
       fileSource: new FormControl('', [Validators.required])
     });
+    this.initColumnNamesInSelectedLanguage();
     await this.initFormValuesForUpdateMode();
+  }
+  initColumnNamesInSelectedLanguage(): void {
+
+
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.languageNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
   }
   // tslint:disable-next-line:typedef
   get file() {

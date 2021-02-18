@@ -15,6 +15,12 @@ import {SearchService} from '../../helpers/directive/SearchDirective/search.serv
 import {GeneralTableService} from '../../util/GeneralTableService/general-table.service';
 import {OperationStatusServiceService} from '../../OperationStatusComponent/operation-status/operation-status-service.service';
 import {DimensionCodeForTableCell} from "../DimensionCodesTypesAnClasses/dimensionCodeForTableCell";
+import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
+import {
+  dimensionNames,
+  generalNamesInSelectedLanguage
+} from "../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
+import {AuthenticationService} from "../../LoginandLogOut/AuthenticationServices/authentication.service";
 
 @Component({
   selector: 'app-dimension-codes-main',
@@ -38,6 +44,8 @@ export class DimensionCodesMainComponent implements OnInit, AfterContentChecked 
   showConfirmDeleteWindow: boolean;
   operationFailerStatusMessage: string;
   operationSuccessStatusMessage: string;
+  dimensionNames = dimensionNames;
+  generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
 
 
   constructor(public tableService: GeneralTableService,
@@ -46,15 +54,24 @@ export class DimensionCodesMainComponent implements OnInit, AfterContentChecked 
               private languageBackendService: LanguageBackendService,
               public statusService: OperationStatusServiceService,
               private activedIdParam: ActivatedRoute,
-              private searChService: SearchService) {
+              private searChService: SearchService,
+              private authenticationService: AuthenticationService) {
   }
  async ngOnInit(): Promise <void> {
+    this.initColumnNamesInSelectedLanguage();
     this.selectedLanguageLang = 'PL';
     await this.getLanguagesFromDatabase();
     this.getRecords();
     this.materialId = this.tableService.selectedId;
-    this.deleteButtonInfo = 'usuń';
-    this.updateButtonInfo = 'modyfikuj dane';
+    this.deleteButtonInfo = this.generalNamesInSelectedLanguage.deleteButtonInfo;
+    this.updateButtonInfo = this.generalNamesInSelectedLanguage.updateButtonInfo;
+  }
+
+  initColumnNamesInSelectedLanguage(): void {
+    // tslint:disable-next-line:max-line-length
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.dimensionNames, this.authenticationService.vocabulariesInSelectedLanguage);
   }
   ngAfterContentChecked(): void {
     if (this.records) {
@@ -86,13 +103,13 @@ export class DimensionCodesMainComponent implements OnInit, AfterContentChecked 
   deleteSelectedRecordFromDatabase(recordId: number, deleteConfirmed: boolean): void {
     if (deleteConfirmed === true) {
       this.backendService.deleteRecordById(String(recordId)).subscribe((response) => {
-        this.operationSuccessStatusMessage = 'Usunięto Materiał z bazy danych';
+        this.operationSuccessStatusMessage = generalNamesInSelectedLanguage.operationDeleteSuccessStatusMessage;
         this.tableService.selectedId = null;
         this.showConfirmDeleteWindow = false;
         this.statusService.makeOperationStatusVisable();
         this.statusService.resetOperationStatusAfterTimeout([this.operationFailerStatusMessage, this.operationSuccessStatusMessage]);
       }, error => {
-        this.operationFailerStatusMessage = 'Wystąpił bład, nie udało się usunąc materiału';
+        this.operationFailerStatusMessage = generalNamesInSelectedLanguage.operationDeleteFailerStatusMessage;
         this.tableService.selectedId = null;
         this.showConfirmDeleteWindow = false;
         this.statusService.makeOperationStatusVisable();
