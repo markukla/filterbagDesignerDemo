@@ -44,7 +44,7 @@ class OrderController implements Controller {
         this.router.get(`${this.path}/currents`, authMiddleware, this.getAllCurentVersionOfOrders);
         this.router.post(this.path, authMiddleware, validationMiddleware(CreateOrderDto), this.addNewOrder)
         this.router.post(`${this.path}/currents/:id/newVersion`, authMiddleware, this.addNewVersionOfOrder);
-        this.router.delete(`${this.path}/currents/:id`, this.removeCurrentOrderAndVersionRegister); // auth middleware removed to make puppeter work
+        this.router.delete(`${this.path}/currents/:id`, authMiddleware, this.removeCurrentOrderAndVersionRegister); // auth middleware removed to make puppeter work
         this.router.get(`${this.path}/currents/businessPartner/:partnerCode`, authMiddleware, this.findAllCurentVerionsOfOrderForGivenPartnerCode);
         this.router.get(`${this.path}/currents/businessPartner/:id`, authMiddleware, this.findAllCurentVerionsOfOrderForGivenPartneId);
         this.router.get(`${this.path}/:id`, authMiddleware, this.getOneOrderById);
@@ -227,7 +227,8 @@ try{
 
     }
     private usePuppetearToObtainDrawingPdf = async (request: express.Request, response: express.Response, next: express.NextFunction) => {
-        const url = request.body.url
+        const url = request.body.url;
+        const token = request.body.token;
         console.log(`url to print= ${url}`);
         try {
             /*
@@ -254,7 +255,7 @@ try{
                         });
 
                     }*/
-            const pdf = await this.printPdf(url);
+            const pdf = await this.printPdf(url, token);
             response.set({'Content-Type': 'application/pdf', 'Content-Length': pdf.length})
             response.send(pdf);
         }catch (error) {
@@ -263,9 +264,12 @@ next(error);
 
     }
 
-     printPdf = async (urlToPrint: string) => {
+     printPdf = async (urlToPrint: string, token: string) => {
     const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-dev-shm-usage'] });
     const page = await browser.newPage();
+         await page.setExtraHTTPHeaders({
+             'Authorization': token,
+         });
     await page.goto(urlToPrint, {waitUntil: 'networkidle0'});
 const pdf = await page.pdf({ format: 'A4' }); // does not save file on server but returns it to send to client
 

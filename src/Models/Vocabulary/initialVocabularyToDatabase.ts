@@ -125,17 +125,10 @@ const generalTable19: Vocabulary = {
 }
 initialVocabularyForDatabase.push(generalTable19);
 
-const generalTable20: Vocabulary = {
-    variableName: 'quantity',
-    localizedNames: [new LocalizedName('PL', 'Ilość'), new LocalizedName('CZE', 'CZE ....')]
-}
-initialVocabularyForDatabase.push(generalTable20);
-
 const generalTable21: Vocabulary = {
     variableName: 'addNamesInAllLanguages',
     localizedNames: [new LocalizedName('PL', 'Podaj nazwy we wszystkich językach'), new LocalizedName('CZE', 'CZE ....')]
 }
-initialVocabularyForDatabase.push(generalTable20);
 
 const generalTable22: Vocabulary = {
     variableName: 'selectDrawingToUpload',
@@ -760,7 +753,7 @@ const dimensionNames5: Vocabulary = {
     variableName: 'dimensionRoleNoIndex',
     localizedNames: [new LocalizedName('PL', 'Wymiar nie wchodzący do indeksu'), new LocalizedName('CZE', 'CZE ....')]
 }
-initialVocabularyForDatabase.push(dimensionNames4);
+initialVocabularyForDatabase.push(dimensionNames5);
 
 const dimensionNames6: Vocabulary = {
     variableName: 'dimensionName',

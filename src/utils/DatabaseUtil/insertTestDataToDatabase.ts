@@ -44,7 +44,13 @@ async function insertInitVocabulariesToDatabase() {
     const repository = getRepository(Vocabulary);
     const vocabulariesInDatabase = await repository.find();
     if(vocabulariesInDatabase.length ===0) {
-        await repository.save(vocabulariesToInsert);
+        try{
+            await repository.save(vocabulariesToInsert);
+        }
+        catch (error) {
+            console.log(error.message);
+        }
+
         console.log('initial vocabularies inserted');
     }
 }

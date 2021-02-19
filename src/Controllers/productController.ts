@@ -51,7 +51,7 @@ class ProductController implements Controller{
     private initializeRoutes() {
         this.router.get(this.path, authMiddleware,this.getAllProducts);
         this.router.patch(`${this.path}/:id`, authMiddleware,adminAuthorizationMiddleware, validationMiddleware(CreateProductDto, true), this.updateProductById)
-        this.router.get(`${this.path}/:id`, this.getOneProductById); // auth middleware removed to make puppeter work
+        this.router.get(`${this.path}/:id`, authMiddleware, this.getOneProductById);
         this.router.delete(`${this.path}/:id`,authMiddleware,adminAuthorizationMiddleware, this.deleteOneProductById);
         this.router.post(this.path, authMiddleware,adminAuthorizationMiddleware, validationMiddleware(CreateProductDto), this.addOneProduct);//remeber to add authentication admin authorization middleware after tests
         this.router.post(`/uploadDrawing`, authMiddleware,adminAuthorizationMiddleware, this.upload.single("file"), authMiddleware,adminAuthorizationMiddleware, this.uploadedDrawingToserwerCreaTeMiniatureAndReturnPaths);
