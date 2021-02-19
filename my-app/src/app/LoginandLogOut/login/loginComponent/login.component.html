@@ -1,38 +1,37 @@
 <div class="createOrUpdateFormWindow">
-  <h2>Login</h2>
   <span id="languageFlagsSpan" *ngFor="let language of activeLanguages">
     <img class="flagImage" [src]="getFlagUrl(language)" (click)="setSelectedLanguageCode(language.languageCode)"
          [id]="language.languageCode">
   </span>
   <div class="validatorInfo" *ngIf="!this.loginService.selectedLanguageCode">
-    Wybranie wersji językowej jest wymagane
+    {{this.generalNamesInSelectedLanguage.chooseLanguageVersion}}
   </div>
 
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <div class="row">
       <div class="form-group col-md-6">
-        <label class="label" for="email" id="emailId">email</label>
+        <label class="label" for="email" id="emailId">{{this.userNames.email}}</label>
         <input type="text" class="form-control" formControlName="email" id="email"
-               placeholder="email">
+               [placeholder]="this.userNames.email">
         <div *ngIf="email.invalid && (email.dirty || email.touched)"
              class="alert alert-danger">
           <!---->
           <div class="validatorInfo" *ngIf="email.errors.required">
-            email is required.
+            {{this.generalNamesInSelectedLanguage.thisFieldIsRequired}}
           </div>
           <div class="validatorInfo" *ngIf="email.errors.email">
-            email must be valid email adress.
+            {{this.userNames.emailMustBeValid}}
           </div>
 
         </div>
-        <label class="label" for="password">Password</label>
+        <label class="label" for="password">{{this.userNames.password}}</label>
         <input type="text" class="form-control" formControlName="password" id="password"
-               placeholder="password">
+               [placeholder]="this.userNames.password">
         <div *ngIf="password.invalid && (password.dirty || password.touched)"
              class="alert alert-danger">
 
           <div class="validatorInfo" *ngIf="password.errors.required">
-            password is required.
+            {{this.userNames.passwordIsRequired}}
           </div>
         </div>
 
@@ -41,8 +40,7 @@
 
     <div class="addButon">
       <button type="submit" [disabled]="!loginForm.valid || !this.loginService.selectedLanguageCode"
-              class="btn btn-danger">Zaloguj
-      </button>
+              class="btn btn-danger">{{this.generalNamesInSelectedLanguage.logInButtonDescription}}</button>
     </div>
   </form>
 

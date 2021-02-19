@@ -10,6 +10,12 @@ import {LanguageBackendService} from '../languageServices/language-backend.servi
 import Language from '../LanguageTypesAndClasses/languageEntity';
 import {API_URL} from '../../Config/apiUrl';
 import {OperationStatusServiceService} from '../../OperationStatusComponent/operation-status/operation-status-service.service';
+import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
+import {
+  generalNamesInSelectedLanguage, generalUserNames,
+  languageNames
+} from "../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
+import {AuthenticationService} from "../../LoginandLogOut/AuthenticationServices/authentication.service";
 
 @Component({
   selector: 'app-language-main',
@@ -29,7 +35,6 @@ export class LanguageMainComponent implements OnInit, AfterContentChecked {
   materialId: number;
   selectedLanguageLang: string;
   recordNumbers: number;
-  langs: string[] = ['PL', 'CZE', 'EN']; // it will be obtained from database
   languageCodeDescription: string;
   languageNameDescription: string;
   languageActiveDescription: string;
@@ -37,6 +42,9 @@ export class LanguageMainComponent implements OnInit, AfterContentChecked {
   showConfirmDeleteWindow: boolean;
   operationFailerStatusMessage: string;
   operationSuccessStatusMessage: string;
+  generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
+  languageNames = languageNames;
+  userNames = generalUserNames;
 
 
   constructor(public tableService: GeneralTableService,
@@ -44,23 +52,27 @@ export class LanguageMainComponent implements OnInit, AfterContentChecked {
               private router: Router,
               private searChService: SearchService,
               private activedIdParam: ActivatedRoute,
+              private authenticationService: AuthenticationService,
               public statusService: OperationStatusServiceService) {
   }
   ngOnInit(): void {
-    this.selectedLanguageLang = 'PL';
+    this.initColumnNamesInSelectedLanguage();
     this.getRecords();
-    this.initColumnAndMessageDescriptionForSelectedLanguage();
     this.materialId = this.tableService.selectedId;
-    this.deleteButtonInfo = 'usuń';
-    this.updateButtonInfo = 'modyfikuj dane';
+    this.deleteButtonInfo = this.generalNamesInSelectedLanguage.deleteButtonInfo;
+    this.updateButtonInfo = this.generalNamesInSelectedLanguage.updateButtonInfo;
   }
-  initColumnAndMessageDescriptionForSelectedLanguage(): void {
-    this.tableColumnDescriptions = [];
-    this.languageCodeDescription = 'Kod Języka';
-    this.languageNameDescription = 'Nazwa Języka';
-    this.languageActiveDescription = ' aktywny';
-    this.tableColumnDescriptions.push(this.languageCodeDescription, this.languageNameDescription, this.languageActiveDescription);
+  initColumnNamesInSelectedLanguage(): void {
+    // tslint:disable-next-line:max-line-length
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.languageNames, this.authenticationService.vocabulariesInSelectedLanguage);
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.userNames, this.authenticationService.vocabulariesInSelectedLanguage)
+    this.languageCodeDescription = this.languageNames.languageCode;
+    this.languageNameDescription = this.languageNames.languageName
+    this.languageActiveDescription = this.userNames.active;
   }
+
   ngAfterContentChecked(): void {
     if (this.records) {
       this.recordNumbers = this.records.length;
@@ -84,13 +96,13 @@ export class LanguageMainComponent implements OnInit, AfterContentChecked {
   deleteSelectedRecordFromDatabase(recordId: number, deleteConfirmed: boolean): void {
     if (deleteConfirmed === true) {
       this.backendService.deleteRecordById(String(recordId)).subscribe((response) => {
-        this.operationSuccessStatusMessage = 'Usunięto Materiał z bazy danych';
+        this.operationSuccessStatusMessage = this.generalNamesInSelectedLanguage.operationDeleteSuccessStatusMessage;
         this.tableService.selectedId = null;
         this.showConfirmDeleteWindow = false;
         this.statusService.makeOperationStatusVisable();
         this.statusService.resetOperationStatusAfterTimeout([this.operationFailerStatusMessage, this.operationSuccessStatusMessage]);
       }, error => {
-        this.operationFailerStatusMessage = 'Wystąpił bład, nie udało się usunąc materiału';
+        this.operationFailerStatusMessage =  this.generalNamesInSelectedLanguage.operationDeleteFailerStatusMessage;
         this.tableService.selectedId = null;
         this.showConfirmDeleteWindow = false;
         this.statusService.makeOperationStatusVisable();

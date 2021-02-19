@@ -11,6 +11,11 @@ import Language from '../../../Languages/LanguageTypesAndClasses/languageEntity'
 import {VocabularyBackendServiceService} from '../../../Vocablulaty/VocabularyServices/vocabulary-backend-service.service';
 import {Vocabulary} from '../../../Vocablulaty/VocabularyTypesAndClasses/VocabularyEntity';
 import {API_URL} from '../../../Config/apiUrl';
+import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
+import {
+  generalNamesInSelectedLanguage,
+  generalUserNames
+} from "../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
 
 @Component({
   selector: 'app-login',
@@ -25,6 +30,8 @@ export class LoginComponent implements OnInit, AfterContentChecked {
   languages: Language [];
   activeLanguages: Language[];
   vocabularies: Vocabulary[];
+  generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
+  userNames = generalUserNames;
 
   constructor(
     private loginBackendService: AuthenticationBackendService,
@@ -64,11 +71,11 @@ export class LoginComponent implements OnInit, AfterContentChecked {
     }, error => {
       const backendErrorMessage = getBackendErrrorMesage(error);
       if (backendErrorMessage.includes('wrong email or password')) {
-        this.operationMessage = `Nieprawidłowy email lub hasło`;
+        this.operationMessage = this.generalNamesInSelectedLanguage.wrongEmailOrPassword;
       } else if (backendErrorMessage.includes('your account is inactive')) {
-        this.operationMessage = `Twoje konto jest nieaktywne, skontaktuj się z administratorem.`;
+        this.operationMessage = this.generalNamesInSelectedLanguage.yourAccountIsInactive;
       } else {
-        this.operationMessage = `Wystąpił błąd. Spróbuj ponownie`;
+        this.operationMessage = this.generalNamesInSelectedLanguage.loginFailerStatus;
       }
     });
   }
@@ -77,6 +84,8 @@ export class LoginComponent implements OnInit, AfterContentChecked {
   }
 
   async ngOnInit(): Promise<void> {
+    this.loginService.vocabulariesInSelectedLanguage = [];
+
     const languages = await this.languageBackendService.getRecords().toPromise();
     const vocabularies = await this.vocabularyBackendService.getRecords().toPromise();
     this.languages = languages.body;
@@ -84,6 +93,15 @@ export class LoginComponent implements OnInit, AfterContentChecked {
       language.active === true);
     this.loginService.languages = languages.body;
     this.vocabularies = vocabularies.body;
+    console.log(`navigator.language = ${navigator.language}`);
+    const languageOfBrowser = navigator.language;
+    this.loginService.selectedLanguageCode = languageOfBrowser.split('-')[0].toUpperCase();
+    console.log(`this.loginService.selectedLanguageCode = ${this.loginService.selectedLanguageCode}`);
+    this.vocabularies.forEach((vocabulary) => {this.loginService.vocabulariesInSelectedLanguage.push(this.vocabularyBackendService.createVocabularryForTableCellFromVocabulary(vocabulary));
+    });
+    if(this.loginService.selectedLanguageCode) {
+      this.initColumnNamesInSelectedLanguage();
+    }
     try {
       if (this.loginService.loggedUser) {
         const logoutResponse = await this.loginBackendService.logout().toPromise();
@@ -94,16 +112,23 @@ export class LoginComponent implements OnInit, AfterContentChecked {
     }
     this.loginService.setLogedUserUserAndToken(null);
   }
+  initColumnNamesInSelectedLanguage(): void {
+    // tslint:disable-next-line:max-line-length
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.loginService.vocabulariesInSelectedLanguage);
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.userNames, this.loginService.vocabulariesInSelectedLanguage);
+  }
 
   ngAfterContentChecked(): void {
   }
 
   setSelectedLanguageCode(languageCode: string): void {
     this.loginService.selectedLanguageCode = languageCode;
-    this.loginService.vocabulariesInSelectedLanguage = [];
+    this.loginService.vocabulariesInSelectedLanguage.length = 0;
     // tslint:disable-next-line:max-line-length
     this.vocabularies.forEach((vocabulary) => {this.loginService.vocabulariesInSelectedLanguage.push(this.vocabularyBackendService.createVocabularryForTableCellFromVocabulary(vocabulary));
     });
+    this.initColumnNamesInSelectedLanguage();
   }
   getFlagUrl(language: Language): string {
     const flagUlr = API_URL + language.flagUrl;

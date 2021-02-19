@@ -19,7 +19,7 @@ import {getBackendErrrorMesage} from '../../helpers/errorHandlingFucntion/handle
 import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
 import {AuthenticationService} from "../../LoginandLogOut/AuthenticationServices/authentication.service";
 import {
-  generalNamesInSelectedLanguage,
+  generalNamesInSelectedLanguage, generalUserNames,
   languageNames
 } from "../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
 
@@ -45,6 +45,7 @@ export class CreateOrUpdateLanguageComponent implements OnInit {
   upladDrawingForm: FormGroup;
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
   languageNamesInSelectedLanguage = languageNames;
+  userNames = generalUserNames;
 
   constructor(
     private backendService: LanguageBackendService,
@@ -82,6 +83,7 @@ export class CreateOrUpdateLanguageComponent implements OnInit {
     // tslint:disable-next-line:max-line-length
     setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
     setTabelColumnAndOtherNamesForSelectedLanguage(this.languageNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.userNames, this.authenticationService.vocabulariesInSelectedLanguage)
   }
   // tslint:disable-next-line:typedef
   get file() {
@@ -119,15 +121,15 @@ export class CreateOrUpdateLanguageComponent implements OnInit {
     formData.append('file', this.upladDrawingForm.get('fileSource').value);
     this.backendService.uploadDrawing(formData).subscribe((urls) => {
       this.flagDrawing = urls.urlOfOrginalDrawing;
-      this.uploadOperationMessage = 'dodano rysunek';
+      this.uploadOperationMessage = this.generalNamesInSelectedLanguage.drawingAddedSuccessStatus;
       this.uploadSuccessStatus = true;
     }, error => {
       this.uploadSuccessStatus = false;
       const errorMessage = getBackendErrrorMesage(error);
       if (errorMessage.includes('.png files are allowed')) {
-        this.uploadOperationMessage = 'nie udało sie dodać rysunku, tylko format .png jest dozwolony';
+        this.uploadOperationMessage = generalNamesInSelectedLanguage.drawingAddedFailerStatus + ''+ generalNamesInSelectedLanguage.onlyPngFormatIsAllowed;
       } else {
-        this.uploadOperationMessage = 'wystąpił błąd nie udało się dodać rysunku, spróbuj pownownie';
+        this.uploadOperationMessage = this.generalNamesInSelectedLanguage.drawingAddedFailerStatus
       }
     });
 
@@ -152,18 +154,18 @@ export class CreateOrUpdateLanguageComponent implements OnInit {
     };
     if (this.languageOperationMode === 'createNew') {
       this.backendService.addRecords(this.createLanguageDto).subscribe((language) => {
-        this.showoperationStatusMessage = 'Dodano nowy rekord';
+        this.showoperationStatusMessage = this.generalNamesInSelectedLanguage.operationAddSuccessStatusMessage;
         this.cleanOperationMessage();
       }, error => {
-        this.showoperationStatusMessage = 'Wystąpił bląd, nie udało się dodać nowego rekordu';
+        this.showoperationStatusMessage = this.generalNamesInSelectedLanguage.operationAddFailerStatusMessage;
         this.cleanOperationMessage();
       });
     } else if (this.languageOperationMode === 'update') {
       this.backendService.updateRecordById(this.languageToUpdateId, this.createLanguageDto).subscribe((language) => {
-        this.showoperationStatusMessage = 'Zaktualizowano rekord';
+        this.showoperationStatusMessage = this.generalNamesInSelectedLanguage.operationUpdateSuccessStatusMessage;
         this.cleanOperationMessage();
       }, error => {
-        this.showoperationStatusMessage = 'Wystąpił bląd, nie udało się dodać nowego rekordu';
+        this.showoperationStatusMessage = this.generalNamesInSelectedLanguage.operationUpdateFailerStatusMessage;
         this.cleanOperationMessage();
       });
     }

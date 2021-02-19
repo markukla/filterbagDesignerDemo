@@ -4,7 +4,7 @@
 <div>
 
   <a  (click)="createNewRecord()" routerLinkActive="active">
-    {{ createNewMaterialDescription }}
+    {{ this.generalNamesInSelectedLanguage.addNewButtonDescription }}
   </a>
 </div>
 
@@ -18,15 +18,15 @@
       <th [appSort]="records" data-order="desc" data-name="languageCode" scope="col">{{this.languageCodeDescription}} <br></th>
       <th [appSort]="records" data-order="desc" data-name="languageName" scope="col">{{this.languageNameDescription}}<br></th>
       <th>{{this.languageActiveDescription}}<br></th>
-      <th>flaga</th>
-      <th>ilość</th>
+      <th>{{this.languageNames.flag}}</th>
+      <th>{{this.generalNamesInSelectedLanguage.quantity}}</th>
 
     </tr>
     <tr>
       <th>
-        <input class="tableSearchInput" [appSearch]="records" serchedColumn="languageCode" id="serchInCodes" placeholder="Wyszukaj" />
+        <input class="tableSearchInput" [appSearch]="records" serchedColumn="languageCode" id="serchInCodes" [placeholder]="this.generalNamesInSelectedLanguage.search" />
       </th>
-      <th><input class="tableSearchInput" [appSearch]="records" serchedColumn="languageName" id="serchInNames" placeholder="Wyszukaj" /></th>
+      <th><input class="tableSearchInput" [appSearch]="records" serchedColumn="languageName" id="serchInNames" [placeholder]="this.generalNamesInSelectedLanguage.search" /></th>
     </tr>
 
     </thead>

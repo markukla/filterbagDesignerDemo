@@ -467,6 +467,37 @@ const generalUser50: Vocabulary = {
 }
 initialVocabularyForDatabase.push(generalUser50);
 
+const generalUser51: Vocabulary = {
+    variableName: 'wrongEmailOrPassword',
+    localizedNames: [new LocalizedName('PL', 'Nieprawidłowy email lub hasło'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalUser51);
+
+const generalUser52: Vocabulary = {
+    variableName: 'yourAccountIsInactive',
+    localizedNames: [new LocalizedName('PL', 'Nie możesz się zalogować, Twoje konto jest nieaktywne, skontaktuj się z administratorem'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalUser52);
+
+const generalUser53: Vocabulary = {
+    variableName: 'loginFailerStatus',
+    localizedNames: [new LocalizedName('PL', 'Wystąpił błąd, logowanie niepomyślne'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalUser53);
+
+const generalUser54: Vocabulary = {
+    variableName: 'chooseLanguageVersion',
+    localizedNames: [new LocalizedName('PL', 'Wybierz wersję językową, klikająć na flagę wybranego kraju.'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalUser54);
+
+const generalUser55: Vocabulary = {
+    variableName: 'logInButtonDescription',
+    localizedNames: [new LocalizedName('PL', 'Zaloguj'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalUser55);
+
+
 
 
 

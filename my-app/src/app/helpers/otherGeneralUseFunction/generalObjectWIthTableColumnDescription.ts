@@ -26,6 +26,11 @@ export const generalNamesInSelectedLanguage = {
   drawingAddedSuccessStatus: 'Dodano rysunek',
   drawingAddedFailerStatus: 'Wystąpił błąd nie udało się dodać rysunku',
   onlyPngFormatIsAllowed: 'tylko format .png jest dozwolony',
+  wrongEmailOrPassword: 'Nieprawidłowy email lub hasło',
+  yourAccountIsInactive: 'Nie możesz się zalogować, Twoje konto jest nieaktywne, skontaktuj się z administratorem',
+  loginFailerStatus: 'Wystąpił błąd, logowanie niepomyślne',
+  chooseLanguageVersion: 'Wybierz wersję językową, klikająć na flagę',
+  logInButtonDescription: 'Zaloguj się',
 
 
 };

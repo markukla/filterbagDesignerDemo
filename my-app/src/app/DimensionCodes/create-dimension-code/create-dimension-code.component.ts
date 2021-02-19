@@ -87,6 +87,7 @@ export class CreateDimensionCodeComponent implements OnInit {
       code: new FormControl('', [Validators.nullValidator && Validators.required], [this.validationService.codeValidator()]),
 
     }, {updateOn: 'change'});
+    this.initColumnNamesInSelectedLanguage();
     await this.getInitDataFromBackend();
   }
   initColumnNamesInSelectedLanguage(): void {
