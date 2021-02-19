@@ -94,8 +94,14 @@ export class LoginComponent implements OnInit, AfterContentChecked {
     this.loginService.languages = languages.body;
     this.vocabularies = vocabularies.body;
     console.log(`navigator.language = ${navigator.language}`);
-    const languageOfBrowser = navigator.language;
-    this.loginService.selectedLanguageCode = languageOfBrowser.split('-')[0].toUpperCase();
+    const languageOfBrowser = navigator.language.split('-')[0].toUpperCase();
+    const avalaibeLanguageCodesInAplication: any[] = this.languages.map(language =>
+       language.languageCode.toUpperCase()
+    );
+    if(avalaibeLanguageCodesInAplication.includes(languageOfBrowser)) {
+      this.loginService.selectedLanguageCode = languageOfBrowser;
+    }
+
     console.log(`this.loginService.selectedLanguageCode = ${this.loginService.selectedLanguageCode}`);
     this.vocabularies.forEach((vocabulary) => {this.loginService.vocabulariesInSelectedLanguage.push(this.vocabularyBackendService.createVocabularryForTableCellFromVocabulary(vocabulary));
     });

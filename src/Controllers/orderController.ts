@@ -264,7 +264,7 @@ next(error);
     }
 
      printPdf = async (urlToPrint: string) => {
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-dev-shm-usage'] });
     const page = await browser.newPage();
     await page.goto(urlToPrint, {waitUntil: 'networkidle0'});
 const pdf = await page.pdf({ format: 'A4' }); // does not save file on server but returns it to send to client
