@@ -1,26 +1,25 @@
 <div class="createOrUpdateFormWindow">
-  <button id="close button" class="closeButton" (click)="closeAndGoBack() " [title]='"zamknij"'>x</button>
-  <h2>Dodaj Nowe wykończenie dna</h2>
+  <button id="close button" class="closeButton" (click)="closeAndGoBack() " [title]='this.generalNamesInSelectedLanguage.closeButtonDescription'>x</button>
+  <h2>{{this.addOrUpdateTitle}}</h2>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="row">
         <div class="form-group col-md-6">
-          <label class="label" for="code">Kod Wykończenia Dna</label>
-          <input type="text" class="form-control" formControlName="code" id="code"
-                 placeholder="Kod wykończenia dna">
+          <label class="label" for="code">{{this.generalNamesInSelectedLanguage.code}}</label>
+          <input type="text" class="form-control" formControlName="code" id="code">
           <div *ngIf="code.invalid && (code.dirty || code.touched)"
                class="alert alert-danger">
 
             <div class="validatorInfo" *ngIf="code.errors.required">
-              To pole jest wymagane
+             {{this.generalNamesInSelectedLanguage.thisFieldIsRequired}}
             </div>
             <div class="validatorInfo" *ngIf="code.errors?.taken">
-              Podana kod jest już zajęty.
+             {{generalNamesInSelectedLanguage.thisCodeIstaken}}
             </div>
             <div class="validatorInfo" *ngIf="code.errors.minlength">
-              Kod nie może być krótszy niż 2 znaki
+             {{this.generalNamesInSelectedLanguage.codeMustContain2Characters}}
             </div>
             <div class="validatorInfo" *ngIf="code.errors.maxlength">
-              Kod nie może być dłuższy niż 2 znaki.
+              {{this.generalNamesInSelectedLanguage.codeMustContain2Characters}}
             </div>
           </div>
 
@@ -33,14 +32,14 @@
 
     </div>
     <div class="addButon">
-      <button type="submit" [disabled]="!form.valid" class="btn btn-danger">{{saveButtonDescription}}</button>
+      <button type="submit" [disabled]="!form.valid" class="btn btn-danger">{{this.generalNamesInSelectedLanguage.closeButtonDescription}}</button>
     </div>
 
 
   </form>
 
   <div class="showOperationStatusContainer" *ngIf="showoperationStatusMessage">
-    <textarea>{{showoperationStatusMessage}}</textarea>
+    <p>{{showoperationStatusMessage}}</p>
   </div>
 </div>
 

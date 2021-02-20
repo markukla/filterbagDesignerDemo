@@ -31,6 +31,9 @@ export const generalNamesInSelectedLanguage = {
   loginFailerStatus: 'Wystąpił błąd, logowanie niepomyślne',
   chooseLanguageVersion: 'Wybierz wersję językową, klikająć na flagę',
   logInButtonDescription: 'Zaloguj się',
+  thisCodeIstaken: 'Ten kod jest już zajęty',
+  thisNameIsTaken: 'Podana nazwa jest już zajęta',
+  codeMustContain2Characters: 'Kod musi zawierać 2 znaki',
 
 
 };
@@ -126,6 +129,18 @@ export const orderNames = {
   chooseProductByDrawingButtonDescription: 'Wybierz Product klikając na rysunek',
   chooseProductByParameters: ' Wybierz produkt określając parametry produktu',
   productMaterial: 'Materiał Produktu',
+  addNewProductBottom: '',
+  addNewProductTop: '',
+  addNewProductType: '',
+  addNewProduct: '',
+  updateProductBottom: '',
+  updateProductTop: '',
+  updateProductType: '',
+  updateProduct: '',
+  productBottomCode: '',
+  productBottomName: '',
+
+
 };
 
 export const drawingTableFormNames = {
@@ -152,3 +167,13 @@ export const languageNames = {
   flag: 'Flaga',
 
 }
+
+export const materialNamesInSelectedLanguage = {
+  materialCode: '',
+  materialName: '',
+  addNewMaterial: '',
+  updateMaterial: '',
+  quantity: '',
+  search: '',
+  materialCodeMustContain6CHaracters: ''
+};

@@ -20,7 +20,10 @@ import {GeneralTableService} from '../../util/GeneralTableService/general-table.
 import {OperationStatusServiceService} from '../../OperationStatusComponent/operation-status/operation-status-service.service';
 import {AuthenticationService} from '../../LoginandLogOut/AuthenticationServices/authentication.service';
 import {setTabelColumnAndOtherNamesForSelectedLanguage} from '../../helpers/otherGeneralUseFunction/getNameInGivenLanguage';
-import {generalNamesInSelectedLanguage} from '../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription';
+import {
+  generalNamesInSelectedLanguage,
+  materialNamesInSelectedLanguage
+} from '../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription';
 
 @Component({
   selector: 'app-materials',
@@ -44,13 +47,7 @@ export class MaterialsComponent implements OnChanges, OnInit, AfterContentChecke
   showConfirmDeleteWindow: boolean;
   operationFailerStatusMessage: string;
   operationSuccessStatusMessage: string;
-  materialNamesInSelectedLanguage = {
-    materialCode: '',
-    materialName: '',
-    addNewMaterial: '',
-    quantity: '',
-    search: ''
-  };
+  materialNamesInSelectedLanguage = materialNamesInSelectedLanguage
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
 
 

@@ -8,6 +8,11 @@ import {ValidateMaterialCodeUniqueService} from '../MaterialServices/validate-ma
 import BackendErrorResponse from '../../helpers/ErrorHandling/backendErrorResponse';
 import {HttpErrorResponse} from '@angular/common/http';
 import {AuthenticationService} from '../../LoginandLogOut/AuthenticationServices/authentication.service';
+import {
+  generalNamesInSelectedLanguage,
+  materialNamesInSelectedLanguage
+} from "../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
+import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
 
 @Component({
   selector: 'app-create-new-material',
@@ -17,6 +22,8 @@ import {AuthenticationService} from '../../LoginandLogOut/AuthenticationServices
 export class CreateNewMaterialComponent implements OnInit{
   operationMessage: string;
   showoperationStatusMessage: string;
+  materialNamesInSelectedLanguage = materialNamesInSelectedLanguage
+  generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
 
   constructor(private authenticationService: AuthenticationService,
               private materialbackendService: MaterialBackendService,
@@ -43,10 +50,10 @@ export class CreateNewMaterialComponent implements OnInit{
   }
   onSubmit(): void {
     this.materialbackendService.addRecords(this.materialForm.value).subscribe((material) => {
-      this.showoperationStatusMessage = 'Dodano nowego użytkwonika';
+      this.showoperationStatusMessage = this.generalNamesInSelectedLanguage.operationAddSuccessStatusMessage;
       this.cleanOperationMessage();
     }, error => {
-      this.showoperationStatusMessage = 'Wystąpił bląd, nie udało się dodać nowego użytkownika. Spróbuj ponownie';
+      this.showoperationStatusMessage = this.generalNamesInSelectedLanguage.operationAddFailerStatusMessage;
       this.cleanOperationMessage();
     });
  }
@@ -56,6 +63,14 @@ export class CreateNewMaterialComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    this.initColumnNamesInSelectedLanguage();
+  }
+
+  initColumnNamesInSelectedLanguage(): void {
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.materialNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
   }
   cleanOperationMessage(): void {
     setTimeout(() => {

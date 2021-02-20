@@ -1,3 +1,16 @@
+
+@font-face {
+  font-family: "Icons";
+  src:  url("./assets/fonts/SevenDaySignature-RpKO3.otf") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+
+
+
+
 .material-icons {
   display: inline-flex;
   vertical-align: middle;

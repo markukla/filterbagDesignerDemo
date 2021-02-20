@@ -5,19 +5,31 @@ const initialVocabularyForDatabase: Vocabulary[] = [];
 
 const materialTable1: Vocabulary = {
     variableName : 'materialCode',
-    localizedNames: [new LocalizedName('PL', 'Kod Materiału'), new LocalizedName('CZE', 'Kod Materiału po czesku')]
+    localizedNames: [new LocalizedName('PL', 'Kod Materiału'), new LocalizedName('CZE', 'Cze...')]
 }
 initialVocabularyForDatabase.push(materialTable1);
 const materialTable2: Vocabulary = {
     variableName: 'materialName',
-    localizedNames: [new LocalizedName('PL', 'Nazwa Materiału'), new LocalizedName('CZE', 'Nazwa Materiału po czesku')]
+    localizedNames: [new LocalizedName('PL', 'Nazwa Materiału'), new LocalizedName('CZE', 'Cze...')]
 }
 initialVocabularyForDatabase.push(materialTable2);
 const materialTable3: Vocabulary = {
     variableName: 'addNewMaterial',
-    localizedNames: [new LocalizedName('PL', 'Dodaj Nowy Materiał'), new LocalizedName('CZE', 'Dodaj nowy materiał po czesku')]
+    localizedNames: [new LocalizedName('PL', 'Dodaj Nowy Materiał'), new LocalizedName('CZE', 'Cze...')]
 }
 initialVocabularyForDatabase.push(materialTable3);
+
+const materialTable4: Vocabulary = {
+    variableName: 'materialCodeMustContain6CHaracters',
+    localizedNames: [new LocalizedName('PL', 'Kod materiału musi zawierać 6 znaków'), new LocalizedName('CZE', 'Cze...')]
+}
+initialVocabularyForDatabase.push(materialTable4);
+
+const materialTable5: Vocabulary = {
+    variableName: 'updateMaterial',
+    localizedNames: [new LocalizedName('PL', 'Aktualizuj Materiał'), new LocalizedName('CZE', 'Cze...')]
+}
+initialVocabularyForDatabase.push(materialTable5);
 
 
 
@@ -130,6 +142,8 @@ const generalTable21: Vocabulary = {
     localizedNames: [new LocalizedName('PL', 'Podaj nazwy we wszystkich językach'), new LocalizedName('CZE', 'CZE ....')]
 }
 
+initialVocabularyForDatabase.push(generalTable21);
+
 const generalTable22: Vocabulary = {
     variableName: 'selectDrawingToUpload',
     localizedNames: [new LocalizedName('PL', 'Wybierz rysunke do udostępnienia'), new LocalizedName('CZE', 'CZE ....')]
@@ -172,6 +186,24 @@ const generalTable28: Vocabulary = {
     localizedNames: [new LocalizedName('PL', 'tylko format .png jest dozwolony'), new LocalizedName('CZE', 'CZE ....')]
 }
 initialVocabularyForDatabase.push(generalTable28);
+
+const generalTable29: Vocabulary = {
+    variableName: 'thisCodeIstaken',
+    localizedNames: [new LocalizedName('PL', 'Podany kod jest już zajęty'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable29);
+
+const generalTable30: Vocabulary = {
+    variableName: 'thisNameIsTaken',
+    localizedNames: [new LocalizedName('PL', 'Podana nazwa jest już zajęta'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable30);
+
+const generalTable32: Vocabulary = {
+    variableName: 'codeMustContain2Characters',
+    localizedNames: [new LocalizedName('PL', 'Kod musi zawierać 2 znaki.'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable32);
 
 
 
@@ -684,6 +716,66 @@ const orderName37: Vocabulary = {
     localizedNames: [new LocalizedName('PL', 'Materiał produktu'), new LocalizedName('CZE', 'CZE ....')]
 }
 initialVocabularyForDatabase.push(orderName37)
+
+const orderName38: Vocabulary = {
+    variableName: 'updateProductBottom',
+    localizedNames: [new LocalizedName('PL', 'Aktualizuj wykończenie dna'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName38)
+
+const orderName39: Vocabulary = {
+    variableName: 'updateProductTop',
+    localizedNames: [new LocalizedName('PL', 'Aktualizuj wykończenie góry'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName39)
+
+const orderName40: Vocabulary = {
+    variableName: 'updateProductType',
+    localizedNames: [new LocalizedName('PL', 'Aktualizuj typ produktu'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName40)
+
+const orderName41: Vocabulary = {
+    variableName: 'addNewProductBottom',
+    localizedNames: [new LocalizedName('PL', 'Dodaj nowe wykończenie dna'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName41)
+
+const orderName42: Vocabulary = {
+    variableName: 'addNewProductTop',
+    localizedNames: [new LocalizedName('PL', 'Dodaj nowe wykończenie góry'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName42)
+
+const orderName43: Vocabulary = {
+    variableName: 'addNewProductType',
+    localizedNames: [new LocalizedName('PL', 'Dodaj nowy typ produktu'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName43)
+
+const orderName44: Vocabulary = {
+    variableName: 'addNewProduct',
+    localizedNames: [new LocalizedName('PL', 'Dodaj nowy produkt'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName44)
+
+const orderName45: Vocabulary = {
+    variableName: 'updateProduct',
+    localizedNames: [new LocalizedName('PL', 'Aktualizuj produkt'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName45)
+
+const orderName46: Vocabulary = {
+    variableName: 'updateProduct',
+    localizedNames: [new LocalizedName('PL', 'Kod Wykończenia Dna'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName46)
+
+const orderName47: Vocabulary = {
+    variableName: 'updateProduct',
+    localizedNames: [new LocalizedName('PL', 'Nazwa Wykończenia Dna'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName47)
 
 
 

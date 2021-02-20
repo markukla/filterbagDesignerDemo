@@ -20,6 +20,11 @@ import {LanguageFormService} from '../../../LanguageForm/language-form.service';
 import {AuthenticationService} from '../../../LoginandLogOut/AuthenticationServices/authentication.service';
 import OperationModeEnum from '../../../util/OperationModeEnum';
 import CreateProductBottomDto from '../../ProductTypesAndClasses/createProductBottom.dto';
+import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
+import {
+  generalNamesInSelectedLanguage,
+  orderNames
+} from "../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
 
 @Component({
   selector: 'app-create-product-bottom',
@@ -48,6 +53,9 @@ export class CreateProductBottomComponent implements OnInit {
   @Output()
   createdDimensionEmiter: EventEmitter<DimensionCode>;
   languages: Language[];
+  orderNamesInSelectedLanguage = orderNames;
+  generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
+  addOrUpdateTitle: string;
   constructor(
     private backendService: ProductBottomBackendService,
     public validationService: ProductBottomValidatorService,
@@ -62,7 +70,6 @@ export class CreateProductBottomComponent implements OnInit {
     this.createdDimensionEmiter = new EventEmitter<DimensionCode>();
   }
   async ngOnInit(): Promise<void> {
-    Object.keys(this).forEach(e => console.log(`key= ${e}, value= ${this[e]} `));
     this.createdDimensionEmiter = new EventEmitter<DimensionCode>();
     this.route.queryParamMap.subscribe((queryParams) => {
       this.operatiomMode = (queryParams.get('mode'));
@@ -73,7 +80,15 @@ export class CreateProductBottomComponent implements OnInit {
       code: new FormControl('', [Validators.nullValidator && Validators.required, Validators.maxLength(2), Validators.minLength(2)]),
 
     }, {updateOn: 'change'});
+    this.initColumnNamesInSelectedLanguage();
     await this.getInitDataFromBackend();
+  }
+  initColumnNamesInSelectedLanguage(): void {
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.orderNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
+    this.addOrUpdateTitle = this.orderNamesInSelectedLanguage.addNewProductBottom;
   }
   // tslint:disable-next-line:typedef
   get code() {
@@ -87,6 +102,7 @@ export class CreateProductBottomComponent implements OnInit {
       this.recordToUpdate = foundRecord.body;
       this.languageFormService.namesInAllLanguages = this.recordToUpdate.localizedNames;
       this.code.setValue(this.recordToUpdate.code);
+      this.addOrUpdateTitle = this.orderNamesInSelectedLanguage.updateProductBottom;
     }
   }
 

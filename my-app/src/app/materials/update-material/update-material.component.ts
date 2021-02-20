@@ -10,6 +10,11 @@ import {Router} from '@angular/router';
 import {AuthenticationService} from '../../LoginandLogOut/AuthenticationServices/authentication.service';
 import {ValidateMaterialCodeUniqueService} from '../MaterialServices/validate-material-code-unique.service';
 import {GeneralTableService} from '../../util/GeneralTableService/general-table.service';
+import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
+import {
+  generalNamesInSelectedLanguage,
+  materialNamesInSelectedLanguage
+} from "../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
 
 @Component({
   selector: 'app-update-material',
@@ -21,6 +26,8 @@ export class UpdateMaterialComponent implements OnInit {
   materialToUpdate: Material;
   materialToUpdateId: number;
   materialForm: FormGroup;
+  materialNamesInSelectedLanguage = materialNamesInSelectedLanguage;
+  generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
 
   constructor(private materialTableService: GeneralTableService,
               private materialBackendService: MaterialBackendService,
@@ -36,6 +43,7 @@ export class UpdateMaterialComponent implements OnInit {
       // tslint:disable-next-line:max-line-length
       materialName: new FormControl('', [Validators.nullValidator && Validators.required], [this.validateMaterialCodeUniqueService.materialNameValidatorForUpdate()]),
     }, {updateOn: 'change'});
+    this.initColumnNamesInSelectedLanguage();
     this.materialToUpdateId = this.materialTableService.selectedId;
     console.log(`materialToUpdateId= ${this.materialToUpdateId}`);
     this.materialBackendService.findRecordById(String(this.materialToUpdateId)).subscribe((material) => {
@@ -46,6 +54,13 @@ export class UpdateMaterialComponent implements OnInit {
       error => {
         console.log(`This error occured: ${error.error}`);
       });
+  }
+
+  initColumnNamesInSelectedLanguage(): void {
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.materialNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
   }
   // tslint:disable-next-line:typedef
   get materialCode() {
@@ -63,7 +78,7 @@ export class UpdateMaterialComponent implements OnInit {
     console.log(`materialFOrrmValu= ${this.materialForm.value}`);
     // tslint:disable-next-line:max-line-length
     this.materialBackendService.updateRecordById(String(this.materialTableService.selectedId), this.materialForm.value).subscribe((material) => {
-        this.operationStatusMessage = 'dodano nowy materiał';
+        this.operationStatusMessage = this.generalNamesInSelectedLanguage.operationUpdateSuccessStatusMessage;
         this.resetMaterialFormValueAndOperationStatus();
       }, error => {
         const backendErrorMessage = getBackendErrrorMesage(error);
@@ -81,7 +96,7 @@ export class UpdateMaterialComponent implements OnInit {
         } else if (backendErrorMessage.includes(materialNameAlreadyExistMessage)){
           this.operationStatusMessage = 'Nie zaktualizowano materiału. Inny Materiał z podaną nazwą już istnieje';
         } else {
-          this.operationStatusMessage = 'Wystąpił błąd, nie zaktualizowano materiału';
+          this.operationStatusMessage = this.generalNamesInSelectedLanguage.operationUpdateFailerStatusMessage;
         }
         this.resetMaterialFormValueAndOperationStatus();
       }
