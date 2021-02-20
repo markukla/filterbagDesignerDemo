@@ -113,6 +113,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
       dimensionRole: new FormControl(null, [Validators.required]),
     });
     await this.setOrderOperatiomModeAndSelectedOrderBasingOnQueryParamters();
+    await this.getPreviouslyUsedCodes();
 
     // tslint:disable-next-line:max-line-length
   }
@@ -188,7 +189,6 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
       // tslint:disable-next-line:max-line-length
     } else if (this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT || this.orderOperationMode === OrderOperationMode.CREATENEWPRODUCT) {
       this.createProductDto = this.productBackendService.createProductDto;
-      await this.getPreviouslyUsedCodes();
       this.bgImageVariable = this.rootUrl + this.createProductDto.urlOfOrginalDrawing;
       this.tableFormService.setInitDataFromDrawingTableFromCreateOrderDto(null, this.createProductDto);
       this.tableFormService.disableTableForm();

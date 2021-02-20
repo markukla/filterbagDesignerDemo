@@ -13,7 +13,7 @@
           {{this.generalNamesInSelectedLanguage.thisFieldIsRequired}}
           </div>
           <div class="validatorInfo" *ngIf="materialCode.errors.minlength">
-            {{materialNamesInSelectedLanguage.}}
+            {{this.materialNamesInSelectedLanguage.materialCodeMustContain6CHaracters}}
           </div>
           <div class="validatorInfo" *ngIf="materialCode.errors.maxlength">
            {{this.materialNamesInSelectedLanguage.materialCodeMustContain6CHaracters}}
