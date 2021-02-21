@@ -819,6 +819,12 @@ const orderName54: Vocabulary = {
 }
 initialVocabularyForDatabase.push(orderName54)
 
+const orderName55: Vocabulary = {
+    variableName: 'changeDrawing',
+    localizedNames: [new LocalizedName('PL', 'Zmień Rysunek'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName55)
+
 
 
 

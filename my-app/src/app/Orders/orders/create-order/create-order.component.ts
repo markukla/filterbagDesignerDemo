@@ -96,6 +96,7 @@ export class CreateOrderComponent implements OnInit, AfterContentChecked, AfterV
   orderNames = orderNames;
   generalUserNames = generalUserNames;
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
+  formTitleCreateNewOrUpdate: string;
   @ViewChild('commentToOrder', {read: ElementRef}) commentToOrder: ElementRef;
   constructor(
     private backendService: OrderBackendService,

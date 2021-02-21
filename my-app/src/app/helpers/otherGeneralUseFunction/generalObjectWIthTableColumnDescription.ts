@@ -146,6 +146,8 @@ export const orderNames = {
   productTypes: 'Typy Produktów',
   productTypeCode: 'Kod Typu Produktu',
   productTypeName: 'Nazwa Typu Produktu',
+  changeDrawing: 'Zmień Rysunek',
+
 
 
 

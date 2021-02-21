@@ -32,9 +32,7 @@ export class ProductComponent implements OnInit, AfterContentChecked {
   // tslint:disable-next-line:ban-types
   deleTedMaterialMessage: any;
   operationStatusMessage: string;
-  deleteButtonInfo: string;
   showUpdateForm = false;
-  updateButtonInfo;
   materialId: number;
   recordNumbers: number;
   showConfirmDeleteWindow: boolean;
@@ -55,8 +53,6 @@ export class ProductComponent implements OnInit, AfterContentChecked {
     this.initColumnNamesInSelectedLanguage();
     this.getRecords();
     this.materialId = this.tableService.selectedId;
-    this.deleteButtonInfo = 'usuń';
-    this.updateButtonInfo = 'modyfikuj dane';
   }
   initColumnNamesInSelectedLanguage(): void {
     // tslint:disable-next-line:max-line-length
@@ -91,13 +87,13 @@ export class ProductComponent implements OnInit, AfterContentChecked {
   deleteSelectedRecordFromDatabase(recordId: number, deleteConfirmed: boolean): void {
     if (deleteConfirmed === true) {
       this.backendService.deleteRecordById(String(recordId)).subscribe((response) => {
-        this.operationSuccessStatusMessage = 'Usunięto Materiał z bazy danych';
+        this.operationSuccessStatusMessage = this.generalNamesInSelectedLanguage.operationDeleteFailerStatusMessage;
         this.tableService.selectedId = null;
         this.showConfirmDeleteWindow = false;
         this.statusService.makeOperationStatusVisable();
         this.statusService.resetOperationStatusAfterTimeout([this.operationFailerStatusMessage, this.operationSuccessStatusMessage]);
       }, error => {
-        this.operationFailerStatusMessage = 'Wystąpił bład, nie udało się usunąc materiału';
+        this.operationFailerStatusMessage = this.generalNamesInSelectedLanguage.operationDeleteSuccessStatusMessage;
         this.tableService.selectedId = null;
         this.showConfirmDeleteWindow = false;
         this.statusService.makeOperationStatusVisable();

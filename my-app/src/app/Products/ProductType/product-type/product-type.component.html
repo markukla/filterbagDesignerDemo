@@ -4,7 +4,7 @@
 <div>
 
   <a  (click)="createNewRecord()">
-    {{ createNewMaterialDescription }}
+    {{this.generalNamesInSelectedLanguage.addNewButtonDescription}}
   </a>
 </div>
 
@@ -15,17 +15,17 @@
   <table class="table table-striped border mt-1">
     <thead>
     <tr>
-      <th [appSort]="records" data-order="desc" data-name="code" scope="col">Kod typu produktu <br></th>
-      <th [appSort]="records" data-order="desc" data-name="localizedNameInSelectedLanguage" scope="col">Nazwa typu producktu</th>
-      <th>ilość</th>
+      <th [appSort]="records" data-order="desc" data-name="code" scope="col">{{this.orderNamesInSelectedLanguage.productTypeCode}} <br></th>
+      <th [appSort]="records" data-order="desc" data-name="localizedNameInSelectedLanguage" scope="col">{{this.orderNamesInSelectedLanguage.productTypeName}}u</th>
+      <th>{{this.generalNamesInSelectedLanguage.quantity}}</th>
 
     </tr>
     <tr>
       <th>
 
-        <input class="tableSearchInput" [appSearch]="records" serchedColumn="code" id="serchInCodes" placeholder="Wyszukaj" />
+        <input class="tableSearchInput" [appSearch]="records" serchedColumn="code" id="serchInCodes" [placeholder]="this.generalNamesInSelectedLanguage.search" />
       </th>
-      <th><input class="tableSearchInput" [appSearch]="records" serchedColumn="localizedNameInSelectedLanguage" id="serchInNames" placeholder="Wyszukaj" /></th>
+      <th><input class="tableSearchInput" [appSearch]="records" serchedColumn="localizedNameInSelectedLanguage" id="serchInNames" [placeholder]="this.generalNamesInSelectedLanguage.search" /></th>
       <th>{{this.recordNumbers}}</th>
     </tr>
 
@@ -38,8 +38,8 @@
       <td>
         <text *ngIf="deleTedMaterialMessage">{{deleTedMaterialMessage}}</text>
         <br>
-        <button (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(record.id)" [title]="deleteButtonInfo" >x</button>
-        <button (click)="updateSelectedRecord(record.id);" [title]="updateButtonInfo">u</button>
+        <button (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(record.id)" [title]="this.generalNamesInSelectedLanguage.deleteButtonInfo" >x</button>
+        <button (click)="updateSelectedRecord(record.id);" [title]="this.generalNamesInSelectedLanguage.updateButtonInfo">u</button>
       </td>
 
     </tr>

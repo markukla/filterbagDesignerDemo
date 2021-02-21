@@ -1,7 +1,7 @@
 
 @font-face {
-  font-family: "Icons";
-  src:  url("./assets/fonts/SevenDaySignature-RpKO3.otf") format("woff");
+  font-family: "IconsWoff";
+  src:  url("./assets/fonts/open-sans-v18-latin-regular.woff2") format("woff");
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -37,6 +37,7 @@
   left: 30%;
   height: auto;
   border: 5px solid #FFFF00;
+  font-family: 'IconsWoff';
 
 }
 .formTitle {

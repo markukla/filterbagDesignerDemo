@@ -53,6 +53,7 @@ export class CreateProductComponent implements OnInit, AfterContentChecked, Afte
   operationFailerStatusMessage: string;
   orderNamesInSelectedLanguage = orderNames;
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
+  formTitleCreateOrUpdate: string;
   @ViewChild('selectType', {read: ElementRef}) selectTypeElement: ElementRef;
   @ViewChild('selectTop', {read: ElementRef}) selectTopElement: ElementRef;
   @ViewChild('selectBottom', {read: ElementRef}) selectBottomElement: ElementRef;
@@ -95,8 +96,12 @@ export class CreateProductComponent implements OnInit, AfterContentChecked, Afte
     if (this.operationMode === ProductModeEnum.UPDATE) {
       const foundProduct = await this.backendService.findRecordById(this.selectedProductToUpdateId).toPromise();
       this.productToUpdate = foundProduct.body;
+      this.formTitleCreateOrUpdate = this.orderNamesInSelectedLanguage.updateProduct;
       // tslint:disable-next-line:max-line-length
       await this.initFormValuesForUpdateMode(this.productToUpdate); // it does not set select element it is done in ngAfterContent checked due to ngFor synchronization problem
+    }
+    else {
+      this.formTitleCreateOrUpdate = this.orderNamesInSelectedLanguage.addNewProduct;
     }
     this.uploadSuccessStatus = false;
   }
@@ -105,9 +110,10 @@ export class CreateProductComponent implements OnInit, AfterContentChecked, Afte
     setTabelColumnAndOtherNamesForSelectedLanguage(this.orderNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
     // tslint:disable-next-line:max-line-length
     setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
+    this.changeDrawingButtonDescription = this.orderNamesInSelectedLanguage.changeDrawing;
   }
   initUserInterfaceVariablesForGivenLanguage(): void {
-    this.changeDrawingButtonDescription = 'zmień rysunek';
+
   }
 
   setSelectedValueForSelectElement(selectId: string, selectedValueId: string): void {
@@ -204,15 +210,15 @@ export class CreateProductComponent implements OnInit, AfterContentChecked, Afte
     this.backendService.uploadDrawing(formData).subscribe((urls) => {
       this.orginalDrawingPath = urls.urlOfOrginalDrawing;
       this.minimalizedDrawingPath = urls.urlOfThumbnailDrawing;
-      this.uploadOperationMessage = 'dodano rysunek';
+      this.uploadOperationMessage = this.generalNamesInSelectedLanguage.drawingAddedSuccessStatus;
       this.uploadSuccessStatus = true;
     }, error => {
       this.uploadSuccessStatus = false;
       const errorMessage = getBackendErrrorMesage(error);
       if (errorMessage.includes('.png files are allowed')) {
-        this.uploadOperationMessage = 'nie udało sie dodać rysunku, tylko format .png jest dozwolony';
+        this.uploadOperationMessage = this.generalNamesInSelectedLanguage.onlyPngFormatIsAllowed;
       } else {
-        this.uploadOperationMessage = 'wystąpił błąd nie udało się dodać rysunku, spróbuj pownownie';
+        this.uploadOperationMessage = this.generalNamesInSelectedLanguage.drawingAddedFailerStatus;
       }
     });
 

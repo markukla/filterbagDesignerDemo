@@ -1,13 +1,13 @@
-<a [routerLink]="['/products/tops']" > Wykończenia góry</a>
-<a [routerLink]="['/products/bottoms']" > Wykończenia dna</a>
-<a [routerLink]="['/products/types']" > Typy produktów</a>
+<a [routerLink]="['/products/tops']" > {{this.orderNamesInSelectedLanguage.productTops}}</a>
+<a [routerLink]="['/products/bottoms']">{{this.orderNamesInSelectedLanguage.productBottoms}}</a>
+<a [routerLink]="['/products/types']" >{{this.orderNamesInSelectedLanguage.productTypes}}</a>
 
 <!--sss-->
 
 <div>
 
   <a (click)="createNewProduct();">
-    {{ createNewMaterialDescription }}
+    {{generalNamesInSelectedLanguage.addNewButtonDescription}}
   </a>
 </div>
 
@@ -18,18 +18,18 @@
   <table class="table table-striped border mt-1">
     <thead>
     <tr>
-      <th [appSort]="records" data-order="desc" data-name="productTypeCodePlusName" scope="col">Typ produktu <br></th>
-      <th [appSort]="records" data-order="desc" data-name="productTopCodePlusName" scope="col">Wykończenie góry</th>
-      <th [appSort]="records" data-order="desc" data-name="productBottomCodePlusNAme" scope="col">Wykończenie dna</th>
-      <th>ilość</th>
+      <th [appSort]="records" data-order="desc" data-name="productTypeCodePlusName" scope="col">{{this.orderNamesInSelectedLanguage.productType}} <br></th>
+      <th [appSort]="records" data-order="desc" data-name="productTopCodePlusName" scope="col">{{this.orderNamesInSelectedLanguage.productTop}}</th>
+      <th [appSort]="records" data-order="desc" data-name="productBottomCodePlusNAme" scope="col">{{this.orderNamesInSelectedLanguage.productBottom}}</th>
+      <th>{{this.generalNamesInSelectedLanguage.quantity}}</th>
 
     </tr>
     <tr>
       <th>
 
-        <input class="tableSearchInput"  id="serchInType" placeholder="Wyszukaj" [appSearch]="records" serchedColumn="productTypeCodePlusName" /> </th>
-      <th><input class="tableSearchInput"  id="serchInTops" placeholder="Wyszukaj"  [appSearch]="records" serchedColumn="productTopCodePlusName"/> </th>
-      <th><input class="tableSearchInput"  id="serchInBottoms" placeholder="Wyszukaj" [appSearch]="records" serchedColumn="productBottomCodePlusNAme"/></th>
+        <input class="tableSearchInput"  id="serchInType" [placeholder]="generalNamesInSelectedLanguage.search" [appSearch]="records" serchedColumn="productTypeCodePlusName" /> </th>
+      <th><input class="tableSearchInput"  id="serchInTops" [placeholder]="generalNamesInSelectedLanguage.search"  [appSearch]="records" serchedColumn="productTopCodePlusName"/> </th>
+      <th><input class="tableSearchInput"  id="serchInBottoms" [placeholder]="generalNamesInSelectedLanguage.search" [appSearch]="records" serchedColumn="productBottomCodePlusNAme"/></th>
       <th>{{this.recordNumbers}}</th>
     </tr>
 
@@ -43,9 +43,9 @@
       <td>
         <text *ngIf="deleTedMaterialMessage">{{deleTedMaterialMessage}}</text>
         <br>
-        <button  class="deleteButton" (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(record.id)" [title]="deleteButtonInfo" >x</button>
-        <button class="updateButton" (click)="updateSelectedRecord(record.id);" [title]="updateButtonInfo">u</button>
-        <button class="showDrawing" (click)="showDrawing(record.id)"> Zobacz Rysunek</button>
+        <button  class="deleteButton" (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(record.id)" [title]="this.generalNamesInSelectedLanguage.deleteButtonInfo" >x</button>
+        <button class="updateButton" (click)="updateSelectedRecord(record.id);" [title]="this.generalNamesInSelectedLanguage.closeButtonDescription">u</button>
+        <button class="showDrawing" (click)="showDrawing(record.id)">{{this.generalNamesInSelectedLanguage.seeDrawing}}</button>
       </td>
 
     </tr>

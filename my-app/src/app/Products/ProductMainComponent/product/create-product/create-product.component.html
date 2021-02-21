@@ -1,6 +1,6 @@
 <div class="createOrUpdateFormWindow">
-  <button id="close button" class="closeButton" (click)="closeAndGoBack() " [title]='"zamknij"'>x</button>
-  <h2>Dodaj nowy produkt</h2>
+  <button id="close button" class="closeButton" (click)="closeAndGoBack() " [title]='this.generalNamesInSelectedLanguage.closeButtonDescription'>x</button>
+  <h2>{{this.formTitleCreateOrUpdate}}</h2>
   <div class="addButon">
     <button class="btn btn-danger" *ngIf="showChangeDrawingButton() === true;" type="button" (click)="onDrawingCHangeForUpdate();">{{changeDrawingButtonDescription}}</button>
   </div>
@@ -9,14 +9,14 @@
 
     <div class="col">
       <div class="form-group col-md-6">
-        <label class="label" for="uploadDrawing">Wybierz rysunek do udostpnienia</label>
+        <label class="label" for="uploadDrawing">{{this.generalNamesInSelectedLanguage.selectDrawingToUpload}}</label>
         <input type="file" name="file" id="uploadDrawing" formControlName="file" (change)="onFileChange($event)">
 
         <div *ngIf="file.invalid"
              class="alert alert-danger">
 
           <div class="validatorInfo" *ngIf="file.errors.required">
-            Wybranie rysunku jest wymagane.
+          {{this.generalNamesInSelectedLanguage.selectingDrawingIsRequired}}
           </div>
         </div>
       </div>
@@ -25,10 +25,10 @@
 
 
     <div class="uploadDrawingButton">
-      <button type="submit" [disabled]="!upladDrawingForm.valid" class="btn btn-danger">Udostępnij</button>
+      <button type="submit" [disabled]="!upladDrawingForm.valid" class="btn btn-danger">{{this.generalNamesInSelectedLanguage.upload}}</button>
     </div>
     <div class="alert-danger" *ngIf="!uploadSuccessStatus">
-      <p>Udostępnienie rysunku jest wymagane</p>
+      <p>{{this.generalNamesInSelectedLanguage.uploadingDrawingIsRequired}}</p>
     </div>
     <div *ngIf="!uploadSuccessStatus && uploadOperationMessage" class="alert alert-danger">
       <p>{{uploadOperationMessage}}</p>
@@ -43,12 +43,10 @@
     <div class="row">
 
       <div class="form-group col-md-6">
-        <label class="label" for="type">Wybierz Typ produktu</label>
+        <label class="label" for="type">{{this.generalNamesInSelectedLanguage.select + ' '+ this.orderNamesInSelectedLanguage.productType}}</label>
         <select class="form-control" formControlName="type" id="type" #selectType>
-          <option [ngValue]="null" disabled>Wybierz Typ produktu</option>
           <option class="selectTypeValues" [id]="'type'+type.id"  *ngFor="let type of allTypesToSelect" [ngValue]="type">
-            {{ type.code + ' - ' + getNameInSelectedLanguage(type.localizedNames)
-            }}
+            {{ type.code + ' - ' + getNameInSelectedLanguage(type.localizedNames)}}
             <!-- type.names-->
           </option>
         </select>
@@ -56,14 +54,13 @@
              class="alert alert-danger">
 
           <div class="validatorInfo" *ngIf="type.errors.required">
-            Wybranie opcji z listy jest wymagane.
+           {{this.generalNamesInSelectedLanguage.thisFieldIsRequired}}
           </div>
         </div>
       </div>
       <div class="form-group col-md-6">
-        <label class="label" for="top">Wybierz wykończenia góry</label>
+        <label class="label" for="top">{{this.generalNamesInSelectedLanguage.select + ' '+ this.orderNamesInSelectedLanguage.productTop}}</label>
         <select class="form-control" formControlName="top" id="top" #selectTop (click)="selectTopClicked = true">
-          <option [ngValue]="null" disabled>Wybierz wykończenia góry</option>
           <option class="selectTopValues" [id]="'top'+top.id" *ngFor="let top of allTopsToSelect" [ngValue]="top">
             {{ top.code + ' - ' + getNameInSelectedLanguage(top.localizedNames) }}
           </option>
@@ -72,14 +69,13 @@
              class="alert alert-danger">
 
           <div class="validatorInfo" *ngIf="top.errors.required">
-            Wybranie opcji z listy jest wymagane.
+            {{this.generalNamesInSelectedLanguage.thisFieldIsRequired}}
           </div>
         </div>
       </div>
       <div class="form-group col-md-6" >
-        <label class="label" for="bottom">Wybierz wykończenia dna</label>
+        <label class="label" for="bottom">{{this.generalNamesInSelectedLanguage.select + ' '+ this.orderNamesInSelectedLanguage.productBottom}}</label>
         <select class="form-control" formControlName="bottom" id="bottom" #selectBottom (click)="this.selectBottomClicked = true;">
-          <option [ngValue]="null" disabled>Wybierz wykończenia dna</option>
           <option class="selectBottomValues" [id]="'bottom'+bottom.id" *ngFor="let bottom of allBotomsToselect" [ngValue]="bottom">
             {{ bottom.code + ' - ' + getNameInSelectedLanguage(bottom.localizedNames) }}
           </option>
@@ -88,14 +84,13 @@
              class="alert alert-danger">
 
           <div class="validatorInfo" *ngIf="bottom.errors.required">
-            Wybranie opcji z listy jest wymagane.
+            {{this.generalNamesInSelectedLanguage.thisFieldIsRequired}}
           </div>
         </div>
       </div>
     </div>
     <div class="addButon">
-      <button type="submit" [disabled]="allowSubmit() === false" class="btn btn-danger">Dalej
-      </button>
+      <button type="submit" [disabled]="allowSubmit() === false" class="btn btn-danger">{{this.orderNamesInSelectedLanguage.submitButtonNext}}</button>
     </div>
 
   </form>
