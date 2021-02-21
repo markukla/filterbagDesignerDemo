@@ -777,6 +777,49 @@ const orderName47: Vocabulary = {
 }
 initialVocabularyForDatabase.push(orderName47)
 
+const orderName48: Vocabulary = {
+    variableName: 'productBottoms',
+    localizedNames: [new LocalizedName('PL', 'Wykończenia Dna'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName48)
+
+const orderName49: Vocabulary = {
+    variableName: 'productTops',
+    localizedNames: [new LocalizedName('PL', 'Wykończenia Góry'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName49)
+
+const orderName50: Vocabulary = {
+    variableName: 'productTopsCode',
+    localizedNames: [new LocalizedName('PL', 'Kod Wykończenia Góry'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName50)
+
+const orderName51: Vocabulary = {
+    variableName: 'productTopsName',
+    localizedNames: [new LocalizedName('PL', 'Nazwa Wykończenia Góry'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName51)
+
+const orderName52: Vocabulary = {
+    variableName: 'productTypes',
+    localizedNames: [new LocalizedName('PL', 'Typy Produktów'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName52)
+
+const orderName53: Vocabulary = {
+    variableName: 'productTypeCode',
+    localizedNames: [new LocalizedName('PL', 'Kod Typu Produktu'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName53)
+
+const orderName54: Vocabulary = {
+    variableName: 'productTypeName',
+    localizedNames: [new LocalizedName('PL', 'Nazwa Typu Produktu'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName54)
+
+
 
 
 

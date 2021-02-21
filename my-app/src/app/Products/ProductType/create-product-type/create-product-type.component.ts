@@ -29,7 +29,14 @@ import ProductType from '../../ProductTypesAndClasses/productType.entity';
 import {AuthenticationService} from '../../../LoginandLogOut/AuthenticationServices/authentication.service';
 import {LanguageFormService} from '../../../LanguageForm/language-form.service';
 import {BackendMessageService} from '../../../helpers/ErrorHandling/backend-message.service';
-import {getSelectedLanguageFromNamesInAllLanguages} from '../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage';
+import {
+  getSelectedLanguageFromNamesInAllLanguages,
+  setTabelColumnAndOtherNamesForSelectedLanguage
+} from '../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage';
+import {
+  generalNamesInSelectedLanguage,
+  orderNames
+} from "../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
 
 @Component({
   selector: 'app-create-product-type',
@@ -58,6 +65,9 @@ export class CreateProductTypeComponent implements OnInit {
   giveNameForAllLanguagesDescription: string;
   saveButtonDescription: string;
   languages: Language[];
+  orderNamesInSelectedLanguage = orderNames;
+  generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
+  formTitileCreateOrUpdate: string;
   @ViewChildren('bottomCheckbox', {read: ElementRef}) bottomCheckBox: ElementRef[];
   @ViewChildren('topsCheckbox', {read: ElementRef}) topscheckBox: ElementRef[];
 
@@ -77,6 +87,7 @@ export class CreateProductTypeComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+    this.initColumnNamesInSelectedLanguage();
     this.form = new FormGroup({
       // tslint:disable-next-line:max-line-length
       code: new FormControl('', [Validators.nullValidator && Validators.required, Validators.minLength(2), Validators.maxLength(2)]),
@@ -87,6 +98,12 @@ export class CreateProductTypeComponent implements OnInit {
     });
     await this.getInitDataFromBackend();
 
+  }
+  initColumnNamesInSelectedLanguage(): void {
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.orderNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
   }
 // tslint:disable-next-line:typedef
   getDataToDropdownLists(): void {
@@ -115,6 +132,10 @@ export class CreateProductTypeComponent implements OnInit {
       this.recordToUpdate = foundRecord.body;
       this.languageFormService.namesInAllLanguages = this.recordToUpdate.localizedNames;
       this.code.setValue(this.recordToUpdate.code);
+      this.formTitileCreateOrUpdate = this.orderNamesInSelectedLanguage.updateProductType;
+    }
+    else {
+      this.formTitileCreateOrUpdate = this.orderNamesInSelectedLanguage.addNewProductType;
     }
   }
 

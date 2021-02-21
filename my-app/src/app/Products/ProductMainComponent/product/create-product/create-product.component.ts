@@ -13,8 +13,15 @@ import OrderOperationMode from '../../../../Orders/OrdersTypesAndClasses/orderOp
 import ProductModeEnum from '../../../ProductTypesAndClasses/productMode';
 import Product from '../../../ProductTypesAndClasses/product.entity';
 import LocalizedName from '../../../../DimensionCodes/DimensionCodesTypesAnClasses/localizedName';
-import {getSelectedLanguageFromNamesInAllLanguages} from '../../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage';
+import {
+  getSelectedLanguageFromNamesInAllLanguages,
+  setTabelColumnAndOtherNamesForSelectedLanguage
+} from '../../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage';
 import {AuthenticationService} from '../../../../LoginandLogOut/AuthenticationServices/authentication.service';
+import {
+  generalNamesInSelectedLanguage,
+  orderNames
+} from "../../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
 
 @Component({
   selector: 'app-create-product',
@@ -44,6 +51,8 @@ export class CreateProductComponent implements OnInit, AfterContentChecked, Afte
   productTypeOfProductToUpdate: ProductType;
   operationSuccessStatusMessage: string;
   operationFailerStatusMessage: string;
+  orderNamesInSelectedLanguage = orderNames;
+  generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
   @ViewChild('selectType', {read: ElementRef}) selectTypeElement: ElementRef;
   @ViewChild('selectTop', {read: ElementRef}) selectTopElement: ElementRef;
   @ViewChild('selectBottom', {read: ElementRef}) selectBottomElement: ElementRef;
@@ -70,6 +79,7 @@ export class CreateProductComponent implements OnInit, AfterContentChecked, Afte
       file: new FormControl('', Validators.required),
       fileSource: new FormControl('', [Validators.required])
     });
+    this.initColumnNamesInSelectedLanguage();
     this.initUserInterfaceVariablesForGivenLanguage();
     this.route.queryParamMap.subscribe(queryParams => {
       const mode = queryParams.get('mode');
@@ -89,6 +99,12 @@ export class CreateProductComponent implements OnInit, AfterContentChecked, Afte
       await this.initFormValuesForUpdateMode(this.productToUpdate); // it does not set select element it is done in ngAfterContent checked due to ngFor synchronization problem
     }
     this.uploadSuccessStatus = false;
+  }
+  initColumnNamesInSelectedLanguage(): void {
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.orderNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
   }
   initUserInterfaceVariablesForGivenLanguage(): void {
     this.changeDrawingButtonDescription = 'zmień rysunek';

@@ -12,6 +12,12 @@ import {GeneralTableService} from '../../../util/GeneralTableService/general-tab
 import {SearchService} from '../../../helpers/directive/SearchDirective/search.service';
 import {ProductForTableCell} from '../../ProductTypesAndClasses/productForTableCell';
 import {OperationStatusServiceService} from '../../../OperationStatusComponent/operation-status/operation-status-service.service';
+import {
+  generalNamesInSelectedLanguage,
+  orderNames
+} from "../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
+import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
+import {AuthenticationService} from "../../../LoginandLogOut/AuthenticationServices/authentication.service";
 
 @Component({
   selector: 'app-product',
@@ -34,19 +40,29 @@ export class ProductComponent implements OnInit, AfterContentChecked {
   showConfirmDeleteWindow: boolean;
   operationFailerStatusMessage: string;
   operationSuccessStatusMessage: string;
+  orderNamesInSelectedLanguage = orderNames;
+  generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
 
   constructor(public tableService: GeneralTableService,
               public backendService: ProductBackendService,
               private router: Router,
               private activedIdParam: ActivatedRoute,
               private searChService: SearchService,
+              private authenticationService: AuthenticationService,
               public statusService: OperationStatusServiceService) {
   }
   ngOnInit(): void {
+    this.initColumnNamesInSelectedLanguage();
     this.getRecords();
     this.materialId = this.tableService.selectedId;
     this.deleteButtonInfo = 'usuń';
     this.updateButtonInfo = 'modyfikuj dane';
+  }
+  initColumnNamesInSelectedLanguage(): void {
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.orderNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
   }
   ngAfterContentChecked(): void {
     if (this.records) {

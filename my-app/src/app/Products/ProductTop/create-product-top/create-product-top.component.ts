@@ -18,6 +18,11 @@ import {LanguageFormService} from '../../../LanguageForm/language-form.service';
 import {AuthenticationService} from '../../../LoginandLogOut/AuthenticationServices/authentication.service';
 import OperationModeEnum from '../../../util/OperationModeEnum';
 import CreateProductTopDto from '../../ProductTypesAndClasses/createProductTop.dto';
+import {
+  generalNamesInSelectedLanguage,
+  orderNames
+} from "../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
+import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
 
 @Component({
   selector: 'app-create-product-top',
@@ -44,6 +49,9 @@ export class CreateProductTopComponent implements OnInit {
   giveNameForAllLanguagesDescription: string;
   saveButtonDescription: string;
   languages: Language[];
+  orderNamesInSelectedLanguage = orderNames;
+  generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
+  formTitleAddOrUpdate: string;
   constructor(
     private backendService: ProductTopBackendService,
     public validationService: ValidateProductTopService,
@@ -57,6 +65,7 @@ export class CreateProductTopComponent implements OnInit {
     console.log('creating component:CreateProductTypeComponent');
   }
   async ngOnInit(): Promise<void> {
+    this.initColumnNamesInSelectedLanguage();
     this.route.queryParamMap.subscribe((queryParams) => {
       this.operatiomMode = (queryParams.get('mode'));
       this.selectedRecordToupdateId = queryParams.get('recordId');
@@ -72,6 +81,12 @@ export class CreateProductTopComponent implements OnInit {
   get code() {
     return this.form.get('code');
   }
+  initColumnNamesInSelectedLanguage(): void {
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.orderNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
+  }
   async getInitDataFromBackend(): Promise<void> {
     this.languages = this.authenticationService.languages;
     this.languageFormService.languages = this.languages;
@@ -79,7 +94,11 @@ export class CreateProductTopComponent implements OnInit {
       const foundRecord =  await this.backendService.findRecordById(this.selectedRecordToupdateId).toPromise();
       this.recordToUpdate = foundRecord.body;
       this.languageFormService.namesInAllLanguages = this.recordToUpdate.localizedNames;
+      this.formTitleAddOrUpdate = this.orderNamesInSelectedLanguage.updateProductTop;
       this.code.setValue(this.recordToUpdate.code);
+    }
+    else {
+      this.formTitleAddOrUpdate = this.orderNamesInSelectedLanguage.addNewProductTop;
     }
   }
 

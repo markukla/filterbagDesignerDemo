@@ -11,6 +11,12 @@ import {SearchService} from '../../../helpers/directive/SearchDirective/search.s
 import {ProductTopForTableCell} from '../../ProductTypesAndClasses/productTopForTableCell';
 import OperationModeEnum from '../../../util/OperationModeEnum';
 import {OperationStatusServiceService} from '../../../OperationStatusComponent/operation-status/operation-status-service.service';
+import {
+  generalNamesInSelectedLanguage,
+  orderNames
+} from "../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
+import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
+import {AuthenticationService} from "../../../LoginandLogOut/AuthenticationServices/authentication.service";
 
 @Component({
   selector: 'app-product-top',
@@ -22,7 +28,6 @@ export class ProductTopComponent implements OnInit, AfterContentChecked {
   records: ProductTopForTableCell[];
   @Input()
   orginalMaterialsCopy: Material[];
-  createNewMaterialDescription = 'Dodaj Nowy';
   // tslint:disable-next-line:ban-types
   deleTedMaterialMessage: any;
   operationStatusMessage: string;
@@ -34,6 +39,8 @@ export class ProductTopComponent implements OnInit, AfterContentChecked {
   showConfirmDeleteWindow: boolean;
   operationFailerStatusMessage: string;
   operationSuccessStatusMessage: string;
+  orderNamesInSelectedLanguage = orderNames;
+  generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
 
 
   constructor(public tableService: GeneralTableService,
@@ -41,13 +48,19 @@ export class ProductTopComponent implements OnInit, AfterContentChecked {
               private router: Router,
               private activedIdParam: ActivatedRoute,
               private searChService: SearchService,
-              public statusService: OperationStatusServiceService) {
+              public statusService: OperationStatusServiceService,
+              private authenticationService: AuthenticationService) {
   }
   ngOnInit(): void {
+    this.initColumnNamesInSelectedLanguage();
     this.getRecords();
     this.materialId = this.tableService.selectedId;
-    this.deleteButtonInfo = 'usuń';
-    this.updateButtonInfo = 'modyfikuj dane';
+  }
+  initColumnNamesInSelectedLanguage(): void {
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.orderNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
   }
   ngAfterContentChecked(): void {
     if (this.records) {
@@ -76,13 +89,13 @@ export class ProductTopComponent implements OnInit, AfterContentChecked {
   deleteSelectedRecordFromDatabase(recordId: number, deleteConfirmed: boolean): void {
     if (deleteConfirmed === true) {
       this.backendService.deleteRecordById(String(recordId)).subscribe((response) => {
-        this.operationSuccessStatusMessage = 'Usunięto Materiał z bazy danych';
+        this.operationSuccessStatusMessage = this.generalNamesInSelectedLanguage.operationDeleteSuccessStatusMessage;
         this.tableService.selectedId = null;
         this.showConfirmDeleteWindow = false;
         this.statusService.makeOperationStatusVisable();
         this.statusService.resetOperationStatusAfterTimeout([this.operationFailerStatusMessage, this.operationSuccessStatusMessage]);
       }, error => {
-        this.operationFailerStatusMessage = 'Wystąpił bład, nie udało się usunąc materiału';
+        this.operationFailerStatusMessage = this.generalNamesInSelectedLanguage.operationDeleteFailerStatusMessage;
         this.tableService.selectedId = null;
         this.showConfirmDeleteWindow = false;
         this.statusService.makeOperationStatusVisable();

@@ -139,6 +139,14 @@ export const orderNames = {
   updateProduct: '',
   productBottomCode: '',
   productBottomName: '',
+  productBottoms: 'Wykończenia Dna',
+  productTops: 'Wykończenia Góry',
+  productTopsCode: 'Kod Wykończenia Góry',
+  productTopsName: 'Nazwa Wykończenia Góry',
+  productTypes: 'Typy Produktów',
+  productTypeCode: 'Kod Typu Produktu',
+  productTypeName: 'Nazwa Typu Produktu',
+
 
 
 };

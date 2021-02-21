@@ -1,26 +1,25 @@
 <div class="createOrUpdateFormWindow">
-  <button id="close button" class="closeButton" (click)="closeAndGoBack() " [title]='"zamknij"'>x</button>
-  <h2>Dodaj Nowe wykończenie Góry</h2>
+  <button id="close button" class="closeButton" (click)="closeAndGoBack() " [title]='this.generalNamesInSelectedLanguage.closeButtonDescription'>x</button>
+  <h2>{{this.formTitleAddOrUpdate}}</h2>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="row">
       <div class="form-group col-md-6">
-        <label class="label" for="code">Kod Wykończenia Góry</label>
-        <input type="text" class="form-control" formControlName="code" id="code"
-               placeholder="Kod wykończenia dna">
+        <label class="label" for="code">{{this.generalNamesInSelectedLanguage.code}}</label>
+        <input type="text" class="form-control" formControlName="code" id="code">
         <div *ngIf="code.invalid && (code.dirty || code.touched)"
              class="alert alert-danger">
 
           <div class="validatorInfo" *ngIf="code.errors.required">
-            To pole jest wymagane
+            {{generalNamesInSelectedLanguage.thisFieldIsRequired}}
           </div>
           <div class="validatorInfo" *ngIf="code.errors?.taken">
-            Podana kod jest już zajęty.
+            {{generalNamesInSelectedLanguage.thisCodeIstaken}}
           </div>
           <div class="validatorInfo" *ngIf="code.errors.minlength">
-            Kod nie może być krótszy niż 2 znaki
+            {{generalNamesInSelectedLanguage.codeMustContain2Characters}}
           </div>
           <div class="validatorInfo" *ngIf="code.errors.maxlength">
-            Kod nie może być dłuższy niż 2 znaki.
+            {{generalNamesInSelectedLanguage.codeMustContain2Characters}}
           </div>
         </div>
 
@@ -33,7 +32,7 @@
 
     </div>
     <div class="addButon">
-      <button type="submit" [disabled]="!form.valid" class="btn btn-danger">{{saveButtonDescription}}</button>
+      <button type="submit" [disabled]="!form.valid" class="btn btn-danger">{{generalNamesInSelectedLanguage.saveButtonDescription}}</button>
     </div>
 
 

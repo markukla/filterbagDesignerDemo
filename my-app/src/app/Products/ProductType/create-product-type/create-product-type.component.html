@@ -1,27 +1,26 @@
 <div class="createOrUpdateFormWindow">
-  <button id="close button" class="closeButton" (click)="closeAndGoBack() " [title]='"zamknij"'>x</button>
-  <h2>Dodaj nowy typ produktu</h2>
+  <button id="close button" class="closeButton" (click)="closeAndGoBack() " [title]='this.generalNamesInSelectedLanguage.closeButtonDescription'>x</button>
+  <h2>{{this.formTitileCreateOrUpdate}}</h2>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="row">
 
         <div class="form-group col-md-6">
-          <label class="label" for="code">Kod typu produktu</label>
-          <input type="text" class="form-control" formControlName="code" id="code"
-                 placeholder="Kod typu produktu">
+          <label class="label" for="code">{{generalNamesInSelectedLanguage.code}}</label>
+          <input type="text" class="form-control" formControlName="code" id="code">
           <div *ngIf="code.invalid && (code.dirty || code.touched)"
                class="alert alert-danger">
 
             <div class="validatorInfo" *ngIf="code.errors.required">
-              To pole jest wymagane
+             {{generalNamesInSelectedLanguage.thisFieldIsRequired}}
             </div>
             <div class="validatorInfo" *ngIf="code.errors?.taken">
-              Podana kod jest już zajęty.
+              {{generalNamesInSelectedLanguage.thisCodeIstaken}}
             </div>
             <div class="validatorInfo" *ngIf="code.errors.minlength">
-              Kod nie może być krótszy niż 2 znaki
+              {{this.generalNamesInSelectedLanguage.codeMustContain2Characters}}
             </div>
             <div class="validatorInfo" *ngIf="code.errors.maxlength">
-              Kod nie może być dłuższy niż 2 znaki.
+              {{this.generalNamesInSelectedLanguage.codeMustContain2Characters}}
             </div>
           </div>
 
@@ -34,7 +33,7 @@
       </div>
       <div class="row">
         <div class="form-group col-md-6">
-          <p>Wybierz wykończenia góry</p>
+          <p>{{this.generalNamesInSelectedLanguage.select + ' '+ orderNamesInSelectedLanguage.productTops}}</p>
           <div *ngFor="let top of allTopsToSelect">
 
             <label [for]="'topInput'+top.id"  > {{ top.code +'-' + getNameInSelectedLanguage(top.localizedNames) }}</label>
@@ -42,7 +41,7 @@
           </div>
         </div>
       <div class="form-group col-md-6">
-        <p>Wybierz wykończenia dna</p>
+        <p>{{this.generalNamesInSelectedLanguage.select + ' '+ orderNamesInSelectedLanguage.productBottoms}}</p>
         <div *ngFor="let bottom of allBotomsToselect">
 
           <label [for]="'bottomInput'+bottom .id"  > {{ bottom .code +'-' + getNameInSelectedLanguage(bottom.localizedNames) }}</label>
@@ -52,7 +51,7 @@
 
       </div>
     <div class="addButon">
-      <button type="submit" [disabled]="!form.valid" class="btn btn-danger">Zapisz</button>
+      <button type="submit" [disabled]="!form.valid" class="btn btn-danger">{{this.generalNamesInSelectedLanguage.saveButtonDescription}}</button>
     </div>
 
   </form>
