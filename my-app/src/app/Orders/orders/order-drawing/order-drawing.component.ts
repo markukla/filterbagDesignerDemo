@@ -35,6 +35,12 @@ import {getBackendErrrorMesage} from '../../../helpers/errorHandlingFucntion/han
 import {navigateToUrlAfterTimout} from '../../../helpers/otherGeneralUseFunction/navigateToUrlAfterTimeOut';
 import {API_URL} from '../../../Config/apiUrl';
 import {ProductMiniatureService} from '../productMiniature/productMiniatureService/product-miniature.service';
+import {
+  generalNamesInSelectedLanguage,
+  generalUserNames,
+  orderNames
+} from "../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
+import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
 
 @Component({
   selector: 'app-order-drawing',
@@ -84,6 +90,9 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   createDimensionClicked = false;
   userInputErrorMessages: string[] = [];
   showUserInputErrorWindow = false;
+  orderNames = orderNames;
+  generalUserNames = generalUserNames;
+  generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
   @ViewChild('drawingContainer', {read: ElementRef}) drawing: ElementRef;
   @ViewChildren('.inputDivHorizontal', {read: HTMLElement}) inputDivs: HTMLElement[];
   @ViewChild('mainContainer', {read: ElementRef}) mainContainer: ElementRef;
@@ -112,10 +121,19 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     this.dimensionRoleForm = new FormGroup({
       dimensionRole: new FormControl(null, [Validators.required]),
     });
+    this.initColumnNamesInSelectedLanguage();
     await this.setOrderOperatiomModeAndSelectedOrderBasingOnQueryParamters();
     await this.getPreviouslyUsedCodes();
 
     // tslint:disable-next-line:max-line-length
+  }
+  initColumnNamesInSelectedLanguage(): void {
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.orderNames, this.authenticationService.vocabulariesInSelectedLanguage);
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalUserNames, this.authenticationService.vocabulariesInSelectedLanguage);
+
   }
 
   // tslint:disable-next-line:typedef

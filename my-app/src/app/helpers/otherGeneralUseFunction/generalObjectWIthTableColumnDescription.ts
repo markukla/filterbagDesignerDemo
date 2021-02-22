@@ -147,6 +147,23 @@ export const orderNames = {
   productTypeCode: 'Kod Typu Produktu',
   productTypeName: 'Nazwa Typu Produktu',
   changeDrawing: 'Zmień Rysunek',
+  allDimensionsMustBeUnique: 'Wszystkie wymiary muszą być unikalne, Wymiar ${input} został dodany więcej niż jeden raz',
+  addFirstIndexDimension: 'Proszę dodać wymiar będący pierwszym wymiarem indeksu',
+  addSecondIndexDimension: 'Proszę dodać wymiar będący drugim wymiarem do indeksu',
+  tooManyFirstIndexDimensions: 'Dodałeś więcej niż jeden wymiar będący pierwszym wymiarem indeksu. Możesz dodać tylko jeden',
+  tooManySecondIndexDimensions: 'Dodałeś więcej niż jeden wymiar będący drugim wymiarem indeksu. Możesz dodać tylko jeden',
+  giveValuesToAllDimension: 'Prosze podać wartości wszystkich wymiarów',
+  giveValueOfWorkingTemperature: 'Prosze podać wartość temperatury pracy',
+  setWorkignSide: 'Prosze zaznaczyć stronę pracującą',
+
+  fillFormToCreateDimension: 'Wypełnij formularz aby utworzyć wymiar',
+  pressAndHoldLeftMouseButtonToDrag: 'Po utworzeniu: złap i przytrzymaj lewym przyciskiem aby przeciągnąc',
+  toRotateOrChangeSize: 'Aby obrócić lub zmienić rozmiar',
+  rightClickOnDrawing: 'naciśnij prawym przyciskiem na rysunku poza wymiarem',
+  dubleLeftClicToRotate: 'aby obrócić naciśnij dwukrotnie lewym przyciskiem na wymiar',
+  useActiveCornerToChangeSieze: 'aby zmienić rozmiar użyj aktywnego naroznika',
+  afterEditionRightClickTOenableDragging: 'po edycjj wymiaru naciśnij prawym przyciskiem poza wymiarem żeby ponownie uaktywnić tryb przeciągania',
+  rightCLickOnDimensionToRemove: 'aby usunąc wymiar najedź na niego kursorem i naciśnij prawym przyciskiem myszy',
 
 
 
