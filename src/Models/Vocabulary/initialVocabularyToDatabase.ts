@@ -826,6 +826,141 @@ const orderName55: Vocabulary = {
 initialVocabularyForDatabase.push(orderName55)
 
 
+const orderName56: Vocabulary = {
+    variableName: 'fillFormToCreateDimension',
+    localizedNames: [new LocalizedName('PL', 'Wypełnij formularz aby utworzyć wymiar'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName56)
+
+const orderName57: Vocabulary = {
+    variableName: 'pressAndHoldLeftMouseButtonToDrag',
+    localizedNames: [new LocalizedName('PL', 'Po utworzeniu: złap i przytrzymaj lewym przyciskiem aby przeciągnąc'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName57)
+
+const orderName58: Vocabulary = {
+    variableName: 'toRotateOrChangeSize',
+    localizedNames: [new LocalizedName('PL', 'Aby obrócić lub zmienić rozmiar'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName58)
+
+const orderName59: Vocabulary = {
+    variableName: 'rightClickOnDrawing',
+    localizedNames: [new LocalizedName('PL', 'naciśnij prawym przyciskiem na rysunku poza wymiarem'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName59)
+
+const orderName60: Vocabulary = {
+    variableName: 'dubleLeftClicToRotate',
+    localizedNames: [new LocalizedName('PL', 'aby obrócić naciśnij dwukrotnie lewym przyciskiem na wymiar'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName60)
+
+const orderName61: Vocabulary = {
+    variableName: 'useActiveCornerToChangeSieze',
+    localizedNames: [new LocalizedName('PL', 'aby zmienić rozmiar użyj aktywnego naroznika'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName61)
+
+const orderName62: Vocabulary = {
+    variableName: 'afterEditionRightClickTOenableDragging',
+    localizedNames: [new LocalizedName('PL', 'po edycjj wymiaru naciśnij prawym przyciskiem poza wymiarem żeby ponownie uaktywnić tryb przeciągania'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName62)
+
+const orderName63: Vocabulary = {
+    variableName: 'rightCLickOnDimensionToRemove',
+    localizedNames: [new LocalizedName('PL', 'aby usunąc wymiar najedź na niego kursorem i naciśnij prawym przyciskiem myszy'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName63)
+
+const orderName64: Vocabulary = {
+    variableName: 'giveValuesToAllDimension',
+    localizedNames: [new LocalizedName('PL', 'Prosze podać wartości wszystkich wymiarów'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName64)
+
+const orderName65: Vocabulary = {
+    variableName: 'giveValueOfWorkingTemperature',
+    localizedNames: [new LocalizedName('PL', 'Prosze podać wartość temperatury pracy'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName65)
+
+const orderName66: Vocabulary = {
+    variableName: 'setWorkignSide',
+    localizedNames: [new LocalizedName('PL', 'Prosze zaznaczyć stronę pracującą'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName66)
+
+const orderName67: Vocabulary = {
+    variableName: 'allDimensionsMustBeUnique',
+    localizedNames: [new LocalizedName('PL', 'Wszystkie wymiary muszą być unikalne, więcej niż jeden raz dodano wymiar: '), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName67)
+
+const orderName68: Vocabulary = {
+    variableName: 'addFirstIndexDimension',
+    localizedNames: [new LocalizedName('PL', 'Proszę dodać wymiar będący pierwszym wymiarem indeksu'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName68)
+
+const orderName69: Vocabulary = {
+    variableName: 'addSecondIndexDimension',
+    localizedNames: [new LocalizedName('PL', 'Proszę dodać wymiar będący drugim wymiarem do indeksu'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName69)
+
+const orderName70: Vocabulary = {
+    variableName: 'tooManyFirstIndexDimensions',
+    localizedNames: [new LocalizedName('PL', 'Dodano więcej niż jeden wymiar będący pierwszym wymiarem indeksu. Można dodać tylko jeden'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName70)
+
+const orderName72: Vocabulary = {
+    variableName: 'tooManySecondIndexDimensions',
+    localizedNames: [new LocalizedName('PL', 'Dodano więcej niż jeden wymiar będący drugim wymiarem indeksu. Można dodać tylko jeden'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName72)
+
+const orderName73: Vocabulary = {
+    variableName: 'confirmButtonDescription',
+    localizedNames: [new LocalizedName('PL', 'Zatwierdź'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName73)
+
+const orderName74: Vocabulary = {
+    variableName: 'printButtonDescription',
+    localizedNames: [new LocalizedName('PL', 'Drukuj'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName74)
+
+const orderName75: Vocabulary = {
+    variableName: 'addProduct',
+    localizedNames: [new LocalizedName('PL', 'Dodaj Produkt'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName75)
+
+const orderName76: Vocabulary = {
+    variableName: 'backButtonDescription',
+    localizedNames: [new LocalizedName('PL', 'Wstecz'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName76)
+
+const orderName77: Vocabulary = {
+    variableName: 'create',
+    localizedNames: [new LocalizedName('PL', 'Utworz'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName77)
+
+const orderName78: Vocabulary = {
+    variableName: 'dimension',
+    localizedNames: [new LocalizedName('PL', 'Wymiar'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(orderName78)
+
+
+
+
 
 
 

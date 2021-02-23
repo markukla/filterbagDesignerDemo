@@ -6,8 +6,11 @@ import RoleEnum from '../../Users/users/userTypes/roleEnum';
 import Language from '../../Languages/LanguageTypesAndClasses/languageEntity';
 import {Vocabulary} from '../../Vocablulaty/VocabularyTypesAndClasses/VocabularyEntity';
 import {filter} from 'rxjs/operators';
-import {NavigationEnd, Router} from '@angular/router';
+import {NavigationEnd, NavigationStart, Router} from '@angular/router';
 import {VocabularyForTableCell} from '../../Vocablulaty/VocabularyTypesAndClasses/VocabularyForTableCell';
+import {Subscription} from "rxjs";
+import {NavigationEvent} from "@ng-bootstrap/ng-bootstrap/datepicker/datepicker-view-model";
+export let browserRefresh = false;
 
 @Injectable({
   providedIn: 'root'
@@ -20,18 +23,36 @@ export class AuthenticationService {
   userRole: RoleEnum;
   selectedLanguageCode: string;
   languages: Language [];
+  subscription: Subscription;
   vocabulariesInSelectedLanguage: VocabularyForTableCell[];
   private previousUrl: string;
   private currentUrl: string;
   private routeHistory: string[];
 
-  constructor(router: Router) {
+  constructor(public router: Router) {
     this.routeHistory = [];
     router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         this._setURLs(event);
       });
+/* router.events
+      .pipe(filter(event => event instanceof NavigationStart))
+      .subscribe((event: NavigationStart) => {
+      if(performance.navigation.type ===1) {
+        this.refreshPage(this._currentUrl);
+      }
+    });*/
+
+
+
+
+
+
+
+  }
+  private refreshPage(currrenturl: string): void  {
+    this.router.navigateByUrl(currrenturl);
   }
   private _setURLs(event: NavigationEnd): void {
     const tempUrl = this.currentUrl;

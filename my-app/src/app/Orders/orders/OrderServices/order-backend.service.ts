@@ -80,7 +80,8 @@ export class OrderBackendService {
     return this.http.get<OrderVersionRegister>(getUrl, {observe: 'response'} );
   }
   getDrawingPdf(selectedDrawingUrl: string, authenticationtoken: string): Observable<any> {
-    const getUrl = `${this.rootURL + this.endpointUrl}/drawing/save/pdf`;
+    const getUrl =`${this.rootURL}/drawing/save/pdf`;
+    console.log(`getUrl = ${getUrl} `);
     return this.http.post(getUrl, {url: selectedDrawingUrl, token: authenticationtoken},{responseType: 'blob'} );
   }
   getCreateOrderDtoFromOrder(order: Order): CreateOrderDto {

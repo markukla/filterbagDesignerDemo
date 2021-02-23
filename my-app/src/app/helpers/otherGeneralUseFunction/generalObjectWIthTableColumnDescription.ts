@@ -155,7 +155,6 @@ export const orderNames = {
   giveValuesToAllDimension: 'Prosze podać wartości wszystkich wymiarów',
   giveValueOfWorkingTemperature: 'Prosze podać wartość temperatury pracy',
   setWorkignSide: 'Prosze zaznaczyć stronę pracującą',
-
   fillFormToCreateDimension: 'Wypełnij formularz aby utworzyć wymiar',
   pressAndHoldLeftMouseButtonToDrag: 'Po utworzeniu: złap i przytrzymaj lewym przyciskiem aby przeciągnąc',
   toRotateOrChangeSize: 'Aby obrócić lub zmienić rozmiar',
@@ -165,7 +164,13 @@ export const orderNames = {
   afterEditionRightClickTOenableDragging: 'po edycjj wymiaru naciśnij prawym przyciskiem poza wymiarem żeby ponownie uaktywnić tryb przeciągania',
   rightCLickOnDimensionToRemove: 'aby usunąc wymiar najedź na niego kursorem i naciśnij prawym przyciskiem myszy',
 
-
+  confirmButtonDescription: 'Zatwierdź',
+  printButtonDescription:   'Drukuj',
+  saveToPdfButtonDescription: 'Zapisz do pdf',
+  addProduct: 'Dodaj Produkt',
+  backButtonDescription: 'Wstecz',
+  create: 'Utwórz',
+  dimension: 'Wymiar',
 
 
 };

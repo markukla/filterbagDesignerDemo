@@ -16,6 +16,7 @@ import {
   generalNamesInSelectedLanguage,
   generalUserNames
 } from "../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
+import LogInDto from "../../authenticationTypesAndClasses/login.dto";
 
 @Component({
   selector: 'app-login',
@@ -101,6 +102,19 @@ export class LoginComponent implements OnInit, AfterContentChecked {
     if(avalaibeLanguageCodesInAplication.includes(languageOfBrowser)) {
       this.loginService.selectedLanguageCode = languageOfBrowser;
     }
+    this.loginService.selectedLanguageCode = 'PL';
+    this.loginService.vocabulariesInSelectedLanguage = [];
+    // tslint:disable-next-line:max-line-length
+    this.vocabularies.forEach((vocabulary) => {this.loginService.vocabulariesInSelectedLanguage.push(this.vocabularyBackendService.createVocabularryForTableCellFromVocabulary(vocabulary));
+    });
+    this.loginService.setLogedUserUserAndToken(null);
+    const logInDto: LogInDto = {
+      email: 'jacek.luczak@outlook.com', password: 'Nicram12'
+    };
+    this.loginBackendService.login(logInDto).subscribe((logedUser) => {
+      this.loginService.setLogedUserUserAndToken(logedUser.body);
+      this.router.navigateByUrl('/orders');
+    });
 
     console.log(`this.loginService.selectedLanguageCode = ${this.loginService.selectedLanguageCode}`);
     this.vocabularies.forEach((vocabulary) => {this.loginService.vocabulariesInSelectedLanguage.push(this.vocabularyBackendService.createVocabularryForTableCellFromVocabulary(vocabulary));

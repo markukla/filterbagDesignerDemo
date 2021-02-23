@@ -36,6 +36,7 @@ import {navigateToUrlAfterTimout} from '../../../helpers/otherGeneralUseFunction
 import {API_URL} from '../../../Config/apiUrl';
 import {ProductMiniatureService} from '../productMiniature/productMiniatureService/product-miniature.service';
 import {
+  dimensionNames,
   generalNamesInSelectedLanguage,
   generalUserNames,
   orderNames
@@ -80,11 +81,11 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   newLocalizedDimension: LocalizedDimensionCode;
   // tslint:disable-next-line:max-line-length
   /* view child is a get elementby id equivalent, and Viev childrens is something like get element by class name, but element must be marked with #elementname*/
-  dimensionRoleFirstIndexDimensionDescription = 'Pierwszy Wymiar Indeksu';
+  dimensionRoleFirstIndexDimensionDescription: string;
   dimensionRoleFirstIndex: DimensionRoleEnum = DimensionRoleEnum.FIRSTINDEXDIMENSION;
-  dimensionRoleSecondIndexDimensionDescription = 'Drugi wymiar Indeksu';
+  dimensionRoleSecondIndexDimensionDescription: string;
   dimensionRoleSecondIndex: DimensionRoleEnum = DimensionRoleEnum.SECONDINDEXDIMENSION;
-  dimensionRoleNoIndexDimensionDescription = 'Wymiar nie wchodzący do indeksu';
+  dimensionRoleNoIndexDimensionDescription: string;
   dimensionRoleNoIndex: DimensionRoleEnum = DimensionRoleEnum.NOINDEXDIMENSION;
   dragable = true;
   createDimensionClicked = false;
@@ -93,6 +94,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   orderNames = orderNames;
   generalUserNames = generalUserNames;
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
+  dimensionNames = dimensionNames;
   @ViewChild('drawingContainer', {read: ElementRef}) drawing: ElementRef;
   @ViewChildren('.inputDivHorizontal', {read: HTMLElement}) inputDivs: HTMLElement[];
   @ViewChild('mainContainer', {read: ElementRef}) mainContainer: ElementRef;
@@ -133,6 +135,11 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     // tslint:disable-next-line:max-line-length
     setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
     setTabelColumnAndOtherNamesForSelectedLanguage(this.generalUserNames, this.authenticationService.vocabulariesInSelectedLanguage);
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.dimensionNames, this.authenticationService.vocabulariesInSelectedLanguage);
+    this.dimensionRoleFirstIndexDimensionDescription = this.dimensionNames.dimensionRoleFirstIndex;
+    this.dimensionRoleSecondIndexDimensionDescription = this.dimensionNames.dimensionRoleSecondIndex;
+    this.dimensionRoleNoIndexDimensionDescription = this.dimensionNames.dimensionRoleNoIndex;
+
 
   }
 
@@ -292,7 +299,13 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
 
   createDimensionInputOnDrawingBasingOnDimensionInfo(dimensionInfo: DimensionTextFIeldInfo, inputTag: string): void {
     const input = this.renderer.createElement(inputTag);
+
+
     this.setInputPositionAndSeizeBazingOnDatabaseData(dimensionInfo, input);
+    /* const label = this.renderer.createElement('label');
+    this.renderer.setProperty(label, 'for', input.id);
+    label.value = input.id + ' ='; */
+
     if (this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT) {
       this.rotateTextField(input);
       this.makeInputDivDragable(input);
@@ -302,6 +315,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
       };
     }
     this.renderer.appendChild(this.drawing.nativeElement, input);
+    // this.renderer.appendChild(this.drawing.nativeElement, label);
   }
 
   setInputPositionAndSeizeBazingOnDatabaseData(dimensionInfo: DimensionTextFIeldInfo, input: HTMLElement): void {
@@ -327,6 +341,14 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
 
     if (this.orderOperationMode === OrderOperationMode.SHOWDRAWING || this.orderOperationMode === OrderOperationMode.SHOWDRAWINGCONFIRM) {
       input.style.border = 'none';
+    }
+    if(this.orderOperationMode === OrderOperationMode.CREATENEW || this.orderOperationMode === OrderOperationMode.UPDATEWITHCHANGEDPRODUCT || this.orderOperationMode === OrderOperationMode.UPDATE || this.orderOperationMode === OrderOperationMode.UPDATEDRAWING){
+      const placeholderValue = input.id + ' =';
+      this.renderer.setProperty(input, 'placeholder', placeholderValue);
+      const label = this.renderer.createElement('label');
+      this.renderer.setProperty(label, 'for', input.id);
+      label.value = input.id + ' =';
+
     }
     input.className = dimensionInfo.dimensionInputClass;
     }
@@ -487,7 +509,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   checkIfAllFieldsValidInCreateOrderDto(createOrderDto: CreateOrderDto): boolean {
    let allowSubmit = true;
    const dimensions: Dimension[] = createOrderDto.orderDetails.dimensions;
-    const notAllDimensionValueEnteredMessage = 'Prosze podać wartości wszystkich wymiarów';
+    const notAllDimensionValueEnteredMessage = this.orderNames.giveValuesToAllDimension;
     let foundNotFilledDimensions = false;
    dimensions.forEach((dimension) => {
       if (!dimension.dimensionvalue) {
@@ -500,12 +522,12 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
    }
    if (!this.tableFormService.workingTemperature.value) {
       allowSubmit = false;
-      const foultMessage = 'Prosze podać wartość temperatury pracy';
+      const foultMessage = this.orderNames.giveValueOfWorkingTemperature;
       this.userInputErrorMessages.push(foultMessage);
     }
    if(!this.tableFormService.workingSide.value) {
       allowSubmit = false;
-      const foultMessage = 'Prosze zaznaczyć stronę pracującą';
+      const foultMessage = this.orderNames.setWorkignSide;
       this.userInputErrorMessages.push(foultMessage);
     }
    if (this.userInputErrorMessages.length > 0) {
@@ -518,7 +540,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   async getDrawingPdf(): Promise<void> {
     console.error(`this.router.url= ${this.router.url}`);
     console.error(`window.location.href= ${window.location.href}`);
-    const pdfTodownLoad = await this.orderBackendService.getDrawingPdf(window.location.href, this.authenticationService.tokenString).toPromise();
+    const pdfTodownLoad = await this.orderBackendService.getDrawingPdf(String(window.location.href), this.authenticationService.tokenString).toPromise();
     const newBlob = new Blob([pdfTodownLoad], {type: 'application/pdf'});
 
     // IE doesn't allow using a blob object directly as link href
@@ -739,28 +761,28 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
         if (index !== self.indexOf(input)) {
           // tslint:disable-next-line:max-line-length
           /* if index of current element in array is not equal index od its first occurence in array (indexOf returns first occurence) so it is duplicated*/
-          const failMassage = `Wszystkie wymiary muszą być unikalne, Wymiar ${input} został dodany więcej niż jeden raz`;
+          const failMassage = this.orderNames.allDimensionsMustBeUnique;
           this.userInputErrorMessages.push(failMassage);
         }
       });
       if (collectionOfFirtstIndexDiMensionsInCreateProductDto.length === 0) {
         createProductDtoValid = false;
-        const failMessage = 'Proszę dodać wymiar będący pierwszym wymiarem indeksu';
+        const failMessage = this.orderNames.addFirstIndexDimension;
         this.userInputErrorMessages.push(failMessage);
       }
       if (collectionOfFirtstIndexDiMensionsInCreateProductDto.length > 1) {
         createProductDtoValid = false;
-        const failMessage = 'Dodałeś więcej niż jeden wymiar będący pierwszym wymiarem indeksu. Możesz dodać tylko jeden ';
+        const failMessage = this.orderNames.tooManyFirstIndexDimensions;
         this.userInputErrorMessages.push(failMessage);
       }
       if (collectionOfSecondtIndexDiMensionsInCreateProductDto.length === 0) {
         createProductDtoValid = false;
-        const failMessage = 'Proszę dodać wymiar będący drugim wymiarem do indeksu';
+        const failMessage = this.orderNames.addSecondIndexDimension;
         this.userInputErrorMessages.push(failMessage);
       }
       if (collectionOfSecondtIndexDiMensionsInCreateProductDto.length > 1) {
         createProductDtoValid = false;
-        const failMessage = 'Dodałeś więcej niż jeden wymiar będący drugim wymiarem indeksu. Możesz dodać tylko jeden ';
+        const failMessage = this.orderNames.tooManySecondIndexDimensions
         this.userInputErrorMessages.push(failMessage);
       }
     }
