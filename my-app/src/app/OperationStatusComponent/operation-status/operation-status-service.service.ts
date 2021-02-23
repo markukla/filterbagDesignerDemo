@@ -34,6 +34,10 @@ showOperationStatus = false;
       });
       this.hideOperationStatus();
   }
+  resetServiceProperties() {
+    this.operationSuccessStatusMessage = null;
+    this.operationFailerStatusMessage = null;
+  }
 }
 
 

@@ -715,14 +715,14 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
         console.log(productFromBackend.productTop.localizedNames.length);
         console.log('dodano nowy Product');
         this.statusService.operationSuccessStatusMessage = this.messageService.returnSuccessMessageToUserForSuccessBackendResponseForCreateNew();
+
         this.router.navigateByUrl('/products')
         // navigateToUrlAfterTimout(url, this.router, 2000);
       }, (error) => {
         console.log(error);
-        const errorMessage = getBackendErrrorMesage(error);
-
           this.statusService.operationFailerStatusMessage = this.messageService.returnErrorToUserBasingOnBackendErrorStringForCreateNew(error);
-
+          console.log(`this.statusService.operationFailerStatusMessage = ${this.statusService.operationFailerStatusMessage}`);
+          this.router.navigateByUrl('/products');
       });
       // tslint:disable-next-line:max-line-length
     } else if (this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT && this.validateCreateProductDtoBeforeSavingInDatab(createProductDto) === true) {

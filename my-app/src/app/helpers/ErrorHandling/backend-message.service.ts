@@ -34,16 +34,20 @@ export class BackendMessageService {
   }
 
   returnErrorToUserBasingOnBackendErrorStringForCreateNew(error: HttpErrorResponse): string {
-    const errorMessage = error.error.message;
-    if (errorMessage.includes('already exist')) {
+    const errorMessage = error.error.message.toUpperCase().trim();
+    const errorToExpect = 'already exist'.toUpperCase().trim();
+    if (errorMessage.includes(errorToExpect)) {
+      console.log(errorMessage);
       return this.generalErrorMessageForCreate + ' ' + this.otherRecordAlreadyExist;
     } else {
       return this.generalErrorMessageForCreate;
     }
   }
   returnErrorToUserBasingOnBackendErrorStringForUpdate(error: HttpErrorResponse): string {
-    const errorMessage = error.error.message;
-    if (errorMessage.includes('already exist')) {
+    const errorMessage = error.error.message.toUpperCase();
+    const errorToExpect = 'already exist'.toUpperCase();
+    if (errorMessage.includes(errorToExpect)) {
+      console.log(`error.error.message = ${error.error.message}`);
       return this.generalErrorMessageForUpdate + ' '+ this.otherRecordAlreadyExist;
     } else {
       return this.generalErrorMessageForUpdate;

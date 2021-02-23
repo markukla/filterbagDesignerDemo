@@ -270,7 +270,8 @@ next(error);
          await page.setExtraHTTPHeaders({
              'Authorization': token,
          });
-    await page.goto(urlToPrint, {waitUntil: 'networkidle0'});
+         const mainPageUrlTest = 'http://localhost:3080/';
+    await page.goto(mainPageUrlTest, {waitUntil: 'networkidle0'});
 const pdf = await page.pdf({ format: 'A4' }); // does not save file on server but returns it to send to client
 
 await browser.close();

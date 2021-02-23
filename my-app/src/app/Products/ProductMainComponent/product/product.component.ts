@@ -61,19 +61,19 @@ export class ProductComponent implements OnInit, AfterContentChecked {
     // tslint:disable-next-line:max-line-length
     setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
   }
-  passOperationStatusMessageFromOrderDrawingComponent() {
+  passOperationStatusMessageFromOrderDrawingComponent(): void {
     if(this.statusService.operationFailerStatusMessage) {
       this.operationFailerStatusMessage = this.statusService.operationFailerStatusMessage;
+      console.log(`this.operationFailerStatusMessage= ${this.operationFailerStatusMessage}`);
       this.statusService.makeOperationStatusVisable();
     }
     else if(this.statusService.operationSuccessStatusMessage) {
-      this.operationFailerStatusMessage = this.statusService.operationFailerStatusMessage;
+      this.operationSuccessStatusMessage= this.statusService.operationSuccessStatusMessage;
       this.statusService.makeOperationStatusVisable();
 
     }
     this.statusService.resetOperationStatusAfterTimeout([this.operationFailerStatusMessage, this.operationSuccessStatusMessage]);
-    this.statusService.resetOperationStatusAfterTimeout([this.statusService.operationFailerStatusMessage, this.statusService.operationSuccessStatusMessage]);
-    this.showConfirmDeleteWindow = false;
+    this.statusService.resetServiceProperties();
   }
   ngAfterContentChecked(): void {
     if (this.records) {
