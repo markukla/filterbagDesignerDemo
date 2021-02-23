@@ -13,6 +13,7 @@ import {
   materialNamesInSelectedLanguage
 } from "../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
 import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
+import {BackendMessageService} from "../../helpers/ErrorHandling/backend-message.service";
 
 @Component({
   selector: 'app-create-new-material',
@@ -27,6 +28,7 @@ export class CreateNewMaterialComponent implements OnInit{
 
   constructor(private authenticationService: AuthenticationService,
               private materialbackendService: MaterialBackendService,
+              private backendMessageService: BackendMessageService,
               public validateMaterialCodeUniqueService: ValidateMaterialCodeUniqueService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -50,10 +52,10 @@ export class CreateNewMaterialComponent implements OnInit{
   }
   onSubmit(): void {
     this.materialbackendService.addRecords(this.materialForm.value).subscribe((material) => {
-      this.showoperationStatusMessage = this.generalNamesInSelectedLanguage.operationAddSuccessStatusMessage;
+      this.showoperationStatusMessage = this.backendMessageService.returnSuccessMessageToUserForSuccessBackendResponseForCreateNew();
       this.cleanOperationMessage();
     }, error => {
-      this.showoperationStatusMessage = this.generalNamesInSelectedLanguage.operationAddFailerStatusMessage;
+      this.showoperationStatusMessage = this.backendMessageService.returnErrorToUserBasingOnBackendErrorStringForCreateNew(error);
       this.cleanOperationMessage();
     });
  }

@@ -34,6 +34,11 @@ export const generalNamesInSelectedLanguage = {
   thisCodeIstaken: 'Ten kod jest już zajęty',
   thisNameIsTaken: 'Podana nazwa jest już zajęta',
   codeMustContain2Characters: 'Kod musi zawierać 2 znaki',
+  otherRecordAlreadyExist: 'rekord który próbowałeś dodać już istnieję w bazie danych',
+  otherRecordWithThisCodeAlreadyExist: 'inny rekord z podanym kodem już istnieje w bazie danych',
+  otherRecordWithThisNameAlreadyExist: 'w bazie danych istnieje już inny rekord z podaną nazwą:',
+
+
 
 
 };

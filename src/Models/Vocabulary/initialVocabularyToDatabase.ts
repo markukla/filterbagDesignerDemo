@@ -205,6 +205,24 @@ const generalTable32: Vocabulary = {
 }
 initialVocabularyForDatabase.push(generalTable32);
 
+const generalTable33: Vocabulary = {
+    variableName: 'otherRecordAlreadyExist',
+    localizedNames: [new LocalizedName('PL', 'rekord który próbowałeś dodać już istnieję w bazie danych'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable33);
+
+const generalTable34: Vocabulary = {
+    variableName: 'otherRecordWithThisCodeAlreadyExist',
+    localizedNames: [new LocalizedName('PL', 'inny rekord z podanym kodem już istnieje w bazie danych'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable34);
+
+const generalTable35: Vocabulary = {
+    variableName: 'otherRecordWithThisNameAlreadyExist',
+    localizedNames: [new LocalizedName('PL', 'w bazie danych istnieje już inny rekord z podaną nazwą:'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable35);
+
 
 
 

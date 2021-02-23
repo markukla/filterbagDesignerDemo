@@ -117,18 +117,18 @@ export class CreateProductTopComponent implements OnInit {
     };
     if(this.operatiomMode === OperationModeEnum.CREATENEW) {
       this.backendService.addRecords(this.createProductTopDto).subscribe((record) => {
-        this.showoperationStatusMessage = this.backendMessageService.returnSuccessMessageToUserForSuccessBackendResponse();
+        this.showoperationStatusMessage = this.backendMessageService.returnSuccessMessageToUserForSuccessBackendResponseForCreateNew();
         this.cleanOperationMessage();
       }, error => {
-        this.showoperationStatusMessage = this.backendMessageService.returnErrorToUserBasingOnBackendErrorString(error);
+        this.showoperationStatusMessage = this.backendMessageService.returnErrorToUserBasingOnBackendErrorStringForCreateNew(error);
         this.cleanOperationMessage();
       });
     } else if (this.operatiomMode === OperationModeEnum.UPDATE) {
       this.backendService.updateRecordById(this.selectedRecordToupdateId, this.createProductTopDto).subscribe((material) => {
-        this.showoperationStatusMessage = this.backendMessageService.returnSuccessMessageToUserForSuccessBackendResponse();
+        this.showoperationStatusMessage = this.backendMessageService.returnSuccessMessageToUserForSuccessBackendResponseForUpdate();
         this.cleanOperationMessage();
       }, error => {
-        this.showoperationStatusMessage = this.backendMessageService.returnErrorToUserBasingOnBackendErrorString(error);
+        this.showoperationStatusMessage = this.backendMessageService.returnErrorToUserBasingOnBackendErrorStringForUpdate(error);
         this.cleanOperationMessage();
       });
     }

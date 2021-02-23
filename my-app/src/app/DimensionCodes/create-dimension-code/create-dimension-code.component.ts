@@ -136,22 +136,22 @@ export class CreateDimensionCodeComponent implements OnInit {
     };
     if(this.operatiomMode === OperationModeEnum.CREATENEW) {
       this.backendService.addRecords(this.createDimensionCodeDto).subscribe((material) => {
-        this.showoperationStatusMessage = this.backendMessageService.returnSuccessMessageToUserForSuccessBackendResponse();
+        this.showoperationStatusMessage = this.backendMessageService.returnSuccessMessageToUserForSuccessBackendResponseForCreateNew();
         this.createdDimensinoCode = material.body;
         this.createdDimensionEmiter.emit(this.createdDimensinoCode);
         this.cleanOperationMessage();
       }, error => {
-        this.showoperationStatusMessage = this.backendMessageService.returnErrorToUserBasingOnBackendErrorString(error);
+        this.showoperationStatusMessage = this.backendMessageService.returnErrorToUserBasingOnBackendErrorStringForCreateNew(error);
         this.cleanOperationMessage();
       });
     } else if (this.operatiomMode === OperationModeEnum.UPDATE) {
       this.backendService.updateRecordById(this.selectedRecordToupdateId, this.createDimensionCodeDto).subscribe((material) => {
-        this.showoperationStatusMessage = this.backendMessageService.returnSuccessMessageToUserForSuccessBackendResponse();
+        this.showoperationStatusMessage = this.backendMessageService.returnSuccessMessageToUserForSuccessBackendResponseForCreateNew();
         this.createdDimensinoCode = material.body;
         this.createdDimensionEmiter.emit(this.createdDimensinoCode);
         this.cleanOperationMessage();
       }, error => {
-        this.showoperationStatusMessage = this.backendMessageService.returnErrorToUserBasingOnBackendErrorString(error);
+        this.showoperationStatusMessage = this.backendMessageService.returnErrorToUserBasingOnBackendErrorStringForCreateNew(error);
         this.cleanOperationMessage();
       });
     }

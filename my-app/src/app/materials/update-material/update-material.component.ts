@@ -15,6 +15,7 @@ import {
   generalNamesInSelectedLanguage,
   materialNamesInSelectedLanguage
 } from "../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
+import {BackendMessageService} from "../../helpers/ErrorHandling/backend-message.service";
 
 @Component({
   selector: 'app-update-material',
@@ -30,6 +31,7 @@ export class UpdateMaterialComponent implements OnInit {
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
 
   constructor(private materialTableService: GeneralTableService,
+              private backendMessageService: BackendMessageService,
               private materialBackendService: MaterialBackendService,
               public validateMaterialCodeUniqueService: ValidateMaterialCodeUniqueService,
               private router: Router,
@@ -78,26 +80,10 @@ export class UpdateMaterialComponent implements OnInit {
     console.log(`materialFOrrmValu= ${this.materialForm.value}`);
     // tslint:disable-next-line:max-line-length
     this.materialBackendService.updateRecordById(String(this.materialTableService.selectedId), this.materialForm.value).subscribe((material) => {
-        this.operationStatusMessage = this.generalNamesInSelectedLanguage.operationUpdateSuccessStatusMessage;
+        this.operationStatusMessage = this.backendMessageService.returnSuccessMessageToUserForSuccessBackendResponseForUpdate();
         this.resetMaterialFormValueAndOperationStatus();
       }, error => {
-        const backendErrorMessage = getBackendErrrorMesage(error);
-      // tslint:disable-next-line:max-line-length
-        const materialNameAlreadyExistMessage = `Material with materialName=${this.materialForm.controls.materialName.value} already exists`;
-      // tslint:disable-next-line:max-line-length
-        const materialCodeAlreadyExistMessage = `Material with materialCode=${this.materialForm.controls.fulName.value} already exists`;
-        const materialWithMaterialCodeAndNameAlreadyExistMesage = `Material with materialName=${this.materialForm.controls.materialName.value} and material code=${this.materialForm.controls.fulName.value} already exists`;
-
-
-        if (backendErrorMessage.includes(materialWithMaterialCodeAndNameAlreadyExistMesage)) {
-          this.operationStatusMessage = 'Nie zaktualizowano materiału. Inny Materiał z podaną nazwą i kodem już istnieje';
-        } else if (backendErrorMessage.includes(materialCodeAlreadyExistMessage)) {
-          this.operationStatusMessage = 'Nie zaktualizowano materiału. Inny Materiał z podanym kodem  już istnieje';
-        } else if (backendErrorMessage.includes(materialNameAlreadyExistMessage)){
-          this.operationStatusMessage = 'Nie zaktualizowano materiału. Inny Materiał z podaną nazwą już istnieje';
-        } else {
-          this.operationStatusMessage = this.generalNamesInSelectedLanguage.operationUpdateFailerStatusMessage;
-        }
+       this.operationStatusMessage = this.backendMessageService.returnErrorToUserBasingOnBackendErrorStringForUpdate(error);
         this.resetMaterialFormValueAndOperationStatus();
       }
     );
