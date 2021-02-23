@@ -9,6 +9,13 @@ import OrderVersionRegister from '../../OrdersTypesAndClasses/orderVersionRegist
 import Order from '../../OrdersTypesAndClasses/orderEntity';
 import {Sort} from '../../../util/sort';
 import {GeneralTableService} from '../../../util/GeneralTableService/general-table.service';
+import {
+  generalNamesInSelectedLanguage,
+  generalUserNames,
+  orderNames
+} from "../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
+import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
+import {AuthenticationService} from "../../../LoginandLogOut/AuthenticationServices/authentication.service";
 
 @Component({
   selector: 'app-order-version-register',
@@ -31,6 +38,9 @@ export class OrderVersionRegisterComponent implements OnInit, AfterContentChecke
   selectedOrderId: string;
   orderVersionRegister: OrderVersionRegister;
   ordersInRegister: Order[];
+  orderNames = orderNames;
+  generalUserNames = generalUserNames;
+  generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
 
 
   constructor(
@@ -40,17 +50,27 @@ export class OrderVersionRegisterComponent implements OnInit, AfterContentChecke
     private router: Router,
     private route: ActivatedRoute,
     private activedIdParam: ActivatedRoute,
+    private authenticationService: AuthenticationService
   ) {
   }
 
   ngOnInit(): void {
+    this.initColumnNamesInSelectedLanguage();
     this.records = [];
     this.route.queryParamMap.subscribe(queryParams => {
       this.selectedOrderId = queryParams.get('orderId');
     });
     this.getRecords();
-    this.deleteButtonInfo = 'usuń';
-    this.updateButtonInfo = 'modyfikuj dane';
+
+  }
+  initColumnNamesInSelectedLanguage(): void {
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.orderNames, this.authenticationService.vocabulariesInSelectedLanguage);
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalUserNames, this.authenticationService.vocabulariesInSelectedLanguage);
+    this.deleteButtonInfo = this.generalNamesInSelectedLanguage.deleteButtonInfo;
+    this.updateButtonInfo = this.generalNamesInSelectedLanguage.updateButtonInfo;
   }
 
   ngAfterContentChecked(): void {

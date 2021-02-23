@@ -6,7 +6,15 @@ import {OrderBackendService} from '../../OrderServices/order-backend.service';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../../../../LoginandLogOut/AuthenticationServices/authentication.service';
 import LocalizedName from '../../../../DimensionCodes/DimensionCodesTypesAnClasses/localizedName';
-import {getSelectedLanguageFromNamesInAllLanguages} from '../../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage';
+import {
+  getSelectedLanguageFromNamesInAllLanguages,
+  setTabelColumnAndOtherNamesForSelectedLanguage
+} from '../../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage';
+import {
+  generalNamesInSelectedLanguage,
+  generalUserNames,
+  orderNames
+} from "../../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
 
 @Component({
   selector: 'app-procut-miniature-component',
@@ -16,6 +24,9 @@ import {getSelectedLanguageFromNamesInAllLanguages} from '../../../../helpers/ot
 export class ProcutMiniatureComponentComponent implements OnInit {
   products: Product[];
   selectedProduct: Product;
+  orderNames = orderNames;
+  generalUserNames = generalUserNames;
+  generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
 
   constructor(
     private productMiniatureService: ProductMiniatureService,
@@ -25,7 +36,15 @@ export class ProcutMiniatureComponentComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.initColumnNamesInSelectedLanguage();
     this.products = this.productMiniatureService.allProducts;
+  }
+  initColumnNamesInSelectedLanguage(): void {
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.orderNames, this.authenticationService.vocabulariesInSelectedLanguage);
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalUserNames, this.authenticationService.vocabulariesInSelectedLanguage);
   }
   getDrawingUrl(product: Product): string  {
     const url = API_URL + product.urlOfOrginalDrawing;

@@ -1,5 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ConfirmDeleteServiceService} from "../confirm-delete-service.service";
+import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
+import {AuthenticationService} from "../../LoginandLogOut/AuthenticationServices/authentication.service";
+import {generalNamesInSelectedLanguage} from "../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
 
 @Component({
   selector: 'app-confirm-delete',
@@ -14,18 +17,24 @@ export class ConfirmDeleteComponent implements OnInit {
   resignFromDeletingButtonDescription: string;
   operationFailerStatusMessage: string;
   operationSuccessStatusMessage: string;
+  generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
   @Output() deleteConfirmedEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
   constructor(
+    private authenticationService: AuthenticationService,
   ) { }
 
   ngOnInit(): void {
-    this.confirmDeleteButtonDescription = 'Tak';
-    this.confirmDeleteDescritpion = 'Czy na pewno chcesz usunać wybrany element ?';
-    this.resignFromDeletingButtonDescription = 'Nie';
-    this.operationFailerStatusMessage = 'Nie udało się usunąć wybranego elementu';
-    this.operationSuccessStatusMessage = 'Usunięto wybrany element';
-  }
+    this.initColumnNamesInSelectedLanguage();
 
+  }
+  initColumnNamesInSelectedLanguage(): void {
+    // tslint:disable-next-line:max-line-length
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
+    this.confirmDeleteButtonDescription = this.generalNamesInSelectedLanguage.yes;
+    this.confirmDeleteDescritpion = this.generalNamesInSelectedLanguage.confirmDeletingMessage;
+    this.resignFromDeletingButtonDescription = this.generalNamesInSelectedLanguage.no;
+  }
   confirmDeleteButtonAction(): void {
     this.showConfirmDeleteWindow = false;
     this.deleteConfirmedEvent.emit(true);

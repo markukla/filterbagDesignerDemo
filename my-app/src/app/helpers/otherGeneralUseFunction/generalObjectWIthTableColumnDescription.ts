@@ -37,6 +37,10 @@ export const generalNamesInSelectedLanguage = {
   otherRecordAlreadyExist: 'rekord który próbowałeś dodać już istnieję w bazie danych',
   otherRecordWithThisCodeAlreadyExist: 'inny rekord z podanym kodem już istnieje w bazie danych',
   otherRecordWithThisNameAlreadyExist: 'w bazie danych istnieje już inny rekord z podaną nazwą:',
+  yes: 'Tak',
+  no: 'Nie',
+  confirmDeletingMessage: 'Czy na pewno chcesz usunąć wybrany element?',
+
 
 
 

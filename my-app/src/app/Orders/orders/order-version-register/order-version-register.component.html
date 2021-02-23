@@ -1,21 +1,15 @@
-<a [routerLink]="['/products/tops']" > Wykończenia góry</a>
-<a [routerLink]="['/products/bottoms']" > Wykończenia dna</a>
-<a [routerLink]="['/products/types']" > Typy produktów</a>
-
-<!--sss-->
-
 
 <div class="materialComponent">
 
   <table class="table table-striped border mt-1">
     <thead>
     <tr>
-      <th>>Nr zapy <br></th>
-      <th>Index</th>
-      <th>Nazwa</th>
-      <th>Uwagi</th>
-      <th>Data</th>
-      <th>Ilość</th>
+      <th>{{this.orderNames.orderNumber}}<br></th>
+      <th>{{this.orderNames.index}}</th>
+      <th>{{this.generalNamesInSelectedLanguage.name}}</th>
+      <th>{{this.orderNames.yourCommentToOrder}}</th>
+      <th>{{this.orderNames.date}}</th>
+      <th>{{this.generalNamesInSelectedLanguage.quantity}}</th>
 
     </tr>
 
@@ -32,7 +26,7 @@
       <td>
         <text *ngIf="deleTedMaterialMessage">{{deleTedMaterialMessage}}</text>
         <br>
-        <button class="showDrawing" (click)="showDrawing(order.id)"> Zobacz Rysunek</button>
+        <button class="showDrawing" (click)="showDrawing(order.id)">{{this.generalNamesInSelectedLanguage.seeDrawing}}</button>
       </td>
 
     </tr>

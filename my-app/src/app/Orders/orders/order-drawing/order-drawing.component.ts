@@ -42,6 +42,8 @@ import {
   orderNames
 } from "../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
 import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
+import {OperationStatusServiceService} from "../../../OperationStatusComponent/operation-status/operation-status-service.service";
+import {BackendMessageService} from "../../../helpers/ErrorHandling/backend-message.service";
 
 @Component({
   selector: 'app-order-drawing',
@@ -110,7 +112,9 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     private dimensionBackendService: DimensionCodeBackendService,
     private router: Router,
     private route: ActivatedRoute,
-    private host: ElementRef
+    private host: ElementRef,
+    private statusService: OperationStatusServiceService,
+    private messageService: BackendMessageService,
   ) {
     this.tableForm = this.tableFormService.tableForm;
 
@@ -710,32 +714,27 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
         const productFromBackend = product.body;
         console.log(productFromBackend.productTop.localizedNames.length);
         console.log('dodano nowy Product');
-        this.operationSuccessStatusMessage = 'dodano nowy Product';
+        this.statusService.operationSuccessStatusMessage = this.messageService.returnSuccessMessageToUserForSuccessBackendResponseForCreateNew();
+        this.router.navigateByUrl('/products')
         // navigateToUrlAfterTimout(url, this.router, 2000);
       }, (error) => {
         console.log(error);
         const errorMessage = getBackendErrrorMesage(error);
-        if (errorMessage.includes('Already exist in database')) {
-          this.operationFailerStatusMessage = 'nie udało się dodać produktu, produkt o podanych parametrach już istnieje w bazie danych';
-        } else {
-          this.operationFailerStatusMessage = 'wystąpił bład, nie udało sie dodać produktu, spróbuj ponownie';
-        }
+
+          this.statusService.operationFailerStatusMessage = this.messageService.returnErrorToUserBasingOnBackendErrorStringForCreateNew(error);
+
       });
       // tslint:disable-next-line:max-line-length
     } else if (this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT && this.validateCreateProductDtoBeforeSavingInDatab(createProductDto) === true) {
       this.productBackendService.updateRecordById(this.selectedProductId, createProductDto).subscribe((product) => {
 
         console.log('dodano nowy Product');
-        this.operationSuccessStatusMessage = 'dodano nowy Product';
-        navigateToUrlAfterTimout(url, this.router, 2000);
+        this.statusService.operationSuccessStatusMessage = this.messageService.returnSuccessMessageToUserForSuccessBackendResponseForUpdate();
+       this.router.navigateByUrl(url);
       }, (error) => {
         console.log(error);
-        const errorMessage = getBackendErrrorMesage(error);
-        if (errorMessage.includes('Already exist in database')) {
-          this.operationFailerStatusMessage = 'nie udało aktulizować , inny produkt o podanych parametrach już istnieje w bazie danych;';
-        } else {
-          this.operationFailerStatusMessage = 'wystąpił bład, nie udało się zaktualizować produktu';
-        }
+          this.statusService.operationFailerStatusMessage = this.messageService.returnErrorToUserBasingOnBackendErrorStringForUpdate(error);
+        this.router.navigateByUrl(url);
       });
     }
   }

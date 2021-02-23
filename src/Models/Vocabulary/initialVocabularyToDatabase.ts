@@ -223,6 +223,27 @@ const generalTable35: Vocabulary = {
 }
 initialVocabularyForDatabase.push(generalTable35);
 
+const generalTable36: Vocabulary = {
+    variableName: 'yes',
+    localizedNames: [new LocalizedName('PL', 'Tak'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable36);
+
+const generalTable37: Vocabulary = {
+    variableName: 'no',
+    localizedNames: [new LocalizedName('PL', 'Nie'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable37);
+
+const generalTable38: Vocabulary = {
+    variableName: 'confirmDeletingMessage',
+    localizedNames: [new LocalizedName('PL', 'Czy na pewno chcesz usunąć wybrany element?'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable38);
+
+
+
+
 
 
 
