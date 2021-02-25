@@ -25,6 +25,7 @@ export class AuthenticationService {
   languages: Language [];
   subscription: Subscription;
   vocabulariesInSelectedLanguage: VocabularyForTableCell[];
+  generalUserNames: any;
   private previousUrl: string;
   private currentUrl: string;
   private routeHistory: string[];

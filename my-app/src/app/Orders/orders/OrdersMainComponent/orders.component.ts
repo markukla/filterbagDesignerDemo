@@ -114,7 +114,10 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
       this.backendService.getCurrentOrdersForPrivilligedUsers().subscribe((records) => {
         this.tableService.records.length = 0;
         records.body.forEach((record) => {
+          if(record) {
             this.tableService.records.push(this.backendService.createOrderTableCellFromOrderEntity(record));
+          }
+
           }
         );
         this.records = this.tableService.getRecords();

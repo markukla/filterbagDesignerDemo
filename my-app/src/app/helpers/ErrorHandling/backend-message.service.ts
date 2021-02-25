@@ -10,7 +10,7 @@ import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../otherGeneralUse
 export class BackendMessageService {
   // tslint:disable-next-line:variable-name
   backendError: HttpErrorResponse;
-  generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
+  generalNamesInSelectedLanguage: any;
   otherRecordAlreadyExist = 'rekord który próbowałeś dodać już istnieję w bazie danych';
   generalErrorMessageForCreate = ' Wystąpił błąd: nie udało się dodać nowego rekordu do bazy danych, spróbuj ponownie';
   generalSuccessMessageForCreate = 'Dodano nowy rekord do bazy danych';
@@ -22,20 +22,13 @@ export class BackendMessageService {
 
 
   constructor(private authenticationService: AuthenticationService) {
-    this.initColumnNamesInSelectedLanguage();
-    this.otherRecordAlreadyExist = this.generalNamesInSelectedLanguage.otherRecordAlreadyExist;
-    this.generalErrorMessageForCreate = this.generalNamesInSelectedLanguage.operationAddFailerStatusMessage;
-    this.generalSuccessMessageForCreate = this.generalNamesInSelectedLanguage.operationAddSuccessStatusMessage;
-    this.generalSuccessMessageForUpdate = this.generalNamesInSelectedLanguage.operationUpdateSuccessStatusMessage;
-    this.generalErrorMessageForUpdate = this.generalNamesInSelectedLanguage.operationUpdateFailerStatusMessage;
-
-
 
   }
 
   returnErrorToUserBasingOnBackendErrorStringForCreateNew(error: HttpErrorResponse): string {
-    const errorMessage = error.error.message.toUpperCase().trim();
-    const errorToExpect = 'already exist'.toUpperCase().trim();
+    this.initColumnNamesInSelectedLanguage();
+    const errorMessage = error.error.message.toUpperCase();
+    const errorToExpect = 'already exist'.toUpperCase();
     if (errorMessage.includes(errorToExpect)) {
       console.log(errorMessage);
       return this.generalErrorMessageForCreate + ' ' + this.otherRecordAlreadyExist;
@@ -44,6 +37,7 @@ export class BackendMessageService {
     }
   }
   returnErrorToUserBasingOnBackendErrorStringForUpdate(error: HttpErrorResponse): string {
+    this.initColumnNamesInSelectedLanguage();
     const errorMessage = error.error.message.toUpperCase();
     const errorToExpect = 'already exist'.toUpperCase();
     if (errorMessage.includes(errorToExpect)) {
@@ -55,20 +49,26 @@ export class BackendMessageService {
   }
 
   returnSuccessMessageToUserForSuccessBackendResponseForCreateNew(): string {
+    this.initColumnNamesInSelectedLanguage();
+    console.log(`this.generalSuccessMessageForCreate = ${this.generalSuccessMessageForCreate}`)
     return this.generalSuccessMessageForCreate;
+
 
   }
 
   returnSuccessMessageToUserForSuccessBackendResponseForUpdate(): string {
+    this.initColumnNamesInSelectedLanguage();
     return this.generalSuccessMessageForUpdate;
 
   }
 
   initColumnNamesInSelectedLanguage(): void {
-    // tslint:disable-next-line:max-line-length
-    // tslint:disable-next-line:max-line-length
-    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
-
+    this.generalNamesInSelectedLanguage = this.authenticationService.generalUserNames;
+    this.otherRecordAlreadyExist = this.generalNamesInSelectedLanguage.otherRecordAlreadyExist;
+    this.generalErrorMessageForCreate = this.generalNamesInSelectedLanguage.operationAddFailerStatusMessage;
+    this.generalSuccessMessageForCreate = this.generalNamesInSelectedLanguage.operationAddSuccessStatusMessage;
+    this.generalSuccessMessageForUpdate = this.generalNamesInSelectedLanguage.operationUpdateSuccessStatusMessage;
+    this.generalErrorMessageForUpdate = this.generalNamesInSelectedLanguage.operationUpdateFailerStatusMessage;
 
   }
 

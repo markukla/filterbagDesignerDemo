@@ -102,8 +102,10 @@ export class OrderBackendService {
     return createOrderDto;
   }
   createOrderTableCellFromOrderEntity(order: Order): OrderforTableCell {
+    let orderTableCell: OrderforTableCell;
+    if(order) {
     const dateString = new Date(order.date).toLocaleDateString();
-    const orderTableCell: OrderforTableCell = {
+     orderTableCell = {
       businessPartnerCode: order.businessPartner.code,
       businessPartnerFulname: order.businessPartner.fulName,
       businessPartnerEmail: order.businessPartner.email,
@@ -119,7 +121,9 @@ export class OrderBackendService {
       businessPartnerCompanyName: order.businessPartner.businesPartnerCompanyName,
       commentToOrderString: order.commentToOrder,
     };
+    }
     return orderTableCell;
+
   }
 
 
