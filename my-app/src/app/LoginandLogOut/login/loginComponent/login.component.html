@@ -1,6 +1,6 @@
 <div class="createOrUpdateFormWindow">
   <span id="languageFlagsSpan" *ngFor="let language of activeLanguages">
-    <img class="flagImage" [src]="getFlagUrl(language)" (click)="this.loginService.setSelectedLanguageCodeAndVocabullaryTableInSelectedLanguage(language.languageCode, this.vocabularies)"
+    <img class="flagImage" [src]="getFlagUrl(language)" (click)="this.loginService.setSelectedLanguageCodeAndVocabullaryTableInSelectedLanguage(language.languageCode, this.vocabularies, this.languages)"
          [id]="language.languageCode">
   </span>
   <div class="validatorInfo" *ngIf="!this.loginService.selectedLanguageCode">
