@@ -70,8 +70,8 @@ export class DimensionCodesMainComponent implements OnInit, AfterContentChecked 
   initColumnNamesInSelectedLanguage(): void {
     // tslint:disable-next-line:max-line-length
     // tslint:disable-next-line:max-line-length
-    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
-    setTabelColumnAndOtherNamesForSelectedLanguage(this.dimensionNames, this.authenticationService.vocabulariesInSelectedLanguage);
+    this.generalNamesInSelectedLanguage = this.authenticationService.generalNamesInSelectedLanguage;
+    this.dimensionNames = this.authenticationService.dimensionNamesInSelectedLanguage;
   }
   ngAfterContentChecked(): void {
     if (this.records) {

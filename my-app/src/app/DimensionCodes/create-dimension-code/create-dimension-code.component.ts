@@ -58,8 +58,9 @@ export class CreateDimensionCodeComponent implements OnInit {
 
   @Output()
   createdDimensionEmiter: EventEmitter<DimensionCode>;
-   selectedRecordToupdateId: string;
-   languages: Language[];
+  selectedRecordToupdateId: string;
+  languages: Language[];
+
   constructor(
     private backendService: DimensionCodeBackendService,
     public validationService: ValidateDiemensionCodeService,
@@ -73,6 +74,7 @@ export class CreateDimensionCodeComponent implements OnInit {
     console.log('creating component:CreateProductTypeComponent');
     this.createdDimensionEmiter = new EventEmitter<DimensionCode>();
   }
+
   async ngOnInit(): Promise<void> {
     Object.keys(this).forEach(e => console.log(`key= ${e}, value= ${this[e]} `));
     this.createdDimensionEmiter = new EventEmitter<DimensionCode>();
@@ -90,33 +92,35 @@ export class CreateDimensionCodeComponent implements OnInit {
     this.initColumnNamesInSelectedLanguage();
     await this.getInitDataFromBackend();
   }
+
   initColumnNamesInSelectedLanguage(): void {
     // tslint:disable-next-line:max-line-length
-    setTabelColumnAndOtherNamesForSelectedLanguage(this.dimensionCodeNames, this.authenticationService.vocabulariesInSelectedLanguage);
-    // tslint:disable-next-line:max-line-length
-    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
-  this.firstIndexDimensionRole = dimensionNames.dimensionRoleFirstIndex;
-  this.secondIndexDimensionRole = dimensionNames.dimensionRoleSecondIndex;
-  this.noIndexDimensionRole = dimensionNames.dimensionRoleNoIndex;
+    this.generalNamesInSelectedLanguage = this.authenticationService.generalNamesInSelectedLanguage;
+    this.dimensionCodeNames = this.authenticationService.dimensionNamesInSelectedLanguage;
+    this.firstIndexDimensionRole = dimensionNames.dimensionRoleFirstIndex;
+    this.secondIndexDimensionRole = dimensionNames.dimensionRoleSecondIndex;
+    this.noIndexDimensionRole = dimensionNames.dimensionRoleNoIndex;
   }
 
   // tslint:disable-next-line:typedef
-  get  role() {
+  get role() {
     return this.form.get('role');
   }
+
   // tslint:disable-next-line:typedef
   get code() {
     return this.form.get('code');
   }
+
   async getInitDataFromBackend(): Promise<void> {
-   this.languages = this.authenticationService.languages;
-   this.languageFormService.languages = this.languages;
-   if (this.operatiomMode === OperationModeEnum.UPDATE) {
-     const foundRecord =  await this.backendService.findRecordById(this.selectedRecordToupdateId).toPromise();
-     this.recordToUpdate = foundRecord.body;
-     this.languageFormService.namesInAllLanguages = this.recordToUpdate.localizedDimensionNames;
-     this.role.setValue(this.recordToUpdate.dimensionRole);
-     this.code.setValue(this.recordToUpdate.dimensionCode);
+    this.languages = this.authenticationService.languages;
+    this.languageFormService.languages = this.languages;
+    if (this.operatiomMode === OperationModeEnum.UPDATE) {
+      const foundRecord = await this.backendService.findRecordById(this.selectedRecordToupdateId).toPromise();
+      this.recordToUpdate = foundRecord.body;
+      this.languageFormService.namesInAllLanguages = this.recordToUpdate.localizedDimensionNames;
+      this.role.setValue(this.recordToUpdate.dimensionRole);
+      this.code.setValue(this.recordToUpdate.dimensionCode);
     }
   }
 
@@ -134,7 +138,7 @@ export class CreateDimensionCodeComponent implements OnInit {
       dimensionCode: this.code.value,
       dimensionRole: this.role.value,
     };
-    if(this.operatiomMode === OperationModeEnum.CREATENEW) {
+    if (this.operatiomMode === OperationModeEnum.CREATENEW) {
       this.backendService.addRecords(this.createDimensionCodeDto).subscribe((material) => {
         this.showoperationStatusMessage = this.backendMessageService.returnSuccessMessageToUserForSuccessBackendResponseForCreateNew();
         this.createdDimensinoCode = material.body;
@@ -156,6 +160,7 @@ export class CreateDimensionCodeComponent implements OnInit {
       });
     }
   }
+
   closeAndGoBack(): void {
     this.router.navigateByUrl(this.authenticationService._previousUrl);
   }

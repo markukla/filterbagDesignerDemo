@@ -52,10 +52,9 @@ export class ProductTableFormComponent implements OnInit, AfterContentChecked {
   }
   initColumnNamesInSelectedLanguage(): void {
     // tslint:disable-next-line:max-line-length
-    setTabelColumnAndOtherNamesForSelectedLanguage(this.orderNames, this.authenticationService.vocabulariesInSelectedLanguage);
-    // tslint:disable-next-line:max-line-length
-    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
-    setTabelColumnAndOtherNamesForSelectedLanguage(this.drawingTableFormNames, this.authenticationService.vocabulariesInSelectedLanguage);
+    this.generalNamesInSelectedLanguage = this.authenticationService.generalNamesInSelectedLanguage;
+    this.orderNames = this.authenticationService.orderNamesInSelectedLanguage;
+    this.drawingTableFormNames = this.authenticationService.drawingTableFormNamesInSelectedLanguage;
   }
 
 

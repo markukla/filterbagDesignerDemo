@@ -83,9 +83,8 @@ export class CreateProductTopComponent implements OnInit {
   }
   initColumnNamesInSelectedLanguage(): void {
     // tslint:disable-next-line:max-line-length
-    setTabelColumnAndOtherNamesForSelectedLanguage(this.orderNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
-    // tslint:disable-next-line:max-line-length
-    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
+    this.generalNamesInSelectedLanguage = this.authenticationService.generalNamesInSelectedLanguage;
+    this.orderNamesInSelectedLanguage = this.authenticationService.orderNamesInSelectedLanguage;
   }
   async getInitDataFromBackend(): Promise<void> {
     this.languages = this.authenticationService.languages;

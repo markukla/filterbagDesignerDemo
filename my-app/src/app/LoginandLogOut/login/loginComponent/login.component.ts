@@ -23,7 +23,7 @@ import LogInDto from "../../authenticationTypesAndClasses/login.dto";
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit, AfterContentChecked {
+export class LoginComponent implements OnInit {
 
   operationMessage: string;
   showoperationMessage: boolean;
@@ -68,8 +68,9 @@ export class LoginComponent implements OnInit, AfterContentChecked {
     this.showoperationMessage = true;
     this.loginBackendService.login(this.loginForm.value).subscribe((logedUser) => {
       this.loginService.setLogedUserUserAndToken(logedUser.body);
+      sessionStorage.setItem('loggedUser', JSON.stringify(logedUser.body));
       this.router.navigateByUrl('/orders');
-    }, error => {
+    },error => {
       const backendErrorMessage = getBackendErrrorMesage(error);
       if (backendErrorMessage.includes('wrong email or password')) {
         this.operationMessage = this.generalNamesInSelectedLanguage.wrongEmailOrPassword;
@@ -85,7 +86,7 @@ export class LoginComponent implements OnInit, AfterContentChecked {
   }
 
   async ngOnInit(): Promise<void> {
-    this.loginService.vocabulariesInSelectedLanguage = [];
+
 
     const languages = await this.languageBackendService.getRecords().toPromise();
     const vocabularies = await this.vocabularyBackendService.getRecords().toPromise();
@@ -102,58 +103,13 @@ export class LoginComponent implements OnInit, AfterContentChecked {
     if(avalaibeLanguageCodesInAplication.includes(languageOfBrowser)) {
       this.loginService.selectedLanguageCode = languageOfBrowser;
     }
-    this.loginService.setLogedUserUserAndToken(null);
-
-    const logInDto: LogInDto = {
-      email: 'jacek.luczak@outlook.com', password: 'Nicram12'
-    };
-    this.loginBackendService.login(logInDto).subscribe((logedUser) => {
-      this.loginService.setLogedUserUserAndToken(logedUser.body);
-
-      this.loginService.selectedLanguageCode = 'PL';
-      this.loginService.vocabulariesInSelectedLanguage = [];
-      // tslint:disable-next-line:max-line-length
-      this.vocabularies.forEach((vocabulary) => {this.loginService.vocabulariesInSelectedLanguage.push(this.vocabularyBackendService.createVocabularryForTableCellFromVocabulary(vocabulary));
-      });
-      this.initColumnNamesInSelectedLanguage();
-      this.loginService.generalUserNames = this.generalNamesInSelectedLanguage;
-      this.router.navigateByUrl('/orders');
-    });
-
-    console.log(`this.loginService.selectedLanguageCode = ${this.loginService.selectedLanguageCode}`);
-    this.vocabularies.forEach((vocabulary) => {this.loginService.vocabulariesInSelectedLanguage.push(this.vocabularyBackendService.createVocabularryForTableCellFromVocabulary(vocabulary));
-    });
-    if(this.loginService.selectedLanguageCode) {
-      this.initColumnNamesInSelectedLanguage();
+    this.loginService.setSelectedLanguageCodeAndVocabullaryTableInSelectedLanguage(this.loginService.selectedLanguageCode, this.vocabularies);
+    if (this.loginService.loggedUser && this.loginService.tokenData && this.loginService.selectedLanguageCode && this.loginService.vocabulariesInSelectedLanguage) {
+      this.router.navigateByUrl('orders');
     }
-    try {
-      if (this.loginService.loggedUser) {
-        const logoutResponse = await this.loginBackendService.logout().toPromise();
-        console.log(logoutResponse.messageToUser);
-      }
-    } catch (error) {
-      console.log(` error= ${error}`);
+
     }
-    this.loginService.setLogedUserUserAndToken(null);
-  }
-  initColumnNamesInSelectedLanguage(): void {
-    // tslint:disable-next-line:max-line-length
-    // tslint:disable-next-line:max-line-length
-    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.loginService.vocabulariesInSelectedLanguage);
-    setTabelColumnAndOtherNamesForSelectedLanguage(this.userNames, this.loginService.vocabulariesInSelectedLanguage);
-  }
 
-  ngAfterContentChecked(): void {
-  }
-
-  setSelectedLanguageCode(languageCode: string): void {
-    this.loginService.selectedLanguageCode = languageCode;
-    this.loginService.vocabulariesInSelectedLanguage.length = 0;
-    // tslint:disable-next-line:max-line-length
-    this.vocabularies.forEach((vocabulary) => {this.loginService.vocabulariesInSelectedLanguage.push(this.vocabularyBackendService.createVocabularryForTableCellFromVocabulary(vocabulary));
-    });
-    this.initColumnNamesInSelectedLanguage();
-  }
   getFlagUrl(language: Language): string {
     const flagUlr = API_URL + language.flagUrl;
     return flagUlr;

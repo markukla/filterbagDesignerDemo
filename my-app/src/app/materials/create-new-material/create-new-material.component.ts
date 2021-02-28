@@ -70,9 +70,8 @@ export class CreateNewMaterialComponent implements OnInit{
 
   initColumnNamesInSelectedLanguage(): void {
     // tslint:disable-next-line:max-line-length
-    setTabelColumnAndOtherNamesForSelectedLanguage(this.materialNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
-    // tslint:disable-next-line:max-line-length
-    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
+    this.generalNamesInSelectedLanguage = this.authenticationService.generalNamesInSelectedLanguage;
+    this.materialNamesInSelectedLanguage = this.authenticationService.materialNamesInSelectedLanguage;
   }
   cleanOperationMessage(): void {
     setTimeout(() => {

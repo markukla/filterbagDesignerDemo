@@ -101,9 +101,8 @@ export class CreateProductTypeComponent implements OnInit {
   }
   initColumnNamesInSelectedLanguage(): void {
     // tslint:disable-next-line:max-line-length
-    setTabelColumnAndOtherNamesForSelectedLanguage(this.orderNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
-    // tslint:disable-next-line:max-line-length
-    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
+    this.generalNamesInSelectedLanguage = this.authenticationService.generalNamesInSelectedLanguage;
+    this.orderNamesInSelectedLanguage = this.authenticationService.orderNamesInSelectedLanguage;
   }
 // tslint:disable-next-line:typedef
   getDataToDropdownLists(): void {

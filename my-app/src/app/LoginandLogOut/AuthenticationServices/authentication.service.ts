@@ -10,6 +10,15 @@ import {NavigationEnd, NavigationStart, Router} from '@angular/router';
 import {VocabularyForTableCell} from '../../Vocablulaty/VocabularyTypesAndClasses/VocabularyForTableCell';
 import {Subscription} from "rxjs";
 import {NavigationEvent} from "@ng-bootstrap/ng-bootstrap/datepicker/datepicker-view-model";
+import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
+import {
+  dimensionNames,
+  drawingTableFormNames,
+  generalNamesInSelectedLanguage,
+  generalUserNames, languageNames, materialNamesInSelectedLanguage, orderNames
+} from "../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
+import {AuthenticationBackendService} from "./authentication.backend.service";
+import {VocabularyBackendServiceService} from "../../Vocablulaty/VocabularyServices/vocabulary-backend-service.service";
 export let browserRefresh = false;
 
 @Injectable({
@@ -25,12 +34,22 @@ export class AuthenticationService {
   languages: Language [];
   subscription: Subscription;
   vocabulariesInSelectedLanguage: VocabularyForTableCell[];
-  generalUserNames: any;
+  generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
+  generalUserNames = generalUserNames
+  orderNamesInSelectedLanguage = orderNames;
+  languageNamesInselectedLanguage = languageNames;
+  drawingTableFormNamesInSelectedLanguage = drawingTableFormNames;
+  dimensionNamesInSelectedLanguage = dimensionNames;
+  materialNamesInSelectedLanguage = materialNamesInSelectedLanguage;
+
   private previousUrl: string;
   private currentUrl: string;
   private routeHistory: string[];
 
-  constructor(public router: Router) {
+  constructor(public router: Router,
+              private authBackenService: AuthenticationBackendService,
+              private vocabularyBackendService: VocabularyBackendServiceService) {
+    this.logInFromSessionStorageAndInitColumNamesForSelectedLanguage();
     this.routeHistory = [];
     router.events
       .pipe(filter(event => event instanceof NavigationEnd))
@@ -153,4 +172,75 @@ export class AuthenticationService {
     return isPartner;
 
   }
+  logInFromSessionStorageAndInitColumNamesForSelectedLanguage(): void {
+    const logedUserInSession: LoggedUser = JSON.parse(sessionStorage.getItem('loggedUser'));
+    console.log(logedUserInSession);
+    if (logedUserInSession) {
+      this.setLogedUserUserAndToken(logedUserInSession);
+      const selectedLanguageCodeInSessionStorage = sessionStorage.getItem('languageCode');
+      const vocabulariesInselctedLanguageInSessionStorage = sessionStorage.getItem('vocabulariesInSelectedLanguage');
+      if (selectedLanguageCodeInSessionStorage && vocabulariesInselctedLanguageInSessionStorage) {
+        this.selectedLanguageCode = selectedLanguageCodeInSessionStorage;
+        this.vocabulariesInSelectedLanguage = JSON.parse(vocabulariesInselctedLanguageInSessionStorage);
+        this.setallNamesToSelectedLanguage();
+      }
+    }
+  }
+
+  resetAuthenticationServiceProperties(): void {
+    this.loggedUser = null;
+    this.user = null;
+    this.tokenData = null;
+    this.tokenString = null;
+    this.userRole = null;
+    this.selectedLanguageCode = null;
+    this.vocabulariesInSelectedLanguage = null;
+    this.generalNamesInSelectedLanguage = null;
+    this.generalUserNames = null;
+    this.orderNamesInSelectedLanguage = null;
+    this.previousUrl = null;
+    this.currentUrl = null;
+    this.routeHistory = null;
+
+  }
+
+  logOut(): void {
+    this.authBackenService.logout().subscribe((logoutResponse) => {
+      sessionStorage.clear();
+      // this.setLogedUserUserAndToken(null);
+      this.resetAuthenticationServiceProperties();
+      this.router.navigateByUrl('/');
+    });
+  }
+
+  setallNamesToSelectedLanguage(): void {
+    this.vocabulariesInSelectedLanguage.forEach((vocabulary) => {
+
+    });
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.orderNamesInSelectedLanguage, this.vocabulariesInSelectedLanguage);
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.vocabulariesInSelectedLanguage);
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalUserNames, this.vocabulariesInSelectedLanguage);
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.drawingTableFormNamesInSelectedLanguage, this.vocabulariesInSelectedLanguage);
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.dimensionNamesInSelectedLanguage, this.vocabulariesInSelectedLanguage);
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.materialNamesInSelectedLanguage, this.vocabulariesInSelectedLanguage);
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.languageNamesInselectedLanguage, this.vocabulariesInSelectedLanguage);
+
+  }
+
+  setSelectedLanguageCodeAndVocabullaryTableInSelectedLanguage(languageCode: string, vocabularies: Vocabulary []): void {
+   if(languageCode && vocabularies) {
+     this.selectedLanguageCode = languageCode;
+     sessionStorage.setItem('languageCode', this.selectedLanguageCode);
+     this.vocabulariesInSelectedLanguage = [];
+     // tslint:disable-next-line:max-line-length
+     vocabularies.forEach((vocabulary) => {
+       this.vocabulariesInSelectedLanguage.push(this.vocabularyBackendService.createVocabularryForTableCellFromVocabulary(vocabulary, this.selectedLanguageCode));
+     });
+     sessionStorage.setItem('vocabulariesInSelectedLanguage', JSON.stringify(this.vocabulariesInSelectedLanguage));
+     this.setallNamesToSelectedLanguage();
+   }
+
+  }
 }
+

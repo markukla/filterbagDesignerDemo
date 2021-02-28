@@ -6,6 +6,7 @@ RUN cd my-app && npm install @angular/cli && npm install && npm run build
 FROM node:10 AS server-build
 WORKDIR /root/
 COPY . .
+RUN mkdir /webcontainerVolume
 COPY --from=ui-build /usr/src/app/my-app/dist ./my-app/dist
 RUN ls -la /root/my-app/dist/projekt1FilterFront*
 COPY package*.json ./

@@ -78,12 +78,10 @@ export class CreateOrUpdateLanguageComponent implements OnInit {
     await this.initFormValuesForUpdateMode();
   }
   initColumnNamesInSelectedLanguage(): void {
+    this.userNames = this.authenticationService.generalUserNames;
+    this.generalNamesInSelectedLanguage = this.authenticationService.generalNamesInSelectedLanguage;
+    this.languageNamesInSelectedLanguage = this.authenticationService.languageNamesInselectedLanguage;
 
-
-    // tslint:disable-next-line:max-line-length
-    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
-    setTabelColumnAndOtherNamesForSelectedLanguage(this.languageNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
-    setTabelColumnAndOtherNamesForSelectedLanguage(this.userNames, this.authenticationService.vocabulariesInSelectedLanguage)
   }
   // tslint:disable-next-line:typedef
   get file() {

@@ -805,7 +805,7 @@ const orderName45: Vocabulary = {
 initialVocabularyForDatabase.push(orderName45)
 
 const orderName46: Vocabulary = {
-    variableName: ' productBottomCode',
+    variableName: 'productBottomCode',
     localizedNames: [new LocalizedName('PL', 'Kod Wykończenia Dna'), new LocalizedName('CZE', 'CZE ....')]
 }
 initialVocabularyForDatabase.push(orderName46)

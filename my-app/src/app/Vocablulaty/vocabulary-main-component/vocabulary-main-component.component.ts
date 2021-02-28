@@ -8,6 +8,9 @@ import {SearchService} from '../../helpers/directive/SearchDirective/search.serv
 import OperationModeEnum from '../../util/OperationModeEnum';
 import {VocabularyBackendServiceService} from '../VocabularyServices/vocabulary-backend-service.service';
 import {VocabularyForTableCell} from '../VocabularyTypesAndClasses/VocabularyForTableCell';
+import {AuthenticationService} from '../../LoginandLogOut/AuthenticationServices/authentication.service';
+
+
 
 @Component({
   selector: 'app-vocabulary-main-component',
@@ -38,7 +41,8 @@ export class VocabularyMainComponentComponent implements OnInit, AfterContentChe
               public backendService: VocabularyBackendServiceService,
               private router: Router,
               private activedIdParam: ActivatedRoute,
-              private searChService: SearchService) {
+              private searChService: SearchService,
+              private authenticationService: AuthenticationService) {
   }
   ngOnInit(): void {
     this.getRecords();
@@ -56,7 +60,7 @@ export class VocabularyMainComponentComponent implements OnInit, AfterContentChe
       this.tableService.records.length = 0;
       this.tableService.records = [];
       records.body.forEach((record) => {
-        const recorForTableCell = this.backendService.createVocabularryForTableCellFromVocabulary(record);
+        const recorForTableCell = this.backendService.createVocabularryForTableCellFromVocabulary(record, this.authenticationService.selectedLanguageCode);
         this.tableService.records.push(recorForTableCell);
       });
       this.records = this.tableService.getRecords();

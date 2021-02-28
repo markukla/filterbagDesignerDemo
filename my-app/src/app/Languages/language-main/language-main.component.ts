@@ -65,9 +65,9 @@ export class LanguageMainComponent implements OnInit, AfterContentChecked {
   initColumnNamesInSelectedLanguage(): void {
     // tslint:disable-next-line:max-line-length
     // tslint:disable-next-line:max-line-length
-    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
-    setTabelColumnAndOtherNamesForSelectedLanguage(this.languageNames, this.authenticationService.vocabulariesInSelectedLanguage);
-    setTabelColumnAndOtherNamesForSelectedLanguage(this.userNames, this.authenticationService.vocabulariesInSelectedLanguage)
+    this.userNames = this.authenticationService.generalUserNames;
+    this.generalNamesInSelectedLanguage = this.authenticationService.generalNamesInSelectedLanguage;
+    this.languageNames = this.authenticationService.languageNamesInselectedLanguage;
     this.languageCodeDescription = this.languageNames.languageCode;
     this.languageNameDescription = this.languageNames.languageName
     this.languageActiveDescription = this.userNames.active;
