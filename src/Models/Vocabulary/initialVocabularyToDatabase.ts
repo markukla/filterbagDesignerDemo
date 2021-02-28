@@ -241,6 +241,65 @@ const generalTable38: Vocabulary = {
 }
 initialVocabularyForDatabase.push(generalTable38);
 
+const generalTable39: Vocabulary = {
+    variableName: 'orders',
+    localizedNames: [new LocalizedName('PL', 'Zamówienia'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable39);
+
+const generalTable40: Vocabulary = {
+    variableName: 'partners',
+    localizedNames: [new LocalizedName('PL', 'Parnterzy Handlowi'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable40);
+
+const generalTable41: Vocabulary = {
+    variableName: 'materials',
+    localizedNames: [new LocalizedName('PL', 'Materiały'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable41);
+
+const generalTable42: Vocabulary = {
+    variableName: 'products',
+    localizedNames: [new LocalizedName('PL', 'Produkty'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable42);
+
+const generalTable43: Vocabulary = {
+    variableName: 'users',
+    localizedNames: [new LocalizedName('PL', 'Użytkownicy'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable43);
+
+const generalTable44: Vocabulary = {
+    variableName: 'dimensionCodes',
+    localizedNames: [new LocalizedName('PL', 'Kody Wymiarów'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable44);
+
+const generalTable45: Vocabulary = {
+    variableName: 'languages',
+    localizedNames: [new LocalizedName('PL', 'Języki'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable45);
+
+const generalTable46: Vocabulary = {
+    variableName: 'dictionary',
+    localizedNames: [new LocalizedName('PL', 'Słownik'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable46);
+
+const generalTable47: Vocabulary = {
+    variableName: 'logout',
+    localizedNames: [new LocalizedName('PL', 'Wyloguj'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable47);
+
+
+
+
+
+
 
 
 
@@ -996,6 +1055,8 @@ const orderName78: Vocabulary = {
     localizedNames: [new LocalizedName('PL', 'Wymiar'), new LocalizedName('CZE', 'CZE ....')]
 }
 initialVocabularyForDatabase.push(orderName78)
+
+
 
 
 

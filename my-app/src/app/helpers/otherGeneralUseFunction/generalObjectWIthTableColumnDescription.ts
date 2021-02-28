@@ -40,9 +40,36 @@ export const generalNamesInSelectedLanguage = {
   yes: 'Tak',
   no: 'Nie',
   confirmDeletingMessage: 'Czy na pewno chcesz usunąć wybrany element?',
+  orders: 'Zamówienia',
+  partners: 'Parnterzy Handlowi',
+  materials: 'Materiały',
+  products: 'Produkty',
+  users: 'Użytkownicy',
+  dimensionCodes: 'Kody Wymiarów',
+  languages: 'Języki',
+  dictionary: 'Słownik',
+  logout: 'Wyloguj',
 
 
+/*  <a [routerLink]="['/orders']" routerLinkActive="active"> Zamówienia</a>
+  <a [routerLink]="['/businessPartners']" routerLinkActive="active"> Partnerzy</a>
+  <a [routerLink]="['/materials']" routerLinkActive="active"> Materialy</a>
+  <a [routerLink]="['/products']" routerLinkActive="active"> Produkty</a>
+     <a [routerLink]="['/users']" routerLinkActive="active"> Użytkownicy</a>
+    <a [routerLink]="['/dimensionCodes']" routerLinkActive="active"> Kody Wymiarów</a>
+    <a [routerLink]="['/languages']" routerLinkActive="active"> Języki </a>
+     <a [routerLink]="['/vocabularies']" routerLinkActive="active"> Słownik</a>
+     <a [routerLink]="['/changePasswordByLoggedUser']" routerLinkActive="active"> Zmień swoje hasło</a>
+      <button (click)="this.authenticationService.logOut()"> Wyloguj</button>
+  </span>
 
+  </div>
+  <div *ngIf="this.authenticationService.userRole && this.authenticationService.userRole === this.editor">
+  <span>
+     <a [routerLink]="['/orders']" routerLinkActive="active"> Zamówienia</a>
+    <a [routerLink]="['/businessPartners']" routerLinkActive="active"> Partnerzy</a>
+    <a [routerLink]="['/changePasswordByLoggedUser']" routerLinkActive="active"> Zmień swoje hasło</a>
+    <button (click)="this.authenticationService.logOut()"> Wyloguj</button>*/
 
 
 };

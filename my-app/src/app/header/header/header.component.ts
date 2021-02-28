@@ -16,6 +16,7 @@ export class HeaderComponent implements AfterContentChecked, AfterViewChecked, O
   partner: RoleEnum;
   private previousUrl: string;
   private currentUrl: string;
+  generalNamesInSelectedLanguage: any;
   constructor(public authenticationService: AuthenticationService,
               private router: Router) {
    // this.resetLoggedUserInAuthenticationService();
@@ -39,6 +40,11 @@ export class HeaderComponent implements AfterContentChecked, AfterViewChecked, O
   }
 
   ngOnInit(): void {
+    this.initNamesInSelectedLanguage();
+  }
+  initNamesInSelectedLanguage(): void {
+    this.generalNamesInSelectedLanguage = this.authenticationService.generalNamesInSelectedLanguage;
+
   }
   showHeaderIfNoDrawing(): boolean {
     if (this.authenticationService && this.authenticationService._currentUrl) {
