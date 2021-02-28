@@ -29,7 +29,7 @@ const { DownloaderHelper } = require('node-downloader-helper');
 
 
 class OrderController implements Controller {
-    public path = '/orders';
+    public path = '/api/orders';
     public router = express.Router();
     public service: OrderService = new OrderService();
 
@@ -50,7 +50,7 @@ class OrderController implements Controller {
         this.router.get(`${this.path}/:id`, /*authMiddleware,*/ this.getOneOrderById);
         this.router.get(`${this.path}/orderVersionRegister/:id`, authMiddleware, this.findOrderVersionRegisterById);
         this.router.get(`${this.path}/orderNumber/newest`, authMiddleware,this.getOrderNumberForNewOrder);
-        this.router.post(`/drawing/save/pdf`, authMiddleware, this.usePuppetearToObtainDrawingPdf)
+        this.router.post(`/api/drawing/save/pdf`, authMiddleware, this.usePuppetearToObtainDrawingPdf)
 
         //remeber to add authentication admin authorization middleware after tests
 

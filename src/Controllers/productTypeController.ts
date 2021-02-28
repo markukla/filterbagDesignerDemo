@@ -12,7 +12,7 @@ import adminAuthorizationMiddleware from "../middleware/adminAuthorization.middl
 
 
 class ProductTypeController implements Controller {
-    public path = '/productTypes';
+    public path = '/api/productTypes';
     public router = express.Router();
     public service: ProductTypeService = new ProductTypeService();
 

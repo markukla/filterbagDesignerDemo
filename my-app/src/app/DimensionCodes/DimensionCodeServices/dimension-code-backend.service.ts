@@ -22,7 +22,7 @@ import {GeneralTableService} from "../../util/GeneralTableService/general-table.
 })
 export class DimensionCodeBackendService {
   rootURL = API_URL;
-  endpointUrl = '/dimensionCodes';
+  endpointUrl = '/api/dimensionCodes';
   dimensionNames = dimensionNames;
 
   constructor(private http: HttpClient,

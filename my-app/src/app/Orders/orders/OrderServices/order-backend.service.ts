@@ -22,7 +22,7 @@ import OrderforTableCell from '../../OrdersTypesAndClasses/orderforTableCell';
 })
 export class OrderBackendService {
   rootURL = API_URL ;
-  endpointUrl = '/orders';
+  endpointUrl = '/api/orders';
   selectedProduct: Product;
   selectedParnter: User;
   selectedMaterial: Material;
@@ -80,7 +80,7 @@ export class OrderBackendService {
     return this.http.get<OrderVersionRegister>(getUrl, {observe: 'response'} );
   }
   getDrawingPdf(selectedDrawingUrl: string, authenticationtoken: string): Observable<any> {
-    const getUrl =`${this.rootURL}/drawing/save/pdf`;
+    const getUrl =`${this.rootURL}/api/drawing/save/pdf`;
     console.log(`getUrl = ${getUrl} `);
     return this.http.post(getUrl, {url: selectedDrawingUrl, token: authenticationtoken},{responseType: 'blob'} );
   }

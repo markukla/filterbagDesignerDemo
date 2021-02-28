@@ -103,7 +103,7 @@ export class LoginComponent implements OnInit {
     if(avalaibeLanguageCodesInAplication.includes(languageOfBrowser)) {
       this.loginService.selectedLanguageCode = languageOfBrowser;
     }
-    this.loginService.setSelectedLanguageCodeAndVocabullaryTableInSelectedLanguage(this.loginService.selectedLanguageCode, this.vocabularies);
+    this.loginService.setSelectedLanguageCodeAndVocabullaryTableInSelectedLanguage(this.loginService.selectedLanguageCode, this.vocabularies, this.languages);
     if (this.loginService.loggedUser && this.loginService.tokenData && this.loginService.selectedLanguageCode && this.loginService.vocabulariesInSelectedLanguage) {
       this.router.navigateByUrl('orders');
     }
@@ -111,7 +111,7 @@ export class LoginComponent implements OnInit {
     }
 
   getFlagUrl(language: Language): string {
-    const flagUlr = API_URL + language.flagUrl;
+    const flagUlr = API_URL+ language.flagUrl;
     return flagUlr;
 
   }

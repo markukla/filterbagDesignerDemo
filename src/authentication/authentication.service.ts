@@ -56,7 +56,7 @@ class AuthenticationService implements RepositoryService{
     }
 
     public createToken(user: User ): TokenData {
-        const expiresIn = 3600 // an hour
+        const expiresIn = 14400 // 4 hour
         const secret = process.env.JWT_SECRET;
 
         const dataStoredInToken: DataStoredInToken = {

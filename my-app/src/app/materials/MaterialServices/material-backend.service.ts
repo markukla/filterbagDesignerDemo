@@ -13,7 +13,7 @@ import {GeneralTableService} from '../../util/GeneralTableService/general-table.
 })
 export class MaterialBackendService {
   rootURL = API_URL;
-  endpointUrl = '/materials';
+  endpointUrl = '/api/materials';
   constructor(private http: HttpClient,
               private materialTableService: GeneralTableService) {
   }

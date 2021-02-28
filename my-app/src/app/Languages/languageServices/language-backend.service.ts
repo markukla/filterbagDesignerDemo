@@ -17,7 +17,7 @@ import {DrawingPaths} from '../../Products/ProductTypesAndClasses/drawingPaths';
 })
 export class LanguageBackendService {
   rootURL = API_URL;
-  endpointUrl = '/languages';
+  endpointUrl = '/api/languages';
 
   constructor(private http: HttpClient,
               private tableService: GeneralTableService) {
@@ -27,7 +27,7 @@ export class LanguageBackendService {
     return this.http.get<Language[]>(this.rootURL + this.endpointUrl, {observe: 'response'});
   }
   uploadDrawing(file: any): Observable<DrawingPaths> {
-    const url = `${this.rootURL}/uploadDrawing`;
+    const url = `${this.rootURL}/api/uploadDrawing`;
     return this.http.post<DrawingPaths>(url, file);
   }
 

@@ -11,7 +11,7 @@ import CreateVocabularyDto from "../Models/Vocabulary/vocabulary.dto";
 import Vocabulary from "../Models/Vocabulary/vocabulary.entity";
 
 class VocabularyController implements Controller{
-    public path = '/vocabularies';
+    public path = '/api/vocabularies';
     public router = express.Router();
     public  service:VocabularyService=new VocabularyService();
     constructor() {

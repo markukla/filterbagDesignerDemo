@@ -25,7 +25,7 @@ import {ProductForTableCell} from '../../../ProductTypesAndClasses/productForTab
 })
 export class ProductBackendService {
   rootURL = API_URL;
-  endpointUrl = '/products';
+  endpointUrl = '/api/products';
   createProductDto: CreateProductDto;
   constructor(private http: HttpClient,
               private tableService: GeneralTableService,
@@ -72,7 +72,7 @@ export class ProductBackendService {
       }));
   }
   uploadDrawing(file: any): Observable<DrawingPaths> {
-    const url = `${this.rootURL}/uploadDrawing`;
+    const url = `${this.rootURL}/api/uploadDrawing`;
     return this.http.post<DrawingPaths>(url, file, /* {headers: {Accept: 'multipart/form-newData'}}*/);
   }
 

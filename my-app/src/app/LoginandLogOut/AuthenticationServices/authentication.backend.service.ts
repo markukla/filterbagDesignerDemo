@@ -15,14 +15,14 @@ rootUrl = API_URL;
   constructor(private http: HttpClient) { }
   login(loginDto: LogInDto): Observable<HttpResponse<LoggedUser>> {
     // tslint:disable-next-line:max-line-length
-    return this.http.post<LoggedUser>(this.rootUrl + '/auth/login', loginDto, {observe: 'response'})/*.pipe(catchError(this.handleError))*/;
+    return this.http.post<LoggedUser>(this.rootUrl + '/api/auth/login', loginDto, {observe: 'response'})/*.pipe(catchError(this.handleError))*/;
   }
   logout(): Observable<any> {
     // tslint:disable-next-line:max-line-length
-    return this.http.get(this.rootUrl + '/auth/logout')/*.pipe(catchError(this.handleError))*/;
+    return this.http.get(this.rootUrl + '/api/auth/logout')/*.pipe(catchError(this.handleError))*/;
   }
   changePasswordByLoggedUser(changePasswordDto: ChangePasswordDto): Observable<HttpResponse<any>> {
     // tslint:disable-next-line:max-line-length
-    return this.http.patch<any>(this.rootUrl + '/auth/changePassword', changePasswordDto, {observe: 'response'})/*.pipe(catchError(this.handleError))*/;
+    return this.http.patch<any>(this.rootUrl + '/api/auth/changePassword', changePasswordDto, {observe: 'response'})/*.pipe(catchError(this.handleError))*/;
   }
 }

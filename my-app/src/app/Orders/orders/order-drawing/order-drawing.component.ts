@@ -211,7 +211,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
       this.createProductDto = {
         ...foundproduct
       };
-      this.bgImageVariable = this.rootUrl + this.createProductDto.urlOfOrginalDrawing;
+      this.bgImageVariable = this.rootUrl +  this.createProductDto.urlOfOrginalDrawing;
       this.tableFormService.setInitDataFromDrawingTableFromCreateOrderDto(null, this.createProductDto);
       this.tableFormService.disableTableForm();
 

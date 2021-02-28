@@ -26,7 +26,7 @@ const path = require('path');
 
 
 class ProductController implements Controller{
-    public path = '/products';
+    public path = '/api/products';
     public router = express.Router();
     public  service:ProductService=new ProductService();
 
@@ -54,7 +54,7 @@ class ProductController implements Controller{
         this.router.get(`${this.path}/:id`, authMiddleware, this.getOneProductById);
         this.router.delete(`${this.path}/:id`,authMiddleware,adminAuthorizationMiddleware, this.deleteOneProductById);
         this.router.post(this.path, authMiddleware,adminAuthorizationMiddleware, validationMiddleware(CreateProductDto), this.addOneProduct);//remeber to add authentication admin authorization middleware after tests
-        this.router.post(`/uploadDrawing`, authMiddleware,adminAuthorizationMiddleware, this.upload.single("file"), authMiddleware,adminAuthorizationMiddleware, this.uploadedDrawingToserwerCreaTeMiniatureAndReturnPaths);
+        this.router.post(`/api/uploadDrawing`, authMiddleware,adminAuthorizationMiddleware, this.upload.single("file"), authMiddleware,adminAuthorizationMiddleware, this.uploadedDrawingToserwerCreaTeMiniatureAndReturnPaths);
         this.router.post(`${this.path}/productInfo/getByTypeTopBottom`, authMiddleware, this.getProductByProductTypeProductTopProductBottom)
 
 

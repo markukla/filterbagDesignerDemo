@@ -19,7 +19,7 @@ import CreateProductTopDto from '../../ProductTypesAndClasses/createProductTop.d
 })
 export class ProductTopBackendService {
   rootURL = API_URL;
-  endpointUrl = '/productTops';
+  endpointUrl = '/api/productTops';
 
   constructor(private http: HttpClient,
               private tableService: GeneralTableService,

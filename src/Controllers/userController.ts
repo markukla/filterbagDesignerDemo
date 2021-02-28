@@ -21,7 +21,7 @@ import editorAuthorizationMiddleware from "../middleware/editorAuthorizationMidd
 
 
 class UserController implements Controller{
-    public path = '/users';
+    public path = '/api/users';
     public router = express.Router();
     public  service:UserService=new UserService();
     constructor() {

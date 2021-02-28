@@ -19,7 +19,7 @@ import {models} from "mongoose";
 
 
 class BusinessPartnerController implements Controller{
-    public path = '/business_partners';
+    public path = '/api/business_partners';
     public router = express.Router();
     public  service:UserService=new UserService();
     constructor() {

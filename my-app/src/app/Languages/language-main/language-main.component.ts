@@ -45,6 +45,7 @@ export class LanguageMainComponent implements OnInit, AfterContentChecked {
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
   languageNames = languageNames;
   userNames = generalUserNames;
+  rootUrl = API_URL;
 
 
   constructor(public tableService: GeneralTableService,
@@ -134,7 +135,7 @@ export class LanguageMainComponent implements OnInit, AfterContentChecked {
     this.router.navigateByUrl(`/languages/create?mode=createNew`);
   }
   getFlagUrl(language: Language): string {
-    const flagUlr = API_URL + language.flagUrl;
+    const flagUlr = this.rootUrl +  language.flagUrl;
     return flagUlr;
 
   }

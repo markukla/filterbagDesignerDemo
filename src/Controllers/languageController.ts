@@ -11,7 +11,7 @@ import LanguageDto from "../Models/Languages/language.dto";
 import Language from "../Models/Languages/language.entity";
 
 class LanguageController implements Controller{
-    public path = '/languages';
+    public path = '/api/languages';
     public router = express.Router();
     public  service:LanguageService=new LanguageService();
     constructor() {

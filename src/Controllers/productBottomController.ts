@@ -11,7 +11,7 @@ import adminAuthorizationMiddleware from "../middleware/adminAuthorization.middl
 
 
 class ProductBottomController implements Controller {
-    public path = '/productBottoms';
+    public path = '/api/productBottoms';
     public router = express.Router();
     public service: ProductBottomService = new ProductBottomService();
 

@@ -13,7 +13,7 @@ import CreateDimensionCodeDto from "../Models/DimesnionCodes/createDimensionCode
 import DimensionCode from "../Models/DimesnionCodes/diemensionCode.entity";
 
 class DimensionCodeController implements Controller{
-    public path = '/dimensionCodes';
+    public path = '/api/dimensionCodes';
     public router = express.Router();
     public  service:DimensionCodeService=new DimensionCodeService();
     constructor() {

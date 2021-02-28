@@ -28,19 +28,19 @@ export class UserBackendService {
   }
 
   getAllPriviligedUsers(): Observable<HttpResponse<User[]>> {
-    return this.http.get<User[]>(this.rootURL + '/users', {observe: 'response'});
+    return this.http.get<User[]>(this.rootURL + '/api/users', {observe: 'response'});
   }
   getAllAdmins(): Observable<HttpResponse<User[]>> {
-    return this.http.get<User[]>(this.rootURL + '/users/admins', {observe: 'response'});
+    return this.http.get<User[]>(this.rootURL + '/api/users/admins', {observe: 'response'});
   }
   getAllEditors(): Observable<HttpResponse<User[]>> {
-    return this.http.get<User[]>(this.rootURL + '/users/editors', {observe: 'response'});
+    return this.http.get<User[]>(this.rootURL + '/api/users/editors', {observe: 'response'});
   }
 
   // tslint:disable-next-line:typedef
   addUsers(createUser: CreatePrivilegedUserDto): Observable<HttpResponse<User>> {
     // tslint:disable-next-line:max-line-length
-    return this.http.post<User>(this.rootURL + '/users', createUser, {observe: 'response'}).pipe(
+    return this.http.post<User>(this.rootURL + '/api/users', createUser, {observe: 'response'}).pipe(
       // tslint:disable-next-line:no-shadowed-variable
       tap((user) => {
         this.usersTableService.addRecordToTable(user.body);
@@ -48,7 +48,7 @@ export class UserBackendService {
   }
 
   deleteUserlById(id: string): Observable<HttpResponse<any>> {
-    const deleteUrl = `${this.rootURL}/users/${id}`;
+    const deleteUrl = `${this.rootURL}/api/users/${id}`;
     return this.http.delete(deleteUrl, {observe: 'response'}).pipe(
       // tslint:disable-next-line:no-shadowed-variable
       tap((material) => {
@@ -57,7 +57,7 @@ export class UserBackendService {
   }
 
   updateUserById(id: string, updateUserDto: UpdatePrivilegedUserWithouTPasswordDto): Observable<HttpResponse<User>> {
-    const updateUrl = `${this.rootURL}/users/${id}`;
+    const updateUrl = `${this.rootURL}/api/users/${id}`;
     return this.http.patch<User>(updateUrl, updateUserDto, {observe: 'response'}).pipe(
       // tslint:disable-next-line:no-shadowed-variable
       tap((user) => {
@@ -69,24 +69,24 @@ export class UserBackendService {
 
 
   findUserById(id: string): Observable<HttpResponse<User>> {
-    const getUrl = `${this.rootURL}/users/${id}`;
+    const getUrl = `${this.rootURL}/api/users/${id}`;
     return this.http.get<User>(getUrl, {observe: 'response'} );
   }
 
   findUserByEmail(email: string): Observable<boolean> {
-    const getUrl = `${this.rootURL}/users/emails/${email}`;
+    const getUrl = `${this.rootURL}/api/users/emails/${email}`;
     return this.http.get<boolean>(getUrl);
   }
   findOtherUserByEmail(email: string, id: string): Observable<boolean>{
-    const getUrl = `${this.rootURL}/users/${id}/emails/${email}`;
+    const getUrl = `${this.rootURL}/api/users/${id}/emails/${email}`;
     return this.http.get<boolean>(getUrl);
   }
   changeUserPasswordById(id: string, passwordData: CHangePasswordByAdminDto): Observable<HttpResponse<User>> {
-    const url = `${this.rootURL}/users/${id}/changePassword`;
+    const url = `${this.rootURL}/api/users/${id}/changePassword`;
     return this.http.patch<User>(url, passwordData, { observe: 'response'} );
   }
   blodkUserById(id: string, activeData: BlockUserDto): Observable<HttpResponse<User>> {
-    const url = `${this.rootURL}/users/${id}/blockOrUnblock`;
+    const url = `${this.rootURL}/api/users/${id}/blockOrUnblock`;
     return this.http.patch<User>(url, activeData, { observe: 'response'}).pipe(
       // tslint:disable-next-line:no-shadowed-variable
       tap((user) => {

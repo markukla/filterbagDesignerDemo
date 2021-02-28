@@ -25,7 +25,7 @@ const url = require('url');
 
 
 class MaterialController implements Controller {
-    public path = '/materials';
+    public path = '/api/materials';
     public router = express.Router();
     public service: MaterialService = new MaterialService();
 

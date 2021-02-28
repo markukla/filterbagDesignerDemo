@@ -17,7 +17,7 @@ import BlackListedToken from "../Models/BlackListedTokenEntity/blackListedToken.
 import NotActiveException from "../Exceptions/NotActiveException";
 
 class AuthenticationController implements Controller {
-  public path = '/auth';
+  public path = '/api/auth';
   public router = express.Router();
  public service = new AuthenticationService();
  public manager=getManager();

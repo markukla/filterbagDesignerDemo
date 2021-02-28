@@ -26,12 +26,12 @@ export class BusinesPartnerBackendService {
   }
 
   getAllRecords(): Observable<HttpResponse<User[]>> {
-    return this.http.get<User[]>(this.rootURL + '/business_partners', {observe: 'response'});
+    return this.http.get<User[]>(this.rootURL + '/api/business_partners', {observe: 'response'});
   }
   // tslint:disable-next-line:typedef
   addOneRecord(createpartner: CreateBusinessPartnerDto): Observable<HttpResponse<User>> {
     // tslint:disable-next-line:max-line-length
-    return this.http.post<User>(this.rootURL + '/business_partners', createpartner, {observe: 'response'}).pipe(
+    return this.http.post<User>(this.rootURL + '/api/business_partners', createpartner, {observe: 'response'}).pipe(
       // tslint:disable-next-line:no-shadowed-variable
       tap((user) => {
         this.partnerTableService.addRecordToTable(user.body);
@@ -39,7 +39,7 @@ export class BusinesPartnerBackendService {
   }
 
   deleteOneRecordById(id: string): Observable<HttpResponse<any>> {
-    const deleteUrl = `${this.rootURL}/business_partners/${id}`;
+    const deleteUrl = `${this.rootURL}/api/business_partners/${id}`;
     return this.http.delete(deleteUrl, {observe: 'response'}).pipe(
       // tslint:disable-next-line:no-shadowed-variable
       tap((material) => {
@@ -48,7 +48,7 @@ export class BusinesPartnerBackendService {
   }
 
   updateRecordById(id: string, updateUserDto: UpdateBussinessPartnerWithoutPassword): Observable<HttpResponse<User>> {
-    const updateUrl = `${this.rootURL}/business_partners/${id}`;
+    const updateUrl = `${this.rootURL}/api/business_partners/${id}`;
     return this.http.patch<User>(updateUrl, updateUserDto, {observe: 'response'}).pipe(
       // tslint:disable-next-line:no-shadowed-variable
       tap((user) => {
@@ -60,24 +60,24 @@ export class BusinesPartnerBackendService {
 
 
   findRecordById(id: string): Observable<HttpResponse<User>> {
-    const getUrl = `${this.rootURL}/business_partners/${id}`;
+    const getUrl = `${this.rootURL}/api/business_partners/${id}`;
     return this.http.get<User>(getUrl, {observe: 'response'} );
   }
 
   findUserByEmail(email: string): Observable<boolean> {
-    const getUrl = `${this.rootURL}/business_partners/emails/${email}`;
+    const getUrl = `${this.rootURL}/api/business_partners/emails/${email}`;
     return this.http.get<boolean>(getUrl);
   }
   findOtherUserByEmail(email: string, id: string): Observable<boolean>{
-    const getUrl = `${this.rootURL}/business_partners/${id}/emails/${email}`;
+    const getUrl = `${this.rootURL}/api/business_partners/${id}/emails/${email}`;
     return this.http.get<boolean>(getUrl);
   }
   changeUserPasswordById(id: string, passwordData: CHangePasswordByAdminDto): Observable<HttpResponse<User>> {
-    const url = `${this.rootURL}/business_partners/${id}/changePassword`;
+    const url = `${this.rootURL}/api/business_partners/${id}/changePassword`;
     return this.http.patch<User>(url, passwordData, { observe: 'response'} );
   }
   blodkUserById(id: string, activeData: BlockUserDto): Observable<HttpResponse<User>> {
-    const url = `${this.rootURL}/business_partners/${id}/blockOrUnblock`;
+    const url = `${this.rootURL}/api/business_partners/${id}/blockOrUnblock`;
     return this.http.patch<User>(url, activeData, { observe: 'response'}).pipe(
       // tslint:disable-next-line:no-shadowed-variable
       tap((user) => {

@@ -184,6 +184,10 @@ export class AuthenticationService {
         this.vocabulariesInSelectedLanguage = JSON.parse(vocabulariesInselctedLanguageInSessionStorage);
         this.setallNamesToSelectedLanguage();
       }
+      const languages = JSON.parse(sessionStorage.getItem('languages'));
+      if(languages) {
+        this.languages = languages;
+      }
     }
   }
 
@@ -192,15 +196,9 @@ export class AuthenticationService {
     this.user = null;
     this.tokenData = null;
     this.tokenString = null;
+    this.languages = null;
     this.userRole = null;
     this.selectedLanguageCode = null;
-    this.vocabulariesInSelectedLanguage = null;
-    this.generalNamesInSelectedLanguage = null;
-    this.generalUserNames = null;
-    this.orderNamesInSelectedLanguage = null;
-    this.previousUrl = null;
-    this.currentUrl = null;
-    this.routeHistory = null;
 
   }
 
@@ -214,9 +212,7 @@ export class AuthenticationService {
   }
 
   setallNamesToSelectedLanguage(): void {
-    this.vocabulariesInSelectedLanguage.forEach((vocabulary) => {
 
-    });
     setTabelColumnAndOtherNamesForSelectedLanguage(this.orderNamesInSelectedLanguage, this.vocabulariesInSelectedLanguage);
     // tslint:disable-next-line:max-line-length
     setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.vocabulariesInSelectedLanguage);
@@ -228,11 +224,13 @@ export class AuthenticationService {
 
   }
 
-  setSelectedLanguageCodeAndVocabullaryTableInSelectedLanguage(languageCode: string, vocabularies: Vocabulary []): void {
-   if(languageCode && vocabularies) {
+  setSelectedLanguageCodeAndVocabullaryTableInSelectedLanguage(languageCode: string, vocabularies: Vocabulary [], languages: Language[]): void {
+   if(languageCode && vocabularies && languages) {
      this.selectedLanguageCode = languageCode;
      sessionStorage.setItem('languageCode', this.selectedLanguageCode);
      this.vocabulariesInSelectedLanguage = [];
+     this.languages = languages;
+     sessionStorage.setItem('languages', JSON.stringify(languages));
      // tslint:disable-next-line:max-line-length
      vocabularies.forEach((vocabulary) => {
        this.vocabulariesInSelectedLanguage.push(this.vocabularyBackendService.createVocabularryForTableCellFromVocabulary(vocabulary, this.selectedLanguageCode));

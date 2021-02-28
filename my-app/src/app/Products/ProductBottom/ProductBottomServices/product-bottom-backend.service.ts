@@ -20,7 +20,7 @@ import CreateProductBottomDto from '../../ProductTypesAndClasses/createProductBo
 })
 export class ProductBottomBackendService {
   rootURL = API_URL;
-  endpointUrl = '/productBottoms';
+  endpointUrl = '/api/productBottoms';
   constructor(private http: HttpClient,
               private tableService: GeneralTableService,
               private authenticationService: AuthenticationService) {

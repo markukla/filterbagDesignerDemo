@@ -18,11 +18,11 @@ import {VocabularyForTableCell} from '../VocabularyTypesAndClasses/VocabularyFor
 })
 export class VocabularyBackendServiceService {
   rootURL = API_URL;
-  endpointUrl = '/vocabularies';
+  endpointUrl = '/api/vocabularies';
 
   constructor(private http: HttpClient,
               private tableService: GeneralTableService,
-              private authenticationService: AuthenticationService) {
+              ) {
   }
 
   getRecords(): Observable<HttpResponse<Vocabulary[]>> {

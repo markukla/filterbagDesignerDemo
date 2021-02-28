@@ -11,7 +11,7 @@ import RoleService from "../RepositoryServices/roleRepositoryService";
 
 
 class RoleController implements Controller{
-    public path = '/roles';
+    public path = '/api/roles';
     public router = express.Router();
     public  service:RoleService=new RoleService();
     constructor() {
