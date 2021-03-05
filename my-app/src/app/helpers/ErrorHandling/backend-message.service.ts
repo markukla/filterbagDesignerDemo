@@ -38,9 +38,12 @@ export class BackendMessageService {
   }
   returnErrorToUserBasingOnBackendErrorStringForUpdate(error: HttpErrorResponse): string {
     this.initColumnNamesInSelectedLanguage();
+    if(error) {
+
+    }
     const errorMessage = error.error.message.toUpperCase();
     const errorToExpect = 'already exist'.toUpperCase();
-    if (errorMessage.includes(errorToExpect)) {
+    if (errorMessage&&errorMessage.includes(errorToExpect)) {
       console.log(`error.error.message = ${error.error.message}`);
       return this.generalErrorMessageForUpdate + ' '+ this.otherRecordAlreadyExist;
     } else {

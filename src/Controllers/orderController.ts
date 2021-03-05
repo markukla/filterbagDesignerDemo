@@ -49,7 +49,7 @@ class OrderController implements Controller {
         this.router.get(`${this.path}/currents/businessPartner/:id`, authMiddleware, this.findAllCurentVerionsOfOrderForGivenPartneId);
         this.router.get(`${this.path}/:id`, /*authMiddleware,*/ this.getOneOrderById);
         this.router.get(`${this.path}/orderVersionRegister/:id`, authMiddleware, this.findOrderVersionRegisterById);
-        this.router.get(`${this.path}/orderNumber/newest`, authMiddleware,this.getOrderNumberForNewOrder);
+        this.router.get(`${this.path}/orderNumber/newest`, authMiddleware, this.getOrderNumberForNewOrder);
         this.router.post(`/api/drawing/save/pdf`, authMiddleware, this.usePuppetearToObtainDrawingPdf)
 
         //remeber to add authentication admin authorization middleware after tests
@@ -155,80 +155,74 @@ class OrderController implements Controller {
 
 
     private findAllCurentVerionsOfOrderForGivenPartnerCode = async (request: express.Request, response: express.Response, next: express.NextFunction) => {
-try{
-        const partnerCode:string=request.params.partnerCode;
-        console.log(`${partnerCode}`);
+        try {
+            const partnerCode: string = request.params.partnerCode;
+            console.log(`${partnerCode}`);
 
-        const ordersforOnePartner:Order[]=await this.service.findAllCurentVerionsOfOrderForGivenPartnerCode(partnerCode);
-
-
-        response.send(ordersforOnePartner);
-
-
-    }
-    catch (error) {
-    next(error);
-    }
-
-    }
-
-
-    private findAllCurentVerionsOfOrderForGivenPartneId = async (request: express.Request, response: express.Response, next: express.NextFunction) => {
-        try{
-            const id:string=request.params.id;
-
-
-            const ordersforOnePartner:Order[]=await this.service.findAllCurentVerionsOfOrderForGivenPartnerId(id);
+            const ordersforOnePartner: Order[] = await this.service.findAllCurentVerionsOfOrderForGivenPartnerCode(partnerCode);
 
 
             response.send(ordersforOnePartner);
 
 
+        } catch (error) {
+            next(error);
         }
-        catch (error) {
+
+    }
+
+
+    private findAllCurentVerionsOfOrderForGivenPartneId = async (request: express.Request, response: express.Response, next: express.NextFunction) => {
+        try {
+            const id: string = request.params.id;
+
+
+            const ordersforOnePartner: Order[] = await this.service.findAllCurentVerionsOfOrderForGivenPartnerId(id);
+
+
+            response.send(ordersforOnePartner);
+
+
+        } catch (error) {
             next(error);
         }
 
     }
 
     private findOrderVersionRegisterById = async (request: express.Request, response: express.Response, next: express.NextFunction) => {
-        try{
-            const id:string=request.params.id;
+        try {
+            const id: string = request.params.id;
 
 
-            const orderVersionRegister:OrderVersionRegister=await this.service.findOrderVersionRegisterById(id);
+            const orderVersionRegister: OrderVersionRegister = await this.service.findOrderVersionRegisterById(id);
 
 
             response.send(orderVersionRegister);
 
 
-        }
-        catch (error) {
+        } catch (error) {
             next(error);
         }
 
     }
 
     private getOrderNumberForNewOrder = async (request: express.Request, response: express.Response, next: express.NextFunction) => {
-        try{
+        try {
 
 
-
-            const newestOrderNumber: NewestOrderNumber=await this.service.obtainOrderNumberForNewOrder();
+            const newestOrderNumber: NewestOrderNumber = await this.service.obtainOrderNumberForNewOrder();
 
 
             response.send(newestOrderNumber);
 
 
-        }
-        catch (error) {
+        } catch (error) {
             next(error);
         }
 
     }
     private usePuppetearToObtainDrawingPdf = async (request: express.Request, response: express.Response, next: express.NextFunction) => {
         const url = request.body.url;
-        const token = request.body.token;
         console.log(`url to print= ${url}`);
         try {
             /*
@@ -255,29 +249,38 @@ try{
                         });
 
                     }*/
-            const pdf = await this.printPdf(url, token);
+            const pdf = await this.printPdf(url);
             response.set({'Content-Type': 'application/pdf', 'Content-Length': pdf.length})
             response.send(pdf);
-        }catch (error) {
-next(error);
+        } catch (error) {
+            next(error);
         }
 
     }
 
-     printPdf = async (urlToPrint: string, token: string) => {
-    const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-dev-shm-usage'] });
-    const page = await browser.newPage();
-         await page.setExtraHTTPHeaders({
-             'Authorization': token,
-         });
-         const mainPageUrlTest = 'http://localhost:3080/';
-    await page.goto(mainPageUrlTest, {waitUntil: 'networkidle0'});
-const pdf = await page.pdf({ format: 'A4' }); // does not save file on server but returns it to send to client
 
-await browser.close();
-return pdf
+    printPdf = async (urlToPrint: string) => {
+        const browser = await puppeteer.launch({headless: true, args: ['--no-sandbox', '--disable-dev-shm-usage']});
+        const page = await browser.newPage();
 
-}
+
+        const urlParams = urlToPrint.substring(15) + `&email=${process.env.PuppeterEmail}&password=${process.env.PuppeterPassword}`;
+        console.log(`urlParams= ${urlParams}`)
+        const mainPageUrlTest = `${process.env.API_URL_HOST + process.env.PORT}/${urlParams}`;
+        console.log(`puppeterUrl = ${urlToPrint}`);
+        // await page.goto(mainPageUrlTest, {waitUntil: 'networkidle0'});
+        await Promise.all([
+            page.goto(mainPageUrlTest, {waitUntil: 'networkidle0'}),
+            page.waitForNavigation({waitUntil: 'networkidle0'}),
+        ]);
+
+
+        const pdf = await page.pdf({format: 'A4'});
+
+        await browser.close();
+        return pdf
+
+    }
 }
 
 

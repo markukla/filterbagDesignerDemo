@@ -21,6 +21,16 @@ class UsersExampleForTests {
         businesPartnerCompanyName: null,
         code: null
     }
+    public puppeterUser: User = {
+        fulName: 'puppeteer',
+        email: 'puppeteer@gmail.com',
+        password: this.hashedPassword,
+        active: true,
+        id: 1,
+        roles: [new Role(RoleEnum.ADMIN), new Role(RoleEnum.EDITOR)],
+        businesPartnerCompanyName: null,
+        code: null
+    }
     public inactiveAdminUserExample: User = {
         fulName: 'Jan Kowalski',
         email: 'jan@kowalski.com',

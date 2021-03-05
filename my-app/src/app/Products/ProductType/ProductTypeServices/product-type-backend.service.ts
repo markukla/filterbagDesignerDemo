@@ -18,7 +18,7 @@ import {GeneralTableService} from '../../../util/GeneralTableService/general-tab
 })
 export class ProductTypeBackendService {
   rootURL = API_URL;
-  endpointUrl = '/productTypes';
+  endpointUrl = '/api/productTypes';
   constructor(private http: HttpClient,
               private tableService: GeneralTableService,
               private authenticationService: AuthenticationService) {

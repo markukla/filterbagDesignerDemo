@@ -33,6 +33,13 @@ export class LoginComponent implements OnInit {
   vocabularies: Vocabulary[];
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
   userNames = generalUserNames;
+  puppeterUrl: string;
+  productId:string;
+  orderId:string;
+  mode:string;
+  puppeterEmail: string;
+  puppeterPassword: string;
+  puppeterLanguageCode: string;
 
   constructor(
     private loginBackendService: AuthenticationBackendService,
@@ -86,6 +93,28 @@ export class LoginComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+    this.route.queryParamMap.subscribe(queryParams => {
+      this.productId = queryParams.get('productId');
+      this.orderId = queryParams.get('orderId')
+      this.mode = queryParams.get('mode');
+      this.puppeterEmail = queryParams.get('email');
+      this.puppeterPassword = queryParams.get('password');
+      this.puppeterLanguageCode = queryParams.get('languageCode');
+
+      console.log(`this.productId = ${this.productId}`);
+      console.log(`this.mode = ${this.mode}`);
+      if(this.productId) {
+        this.puppeterUrl = `/orders/drawing?productId=${this.productId}&mode=${this.mode}`;
+      }
+      else if (this.orderId) {
+        this.puppeterUrl = `/orders/drawing?orderId=${this.orderId}&mode=${this.mode}`;
+      }
+      else {
+        console.log('wrong path!!');
+      }
+
+
+    });
 
 
     const languages = await this.languageBackendService.getRecords().toPromise();
@@ -95,6 +124,21 @@ export class LoginComponent implements OnInit {
       language.active === true);
     this.loginService.languages = languages.body;
     this.vocabularies = vocabularies.body;
+    let logInDto: LogInDto;
+    if(this.puppeterUrl) {
+      logInDto ={
+        email: this.puppeterEmail, password: this.puppeterPassword
+      };
+      this.loginBackendService.login(logInDto).subscribe((logedUser) => {
+        this.loginService.setLogedUserUserAndToken(logedUser.body);
+        if(this.puppeterLanguageCode) {
+          this.loginService.selectedLanguageCode = this.puppeterLanguageCode;
+          this.loginService.setSelectedLanguageCodeAndVocabullaryTableInSelectedLanguage(this.loginService.selectedLanguageCode, this.vocabularies, this.languages);
+        }
+        this.router.navigateByUrl(this.puppeterUrl);
+      });
+    }
+
     console.log(`navigator.language = ${navigator.language}`);
     const languageOfBrowser = navigator.language.split('-')[0].toUpperCase();
     const avalaibeLanguageCodesInAplication: any[] = this.languages.map(language =>
