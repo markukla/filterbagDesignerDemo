@@ -66,7 +66,10 @@ export class BackendMessageService {
   }
 
   initColumnNamesInSelectedLanguage(): void {
-    this.generalNamesInSelectedLanguage = this.authenticationService.generalUserNames;
+    this.generalNamesInSelectedLanguage = this.authenticationService.generalNamesInSelectedLanguage;
+    console.log(`this.generalNamesInSelectedLanguage= ${this.generalNamesInSelectedLanguage}`);
+    console.log(`this.generalNamesInSelectedLanguageoperationAddSuccessStatusMessage= ${this.generalNamesInSelectedLanguage.operationAddSuccessStatusMessage}`)
+    console.log(`authenticationService.generalUserNames.operationAddSuccessStatusMessage= ${this.authenticationService.generalNamesInSelectedLanguage.operationAddSuccessStatusMessage}`)
     this.otherRecordAlreadyExist = this.generalNamesInSelectedLanguage.otherRecordAlreadyExist;
     this.generalErrorMessageForCreate = this.generalNamesInSelectedLanguage.operationAddFailerStatusMessage;
     this.generalSuccessMessageForCreate = this.generalNamesInSelectedLanguage.operationAddSuccessStatusMessage;
