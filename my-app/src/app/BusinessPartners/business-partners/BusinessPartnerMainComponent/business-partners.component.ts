@@ -17,6 +17,8 @@ import {
 } from '../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription';
 import {setTabelColumnAndOtherNamesForSelectedLanguage} from '../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage';
 import {AuthenticationService} from '../../../LoginandLogOut/AuthenticationServices/authentication.service';
+import {GeneralTableService} from "../../../util/GeneralTableService/general-table.service";
+import {SearchService} from "../../../helpers/directive/SearchDirective/search.service";
 
 @Component({
   selector: 'app-business-partners',
@@ -42,12 +44,13 @@ export class BusinessPartnersComponent implements OnInit, AfterContentChecked {
   orderNames: any;
 
 
-  constructor(public tableService: BusinessPartnerTableService,
+  constructor(public tableService: GeneralTableService,
               public backendService: BusinesPartnerBackendService,
               public statusService: OperationStatusServiceService,
               public authenticationService: AuthenticationService,
               private router: Router,
-              private activedIdParam: ActivatedRoute) {
+              private activedIdParam: ActivatedRoute,
+              private searChService: SearchService) {
   }
 
   ngOnInit(): void {
@@ -92,9 +95,10 @@ export class BusinessPartnersComponent implements OnInit, AfterContentChecked {
 
   getRecords(): void {
     this.backendService.getAllRecords().subscribe((users) => {
-      this.tableService.tableRecords.length = 0;
-      this.tableService.tableRecords = users.body;
-      this.partners = this.tableService.getTableRecords();
+      this.tableService.records.length = 0;
+      this.tableService.records = users.body;
+      this.partners = this.tableService.getRecords();
+      this.searChService.orginalArrayCopy = [...this.tableService.getRecords()];
     });
 
   }

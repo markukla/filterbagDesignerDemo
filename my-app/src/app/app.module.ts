@@ -69,6 +69,7 @@ import { ProcutMiniatureComponentComponent } from './Orders/orders/productMiniat
 import { ConfirmDeleteComponent } from './ConfirmDelete/confirm-delete/confirm-delete.component';
 import { OperationStatusComponent } from './OperationStatusComponent/operation-status/operation-status.component';
 import { ValidationErrorMessageComponent } from './ValidationMessage/validation-error-message/validation-error-message.component';
+import { GeneretePasswordDirective } from './helpers/directive/GeneratePasswordDirective/generete-password.directive';
 
 
 
@@ -131,7 +132,8 @@ import { ValidationErrorMessageComponent } from './ValidationMessage/validation-
     ProcutMiniatureComponentComponent,
     ConfirmDeleteComponent,
     OperationStatusComponent,
-    ValidationErrorMessageComponent
+    ValidationErrorMessageComponent,
+    GeneretePasswordDirective
     ],
   imports: [
     BrowserModule,
