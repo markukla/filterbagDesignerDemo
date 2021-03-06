@@ -11,6 +11,7 @@ import {
   generalUserNames, orderNames
 } from '../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription';
 import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
+import {GeneratePassordAlgoritm} from "../../helpers/directive/GeneratePasswordDirective/generatePassordAlgoritm";
 
 @Component({
   selector: 'app-create-new-user',
@@ -106,6 +107,11 @@ export class CreateNewUserComponent implements OnInit {
     setTimeout(() => {
       this.operationStatusMessage = null;
     }, 2000);
+  }
+
+  generatePassword() {
+    const passordGenerator = new GeneratePassordAlgoritm();
+    this.password.setValue(passordGenerator.generatePassword(10));
   }
 
 

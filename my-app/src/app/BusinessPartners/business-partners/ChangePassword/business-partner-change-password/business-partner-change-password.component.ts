@@ -15,6 +15,8 @@ import {
   generalNamesInSelectedLanguage,
   generalUserNames, orderNames
 } from '../../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription';
+import {GeneratePassordAlgoritm} from "../../../../helpers/directive/GeneratePasswordDirective/generatePassordAlgoritm";
+import {GeneralTableService} from "../../../../util/GeneralTableService/general-table.service";
 
 @Component({
   selector: 'app-business-partner-change-password',
@@ -28,11 +30,12 @@ export class BusinessPartnerChangePasswordComponent implements OnInit {
   userNamesInSelectedLanguage = generalUserNames;
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
   orderNames = orderNames;
+  userForm: FormGroup;
 
   constructor(
     private backendService: BusinesPartnerBackendService,
     private authenticationService: AuthenticationService,
-    private tableService: BusinessPartnerTableService,
+    private tableService: GeneralTableService,
     public validatorService: BusinessPartnerValidatorService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -41,12 +44,18 @@ export class BusinessPartnerChangePasswordComponent implements OnInit {
 
   }
 
+  ngOnInit(): void {
+    this.userForm = new FormGroup({
+      // tslint:disable-next-line:max-line-length
+      password: new FormControl('', [Validators.nullValidator, Validators.required, Validators.minLength(8),  this.validatorService.patternValidator(/(?=(.*\d){2})/, { hasNumber: true }), this.validatorService.patternValidator(/[A-Z]/, { hasCapitalCase: true }), this.validatorService.patternValidator(/[a-z]/, { hasSmallCase: true })]),
+      confirmPassword: new FormControl('', [Validators.required]),
+    }, {updateOn: 'change', validators: [this.validatorService.passwordMatchValidator({NoPassswordMatch: true})]});
+    this.selectedId = String(this.tableService.selectedId);
+    this.getSelectedUserData();
+  }
+
   // @ts-ignore
-  userForm = new FormGroup({
-    // tslint:disable-next-line:max-line-length
-    password: new FormControl('', [Validators.nullValidator, Validators.required, Validators.minLength(8),  this.validatorService.patternValidator(/(?=(.*\d){2})/, { hasNumber: true }), this.validatorService.patternValidator(/[A-Z]/, { hasCapitalCase: true }), this.validatorService.patternValidator(/[a-z]/, { hasSmallCase: true })]),
-    confirmPassword: new FormControl('', [Validators.required]),
-  }, {updateOn: 'change', validators: [this.validatorService.passwordMatchValidator({NoPassswordMatch: true})]});
+
 
   // tslint:disable-next-line:typedef
   get confirmPassword() {
@@ -75,9 +84,7 @@ export class BusinessPartnerChangePasswordComponent implements OnInit {
     this.router.navigateByUrl(this.authenticationService._previousUrl);
   }
 
-  ngOnInit(): void {
-    this.getSelectedUserData();
-  }
+
   initColumnNamesInSelectedLanguage(): void {
     this.userNamesInSelectedLanguage = this.authenticationService.generalUserNames;
     this.generalNamesInSelectedLanguage = this.authenticationService.generalNamesInSelectedLanguage;
@@ -97,6 +104,11 @@ export class BusinessPartnerChangePasswordComponent implements OnInit {
         this.userPartnerCode = user.body.code;
       }
     });
+  }
+
+  generatePassword() {
+    const passordGenerator = new GeneratePassordAlgoritm();
+    this.password.setValue(passordGenerator.generatePassword(10));
   }
 
 

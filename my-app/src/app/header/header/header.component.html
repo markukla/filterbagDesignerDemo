@@ -2,7 +2,7 @@
   <div *ngIf="this.authenticationService.userRole && this.authenticationService.userRole === this.admin">
   <span>
     <a [routerLink]="['/orders']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.orders}}</a>
-  <a [routerLink]="['/businessPartners']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.partners}}</a>
+  <a [routerLink]="['/businessPartners/1']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.partners}}</a>
   <a [routerLink]="['/materials']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.materials}}</a>
   <a [routerLink]="['/products']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.products}}</a>
      <a [routerLink]="['/users']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.users}}</a>

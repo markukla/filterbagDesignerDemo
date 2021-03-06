@@ -42,6 +42,11 @@ export class BusinessPartnersComponent implements OnInit, AfterContentChecked {
   userNamesInSelectedLanguage: any;
   generalNamesInSelectedLanguage: any;
   orderNames: any;
+  curentPageNumber: number;
+  numberOfPages: number;
+
+  partnersForCurrentPage: User[];
+  pages: number [] = [];
 
 
   constructor(public tableService: GeneralTableService,
@@ -50,10 +55,13 @@ export class BusinessPartnersComponent implements OnInit, AfterContentChecked {
               public authenticationService: AuthenticationService,
               private router: Router,
               private activedIdParam: ActivatedRoute,
-              private searChService: SearchService) {
+              private searChService: SearchService,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
+    const routeParams = this.route.snapshot.paramMap;
+    this.curentPageNumber = Number(routeParams.get('pageNumber'));
     this.initColumnNamesInSelectedLanguage();
     this.getRecords();
     this.selectedId = this.tableService.selectedId;
@@ -91,6 +99,7 @@ export class BusinessPartnersComponent implements OnInit, AfterContentChecked {
     if (this.partners) {
       this.recordNumbers = this.partners.length;
     }
+    this.getPartnersForCurrentPage();
   }
 
   getRecords(): void {
@@ -99,7 +108,61 @@ export class BusinessPartnersComponent implements OnInit, AfterContentChecked {
       this.tableService.records = users.body;
       this.partners = this.tableService.getRecords();
       this.searChService.orginalArrayCopy = [...this.tableService.getRecords()];
+      this.numberOfPages = this.getNumberOfPages(2, this.partners)
+      console.log(`numberOfPages=${this.numberOfPages}`);
+      console.log(`currentpageNumber = ${this.curentPageNumber}`);
+      this.partnersForCurrentPage = this.getRecordsForCurrentPage(this.partners, this.curentPageNumber,2);
+      console.log(`this.partnersForCurrentPage.length = ${this.partnersForCurrentPage.length}`)
+       this.populatePageArrayForGivenNumberOfPages(this.pages, this.numberOfPages);
+      console.log(`this.pages.lenght= ${this.pages.length}`);
     });
+
+  }
+  getPartnersForCurrentPage(): void {
+    if(this.partners.length>0) {
+
+
+    this.numberOfPages = this.getNumberOfPages(2, this.partners)
+    console.log(`numberOfPages=${this.numberOfPages}`);
+    console.log(`currentpageNumber = ${this.curentPageNumber}`);
+    this.partnersForCurrentPage = this.getRecordsForCurrentPage(this.partners, this.curentPageNumber,2);
+    console.log(`this.partnersForCurrentPage.length = ${this.partnersForCurrentPage.length}`)
+    this.populatePageArrayForGivenNumberOfPages(this.pages, this.numberOfPages);
+    console.log(`this.pages.lenght= ${this.pages.length}`);
+    }
+  }
+  getNumberOfPages(numberOfRecordsForPage: number, records:any []): number {
+    const numberOfPages= Math.ceil((records.length/numberOfRecordsForPage));
+    console.log(`numberOfPages = ${numberOfPages}`);
+    return numberOfPages;
+  }
+  populatePageArrayForGivenNumberOfPages(array: any[], pageNumber: number) {
+    array.length =0;
+    for (let i = 1; i<=pageNumber; i++) {
+      array.push(i);
+    }
+  }
+  getRecordsForCurrentPage(allRecords: any[], pageNumber: number, numberOfRecordsForPage: number): any[] {
+    const recordForThisPage = [];
+
+    for (let i = 0; i <allRecords.length ; i++) {
+
+      if(pageNumber ===1) {
+        if(i+1<=numberOfRecordsForPage*(pageNumber)) {
+          recordForThisPage.push(allRecords[i]);
+        }
+      }
+      else if(pageNumber >1) {
+        if(i+1<=numberOfRecordsForPage*(pageNumber) && i+1 >numberOfRecordsForPage*(pageNumber-1)){
+          recordForThisPage.push(allRecords[i]);
+        }
+    }
+
+
+      }
+
+
+    return recordForThisPage;
 
   }
 
@@ -131,7 +194,7 @@ export class BusinessPartnersComponent implements OnInit, AfterContentChecked {
 
   updateSelectedRecord(userId: number): void {
     this.tableService.selectedId = userId;
-    this.router.navigateByUrl('/businessPartners/update');
+    this.router.navigateByUrl('/updatebusinessPartners');
   }
 
   blockOrUnblockUser(user: User): void {
@@ -157,7 +220,7 @@ export class BusinessPartnersComponent implements OnInit, AfterContentChecked {
 
   changePaswordForUserId(id: number): void {
     this.tableService.selectedId = id;
-    this.router.navigateByUrl('/businessPartners/changePassword');
+    this.router.navigateByUrl('/changePasswordBusinessPartners');
   }
 
 
@@ -171,4 +234,7 @@ export class BusinessPartnersComponent implements OnInit, AfterContentChecked {
     this.router.navigateByUrl(`orders?patnerId=${partnerId}`);
   }
 
+  navigateToPageNumber(pageNumber: number) {
+    this.router.navigateByUrl(`/businessPartners?pageNumber=${String(pageNumber)}`);
+  }
 }

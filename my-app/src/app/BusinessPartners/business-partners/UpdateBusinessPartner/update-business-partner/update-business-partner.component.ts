@@ -14,6 +14,7 @@ import {
   generalNamesInSelectedLanguage,
   generalUserNames, orderNames
 } from '../../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription';
+import {GeneralTableService} from "../../../../util/GeneralTableService/general-table.service";
 
 @Component({
   selector: 'app-update-business-partner',
@@ -23,38 +24,47 @@ import {
 export class UpdateBusinessPartnerComponent implements OnInit, AfterContentChecked {
 
   operationStatusMessage: string;
-  selectedId = String(this.tableService.selectedId);
+  selectedId: string;
   userNamesInSelectedLanguage = generalUserNames;
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
   orderNames = orderNames;
+  userForm: FormGroup;
 
   constructor(
     private authenticationService: AuthenticationService,
     private backendService: BusinesPartnerBackendService,
-    private tableService: BusinessPartnerTableService,
+    private tableService: GeneralTableService,
     public validatorService: BusinessPartnerValidatorService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router) {
   }
 
+  ngOnInit(): void {
+    this.selectedId = String(this.tableService.selectedId);
+    this.userForm = new FormGroup({
+      code: new FormControl('', [Validators.nullValidator, Validators.required]),
+      businesPartnerCompanyName: new FormControl('', [Validators.nullValidator, Validators.required]),
+      // tslint:disable-next-line:max-line-length
+      fulName: new FormControl('', [Validators.nullValidator, Validators.required]),
+      // tslint:disable-next-line:max-line-length
+      email: new FormControl('', {
+        updateOn: 'change',
+        validators: [Validators.nullValidator, Validators.required, Validators.email],
+        asyncValidators: [this.validatorService.emailAsyncValidatorForUpdate(this.selectedId)]
+      }),
+      active: new FormControl(false),
+      // tslint:disable-next-line:max-line-length
+      isAdmin: new FormControl(false),
+    }, {updateOn: 'change'});
+    // tslint:disable-next-line:typedef
+    this.initColumnNamesInSelectedLanguage();
+    this.setCurrentValueOfFormFields();
+  }
+
+
   // @ts-ignore
-  userForm = new FormGroup({
-    code: new FormControl('', [Validators.nullValidator, Validators.required]),
-    businesPartnerCompanyName: new FormControl('', [Validators.nullValidator, Validators.required]),
-    // tslint:disable-next-line:max-line-length
-    fulName: new FormControl('', [Validators.nullValidator, Validators.required]),
-    // tslint:disable-next-line:max-line-length
-    email: new FormControl('', {
-      updateOn: 'change',
-      validators: [Validators.nullValidator, Validators.required, Validators.email],
-      asyncValidators: [this.validatorService.emailAsyncValidatorForUpdate(this.selectedId)]
-    }),
-    active: new FormControl(false),
-    // tslint:disable-next-line:max-line-length
-    isAdmin: new FormControl(false),
-  }, {updateOn: 'change'});
-  // tslint:disable-next-line:typedef
+
   get code() {
     return this.userForm.get('code');
   }
@@ -113,10 +123,6 @@ export class UpdateBusinessPartnerComponent implements OnInit, AfterContentCheck
     this.router.navigateByUrl(this.authenticationService._previousUrl);
   }
 
-  ngOnInit(): void {
-    this.initColumnNamesInSelectedLanguage();
-    this.setCurrentValueOfFormFields();
-  }
   initColumnNamesInSelectedLanguage(): void {
     this.userNamesInSelectedLanguage = this.authenticationService.generalUserNames;
     this.generalNamesInSelectedLanguage = this.authenticationService.generalNamesInSelectedLanguage;

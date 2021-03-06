@@ -11,6 +11,7 @@ import {
   generalNamesInSelectedLanguage,
   generalUserNames, orderNames
 } from '../../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription';
+import {GeneratePassordAlgoritm} from "../../../../helpers/directive/GeneratePasswordDirective/generatePassordAlgoritm";
 
 @Component({
   selector: 'app-create-busines-partner',
@@ -115,4 +116,8 @@ export class CreateBusinesPartnerComponent implements OnInit {
   }
 
 
+  generatePassword() {
+    const passordGenerator = new GeneratePassordAlgoritm();
+    this.password.setValue(passordGenerator.generatePassword(10));
+  }
 }

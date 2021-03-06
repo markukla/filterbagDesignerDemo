@@ -13,6 +13,7 @@ import {
   generalUserNames, orderNames
 } from '../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription';
 import {AuthenticationService} from '../../LoginandLogOut/AuthenticationServices/authentication.service';
+import {GeneratePassordAlgoritm} from "../../helpers/directive/GeneratePasswordDirective/generatePassordAlgoritm";
 
 @Component({
   selector: 'app-change-password',
@@ -104,6 +105,11 @@ export class ChangePasswordComponent implements OnInit {
         }
       }
     });
+  }
+
+  generatePassword() {
+    const passordGenerator = new GeneratePassordAlgoritm();
+    this.password.setValue(passordGenerator.generatePassword(10));
   }
 
 
