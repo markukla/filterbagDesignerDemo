@@ -19,6 +19,7 @@ import {setTabelColumnAndOtherNamesForSelectedLanguage} from '../../../helpers/o
 import {AuthenticationService} from '../../../LoginandLogOut/AuthenticationServices/authentication.service';
 import {GeneralTableService} from "../../../util/GeneralTableService/general-table.service";
 import {SearchService} from "../../../helpers/directive/SearchDirective/search.service";
+import {Pagninator} from "../../../helpers/Paginator/paginator";
 
 @Component({
   selector: 'app-business-partners',
@@ -42,11 +43,9 @@ export class BusinessPartnersComponent implements OnInit, AfterContentChecked {
   userNamesInSelectedLanguage: any;
   generalNamesInSelectedLanguage: any;
   orderNames: any;
-  curentPageNumber: number;
-  numberOfPages: number;
-
   partnersForCurrentPage: User[];
-  pages: number [] = [];
+  paginator: Pagninator;
+  numberOfRecordsForPage: number;
 
 
   constructor(public tableService: GeneralTableService,
@@ -60,8 +59,11 @@ export class BusinessPartnersComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit(): void {
+
     const routeParams = this.route.snapshot.paramMap;
-    this.curentPageNumber = Number(routeParams.get('pageNumber'));
+    const currentPageNumber = Number(routeParams.get('pageNumber'));
+    this.numberOfRecordsForPage = 2;
+    this.paginator = new Pagninator(currentPageNumber);
     this.initColumnNamesInSelectedLanguage();
     this.getRecords();
     this.selectedId = this.tableService.selectedId;
@@ -99,7 +101,7 @@ export class BusinessPartnersComponent implements OnInit, AfterContentChecked {
     if (this.partners) {
       this.recordNumbers = this.partners.length;
     }
-    this.getPartnersForCurrentPage();
+   this.partnersForCurrentPage= this.paginator.paginateRecords(this.partners, this.numberOfRecordsForPage);
   }
 
   getRecords(): void {
@@ -108,62 +110,9 @@ export class BusinessPartnersComponent implements OnInit, AfterContentChecked {
       this.tableService.records = users.body;
       this.partners = this.tableService.getRecords();
       this.searChService.orginalArrayCopy = [...this.tableService.getRecords()];
-      this.numberOfPages = this.getNumberOfPages(2, this.partners)
-      console.log(`numberOfPages=${this.numberOfPages}`);
-      console.log(`currentpageNumber = ${this.curentPageNumber}`);
-      this.partnersForCurrentPage = this.getRecordsForCurrentPage(this.partners, this.curentPageNumber,2);
-      console.log(`this.partnersForCurrentPage.length = ${this.partnersForCurrentPage.length}`)
-       this.populatePageArrayForGivenNumberOfPages(this.pages, this.numberOfPages);
-      console.log(`this.pages.lenght= ${this.pages.length}`);
+      this.partnersForCurrentPage = this.paginator.paginateRecords(this.partners, 2);
+
     });
-
-  }
-  getPartnersForCurrentPage(): void {
-    if(this.partners.length>0) {
-
-
-    this.numberOfPages = this.getNumberOfPages(2, this.partners)
-    console.log(`numberOfPages=${this.numberOfPages}`);
-    console.log(`currentpageNumber = ${this.curentPageNumber}`);
-    this.partnersForCurrentPage = this.getRecordsForCurrentPage(this.partners, this.curentPageNumber,2);
-    console.log(`this.partnersForCurrentPage.length = ${this.partnersForCurrentPage.length}`)
-    this.populatePageArrayForGivenNumberOfPages(this.pages, this.numberOfPages);
-    console.log(`this.pages.lenght= ${this.pages.length}`);
-    }
-  }
-  getNumberOfPages(numberOfRecordsForPage: number, records:any []): number {
-    const numberOfPages= Math.ceil((records.length/numberOfRecordsForPage));
-    console.log(`numberOfPages = ${numberOfPages}`);
-    return numberOfPages;
-  }
-  populatePageArrayForGivenNumberOfPages(array: any[], pageNumber: number) {
-    array.length =0;
-    for (let i = 1; i<=pageNumber; i++) {
-      array.push(i);
-    }
-  }
-  getRecordsForCurrentPage(allRecords: any[], pageNumber: number, numberOfRecordsForPage: number): any[] {
-    const recordForThisPage = [];
-
-    for (let i = 0; i <allRecords.length ; i++) {
-
-      if(pageNumber ===1) {
-        if(i+1<=numberOfRecordsForPage*(pageNumber)) {
-          recordForThisPage.push(allRecords[i]);
-        }
-      }
-      else if(pageNumber >1) {
-        if(i+1<=numberOfRecordsForPage*(pageNumber) && i+1 >numberOfRecordsForPage*(pageNumber-1)){
-          recordForThisPage.push(allRecords[i]);
-        }
-    }
-
-
-      }
-
-
-    return recordForThisPage;
-
   }
 
   selectRecordtoDeleteAndShowConfirmDeleteWindow(materialId: number): void {
