@@ -176,7 +176,7 @@ import { GeneretePasswordDirective } from './helpers/directive/GeneratePasswordD
       {path: 'vocabularies', component: VocabularyMainComponentComponent},
       {path: 'vocabularies/add', component: CreateOrUpdateVocabularyComponent},
       {path: 'changePasswordByLoggedUser', component: ChangePasswordForLoggedUserComponent},
-      ])
+      ],{onSameUrlNavigation: 'reload', })
   ],
   providers: [
 

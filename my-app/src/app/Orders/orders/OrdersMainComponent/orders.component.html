@@ -36,7 +36,7 @@
     </thead>
     <tbody>
 
-    <tr *ngFor="let record of records">
+    <tr *ngFor="let record of recordsForCurrentPage">
       <td>{{record.orderTotalNumber}}</td>
       <td>{{record.businessPartnerCompanyName}}</td>
       <td>{{record.businessPartnerFulname}}</td>
@@ -50,13 +50,16 @@
         <br>
 
         <button class="updateButton" (click)="updateSelectedRecord(record.id);" [title]="updateButtonInfo">u</button>
-        <button class="showDrawing" [title]="generalNamesInSelectedLanguage.seeDrawing" (click)="showDrawing(record.id)"> Zobacz Rysunek</button>
-        <button class="showOrderHistory" [title]="generalNamesInSelectedLanguage.seeHistory" (click)="showOrderHistory(record.id)">Zobacz Historię</button>
+        <button class="showDrawing" [title]="generalNamesInSelectedLanguage.seeDrawing" (click)="showDrawing(record.id)">{{this.generalNamesInSelectedLanguage.seeDrawing}}</button>
+        <button class="showOrderHistory" [title]="generalNamesInSelectedLanguage.seeHistory" (click)="showOrderHistory(record.id)">{{this.generalNamesInSelectedLanguage.seeHistory}}</button>
         <button  class="deleteButton" (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(record.id)" [title]="deleteButtonInfo" >x</button>
       </td>
 
     </tr>
     </tbody>
+    <div *ngFor="let pageNumber of paginator.pages">
+      <a [routerLink]="['/orders']" [queryParams]="{pageNumber:pageNumber}">{{pageNumber}}</a>
+    </div>
   </table>
 </div>
 

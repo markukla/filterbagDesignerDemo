@@ -15,6 +15,7 @@ import {
   generalUserNames, orderNames
 } from '../../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription';
 import {GeneralTableService} from "../../../../util/GeneralTableService/general-table.service";
+import {BusinessPartnersComponent} from "../../BusinessPartnerMainComponent/business-partners.component";
 
 @Component({
   selector: 'app-update-business-partner',
@@ -120,7 +121,7 @@ export class UpdateBusinessPartnerComponent implements OnInit, AfterContentCheck
   }
 
   closeAndGoBack(): void {
-    this.router.navigateByUrl(this.authenticationService._previousUrl);
+    this.router.navigateByUrl('businessPartners/1');
   }
 
   initColumnNamesInSelectedLanguage(): void {
@@ -132,7 +133,7 @@ export class UpdateBusinessPartnerComponent implements OnInit, AfterContentCheck
   cleanOperationMessageAndGoBack(): void {
     setTimeout(() => {
       this.operationStatusMessage = null;
-      this.router.navigateByUrl(this.authenticationService._previousUrl);
+      this.router.navigateByUrl('businessPartners/1');
     }, 2000);
   }
 

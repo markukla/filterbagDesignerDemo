@@ -12,6 +12,7 @@ import CreateBusinessPartnerDto from '../../BusinessPartnerTypes/createBusinessP
 import UpdateBussinessPartnerWithoutPassword from '../../BusinessPartnerTypes/updateBusinessPartnerDto';
 import {BusinessPartnerTableService} from './business-partner-table.service';
 import {API_URL} from '../../../Config/apiUrl';
+import {GeneralTableService} from "../../../util/GeneralTableService/general-table.service";
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class BusinesPartnerBackendService {
   rootURL = API_URL;
 
   constructor(private http: HttpClient,
-              private partnerTableService: BusinessPartnerTableService
+              private partnerTableService: GeneralTableService
   ) {
   }
 

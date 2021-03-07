@@ -16,6 +16,7 @@ import Product from '../../../Products/ProductTypesAndClasses/product.entity';
 import NewestOrderNumber from '../../OrdersTypesAndClasses/newestOrderNumber';
 import {API_URL} from '../../../Config/apiUrl';
 import OrderforTableCell from '../../OrdersTypesAndClasses/orderforTableCell';
+import {GeneralTableService} from "../../../util/GeneralTableService/general-table.service";
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,7 @@ export class OrderBackendService {
   logedUser: User;
   createOrderDtoForConfirmUpdateShowDrawing: CreateOrderDto;
   constructor(private http: HttpClient,
-              private tableService: OrderTableService) {
+              private tableService: GeneralTableService) {
   }
 
   getCurrentOrdersForPrivilligedUsers(): Observable<HttpResponse<Order[]>> {

@@ -18,6 +18,8 @@ import {
   generalNamesInSelectedLanguage, generalUserNames,
   orderNames
 } from '../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription';
+import User from "../../../Users/users/userTypes/user";
+import {Pagninator} from "../../../helpers/Paginator/paginator";
 
 @Component({
   selector: 'app-orders',
@@ -45,6 +47,9 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
   orderNames = orderNames;
   generalUserNames = generalUserNames;
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
+  recordsForCurrentPage: OrderforTableCell[];
+  paginator: Pagninator;
+  numberOfRecordsForPage: number;
 
 
   constructor(public tableService: GeneralTableService,
@@ -63,10 +68,17 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
   ngOnInit(): void {
     this.route.queryParamMap.subscribe(queryParams => {
       this.partnerIdForOrdersShow = queryParams.get('patnerId');
+      this.initColumnNamesInSelectedLanguage();
+      const currentPageNumber = Number(queryParams.get('pageNumber'));
+      if( currentPageNumber ===1) {
+        //data are refreshed only on first page, instead it infers with proper sorting
+        this.getRecords();
+      }
+      this.numberOfRecordsForPage = 2;
+      this.paginator = new Pagninator(currentPageNumber);
+      this.materialId = this.tableService.selectedId;
     });
-    this.initColumnNamesInSelectedLanguage();
-    this.getRecords();
-    this.materialId = this.tableService.selectedId;
+
   }
   initColumnNamesInSelectedLanguage(): void {
     // tslint:disable-next-line:max-line-length
@@ -81,6 +93,7 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
   ngAfterContentChecked(): void {
     if (this.records) {
       this.recordNumbers = this.records.length;
+      this.recordsForCurrentPage = this.paginator.paginateRecords(this.records, this.numberOfRecordsForPage);
     }
   }
 
@@ -95,6 +108,7 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
         );
         this.records = this.tableService.getRecords();
         this.searChService.orginalArrayCopy = [...this.tableService.getRecords()];
+        this.recordsForCurrentPage = this.paginator.paginateRecords(this.records, this.numberOfRecordsForPage)
       });
     }
     else if (this.authenticationService.userRole === RoleEnum.PARTNER) {
@@ -107,6 +121,7 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
         );
         this.records = this.tableService.getRecords();
         this.searChService.orginalArrayCopy = [...this.tableService.getRecords()];
+        this.recordsForCurrentPage = this.paginator.paginateRecords(this.records, this.numberOfRecordsForPage)
       });
     } else if (this.authenticationService.userRole === RoleEnum.ADMIN || this.authenticationService.userRole === RoleEnum.EDITOR) {
       console.log('in get orders for privilligedUsers ');
@@ -121,6 +136,7 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
         );
         this.records = this.tableService.getRecords();
         this.searChService.orginalArrayCopy = [...this.tableService.getRecords()];
+        this.recordsForCurrentPage = this.paginator.paginateRecords(this.records, this.numberOfRecordsForPage)
       });
     }
   }

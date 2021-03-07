@@ -96,7 +96,7 @@ export class CreateBusinesPartnerComponent implements OnInit {
     });
   }
   closeAndGoBack(): void {
-    this.router.navigateByUrl(this.authenticationService._previousUrl);
+    this.router.navigateByUrl('businessPartners/1');
   }
 
   ngOnInit(): void {

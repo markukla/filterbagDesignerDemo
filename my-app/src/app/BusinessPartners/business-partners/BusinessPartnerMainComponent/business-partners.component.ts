@@ -60,15 +60,20 @@ export class BusinessPartnersComponent implements OnInit, AfterContentChecked {
 
   ngOnInit(): void {
 
-    const routeParams = this.route.snapshot.paramMap;
-    const currentPageNumber = Number(routeParams.get('pageNumber'));
-    this.numberOfRecordsForPage = 2;
-    this.paginator = new Pagninator(currentPageNumber);
-    this.initColumnNamesInSelectedLanguage();
-    this.getRecords();
-    this.selectedId = this.tableService.selectedId;
-    this.deleteButtonInfo = 'usuń';
-    this.updateButtonInfo = 'modyfikuj dane';
+    const routeParams = this.route.paramMap.subscribe(params=> {
+      const currentPageNumber = Number(params.get('pageNumber'));
+      this.numberOfRecordsForPage = 2;
+      this.paginator = new Pagninator(currentPageNumber);
+      this.initColumnNamesInSelectedLanguage();
+      this.selectedId = this.tableService.selectedId;
+      this.deleteButtonInfo = 'usuń';
+      this.updateButtonInfo = 'modyfikuj dane';
+      if(currentPageNumber ===1){
+        this.getRecords();
+      }
+    });
+
+
   }
 
   initColumnNamesInSelectedLanguage(): void {
@@ -180,7 +185,7 @@ export class BusinessPartnersComponent implements OnInit, AfterContentChecked {
     //  this.tableService.ordersOfBusinessPartner = partner.body.ordersOfPartner;
 
     // });
-    this.router.navigateByUrl(`orders?patnerId=${partnerId}`);
+    this.router.navigateByUrl(`orders?patnerId=${partnerId}&pageNumber=1`);
   }
 
   navigateToPageNumber(pageNumber: number) {
