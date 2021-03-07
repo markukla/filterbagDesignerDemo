@@ -18,6 +18,8 @@ import {
   orderNames
 } from "../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
 import {AuthenticationService} from "../../../LoginandLogOut/AuthenticationServices/authentication.service";
+import {Pagninator} from "../../../helpers/Paginator/paginator";
+import {ProductTypeBackendService} from "../../ProductType/ProductTypeServices/product-type-backend.service";
 
 @Component({
   selector: 'app-product-bottom',
@@ -40,6 +42,7 @@ export class ProductBottomComponent implements OnInit, AfterContentChecked {
   operationSuccessStatusMessage: string;
   orderNamesInSelectedLanguage = orderNames;
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
+  productTypeId: string;
 
   constructor(public tableService: GeneralTableService,
               public backendService: ProductBottomBackendService,
@@ -47,11 +50,16 @@ export class ProductBottomComponent implements OnInit, AfterContentChecked {
               private activedIdParam: ActivatedRoute,
               private searChService: SearchService,
               public statusService: OperationStatusServiceService,
-              private authenticationService: AuthenticationService) {
+              private authenticationService: AuthenticationService,
+              private route: ActivatedRoute,
+              private productTypeBackendService: ProductTypeBackendService) {
   }
   ngOnInit(): void {
-    this.initColumnNamesInSelectedLanguage();
-    this.getRecords();
+    this.route.queryParamMap.subscribe(params=> {
+      this.productTypeId = params.get('productTypeId')
+      this.initColumnNamesInSelectedLanguage();
+        this.getRecords();
+    });
     this.materialId = this.tableService.selectedId;
     this.deleteButtonInfo = this.generalNamesInSelectedLanguage.deleteButtonInfo;
     this.updateButtonInfo = this.generalNamesInSelectedLanguage.updateButtonInfo;
@@ -68,16 +76,32 @@ export class ProductBottomComponent implements OnInit, AfterContentChecked {
     }
   }
   getRecords(): void {
-    this.backendService.getRecords().subscribe((records) => {
-      this.tableService.records.length = 0;
-      this.tableService.records = [];
-      records.body.forEach((record) => {
-        const recorForTableCell = this.backendService.createProductBottomForTableCellFromProductTop(record);
-        this.tableService.records.push(recorForTableCell);
+    if(this.productTypeId) {
+      console.log('in if for productTypeId')
+      this.productTypeBackendService.findRecordById(this.productTypeId).subscribe((productType)=>{
+        this.tableService.records.length = 0;
+        productType.body.bottomsForThisProductType.forEach((record) => {
+          const recorForTableCell = this.backendService.createProductBottomForTableCellFromProductTop(record);
+          this.tableService.records.push(recorForTableCell);
+        });
+
+        this.records = this.tableService.getRecords();
+        this.searChService.orginalArrayCopy = [...this.tableService.getRecords()];
       });
-      this.records = this.tableService.getRecords();
-      this.searChService.orginalArrayCopy = [...this.tableService.getRecords()];
-    });
+    }
+    else {
+      this.backendService.getRecords().subscribe((records) => {
+        this.tableService.records.length = 0;
+        this.tableService.records = [];
+        records.body.forEach((record) => {
+          const recorForTableCell = this.backendService.createProductBottomForTableCellFromProductTop(record);
+          this.tableService.records.push(recorForTableCell);
+        });
+        this.records = this.tableService.getRecords();
+        this.searChService.orginalArrayCopy = [...this.tableService.getRecords()];
+      });
+    }
+
 
   }
 
@@ -117,6 +141,5 @@ export class ProductBottomComponent implements OnInit, AfterContentChecked {
   createNewRecord(): void {
     this.router.navigateByUrl(`/products/bottoms/add?mode=${OperationModeEnum.CREATENEW}`);
   }
-
 
 }

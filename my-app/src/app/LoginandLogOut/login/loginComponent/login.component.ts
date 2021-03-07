@@ -76,7 +76,7 @@ export class LoginComponent implements OnInit {
     this.loginBackendService.login(this.loginForm.value).subscribe((logedUser) => {
       this.loginService.setLogedUserUserAndToken(logedUser.body);
       sessionStorage.setItem('loggedUser', JSON.stringify(logedUser.body));
-      this.router.navigateByUrl('/orders');
+      this.router.navigateByUrl('/orders?pageNumber=1');
     },error => {
       const backendErrorMessage = getBackendErrrorMesage(error);
       if (backendErrorMessage.includes('wrong email or password')) {
@@ -149,7 +149,7 @@ export class LoginComponent implements OnInit {
     }
     this.loginService.setSelectedLanguageCodeAndVocabullaryTableInSelectedLanguage(this.loginService.selectedLanguageCode, this.vocabularies, this.languages);
     if (this.loginService.loggedUser && this.loginService.tokenData && this.loginService.selectedLanguageCode && this.loginService.vocabulariesInSelectedLanguage) {
-      this.router.navigateByUrl('orders');
+      this.router.navigateByUrl('/orders?pageNumber=1');
     }
 
     }
