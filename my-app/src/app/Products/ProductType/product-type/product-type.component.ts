@@ -108,7 +108,7 @@ export class ProductTypeComponent implements OnInit, AfterContentChecked {
 
 
   createNewRecord(): void {
-    this.router.navigateByUrl(`/products/tops?mode=${OperationModeEnum.CREATENEW}`);
+    this.router.navigateByUrl(`/products/types/add?mode=${OperationModeEnum.CREATENEW}`);
   }
 
 

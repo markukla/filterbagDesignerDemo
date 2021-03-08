@@ -152,6 +152,7 @@ export class CreateOrUpdateLanguageComponent implements OnInit {
     };
     if (this.languageOperationMode === 'createNew') {
       this.backendService.addRecords(this.createLanguageDto).subscribe((language) => {
+        this.authenticationService.languages.push(language.body);
         this.showoperationStatusMessage = this.generalNamesInSelectedLanguage.operationAddSuccessStatusMessage;
         this.cleanOperationMessage();
       }, error => {
@@ -160,6 +161,11 @@ export class CreateOrUpdateLanguageComponent implements OnInit {
       });
     } else if (this.languageOperationMode === 'update') {
       this.backendService.updateRecordById(this.languageToUpdateId, this.createLanguageDto).subscribe((language) => {
+        this.authenticationService.languages.forEach((languageInservice, index, self)=>{
+          if(languageInservice.id=== language.body.id ){
+            self[index] = language.body;
+          }
+        });
         this.showoperationStatusMessage = this.generalNamesInSelectedLanguage.operationUpdateSuccessStatusMessage;
         this.cleanOperationMessage();
       }, error => {

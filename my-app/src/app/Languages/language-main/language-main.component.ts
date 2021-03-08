@@ -101,7 +101,13 @@ export class LanguageMainComponent implements OnInit, AfterContentChecked {
         this.tableService.selectedId = null;
         this.showConfirmDeleteWindow = false;
         this.statusService.makeOperationStatusVisable();
+        this.authenticationService.languages.forEach((languageInService, index, self)=>{
+          if(languageInService.id ===recordId) {
+            self.splice(index, 1);
+          }
+        });
         this.statusService.resetOperationStatusAfterTimeout([this.operationFailerStatusMessage, this.operationSuccessStatusMessage]);
+
       }, error => {
         this.operationFailerStatusMessage =  this.generalNamesInSelectedLanguage.operationDeleteFailerStatusMessage;
         this.tableService.selectedId = null;
