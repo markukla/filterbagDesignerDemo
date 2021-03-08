@@ -12,6 +12,7 @@ class Product{
     urlOfOrginalDrawing: string;
     urlOfThumbnailDrawing: string; // smaller drawing obtained by library
     dimensionsTextFieldInfo: DimensionTextFIeldInfo[];
+    softDeleteDate?: Date;
 }
 
 export default Product;

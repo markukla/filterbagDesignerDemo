@@ -11,6 +11,7 @@ class ProductType {
   productsWithThisType?: Product[];
   topsForThisProductType: ProductTop[];
   bottomsForThisProductType: ProductBottom[];
+  softDeleteDate?: Date;
 }
 
 export default ProductType;

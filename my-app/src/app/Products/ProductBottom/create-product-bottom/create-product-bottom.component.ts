@@ -25,6 +25,8 @@ import {
   generalNamesInSelectedLanguage,
   orderNames
 } from "../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
+import {ProductTypeBackendService} from "../../ProductType/ProductTypeServices/product-type-backend.service";
+import ProductType from "../../ProductTypesAndClasses/productType.entity";
 
 @Component({
   selector: 'app-create-product-bottom',
@@ -56,6 +58,8 @@ export class CreateProductBottomComponent implements OnInit {
   orderNamesInSelectedLanguage = orderNames;
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
   addOrUpdateTitle: string;
+  productTypeId: string;
+  selectedProductType: ProductType;
   constructor(
     private backendService: ProductBottomBackendService,
     public validationService: ProductBottomValidatorService,
@@ -65,7 +69,8 @@ export class CreateProductBottomComponent implements OnInit {
     private router: Router,
     private backendMessageService: BackendMessageService,
     private languageFormService: LanguageFormService,
-    private authenticationService: AuthenticationService) {
+    private authenticationService: AuthenticationService,
+    private productTypeBackendService: ProductTypeBackendService) {
     console.log('creating component:CreateProductTypeComponent');
     this.createdDimensionEmiter = new EventEmitter<DimensionCode>();
   }
@@ -74,6 +79,7 @@ export class CreateProductBottomComponent implements OnInit {
     this.route.queryParamMap.subscribe((queryParams) => {
       this.operatiomMode = (queryParams.get('mode'));
       this.selectedRecordToupdateId = queryParams.get('recordId');
+      this.productTypeId = queryParams.get('productTypeId');
     });
     this.form = new FormGroup({
       // tslint:disable-next-line:max-line-length
@@ -120,7 +126,19 @@ export class CreateProductBottomComponent implements OnInit {
       code: this.code.value,
     };
     if(this.operatiomMode === OperationModeEnum.CREATENEW) {
-      this.backendService.addRecords(this.createProductBottomDto).subscribe((record) => {
+      this.backendService.addRecords(this.createProductBottomDto).subscribe((productBottom) => {
+        if(this.productTypeId) {
+          this.productTypeBackendService.findRecordById(this.productTypeId).subscribe((productType)=> {
+            this.selectedProductType = productType.body;
+            this.selectedProductType.bottomsForThisProductType.push(productBottom.body);
+            this.productTypeBackendService.updateRecordById(this.productTypeId, this.selectedProductType).subscribe((updatedProductType)=>{
+              console.log('ProductBottom added To selected ProductTYpe bottoms list');
+            },error => {
+              console.log('error during adding ProductBottom  to selected ProductTYpe bottoms list');
+            });
+
+          });
+        }
         this.showoperationStatusMessage = this.backendMessageService.returnSuccessMessageToUserForSuccessBackendResponseForCreateNew();
         this.cleanOperationMessage();
       }, error => {

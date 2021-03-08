@@ -9,6 +9,7 @@ class ProductBottom {
     code: string;
     productsWithThisBottom?: Product[];
     productTypesWithThisBottom?: ProductType[];
+    softDeleteDate?: Date;
 }
 
 export default ProductBottom;

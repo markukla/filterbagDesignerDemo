@@ -8,6 +8,7 @@ class ProductTop {
   code: string;
   productsWithThisTop?: Product[];
   productTypeswithThisTop?: ProductType[];
+  softDeleteDate?: Date;
 
 }
 
