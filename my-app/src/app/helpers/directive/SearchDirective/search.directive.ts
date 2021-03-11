@@ -34,11 +34,25 @@ export class SearchDirective {
       this.serchCondition = elem.value;
       this.temporatyArray.length = 0;
       this.searchedArray.length = 0;
-      this.temporatyArray = this.orginalArrayCopy.filter(
-        x => x[this.serchedColumn].includes(this.serchCondition)
-      );
+   //   this.temporatyArray= this.orginalArrayCopy.filter(
+    //    x=> x[this.serchedColumn].includes(this.serchCondition.toUpperCase())
+     // );
+      this.orginalArrayCopy.forEach((record)=>{
+        if( typeof record[this.serchedColumn] === "string"){
+          if(record[this.serchedColumn].toUpperCase().includes(this.serchCondition.toUpperCase())){
+            this.temporatyArray.push(record);
+          }
+        }
+        else {
+          if(record[this.serchedColumn].includes(this.serchCondition)){
+            this.temporatyArray.push(record);
+          }
+        }
 
-      // tslint:disable-next-line:max-line-length
+      });
+
+
+    // tslint:disable-next-line:max-line-length
       /*when i use filter to serch array it some how does not work, because it is creating new instance of array and directive is bind to previous instance*/
       /*that is why a remove all elements in orginal array and push there temporary array values*/
       this.searchedArray.length = 0;

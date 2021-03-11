@@ -12,12 +12,12 @@
       </div>
       <div *ngIf="!partnerConfirmed">
 
-
+        <input  [placeholder]="generalNamesInSelectedLanguage.search" [appSearch]="allParntersToSelect" serchedColumn="codeAndName" />
         <label class="label" for="businessPartner">{{orderNames.businessPartner}}</label>
-        <select class="form-control" formControlName="businessPartner" id="businessPartner" #businessPartner>
+        <select class="form-control" formControlName="businessPartner" id="businessPartner"  size="1" style="height: auto" #businessPartner  (change)="businessPartner.blur();"  (blur)="businessPartner.size=0;">
           <option [ngValue]="null" disabled>-</option>
-          <option *ngFor="let partner of allParntersToSelect" [ngValue]="partner">
-            {{ partner.code + ' - ' + partner.businesPartnerCompanyName + ' : ' + partner.fulName}}
+          <option *ngFor="let partner of allParntersToSelect" [ngValue]="partner.user">
+            {{partner.codeAndName}}
           </option>
         </select>
         <div *ngIf="type.invalid && (type.dirty || type.touched)"

@@ -44,6 +44,8 @@ import {
   generalUserNames,
   orderNames
 } from '../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription';
+import {SearchService} from "../../../helpers/directive/SearchDirective/search.service";
+import {createPartnersForCreateOrderFromPartners, PartnersForCreateOrder} from "./partnersForCreateOrder";
 
 @Component({
   selector: 'app-create-order',
@@ -57,7 +59,7 @@ export class CreateOrderComponent implements OnInit, AfterContentChecked, AfterV
   allBotomsToselect: ProductBottom[];
   allTopsToSelect: ProductTop[];
   allTypesToSelect: ProductType[];
-  allParntersToSelect: User[];
+  allParntersToSelect: PartnersForCreateOrder[];
   allMaterialsToSelect: Material[];
   selectedtType: ProductType;
   selectedTop: ProductTop;
@@ -113,7 +115,8 @@ export class CreateOrderComponent implements OnInit, AfterContentChecked, AfterV
     private authenticationService: AuthenticationService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router,
+    private searchService: SearchService) {
   }
 
 
@@ -329,7 +332,10 @@ get productMaterial() {
 async getDataToDropdownLists(): Promise<void> {
   if (this.isPartner === false) {
     this.partnersBackendService.getAllRecords().subscribe((records) => {
-      this.allParntersToSelect = records.body;
+
+      this.allParntersToSelect = createPartnersForCreateOrderFromPartners(records.body);
+
+      this.searchService.orginalArrayCopy=[...this.allParntersToSelect];
     }, error => {
       console.log('error during requesting partners from db');
     });
