@@ -61,7 +61,7 @@
       </p>
       <label class="label" for="type">{{orderNames.productType}}</label>
       <select class="form-control" formControlName="type" id="type"
-              (change)="setTopsAndBottomsToSelectAfterTypeSelected(this.type.value)">
+              (change)="setTopsAndBottomsToSelectAfterTypeSelectedV2(this.type.value)">
         <option [ngValue]="null" disabled> -</option>
         <option *ngFor="let type of allTypesToSelect" [ngValue]="type">
           {{ type.code + ' - ' + getNameInSelectedLanguage(type.localizedNames) }}
@@ -69,12 +69,13 @@
       </select>
       <div *ngIf="type.value">
         <label class="label" for="top"> {{orderNames.productTop}}</label>
-        <select class="form-control" formControlName="top" id="top">
+        <select class="form-control" formControlName="top" id="top" (change)="setBottomToSelectAfterTopSelected(this.type.value, this.top.value )">
           <option [ngValue]="null" disabled>{{generalNamesInSelectedLanguage.select +' '+orderNames.productTop}}</option>
           <option *ngFor="let top of allTopsToSelect" [ngValue]="top">
             {{ top.code + ' - ' + getNameInSelectedLanguage(top.localizedNames) }}
           </option>
         </select>
+        <div *ngIf="this.type.value && this.top.value">
         <label class="label" for="bottom"> {{orderNames.productBottom}}</label>
         <select class="form-control" formControlName="bottom" id="bottom">
           <option [ngValue]="null" disabled>{{generalNamesInSelectedLanguage.select +' '+orderNames.productBottom}}</option>
@@ -82,6 +83,7 @@
             {{ bottom.code + ' - ' + getNameInSelectedLanguage(bottom.localizedNames) }}
           </option>
         </select>
+      </div>
       </div>
     </div>
     <button type="button" class="confirmOrChangeButton" id="confirmOrchangeProduct"

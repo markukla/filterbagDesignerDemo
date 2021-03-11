@@ -377,6 +377,23 @@ setTopsAndBottomsToSelectAfterTypeSelected(productType: ProductType): void {
     this.allusedForCreatinfProductProductBottoms.map(productTop =>
       productTop.id).includes(bottomsInProductType.id));
   }
+  setTopsAndBottomsToSelectAfterTypeSelectedV2(productType: ProductType): void {
+    this.allTopsToSelect =[];
+    this.allBotomsToselect = [];
+    this.allProducts.forEach((product)=>{
+      if(productType.id === product.productType.id){
+        this.allTopsToSelect.push(product.productTop);
+      }
+    });
+  }
+  setBottomToSelectAfterTopSelected(productType: ProductType, productTop: ProductTop) {
+    this.allBotomsToselect = [];
+    this.allProducts.forEach((product)=>{
+      if(productType.id === product.productType.id && productTop.id===product.productTop.id){
+        this.allBotomsToselect.push((product.productBottom));
+      }
+    });
+  }
 
 onSubmit(): void {
     // tslint:disable-next-line:max-line-length
