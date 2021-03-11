@@ -100,6 +100,7 @@ export class CreateOrderComponent implements OnInit, AfterContentChecked, AfterV
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
   formTitleCreateNewOrUpdate: string;
   @ViewChild('commentToOrder', {read: ElementRef}) commentToOrder: ElementRef;
+  @ViewChild('businessPartner', {read: ElementRef}) htmlselectBusinessPartner: ElementRef<HTMLSelectElement>;
   constructor(
     private backendService: OrderBackendService,
     private productMiniatureService: ProductMiniatureService,
@@ -608,9 +609,14 @@ confirmOrChangeMaterialButtonAction(): void {
   }
 
 ngAfterViewInit(): void {
+
   }
 
 ngAfterViewChecked(): void {
+    if(this.htmlselectBusinessPartner) {
+      this.businessPartnersSelectListOnFocus(this.htmlselectBusinessPartner.nativeElement);
+    }
+
   }
 
 checkOperationMode(): void {
@@ -754,5 +760,13 @@ listenToChangeProductEvent(event: any): void {
       product
     };
     return updatedCreateOrderDto;
+  }
+  businessPartnersSelectListOnFocus(select: HTMLSelectElement): void {
+    if(this.allParntersToSelect&&this.allParntersToSelect.length>10) {
+      this.renderer.setProperty(select,'size', 11);
+    }
+    else if(this.allParntersToSelect&&this.allParntersToSelect.length<10) {
+      this.renderer.setProperty(select,'size', this.allParntersToSelect.length+1);
+    }
   }
 }

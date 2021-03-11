@@ -14,7 +14,7 @@
 
         <input  [placeholder]="generalNamesInSelectedLanguage.search" [appSearch]="allParntersToSelect" serchedColumn="codeAndName" />
         <label class="label" for="businessPartner">{{orderNames.businessPartner}}</label>
-        <select class="form-control" formControlName="businessPartner" id="businessPartner"  size="1" style="height: auto" #businessPartner  (change)="businessPartner.blur();"  (blur)="businessPartner.size=0;">
+        <select class="form-control" formControlName="businessPartner" id="businessPartner"  size="1" autofocus  #businessPartner>
           <option [ngValue]="null" disabled>-</option>
           <option *ngFor="let partner of allParntersToSelect" [ngValue]="partner.user">
             {{partner.codeAndName}}
@@ -39,6 +39,7 @@
         </div>
       </div>
     </div>
+    <div *ngIf="this.partnerConfirmed">
 
     <div *ngIf="productConfirmed && type.value && top.value && bottom.value">
       <p>
@@ -137,7 +138,7 @@
       <button type="submit" [disabled]="this.allowSubmit === false" class="btn btn-danger">{{submitButtonDescription}}
       </button>
     </div>
-
+    </div>
   </form>
   <div *ngIf="operationFailerStatusMessage" class="alert-danger">
     <p>{{operationFailerStatusMessage}}</p>
