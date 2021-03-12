@@ -368,31 +368,50 @@ async getDataToDropdownLists(): Promise<void> {
   );
 }
 
-setTopsAndBottomsToSelectAfterTypeSelected(productType: ProductType): void {
-    this.allTopsToSelect = productType.topsForThisProductType.filter(topsInProductType =>
-      this.allusedForCreatingProductProductTops.map(productTop =>
-        productTop.id).includes(topsInProductType.id)
-    );
-    this.allBotomsToselect = productType.bottomsForThisProductType.filter(bottomsInProductType =>
-    this.allusedForCreatinfProductProductBottoms.map(productTop =>
-      productTop.id).includes(bottomsInProductType.id));
-  }
-  setTopsAndBottomsToSelectAfterTypeSelectedV2(productType: ProductType): void {
+
+  setTopsToSelectAfterTypeSelected(productType: ProductType): void {
     this.allTopsToSelect =[];
-    this.allBotomsToselect = [];
+    const allNotUniqueTopsToSelect: ProductTop[] =[]
     this.allProducts.forEach((product)=>{
       if(productType.id === product.productType.id){
-        this.allTopsToSelect.push(product.productTop);
+        allNotUniqueTopsToSelect.push(product.productTop);
       }
+      });
+
+   const uniqueTopsIndexes: number[]=[];
+   allNotUniqueTopsToSelect.map(top=> top.id).forEach((top, index, self)=> {
+     if(index === self.indexOf(top)) {
+       uniqueTopsIndexes.push(index);
+     }
+
+   });
+    uniqueTopsIndexes.forEach((uniqueTopIndex)=>{
+      this.allTopsToSelect.push(allNotUniqueTopsToSelect[uniqueTopIndex]);
     });
+
+
   }
   setBottomToSelectAfterTopSelected(productType: ProductType, productTop: ProductTop) {
+    const allNotUniqueBotomsToselect = [];
     this.allBotomsToselect = [];
+
     this.allProducts.forEach((product)=>{
       if(productType.id === product.productType.id && productTop.id===product.productTop.id){
-        this.allBotomsToselect.push((product.productBottom));
+        allNotUniqueBotomsToselect.push((product.productBottom));
       }
     });
+    const uniqueBottomIndexes: number[]=[];
+    allNotUniqueBotomsToselect.map(top=> top.id).forEach((top, index, self)=> {
+      if(index === self.indexOf(top)) {
+        uniqueBottomIndexes.push(index);
+      }
+
+    });
+    uniqueBottomIndexes.forEach((uniqueBottomIndex)=>{
+      this.allBotomsToselect.push(allNotUniqueBotomsToselect[uniqueBottomIndex]);
+    });
+
+
   }
 
 onSubmit(): void {
@@ -534,13 +553,7 @@ setUpdateModeOrPartnerLoggedValue(): void {
     }
   }
 
-onTypeSelectedSetTopsAndBottoms(): void {
-    const type = this.type.value;
-    console.log(`selected type= ${type}`);
-    if (type) {
-      this.setTopsAndBottomsToSelectAfterTypeSelected(type);
-    }
-  }
+
 
 changeOrConfirmPartnerButtonAction(): void {
     if (this.partnerConfirmed === false && this.businessPartner.value) {

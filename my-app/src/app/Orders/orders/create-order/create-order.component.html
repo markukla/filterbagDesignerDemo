@@ -61,7 +61,7 @@
       </p>
       <label class="label" for="type">{{orderNames.productType}}</label>
       <select class="form-control" formControlName="type" id="type"
-              (change)="setTopsAndBottomsToSelectAfterTypeSelectedV2(this.type.value)">
+              (change)="setTopsToSelectAfterTypeSelected(this.type.value)">
         <option [ngValue]="null" disabled> -</option>
         <option *ngFor="let type of allTypesToSelect" [ngValue]="type">
           {{ type.code + ' - ' + getNameInSelectedLanguage(type.localizedNames) }}
