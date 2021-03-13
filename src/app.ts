@@ -43,7 +43,7 @@ class App {
 
     private initializeMiddlewares() {
         this.app.use(cors());
-        const publicDirectoryPath= path.join(__dirname, '/public');
+        const publicDirectoryPath= path.join(__dirname, './public');
         console.log(`publicDirectoryPath= ${publicDirectoryPath}`);
         this.app.use(express.static(publicDirectoryPath));
         this.app.use(express.static(process.cwd()+"/my-app/dist/projekt1FilterFront/"));

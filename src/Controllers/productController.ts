@@ -41,7 +41,7 @@ class ProductController implements Controller{
             .end("Oops! Something went wrong!");
     };
     public upload = multer({
-        dest: "../public/images"
+        dest: path.join(__dirname, `../public/images/`)
         // you might also want to set some limits: https://github.com/expressjs/multer#limits
 
     });
@@ -192,7 +192,7 @@ class ProductController implements Controller{
         const time=date.getTime();
 
         const orginalDrawingPath:string = path.join(__dirname, `../public/images/`,`${time}${fileName}`);
-        console.log(orginalDrawingPath);
+        console.log(`orginalDrawingPath=${orginalDrawingPath}`);
         /* path starts from host*/
         const host = req.host;
         console.log(host);

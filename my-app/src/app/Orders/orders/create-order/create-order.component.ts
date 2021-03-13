@@ -372,11 +372,18 @@ async getDataToDropdownLists(): Promise<void> {
   setTopsToSelectAfterTypeSelected(productType: ProductType): void {
     this.allTopsToSelect =[];
     const allNotUniqueTopsToSelect: ProductTop[] =[]
+
+
     this.allProducts.forEach((product)=>{
       if(productType.id === product.productType.id){
         allNotUniqueTopsToSelect.push(product.productTop);
       }
       });
+    /* const allUniqueProductTopsInSet= [...new Set(allNotUniqueTopsToSelect)];
+    allUniqueProductTopsInSet.forEach((top)=>{
+      console.log(`topFromSetId = ${top.id}`);
+    })*/
+
 
    const uniqueTopsIndexes: number[]=[];
    allNotUniqueTopsToSelect.map(top=> top.id).forEach((top, index, self)=> {
