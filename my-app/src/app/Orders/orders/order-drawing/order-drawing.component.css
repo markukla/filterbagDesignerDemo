@@ -25,19 +25,17 @@
   height: 20%;
 }
 #drawingContainer {
-  width: fit-content;
-  height: fit-content;
-  position: absolute;
+  width: 100%;
+  height: auto;
+  position: relative;
   border: 1px solid #008000;
   z-index: 30;
-  top: 2%;
-  left: 2%;
 
   /* if there is no width and height set getBoundingClientReact.width getBoundingClientReact.height does not work because it reads value before div size fits image */
 }
 #drawingImage {
-  width: 1200px;
-  height: 800px;
+  display: block;
+  width: 100%;
 
 }
 

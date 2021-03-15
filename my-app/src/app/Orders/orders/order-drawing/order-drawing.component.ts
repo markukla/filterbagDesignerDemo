@@ -800,14 +800,22 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     // tslint:disable-next-line:max-line-length
     console.log(`width= ${this.drawing.nativeElement.style.width}`);
     const inputDivs: HTMLElement[] = this.host.nativeElement.querySelectorAll('.dimensionInputHorizontal');
+
+
     for (let i = 0; i < inputDivs.length; i++) {
       /* const inputDivRelativeToContainerXPosition = inputDivs[i].style.left/this.drawing */
       // tslint:disable-next-line:max-line-length
-      const dimensionXAsInputStyleLeft: number = Number(inputDivs[i].style.left.split('px')[0]);
-      const dimensionXRelativeShiftToDivWith = dimensionXAsInputStyleLeft / this.drawing.nativeElement.getBoundingClientRect().width;
+      const dimensionXAsInputStyleLeft: number = inputDivs[i].offsetLeft;
+
+      const dimensionXRelativeShiftToDivWith = (dimensionXAsInputStyleLeft / this.drawing.nativeElement.offsetWidth) * 100;
       // tslint:disable-next-line:max-line-length
-      const dimensionYAsInputStyleTop: number = Number(inputDivs[i].style.top.split('px')[0]);
-      const dimensionYRelativeShiftToDivHeight = dimensionYAsInputStyleTop / this.drawing.nativeElement.getBoundingClientRect().height;
+      const dimensionYAsInputStyleTop: number = inputDivs[i].offsetTop;
+      const dimensionYRelativeShiftToDivHeight = (dimensionYAsInputStyleTop / this.drawing.nativeElement.offsetHeight) * 100;
+
+      console.log(`dimensionYRelativeShiftToDivHeight= ${dimensionYRelativeShiftToDivHeight}`);
+      console.log(` dimensionYAsInputStyleTop ${ dimensionYAsInputStyleTop}`);
+      console.log(`this.drawing.nativeElement.offsetHeight= ${this.drawing.nativeElement.offsetHeight}`);
+
       const dimensionTextFIeldInfo: DimensionTextFIeldInfo = {
         dimensionId: inputDivs[i].id,
         dimensionTexfieldXposition: String(dimensionXRelativeShiftToDivWith),
