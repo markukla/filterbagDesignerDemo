@@ -421,6 +421,9 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   ngAfterViewChecked(): void {
     /* in this method i create drawing when obtaining data from database is required, because after viev init the data are not recived yet*/
     const allInputs = this.host.nativeElement.querySelectorAll('.dimensionInputHorizontal');
+    if(this.drawing.nativeElement.getBoundingClientRect().width> 0.1 && this.drawing.nativeElement.getBoundingClientRect().height>0.1) {
+
+
     // tslint:disable-next-line:max-line-length
     if (this.orderOperationMode && this.orderOperationMode === OrderOperationMode.SHOWDRAWING || this.orderOperationMode === OrderOperationMode.SHOWPRODUCT) {
       console.error('in afterViev checked drawing modyfication');
@@ -455,7 +458,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
 
       }
     }
-
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
