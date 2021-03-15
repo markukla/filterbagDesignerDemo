@@ -411,15 +411,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
      this.enableOrDisableDraggingInputsEvent();
     /* in this method i create all drawing which does not require data from database but already have it stored in service*/
     // tslint:disable-next-line:max-line-length
-     if(this.orderOperationMode && this.orderOperationMode !== OrderOperationMode.SHOWDRAWING && this.orderOperationMode !== OrderOperationMode.SHOWPRODUCT) {
-      // tslint:disable-next-line:max-line-length
-      if (this.orderOperationMode === OrderOperationMode.CREATENEW || this.orderOperationMode === OrderOperationMode.UPDATEWITHCHANGEDPRODUCT || this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT || this.orderOperationMode === OrderOperationMode.CREATENEWPRODUCT) {
-        this.createDimensionInputsBasingOnProductData();
-        console.error('in afterViev init after createDimension Input basing on product data');
-      } else {
-        this.createDimensionInputsForUpdateAndShowDrawingBasingOnProductDataAndOrderData();
-      }
-    }
+
   }
 
   ngAfterContentChecked(): void {
@@ -428,14 +420,13 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
 
   ngAfterViewChecked(): void {
     /* in this method i create drawing when obtaining data from database is required, because after viev init the data are not recived yet*/
-
+    const allInputs = this.host.nativeElement.querySelectorAll('.dimensionInputHorizontal');
     // tslint:disable-next-line:max-line-length
-    if (this.orderOperationMode === OrderOperationMode.SHOWDRAWING || this.orderOperationMode === OrderOperationMode.SHOWPRODUCT) {
+    if (this.orderOperationMode && this.orderOperationMode === OrderOperationMode.SHOWDRAWING || this.orderOperationMode === OrderOperationMode.SHOWPRODUCT) {
       console.error('in afterViev checked drawing modyfication');
       // tslint:disable-next-line:max-line-length
       if (this.orderOperationMode === OrderOperationMode.SHOWDRAWING) {
         if (this.createOrderDto) {
-         const allInputs = this.host.nativeElement.querySelectorAll('.dimensionInputHorizontal');
          if (allInputs.length === 0){
            this.createDimensionInputsForUpdateAndShowDrawingBasingOnProductDataAndOrderData();
          }
@@ -444,13 +435,27 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
       // tslint:disable-next-line:max-line-length
       if (this.createProductDto && this.orderOperationMode === OrderOperationMode.SHOWPRODUCT) {
         if (this.createProductDto) {
-          const allInputs = this.host.nativeElement.querySelectorAll('.dimensionInputHorizontal');
           if (allInputs.length === 0){
             this.createDimensionInputsBasingOnProductData();
           }
         }
       }
     }
+     if(this.orderOperationMode && this.orderOperationMode !== OrderOperationMode.SHOWDRAWING && this.orderOperationMode !== OrderOperationMode.SHOWPRODUCT) {
+      // tslint:disable-next-line:max-line-length
+      if (this.orderOperationMode === OrderOperationMode.CREATENEW || this.orderOperationMode === OrderOperationMode.UPDATEWITHCHANGEDPRODUCT || this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT || this.orderOperationMode === OrderOperationMode.CREATENEWPRODUCT) {
+        if(allInputs.length ===0) {
+          this.createDimensionInputsBasingOnProductData();
+          console.error('in afterViev init after createDimension Input basing on product data');
+        }
+      } else {
+        if(allInputs.length ===0) {
+          this.createDimensionInputsForUpdateAndShowDrawingBasingOnProductDataAndOrderData();
+        }
+
+      }
+    }
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
