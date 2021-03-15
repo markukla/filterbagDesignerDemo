@@ -329,8 +329,6 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     // tslint:disable-next-line:max-line-length
     const dimensionYInRelationToDiv = Number(dimensionInfo.dimensionTexfieldYposition) * this.drawing.nativeElement.getBoundingClientRect().height;
     input.id = dimensionInfo.dimensionId;
-    input.style.position = 'absolute';
-    input.style.zIndex = '1000';
     input.style.left = `${Number(dimensionXInRelationToDiv)}px`;
     input.style.top = `${Number(dimensionYInRelationToDiv)}px`;
     if (dimensionInfo.transform) {
@@ -578,8 +576,6 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   onSubmitForInputCreating(): void {
     this.setIdValue();
     const input = this.renderer.createElement('textarea');
-    input.style.position = 'absolute';
-    input.style.zIndex = 1000;
     this.renderer.setProperty(input, 'value', this.idValue);
     this.renderer.setProperty(input, 'id', this.idValue);
     // this.renderer.setProperty(input, 'type', 'number');
@@ -661,8 +657,6 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
           shiftY = event.clientY + widthMinusHeightDevidedBy2 - input.getBoundingClientRect().top;
         }
 
-        input.style.position = 'absolute';
-        input.style.zIndex = '1000';
         this.renderer.appendChild(this.drawing.nativeElement, input);
         const moveAt = (pageX, pageY) => {
 
@@ -801,11 +795,9 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     for (let i = 0; i < inputDivs.length; i++) {
       /* const inputDivRelativeToContainerXPosition = inputDivs[i].style.left/this.drawing */
       // tslint:disable-next-line:max-line-length
-      const dimensionXPositionInRelationtoDrawingDiv = this.drawing.nativeElement.getBoundingClientRect().left - inputDivs[i].getBoundingClientRect().left;
       const dimensionXAsInputStyleLeft: number = Number(inputDivs[i].style.left.split('px')[0]);
       const dimensionXRelativeShiftToDivWith = dimensionXAsInputStyleLeft / this.drawing.nativeElement.getBoundingClientRect().width;
       // tslint:disable-next-line:max-line-length
-      const dimensionYPositionInRelationToDrawingDiv = this.drawing.nativeElement.getBoundingClientRect().top - inputDivs[i].getBoundingClientRect().top;
       const dimensionYAsInputStyleTop: number = Number(inputDivs[i].style.top.split('px')[0]);
       const dimensionYRelativeShiftToDivHeight = dimensionYAsInputStyleTop / this.drawing.nativeElement.getBoundingClientRect().height;
       const dimensionTextFIeldInfo: DimensionTextFIeldInfo = {

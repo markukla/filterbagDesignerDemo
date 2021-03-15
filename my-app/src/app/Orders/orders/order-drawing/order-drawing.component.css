@@ -25,7 +25,6 @@
   height: 20%;
 }
 #drawingContainer {
-  /* background-image: url('W702L_V_prawie_ostateczna.png');*/
   position: absolute;
   border: 1px solid #008000;
   z-index: 30;
@@ -41,6 +40,8 @@
 }
 
 .dimensionInputHorizontal {
+  position: absolute;
+  z-index: 1000;
   width: auto;
   height: 30px;
   white-space: nowrap;
