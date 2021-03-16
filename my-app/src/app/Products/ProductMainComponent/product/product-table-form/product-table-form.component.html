@@ -1,8 +1,75 @@
 <div id="DrawingDetailTableContainer" #DrawingDetailTableContainer>
   <table id="drawingDetailTable" #drawingDetailTable >
     <tbody>
+
     <tr>
-      <td id="2RowsInOneCell" rowspan="2">
+      <td>
+
+          {{orderNames.creator}}:  <br>
+          {{orderCreator}}
+
+      </td>
+      <td>
+
+        {{orderNames.date}} <br>
+        {{date}}
+     </td>
+      <td>
+
+         {{orderNames.orderNumber}} <br>
+          {{orderTotalNumber}}
+
+      </td>
+      <td rowspan="2">
+        <form [formGroup]="tableForm">
+          <fieldset>
+            <label for="workingTemperature">{{drawingTableFormNames.workingTemperature}} [oC]</label>
+            <input type="text"  formControlName="workingTemperature" id="workingTemperature">
+          </fieldset>
+          <fieldset>
+            <label  for="antiElectrostatic">{{drawingTableFormNames.antielectrostatic}}</label>
+            <input type="checkbox"  formControlName="antiEelectrostatic" id="antiElectrostatic">
+          </fieldset>
+
+          <fieldset>
+            <p>{{drawingTableFormNames.workingSide}}:</p>
+            <input type="radio"  formControlName="workingSide" name="workingSide" id="workingSideInternal" [value]="workingSideInternal"
+            >
+            <label  for="workingSideInternal">{{drawingTableFormNames.workingSideInternal}}</label>
+          </fieldset>
+          <fieldset>
+            <input type="radio"  formControlName="workingSide" name="workingSide" id="workingSideExternal" [value]="workingSideExterinal"
+            >
+            <label  for="workingSideExternal">{{drawingTableFormNames.workingSideExternal}} </label>
+          </fieldset>
+        </form>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3">
+        {{orderNames.index}} <br>
+        {{index}}
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">Logo</td>
+      <td colspan="2">
+        {{generalNamesInSelectedLanguage.name}} <br>
+        {{orderName}}
+      </td>
+    </tr>
+
+
+
+
+
+
+
+<!--
+
+
+    <tr>
+      <td id="2RowsInOneCell" >
         <form [formGroup]="tableForm">
         <div class="form-group" >
           <label for="workingTemperature">{{drawingTableFormNames.workingTemperature}}</label>
@@ -58,7 +125,7 @@
           <p>{{orderName}}</p>
         </div>
       </td>
-      <td>
+      <td colspan="3">
         <div>
           <p>{{orderNames.date}} </p> <br>
           <p>{{date}}</p>
@@ -75,12 +142,12 @@
         </div>
       </td>
 
-      <td>
+      <td colspan="3">
         <p>logo</p>
       </td>
 
     </tr>
-
+-->
 
     </tbody>
 

@@ -325,12 +325,12 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   setInputPositionAndSeizeBazingOnDatabaseData(dimensionInfo: DimensionTextFIeldInfo, input: HTMLElement): void {
     // tslint:disable-next-line:max-line-length
     if (dimensionInfo) {
-    const dimensionXInRelationToDiv = Number(dimensionInfo.dimensionTexfieldXposition) * this.drawing.nativeElement.getBoundingClientRect().width;
+      input.id = dimensionInfo.dimensionId;
+    const dimensionXInRelationToDiv = dimensionInfo.dimensionTexfieldXposition;
     // tslint:disable-next-line:max-line-length
-    const dimensionYInRelationToDiv = Number(dimensionInfo.dimensionTexfieldYposition) * this.drawing.nativeElement.getBoundingClientRect().height;
-    input.id = dimensionInfo.dimensionId;
-    input.style.left = `${Number(dimensionXInRelationToDiv)}px`;
-    input.style.top = `${Number(dimensionYInRelationToDiv)}px`;
+    const dimensionYInRelationToDiv = Number(dimensionInfo.dimensionTexfieldYposition);
+    input.style.left = `${Number(dimensionXInRelationToDiv)}%`;
+    input.style.top = `${Number(dimensionYInRelationToDiv)}%`;
     if (dimensionInfo.transform) {
       input.style.transform = dimensionInfo.transform;
     }
@@ -657,6 +657,13 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
         const widthMinusHeightDevidedBy2 = (inputWidth - inputHeight) / 2 ;
         let shiftX: number;
         let shiftY: number;
+        /*  if (!transform || transform === '' || transform === 'rotate(0deg)') {
+          shiftX = event.clientX - input.getBoundingClientRect().left;
+          shiftY = event.clientY - input.getBoundingClientRect().top;
+        } else if (transform && (transform === 'rotate(-90deg)' || transform === 'rotate(90deg)')) {
+          shiftX = event.clientX - widthMinusHeightDevidedBy2 - input.getBoundingClientRect().left;
+          shiftY = event.clientY + widthMinusHeightDevidedBy2 - input.getBoundingClientRect().top;
+        }*/
         if (!transform || transform === '' || transform === 'rotate(0deg)') {
           shiftX = event.clientX - input.getBoundingClientRect().left;
           shiftY = event.clientY - input.getBoundingClientRect().top;
@@ -665,13 +672,23 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
           shiftY = event.clientY + widthMinusHeightDevidedBy2 - input.getBoundingClientRect().top;
         }
 
+
         this.renderer.appendChild(this.drawing.nativeElement, input);
         const moveAt = (pageX, pageY) => {
-
-          const drawingCOntainerBoundaryX = this.drawing.nativeElement.getBoundingClientRect().left;
+          /* const drawingCOntainerBoundaryX = this.drawing.nativeElement.getBoundingClientRect().left;
           const drawingContainerBoundaryY = this.drawing.nativeElement.getBoundingClientRect().top;
           input.style.left = pageX  - drawingCOntainerBoundaryX - shiftX + 'px';
-          input.style.top = pageY  - drawingContainerBoundaryY - shiftY + 'px';
+          input.style.top = pageY  - drawingContainerBoundaryY - shiftY + 'px';*/
+
+
+          const drawingCOntainerBoundaryX = this.drawing.nativeElement.offsetLeft;
+          const drawingContainerBoundaryY = this.drawing.nativeElement.offsetTop;
+          console.log(`drawingCOntainerBoundaryX=${this.drawing.nativeElement.offsetLeft}`);
+          console.log(`drawingCOntainerBoundaryY=${this.drawing.nativeElement.offsetTop}`);
+          input.style.left = ((pageX- shiftX - drawingCOntainerBoundaryX)/ this.drawing.nativeElement.getBoundingClientRect().width) *100 + '%';
+          input.style.top = ((pageY - shiftY - drawingContainerBoundaryY)/this.drawing.nativeElement.getBoundingClientRect().height)*100 + '%';
+
+
           /*
           input.style.left = pageX - shiftX + 'px';
           input.style.top = pageY - ;
