@@ -18,17 +18,12 @@
 
 }
 
-.dimensionInputHorizontal {
-  font-size: 1vw;
-  position: absolute;
-  z-index: 1000;
-  width: auto;
-  height: 10%;
-  white-space: nowrap;
-  overflow: hidden;
-  resize: horizontal;
-  width: 10%;
-}
+
+
+
+
+
+
 
 .createInputFormContainer {
   position: absolute;
@@ -55,4 +50,43 @@
 
 
 
+
+
+
+
+
+
+.dimensionInputContainer{
+  position: absolute;
+  height: 0px;
+  width: 0px;
+  z-index: 1000;
+}
+
+.dimensionInput {
+  font-size: 16px;
+  position: absolute;
+  height: 32px;
+  white-space: nowrap;
+  overflow: hidden;
+  resize: vertical;
+  width: 120px;
+  border: 1px solid black;
+}
+
+
+.dimensionInputContainerTop {
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, 0);
+}
+
+.dimensionInputContainerRight {
+
+}
+.dimensionInputContainerBottom{
+}
+
+.dimensionInputContainerLeft {
+}
 

@@ -79,6 +79,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   addNewClicked = false;
   idValue: string;
   angle = -90;
+  position = "top";
   newDimension: DimensionCode;
   newLocalizedDimension: LocalizedDimensionCode;
   // tslint:disable-next-line:max-line-length
@@ -233,7 +234,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
 
   getInputElementsFromVievAndCreateDimensionTable(): Dimension[] {
     // tslint:disable-next-line:max-line-length
-    const inputs: HTMLTextAreaElement [] = this.host.nativeElement.querySelectorAll('.dimensionInputHorizontal'); /* does not work for 2 class at once selected  */
+    const inputs: HTMLTextAreaElement [] = this.host.nativeElement.querySelectorAll('.dimensionInput'); /* does not work for 2 class at once selected  */
     const dimensionsForDatabase: Dimension[] = [];
     inputs.forEach((input) => {
       const dimension: Dimension = {
@@ -250,12 +251,12 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     // tslint:disable-next-line:max-line-length
     if (this.orderOperationMode === OrderOperationMode.CREATENEW || this.orderOperationMode === OrderOperationMode.UPDATEWITHCHANGEDPRODUCT) {
       this.createOrderDto.product.dimensionsTextFieldInfo.forEach((di) => {
-        this.createDimensionInputOnDrawingBasingOnDimensionInfo(di, 'textarea');
+        this.createDimensionInputOnDrawingBasingOnDimensionInfo(di, 'div');
       });
     } else if (this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT || this.orderOperationMode === OrderOperationMode.SHOWPRODUCT) {
       if (this.createProductDto && this.createProductDto.dimensionsTextFieldInfo) {
         this.createProductDto.dimensionsTextFieldInfo.forEach((di) => {
-          this.createDimensionInputOnDrawingBasingOnDimensionInfo(di, 'textarea');
+          this.createDimensionInputOnDrawingBasingOnDimensionInfo(di, 'div');
         });
       }
     }
@@ -269,7 +270,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
         dimensionsInfo.forEach((dimensionInfo) => {
           dimensions.forEach((dimension) => {
             if (dimensionInfo.dimensionId === dimension.dimensionId) {
-              this.createDimensionInputOnDrawingWithSetValueBasingOnDimensionInfoAndOrderData(dimensionInfo, dimension, 'textarea');
+              this.createDimensionInputOnDrawingWithSetValueBasingOnDimensionInfoAndOrderData(dimensionInfo, dimension, 'div');
             }
           });
         });
@@ -314,49 +315,13 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
       this.rotateTextField(input);
       this.makeInputDivDragable(input);
       this.renderer.setProperty(input, 'value', dimensionInfo.dimensionId);
+
       input.onkeyup = (event) => {
         this.renderer.setProperty(input, 'value', input.id);
       };
     }
     this.renderer.appendChild(this.drawing.nativeElement, input);
     // this.renderer.appendChild(this.drawing.nativeElement, label);
-  }
-
-  setInputPositionAndSeizeBazingOnDatabaseData(dimensionInfo: DimensionTextFIeldInfo, input: HTMLElement): void {
-    // tslint:disable-next-line:max-line-length
-    if (dimensionInfo) {
-      input.id = dimensionInfo.dimensionId;
-    const dimensionXInRelationToDiv = dimensionInfo.dimensionTexfieldXposition;
-    // tslint:disable-next-line:max-line-length
-    const dimensionYInRelationToDiv = Number(dimensionInfo.dimensionTexfieldYposition);
-    input.style.left = `${Number(dimensionXInRelationToDiv)}%`;
-    input.style.top = `${Number(dimensionYInRelationToDiv)}%`;
-    if (dimensionInfo.transform) {
-      input.style.transform = dimensionInfo.transform;
-    }
-    if (dimensionInfo.dimensionTexFieldWidth) {
-      input.style.width = dimensionInfo.dimensionTexFieldWidth;
-    }
-    if (dimensionInfo.dimensionTexFieldHeight) {
-      input.style.height = dimensionInfo.dimensionTexFieldHeight;
-    }
-
-    if (this.orderOperationMode === OrderOperationMode.SHOWDRAWING || this.orderOperationMode === OrderOperationMode.SHOWDRAWINGCONFIRM) {
-      input.style.border = 'none';
-    }
-    if(this.orderOperationMode === OrderOperationMode.CREATENEW || this.orderOperationMode === OrderOperationMode.UPDATEWITHCHANGEDPRODUCT || this.orderOperationMode === OrderOperationMode.UPDATE || this.orderOperationMode === OrderOperationMode.UPDATEDRAWING){
-      const placeholderValue = input.id + ' =';
-      this.renderer.setProperty(input, 'placeholder', placeholderValue);
-      const label = this.renderer.createElement('label');
-      this.renderer.setProperty(label, 'for', input.id);
-      label.value = input.id + ' =';
-
-    }
-    input.className = dimensionInfo.dimensionInputClass;
-    }
-    else {
-      console.error('can not set input position because no dimension info value');
-    }
   }
 
   onSubmit(): void {
@@ -420,7 +385,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
 
   ngAfterViewChecked(): void {
     /* in this method i create drawing when obtaining data from database is required, because after viev init the data are not recived yet*/
-    const allInputs = this.host.nativeElement.querySelectorAll('.dimensionInputHorizontal');
+    const allInputs = this.host.nativeElement.querySelectorAll('.dimensionInput');
     if(this.drawing.nativeElement.getBoundingClientRect().width> 0.1 && this.drawing.nativeElement.getBoundingClientRect().height>0.1) {
 
 
@@ -467,7 +432,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   @HostListener('input', ['$event'])
   bindInputWithIndex(event: any): void {
     const inputId = event.target.id;
-    if (event.target.className === 'dimensionInputHorizontal') {
+    if (event.target.className === 'dimensionInput') {
       if (this.orderOperationMode !== OrderOperationMode.UPDATEPRODUCT && this.orderOperationMode !== OrderOperationMode.CREATENEWPRODUCT){
       if (this.secondIndexDimensions.includes(event.target.id)) {
         const maxLength = 5;
@@ -582,21 +547,28 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
 
 
   onSubmitForInputCreating(): void {
-    this.setIdValue();
+    this.setIdValue()
+    const container = this.renderer.createElement('div');
+    container.classList.add('dimensionInputContainer');
     const input = this.renderer.createElement('textarea');
+    container.appendChild(input);
+
     this.renderer.setProperty(input, 'value', this.idValue);
     this.renderer.setProperty(input, 'id', this.idValue);
+    /*this.renderer.setProperty(input, 'data-test', this.idValue);
+    this.renderer.setProperty(input, 'id', this.idValue);*/
+    console.log("Input" + input);
     // this.renderer.setProperty(input, 'type', 'number');
     console.log(`inputId= ${input.id}`);
-    input.className = 'dimensionInputHorizontal';
+    input.classList.add('dimensionInput');
 
     input.onkeyup = (event) => {
       this.renderer.setProperty(input, 'value', this.idValue);
     };
     /* const drawing = document.getElementById('drawingContainer'); */
-    this.makeInputDivDragable(input);
-    this.rotateTextField(input);
-    this.renderer.appendChild(this.drawing.nativeElement, input);
+    this.makeInputDivDragable(container);
+    this.rotateTextField(container);
+    this.renderer.appendChild(this.drawing.nativeElement, container);
     this.dragable = true;
     this.createDimensionClicked = false;
 
@@ -604,34 +576,6 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
 
   }
 
-  rotateTextField(textField): void {
-
-    textField.ondblclick =  ( event) => {
-      if (this.dragable === false) {
-
-      console.log(this.angle);
-      textField.style.transform = `rotate(${this.angle}deg)`;
-      console.log(`textField.getBoundingClientRect().left = ${textField.getBoundingClientRect().left}`);
-      console.log(`tetField.style.left = ${textField.style.left}`);
-      console.log(`textField.getBoundingClientRect().right = ${textField.getBoundingClientRect().right}`);
-      console.log(`textField.getBoundingClientRect().top = ${textField.getBoundingClientRect().top}`);
-      console.log(`tetField.style.top = ${textField.style.top}`);
-      console.log(`textField.getBoundingClientRect().bottom = ${textField.getBoundingClientRect().bottom}`);
-      console.log(`textField.getBoundingClientRect().width = ${textField.getBoundingClientRect().width}`);
-      console.log(`textField.getBoundingClientRect().height = ${textField.getBoundingClientRect().height}`);
-
-      if (this.angle === -90) {
-        this.angle = 90;
-      } else if (this.angle === 90) {
-        this.angle = 0;
-      } else {
-        this.angle = -90;
-      }
-      /*  it is always horizontal, because rotation means that horizontal dimension become also vertical*/
-     // textField.style.resize = 'horizontal';
-      }
-      };
-  }
 
   makeInputDivDragable(input: HTMLElement): void {
     input.oncontextmenu = ( event) => {
@@ -640,12 +584,15 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
       this.drawing.nativeElement.removeChild(input);
     };
     input.onmousedown = (event) => {
-      console.log(`event.type= ${event.type}`);
+      /*
+       console.log(`event.type= ${event.type}`);
       console.log(`textfield.style.transform= ${input.style.transform}`);
       console.log(`textfield.style.width= ${input.style.width}`);
       console.log(`textfield.style.height= ${input.style.height}`);
       const texfieldWith = document.getElementById(input.id).style.width;
       console.log(`texfieldWith= ${texfieldWith}`);
+      * */
+
 
       if (this.dragable === true) {
         event.preventDefault();
@@ -811,41 +758,6 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     return createProductDtoValid;
   }
 
-  getTextFieldsPositionsAndIdAndPushItToTable(): DimensionTextFIeldInfo[] {
-
-    const dimensionsTextFieldInfoTable: DimensionTextFIeldInfo[] = [];
-    // tslint:disable-next-line:max-line-length
-    console.log(`width= ${this.drawing.nativeElement.style.width}`);
-    const inputDivs: HTMLElement[] = this.host.nativeElement.querySelectorAll('.dimensionInputHorizontal');
-
-
-    for (let i = 0; i < inputDivs.length; i++) {
-      /* const inputDivRelativeToContainerXPosition = inputDivs[i].style.left/this.drawing */
-      // tslint:disable-next-line:max-line-length
-      const dimensionXAsInputStyleLeft: number = inputDivs[i].offsetLeft;
-
-      const dimensionXRelativeShiftToDivWith = (dimensionXAsInputStyleLeft / this.drawing.nativeElement.offsetWidth) * 100;
-      // tslint:disable-next-line:max-line-length
-      const dimensionYAsInputStyleTop: number = inputDivs[i].offsetTop;
-      const dimensionYRelativeShiftToDivHeight = (dimensionYAsInputStyleTop / this.drawing.nativeElement.offsetHeight) * 100;
-
-      console.log(`dimensionYRelativeShiftToDivHeight= ${dimensionYRelativeShiftToDivHeight}`);
-      console.log(` dimensionYAsInputStyleTop ${ dimensionYAsInputStyleTop}`);
-      console.log(`this.drawing.nativeElement.offsetHeight= ${this.drawing.nativeElement.offsetHeight}`);
-
-      const dimensionTextFIeldInfo: DimensionTextFIeldInfo = {
-        dimensionId: inputDivs[i].id,
-        dimensionTexfieldXposition: String(dimensionXRelativeShiftToDivWith),
-        dimensionTexfieldYposition: String(dimensionYRelativeShiftToDivHeight),
-        dimensionTexFieldHeight: `${inputDivs[i].style.height}`,
-        dimensionTexFieldWidth: `${inputDivs[i].style.width}`,
-        dimensionInputClass: inputDivs[i].className,
-        transform: `${inputDivs[i].style.transform}`,
-      };
-      dimensionsTextFieldInfoTable.push(dimensionTextFIeldInfo);
-    }
-    return dimensionsTextFieldInfoTable;
-  }
 
   async getPreviouslyUsedCodes(): Promise<void> {
     try {
@@ -947,4 +859,121 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     this.showUserInputErrorWindow = !confirmButtonEvent;
     this.userInputErrorMessages.length = 0;
   }
+
+  getTextFieldsPositionsAndIdAndPushItToTable(): DimensionTextFIeldInfo[] {
+
+    const dimensionsTextFieldInfoTable: DimensionTextFIeldInfo[] = [];
+    // tslint:disable-next-line:max-line-length
+    console.log(`width= ${this.drawing.nativeElement.style.width}`);
+    const inputDivs: HTMLElement[] = this.host.nativeElement.querySelectorAll('.dimensionInputContainer');
+
+
+    for (let i = 0; i < inputDivs.length; i++) {
+      /* const inputDivRelativeToContainerXPosition = inputDivs[i].style.left/this.drawing */
+      // tslint:disable-next-line:max-line-length
+      const dimensionXAsInputStyleLeft: number = inputDivs[i].offsetLeft;
+
+      const dimensionXRelativeShiftToDivWith = (dimensionXAsInputStyleLeft / this.drawing.nativeElement.offsetWidth) * 100;
+      // tslint:disable-next-line:max-line-length
+      const dimensionYAsInputStyleTop: number = inputDivs[i].offsetTop;
+      const dimensionYRelativeShiftToDivHeight = (dimensionYAsInputStyleTop / this.drawing.nativeElement.offsetHeight) * 100;
+
+      console.log(`dimensionYRelativeShiftToDivHeight= ${dimensionYRelativeShiftToDivHeight}`);
+      console.log(` dimensionYAsInputStyleTop ${ dimensionYAsInputStyleTop}`);
+      console.log(`this.drawing.nativeElement.offsetHeight= ${this.drawing.nativeElement.offsetHeight}`);
+
+      const dimensionTextFIeldInfo: DimensionTextFIeldInfo = {
+        dimensionId: inputDivs[i].id,
+        dimensionTexfieldXposition: String(dimensionXRelativeShiftToDivWith),
+        dimensionTexfieldYposition: String(dimensionYRelativeShiftToDivHeight),
+        dimensionTexFieldHeight: `${inputDivs[i].style.height}`,
+        dimensionTexFieldWidth: `${inputDivs[i].style.width}`,
+        dimensionInputClass: inputDivs[i].className,
+        transform:''
+      };
+      console.log('classnameTest='+inputDivs[i].className);
+      dimensionsTextFieldInfoTable.push(dimensionTextFIeldInfo);
+    }
+    return dimensionsTextFieldInfoTable;
+  }
+  setInputPositionAndSeizeBazingOnDatabaseData(dimensionInfo: DimensionTextFIeldInfo, input: HTMLElement): void {
+    // tslint:disable-next-line:max-line-length
+    if (dimensionInfo) {
+       input.contentEditable = 'true';
+      input.id = dimensionInfo.dimensionId;
+      const dimensionXInRelationToDiv = dimensionInfo.dimensionTexfieldXposition;
+      // tslint:disable-next-line:max-line-length
+      const dimensionYInRelationToDiv = Number(dimensionInfo.dimensionTexfieldYposition);
+      input.style.left = `${Number(dimensionXInRelationToDiv)}%`;
+      input.style.top = `${Number(dimensionYInRelationToDiv)}%`;
+      if (dimensionInfo.transform) {
+        // input.style.transform = dimensionInfo.transform;
+        const transformAsNumber = Number(dimensionInfo.transform);
+
+      }
+      if (dimensionInfo.dimensionTexFieldWidth) {
+        input.style.width = dimensionInfo.dimensionTexFieldWidth;
+      }
+      if (dimensionInfo.dimensionTexFieldHeight) {
+        input.style.height = dimensionInfo.dimensionTexFieldHeight;
+      }
+
+      if (this.orderOperationMode === OrderOperationMode.SHOWDRAWING || this.orderOperationMode === OrderOperationMode.SHOWDRAWINGCONFIRM) {
+        input.style.border = 'none';
+      }
+      if(this.orderOperationMode === OrderOperationMode.CREATENEW || this.orderOperationMode === OrderOperationMode.UPDATEWITHCHANGEDPRODUCT || this.orderOperationMode === OrderOperationMode.UPDATE || this.orderOperationMode === OrderOperationMode.UPDATEDRAWING){
+        const placeholderValue = input.id + ' =';
+        this.renderer.setProperty(input, 'placeholder', placeholderValue);
+        const label = this.renderer.createElement('label');
+        this.renderer.setProperty(label, 'for', input.id);
+        label.value = input.id + ' =';
+
+      }
+      input.className = dimensionInfo.dimensionInputClass;
+    }
+    else {
+      console.error('can not set input position because no dimension info value');
+    }
+  }
+  rotateTextField(textField): void {
+
+    textField.ondblclick =  ( event) => {
+      if (this.dragable === false) {
+
+        console.log(this.angle);
+        // textField.style.transform = `rotate(${this.angle}deg)`;
+        console.log(`textField.getBoundingClientRect().left = ${textField.getBoundingClientRect().left}`);
+        console.log(`tetField.style.left = ${textField.style.left}`);
+        console.log(`textField.getBoundingClientRect().right = ${textField.getBoundingClientRect().right}`);
+        console.log(`textField.getBoundingClientRect().top = ${textField.getBoundingClientRect().top}`);
+        console.log(`tetField.style.top = ${textField.style.top}`);
+        console.log(`textField.getBoundingClientRect().bottom = ${textField.getBoundingClientRect().bottom}`);
+        console.log(`textField.getBoundingClientRect().width = ${textField.getBoundingClientRect().width}`);
+        console.log(`textField.getBoundingClientRect().height = ${textField.getBoundingClientRect().height}`);
+
+        if (this.position === 'top') {
+          event.target.parentNode.classList.remove('dimensionInputContainerTop', 'dimensionInputContainerRight', 'dimensionInputContainerBottom', 'dimensionInputContainerLeft');
+          event.target.parentNode.classList.add('dimensionInputContainerRight');
+          this.position = 'right';
+        } else if (this.position === 'right') {
+          event.target.parentNode.classList.remove('dimensionInputContainerTop', 'dimensionInputContainerRight', 'dimensionInputContainerBottom', 'dimensionInputContainerLeft');
+          event.target.parentNode.classList.add('dimensionInputContainerBottom');
+          this.position = 'bottom';
+        } else if (this.position === 'bottom') {
+          event.target.parentNode.classList.remove('dimensionInputContainerTop', 'dimensionInputContainerRight', 'dimensionInputContainerBottom', 'dimensionInputContainerLeft');
+          event.target.parentNode.classList.add('dimensionInputContainerLeft');
+          this.position = 'left';
+        } else {
+          event.target.parentNode.classList.remove('dimensionInputContainerTop', 'dimensionInputContainerRight', 'dimensionInputContainerBottom', 'dimensionInputContainerLeft');
+          event.target.parentNode.classList.add('dimensionInputContainerTop');
+          this.position = 'top';
+        }
+        /*  it is always horizontal, because rotation means that horizontal dimension become also vertical*/
+        // textField.style.resize = 'horizontal';
+      }
+    };
+  }
+
+
+
 }

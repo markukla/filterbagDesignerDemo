@@ -1,4 +1,4 @@
-import {AfterContentChecked, Component, Input, OnInit} from '@angular/core';
+import {AfterContentChecked, Component, HostListener, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthenticationService} from '../../../LoginandLogOut/AuthenticationServices/authentication.service';
 import RoleEnum from '../../../Users/users/userTypes/roleEnum';
@@ -66,6 +66,11 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit(): void {
+    /* window.addEventListener("keyup", this.disableF5);
+    window.addEventListener("keydown", this.disableF5); */
+
+
+
     this.route.queryParamMap.subscribe(queryParams => {
       this.partnerIdForOrdersShow = queryParams.get('patnerId');
       this.initColumnNamesInSelectedLanguage();
@@ -80,6 +85,15 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
     });
 
   }
+  disableF5(e: any) {
+    if ((e.which || e.keyCode) == 116) {
+      e.preventDefault();
+      console.log('page reload on f5 button disabled')
+      this.router.navigateByUrl(this.authenticationService._previousUrl);
+    }
+  }
+
+
   initColumnNamesInSelectedLanguage(): void {
     // tslint:disable-next-line:max-line-length
     this.generalUserNames = this.authenticationService.generalUserNames;

@@ -41,6 +41,7 @@ export class AuthenticationService {
   drawingTableFormNamesInSelectedLanguage = drawingTableFormNames;
   dimensionNamesInSelectedLanguage = dimensionNames;
   materialNamesInSelectedLanguage = materialNamesInSelectedLanguage;
+  windowPerformanceEntries: any[];
 
   private previousUrl: string;
   private currentUrl: string;
@@ -49,6 +50,7 @@ export class AuthenticationService {
   constructor(public router: Router,
               private authBackenService: AuthenticationBackendService,
               private vocabularyBackendService: VocabularyBackendServiceService) {
+    console.log('new instance of authentication service created');
     this.logInFromSessionStorageAndInitColumNamesForSelectedLanguage();
     this.routeHistory = [];
     router.events
@@ -56,12 +58,27 @@ export class AuthenticationService {
       .subscribe((event: NavigationEnd) => {
         this._setURLs(event);
       });
-/* router.events
-      .pipe(filter(event => event instanceof NavigationStart))
-      .subscribe((event: NavigationStart) => {
-      if(performance.navigation.type ===1) {
-        this.refreshPage(this._currentUrl);
+    /*
+    *     window.addEventListener("beforeunload", event => {
+      let result: number;
+      const windowPerformanceArray = window.performance.getEntriesByType("navigation");
+      if (window.performance.getEntriesByType("navigation")) {
+        console.log('in beforeUnloadEvent');
+        result = this.getnavigationType();
+        console.log(`nawigation result= ${result}`);
+        if(result ===1) {
+
+
+          console.log('window performance equlas navigation reload');
+
+          this.router.navigateByUrl(this.previousUrl);
+          console.log('navigated to current url on reload ');
+
+        }
+
       }
+      event.returnValue=false;
+      return  false;
     });*/
 
 
@@ -70,7 +87,33 @@ export class AuthenticationService {
 
 
 
+/* router.events
+      .pipe(filter(event => event instanceof NavigationStart))
+      .subscribe((event: NavigationStart) => {
+      if(performance.navigation.type ===1) {
+        this.refreshPage(this._currentUrl);
+      }
+    });*/
   }
+  /*
+    getnavigationType(): number {
+
+    let result: number;
+    let p;
+
+    if (window.performance.getEntriesByType("navigation")){
+      p=window.performance.getEntriesByType("navigation")[0].type;
+      console.log(`navigationType= ${p}`);
+
+      if (p=='navigate'){result=0}
+      if (p=='reload'){result=1}
+      if (p=='back_forward'){result=2}
+      if (p=='prerender'){result=3} //3 is my invention!
+    }
+    return result;
+  }
+
+  * */
   private refreshPage(currrenturl: string): void  {
     this.router.navigateByUrl(currrenturl);
   }
