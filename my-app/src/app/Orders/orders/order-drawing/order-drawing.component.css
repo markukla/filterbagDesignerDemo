@@ -56,11 +56,16 @@
 
 
 
-.dimensionInputContainer{
+.dimensionInputContainer {
   position: absolute;
   height: 0px;
   width: 0px;
   z-index: 1000;
+}
+
+.dimensionInputContainer:before {
+  content: "";
+  position: absolute;
 }
 
 .dimensionInput {
@@ -70,23 +75,89 @@
   white-space: nowrap;
   overflow: hidden;
   resize: vertical;
-  width: 120px;
+  text-align: center;
   border: 1px solid black;
+  width: 32px;
 }
 
-
-.dimensionInputContainerTop {
+.dimensionInputContainerTop:before, .dimensionInputContainerTop div {
   left: 50%;
   top: 0;
   transform: translate(-50%, 0);
 }
 
-.dimensionInputContainerRight {
-
-}
-.dimensionInputContainerBottom{
+.dimensionInputContainerTop div {
+  width: 120px
 }
 
-.dimensionInputContainerLeft {
+.dimensionInputContainerTop:before {
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 10px solid red;
+  transform: translate(-50%, -100%);
+  width: 0;
+  height: 0;
+}
+
+.dimensionInputContainerRight div {
+  left: 0;
+  top: 50%;
+  height: 120px;
+  writing-mode: vertical-lr;
+  overflow: hidden;
+  resize: vertical;
+  transform: translate(-100%, -50%);
+  white-space: nowrap;
+}
+
+.dimensionInputContainerRight:before {
+  border-top: 5px solid transparent;
+  border-left: 10px solid red;
+  border-bottom: 5px solid transparent;
+  transform: translate(0%, -50%);
+  width: 0;
+  height: 0;
+}
+
+.dimensionInputContainerBottom:before, .dimensionInputContainerBottom div {
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 0);
+}
+
+.dimensionInputContainerBottom div {
+  resize: horizontal;
+  width: 120px;
+}
+
+.dimensionInputContainerBottom:before {
+  bottom: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 10px solid red;
+  transform: translate(-50%, 100%);
+  top: auto;
+  width: 0;
+  height: 0;
+}
+
+.dimensionInputContainerLeft div {
+  right: 0;
+  top: 50%;
+  writing-mode: vertical-lr;
+  overflow: hidden;
+  resize: vertical;
+  transform: translate(100%, -50%) scale(-1);
+  height: 120px;
+  white-space: nowrap;
+}
+
+.dimensionInputContainerLeft:before {
+  border-top: 5px solid transparent;
+  border-right: 10px solid red;
+  border-bottom: 5px solid transparent;
+  transform: translate(-100%, -50%);
+  width: 0;
+  height: 0;
 }
 

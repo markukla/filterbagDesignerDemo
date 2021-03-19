@@ -549,11 +549,13 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   onSubmitForInputCreating(): void {
     this.setIdValue()
     const container = this.renderer.createElement('div');
-    container.classList.add('dimensionInputContainer');
-    const input = this.renderer.createElement('textarea');
+    container.classList.add('dimensionInputContainer', 'dimensionInputContainerTop');
+    const input = this.renderer.createElement('div');
+    input.contentEditable = 'true';
+    input.innerHTML = this.idValue;
     container.appendChild(input);
 
-    this.renderer.setProperty(input, 'value', this.idValue);
+    //this.renderer.setProperty(input, 'value', this.idValue);
     this.renderer.setProperty(input, 'id', this.idValue);
     /*this.renderer.setProperty(input, 'data-test', this.idValue);
     this.renderer.setProperty(input, 'id', this.idValue);*/
