@@ -893,7 +893,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
         dimensionInputClass: inputDivs[i].className,
         transform:''
       };
-      console.log('classnameTest='+inputDivs[i].className);
+      console.log(`classnameTest for input id= ${inputDivs[i].id} = ${inputDivs[i].className}`);
       dimensionsTextFieldInfoTable.push(dimensionTextFIeldInfo);
     }
     return dimensionsTextFieldInfoTable;
