@@ -437,12 +437,24 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   bindInputWithIndex(event: any): void {
     const inputId = event.target.id;
     if (event.target.className.includes('dimensionInput')) {
+
+      const eventtargetinnerHTMLBeforeRemovingLetters: string = event.target.innerHTML;
+      if(this.checkIfLettersInString(eventtargetinnerHTMLBeforeRemovingLetters)) {
+        console.log('letters will be removed');
+        // it makes cursor to go to beginning of line somehow when letter removed
+        event.target.innerHTML = this.cleanLettersFromString(eventtargetinnerHTMLBeforeRemovingLetters);
+
+      }
+
       if (this.orderOperationMode !== OrderOperationMode.UPDATEPRODUCT && this.orderOperationMode !== OrderOperationMode.CREATENEWPRODUCT){
       if (this.secondIndexDimensions.includes(event.target.id)) {
         const maxLength = 5;
         if (event.target.innerHTML.length > maxLength) {
-          event.target.innerHTML = event.target.value.slice(0, maxLength);
+          event.target.innerHTML = event.target.innerHTML.slice(0, maxLength);
         }
+
+
+
         this.tableFormService.Lvalue = String(event.target.innerHTML);
         this.tableFormService.buildIndex();
         this.tableFormService.setOrderName();
@@ -465,6 +477,28 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     }
     }
 
+  }
+  cleanLettersFromString(str: string): string {
+    let cleanedString: string
+    if(str.length>1) {
+      cleanedString= str.slice(0, str.length-1);
+    }
+    else {
+      cleanedString='';
+    }
+
+    return cleanedString;
+  }
+  checkIfLettersInString(str: string): boolean {
+    let letterInString: boolean = false;
+    str.split('').forEach((letter)=>{
+      if (letter.match(/^[A-Za-z]+$/)) {
+        console.log('string has letters')
+        letterInString = true
+      }
+    });
+
+      return letterInString;
   }
 
   createOrderDtoToSaveInDatabase(): CreateOrderDto {
@@ -554,6 +588,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     this.setIdValue()
     const container = this.renderer.createElement('div');
     container.classList.add('dimensionInputContainer', 'dimensionInputContainerTop');
+
     const input = this.renderer.createElement('div');
     input.contentEditable = 'true';
     input.innerHTML = this.idValue;
@@ -944,7 +979,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
         label.value = input.id + ' =';
 
       }
-      input.className = dimensionInfo.dimensionInputClass;
+
     }
     else {
       console.error('can not set input position because no dimension info value');
