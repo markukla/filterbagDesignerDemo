@@ -238,7 +238,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     const dimensionsForDatabase: Dimension[] = [];
     inputs.forEach((input) => {
       const dimension: Dimension = {
-        dimensionvalue: input.value,
+        dimensionvalue: input.innerHTML,
         dimensionId: input.id
       };
       dimensionsForDatabase.push(dimension);
@@ -281,14 +281,16 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   // tslint:disable-next-line:max-line-length
   createDimensionInputOnDrawingWithSetValueBasingOnDimensionInfoAndOrderData(dimensionInfo: DimensionTextFIeldInfo, dimension: Dimension, inputTag: string): void {
     const input = this.renderer.createElement(inputTag);
-    input.value = dimension.dimensionvalue;
-    this.setInputPositionAndSeizeBazingOnDatabaseData(dimensionInfo, input);
+    const inputContainer = this.renderer.createElement('div');
+    input.innerHTML = dimension.dimensionvalue;
+    this.setInputPositionAndSeizeBazingOnDatabaseData(dimensionInfo, input,inputContainer);
+    this.renderer.appendChild(inputContainer, input);
     if (this.secondIndexDimensions.includes(input.id)) {
-      this.LValue = input.value;
+      this.LValue = dimension.dimensionvalue;
       console.log(`setting Lvalue to = ${this.LValue}`);
     }
     if (this.firstIndexDimensions.includes(input.id)) {
-      this.DVaLe = input.value;
+      this.DVaLe = dimension.dimensionvalue;
     }
     if (this.orderOperationMode === OrderOperationMode.SHOWDRAWING || this.orderOperationMode === OrderOperationMode.SHOWDRAWINGCONFIRM) {
       this.renderer.setAttribute(input, 'readonly', 'true');
@@ -298,29 +300,31 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
       this.renderer.setProperty(input, 'readonly', 'false');
       console.error(`input readonly property = ${input.readonly}`);
     }
-    this.renderer.appendChild(this.drawing.nativeElement, input);
+    this.renderer.appendChild(this.drawing.nativeElement, inputContainer);
   }
 
 
   createDimensionInputOnDrawingBasingOnDimensionInfo(dimensionInfo: DimensionTextFIeldInfo, inputTag: string): void {
     const input = this.renderer.createElement(inputTag);
+    const inputContainer = this.renderer.createElement('div');
 
 
-    this.setInputPositionAndSeizeBazingOnDatabaseData(dimensionInfo, input);
+    this.setInputPositionAndSeizeBazingOnDatabaseData(dimensionInfo, input, inputContainer);
+    this.renderer.appendChild(inputContainer, input);
     /* const label = this.renderer.createElement('label');
     this.renderer.setProperty(label, 'for', input.id);
     label.value = input.id + ' ='; */
 
     if (this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT) {
-      this.rotateTextField(input);
-      this.makeInputDivDragable(input);
-      this.renderer.setProperty(input, 'value', dimensionInfo.dimensionId);
+      this.rotateTextField(inputContainer);
+      this.makeInputDivDragable(inputContainer);
+      this.renderer.setProperty(input, 'innerHTML', dimensionInfo.dimensionId);
 
       input.onkeyup = (event) => {
-        this.renderer.setProperty(input, 'value', input.id);
+        this.renderer.setProperty(input, 'innerHTML', input.id);
       };
     }
-    this.renderer.appendChild(this.drawing.nativeElement, input);
+    this.renderer.appendChild(this.drawing.nativeElement, inputContainer);
     // this.renderer.appendChild(this.drawing.nativeElement, label);
   }
 
@@ -432,30 +436,30 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   @HostListener('input', ['$event'])
   bindInputWithIndex(event: any): void {
     const inputId = event.target.id;
-    if (event.target.className === 'dimensionInput') {
+    if (event.target.className.includes('dimensionInput')) {
       if (this.orderOperationMode !== OrderOperationMode.UPDATEPRODUCT && this.orderOperationMode !== OrderOperationMode.CREATENEWPRODUCT){
       if (this.secondIndexDimensions.includes(event.target.id)) {
         const maxLength = 5;
-        if (event.target.value.length > maxLength) {
-          event.target.value = event.target.value.slice(0, maxLength);
+        if (event.target.innerHTML.length > maxLength) {
+          event.target.innerHTML = event.target.value.slice(0, maxLength);
         }
-        this.tableFormService.Lvalue = String(event.target.value);
+        this.tableFormService.Lvalue = String(event.target.innerHTML);
         this.tableFormService.buildIndex();
         this.tableFormService.setOrderName();
       }
       if (this.firstIndexDimensions.includes(event.target.id)) {
         const maxLength = 4;
-        if (event.target.value.length > maxLength) {
-          event.target.value = event.target.value.slice(0, maxLength);
+        if (event.target.innerHTML.length > maxLength) {
+          event.target.innerHTML = event.target.innerHTML.slice(0, maxLength);
         }
-        this.tableFormService.Dvalue = String(event.target.value);
+        this.tableFormService.Dvalue = String(event.target.innerHTML);
         this.tableFormService.buildIndex();
         this.tableFormService.setOrderName();
       }
       if (!this.secondIndexDimensions.includes(event.target.id) && !this.firstIndexDimensions.includes(event.target.id)) {
         const maxLength = 3;
-        if (event.target.value.length > maxLength) {
-          event.target.value = event.target.value.slice(0, maxLength);
+        if (event.target.innerHTML.length > maxLength) {
+          event.target.innerHTML = event.target.innerHTML.slice(0, maxLength);
         }
       }
     }
@@ -553,19 +557,21 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     const input = this.renderer.createElement('div');
     input.contentEditable = 'true';
     input.innerHTML = this.idValue;
-    container.appendChild(input);
-
-    //this.renderer.setProperty(input, 'value', this.idValue);
+    input.className= 'dimensionInput';
     this.renderer.setProperty(input, 'id', this.idValue);
     /*this.renderer.setProperty(input, 'data-test', this.idValue);
     this.renderer.setProperty(input, 'id', this.idValue);*/
     console.log("Input" + input);
     // this.renderer.setProperty(input, 'type', 'number');
     console.log(`inputId= ${input.id}`);
-    input.classList.add('dimensionInput');
+    container.appendChild(input);
+
+    //this.renderer.setProperty(input, 'value', this.idValue);
+
+
 
     input.onkeyup = (event) => {
-      this.renderer.setProperty(input, 'value', this.idValue);
+      this.renderer.setProperty(input, 'innerHTML', this.idValue);
     };
     /* const drawing = document.getElementById('drawingContainer'); */
     this.makeInputDivDragable(container);
@@ -867,61 +873,68 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     const dimensionsTextFieldInfoTable: DimensionTextFIeldInfo[] = [];
     // tslint:disable-next-line:max-line-length
     console.log(`width= ${this.drawing.nativeElement.style.width}`);
-    const inputDivs: HTMLElement[] = this.host.nativeElement.querySelectorAll('.dimensionInputContainer');
+    const inputDivs: HTMLDivElement[] = this.host.nativeElement.querySelectorAll('.dimensionInputContainer');
 
 
     for (let i = 0; i < inputDivs.length; i++) {
       /* const inputDivRelativeToContainerXPosition = inputDivs[i].style.left/this.drawing */
       // tslint:disable-next-line:max-line-length
       const dimensionXAsInputStyleLeft: number = inputDivs[i].offsetLeft;
-
       const dimensionXRelativeShiftToDivWith = (dimensionXAsInputStyleLeft / this.drawing.nativeElement.offsetWidth) * 100;
       // tslint:disable-next-line:max-line-length
       const dimensionYAsInputStyleTop: number = inputDivs[i].offsetTop;
       const dimensionYRelativeShiftToDivHeight = (dimensionYAsInputStyleTop / this.drawing.nativeElement.offsetHeight) * 100;
-
+      const dimensionInput: HTMLDivElement = (<HTMLDivElement>inputDivs[i].firstElementChild);
       console.log(`dimensionYRelativeShiftToDivHeight= ${dimensionYRelativeShiftToDivHeight}`);
       console.log(` dimensionYAsInputStyleTop ${ dimensionYAsInputStyleTop}`);
       console.log(`this.drawing.nativeElement.offsetHeight= ${this.drawing.nativeElement.offsetHeight}`);
 
       const dimensionTextFIeldInfo: DimensionTextFIeldInfo = {
-        dimensionId: inputDivs[i].id,
-        dimensionTexfieldXposition: String(dimensionXRelativeShiftToDivWith),
-        dimensionTexfieldYposition: String(dimensionYRelativeShiftToDivHeight),
-        dimensionTexFieldHeight: `${inputDivs[i].style.height}`,
-        dimensionTexFieldWidth: `${inputDivs[i].style.width}`,
-        dimensionInputClass: inputDivs[i].className,
+        dimensionId: dimensionInput.id, // id of input not container
+        dimensionTexfieldXposition: String(dimensionXRelativeShiftToDivWith),  // position of input container not input
+        dimensionTexfieldYposition: String(dimensionYRelativeShiftToDivHeight), //position of input container not input
+        dimensionTexFieldHeight: `${dimensionInput.style.height}`, //height input not container
+        dimensionTexFieldWidth: `${dimensionInput.style.width}`, // width of input not container
+        dimensionInputClass: inputDivs[i].className, // class  of input container not input
         transform:''
       };
-      console.log(`classnameTest for input id= ${inputDivs[i].id} = ${inputDivs[i].className}`);
+      console.log(`dimensionInput id = ${dimensionInput.id}`);
+      console.log(`dimensionInput width = ${dimensionInput.style.width}`);
+      console.log(`dimensionInput height = ${dimensionInput.style.height}`)
+
+      console.log(`classnameTest for input id= ${dimensionInput.id} = ${inputDivs[i].className}`);
+      console.log(`ClaslistTest for input id = ${dimensionInput.id} = ${inputDivs[i].classList}`)
       dimensionsTextFieldInfoTable.push(dimensionTextFIeldInfo);
     }
     return dimensionsTextFieldInfoTable;
   }
-  setInputPositionAndSeizeBazingOnDatabaseData(dimensionInfo: DimensionTextFIeldInfo, input: HTMLElement): void {
+  setInputPositionAndSeizeBazingOnDatabaseData(dimensionInfo: DimensionTextFIeldInfo, input: HTMLDivElement, inputContainer: HTMLDivElement): void {
     // tslint:disable-next-line:max-line-length
     if (dimensionInfo) {
        input.contentEditable = 'true';
       input.id = dimensionInfo.dimensionId;
+      input.className ='dimensionInput';
+      inputContainer.className=dimensionInfo.dimensionInputClass;
+      console.log(inputContainer.className);
       const dimensionXInRelationToDiv = dimensionInfo.dimensionTexfieldXposition;
       // tslint:disable-next-line:max-line-length
       const dimensionYInRelationToDiv = Number(dimensionInfo.dimensionTexfieldYposition);
-      input.style.left = `${Number(dimensionXInRelationToDiv)}%`;
-      input.style.top = `${Number(dimensionYInRelationToDiv)}%`;
+      inputContainer.style.left = `${Number(dimensionXInRelationToDiv)}%`;
+      inputContainer.style.top = `${Number(dimensionYInRelationToDiv)}%`;
       if (dimensionInfo.transform) {
         // input.style.transform = dimensionInfo.transform;
         const transformAsNumber = Number(dimensionInfo.transform);
 
       }
-      if (dimensionInfo.dimensionTexFieldWidth) {
+      if (dimensionInfo.dimensionTexFieldWidth && dimensionInfo.dimensionTexFieldWidth !=='') {
         input.style.width = dimensionInfo.dimensionTexFieldWidth;
       }
-      if (dimensionInfo.dimensionTexFieldHeight) {
+      if (dimensionInfo.dimensionTexFieldHeight && dimensionInfo.dimensionTexFieldWidth !=='') {
         input.style.height = dimensionInfo.dimensionTexFieldHeight;
       }
 
       if (this.orderOperationMode === OrderOperationMode.SHOWDRAWING || this.orderOperationMode === OrderOperationMode.SHOWDRAWINGCONFIRM) {
-        input.style.border = 'none';
+        inputContainer.style.border = 'none';
       }
       if(this.orderOperationMode === OrderOperationMode.CREATENEW || this.orderOperationMode === OrderOperationMode.UPDATEWITHCHANGEDPRODUCT || this.orderOperationMode === OrderOperationMode.UPDATE || this.orderOperationMode === OrderOperationMode.UPDATEDRAWING){
         const placeholderValue = input.id + ' =';
