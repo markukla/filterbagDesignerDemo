@@ -79,7 +79,7 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
         //data are refreshed only on first page, instead it infers with proper sorting
         this.getRecords();
       }
-      this.numberOfRecordsForPage = 2;
+      this.numberOfRecordsForPage = 100;
       this.paginator = new Pagninator(currentPageNumber);
       this.materialId = this.tableService.selectedId;
     });

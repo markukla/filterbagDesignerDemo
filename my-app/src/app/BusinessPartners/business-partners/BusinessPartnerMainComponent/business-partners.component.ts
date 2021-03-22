@@ -62,7 +62,7 @@ export class BusinessPartnersComponent implements OnInit, AfterContentChecked {
 
     const routeParams = this.route.paramMap.subscribe(params=> {
       const currentPageNumber = Number(params.get('pageNumber'));
-      this.numberOfRecordsForPage = 2;
+      this.numberOfRecordsForPage = 100;
       this.paginator = new Pagninator(currentPageNumber);
       this.initColumnNamesInSelectedLanguage();
       this.selectedId = this.tableService.selectedId;

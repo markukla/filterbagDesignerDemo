@@ -103,7 +103,7 @@
 
 
   <div class="saveButtons">
-    <button *ngIf="createOrUpdateProductMode() === false;" class="saveButton" (click)="onSubmit()">{{this.orderNames.confirmButtonDescription}}</button>
+    <button *ngIf="createOrUpdateProductMode() === false && checkIfShowDrawingMode()=== false;" class="saveButton" (click)="onSubmit()">{{this.orderNames.confirmButtonDescription}}</button>
     <button (click)="navigateBack()">{{this.orderNames.backButtonDescription}}</button>
     <button *ngIf="createOrUpdateProductMode() === true;" class="saveButton" (click)="saveProductInDatabas()">{{this.orderNames.addProduct}}</button>
     <button type="button" *ngIf="createOrUpdateProductMode() === true;" (click)="this.createDimensionClicked = true" >{{this.orderNames.create + ' '+ this.orderNames.dimension}}</button>
