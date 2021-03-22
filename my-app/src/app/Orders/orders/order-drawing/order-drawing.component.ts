@@ -79,7 +79,8 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   addNewClicked = false;
   idValue: string;
   angle = -90;
-  position = "top";
+  position = "";
+  inputSelectedForRotation: string;
   newDimension: DimensionCode;
   newLocalizedDimension: LocalizedDimensionCode;
   // tslint:disable-next-line:max-line-length
@@ -102,6 +103,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   @ViewChildren('.inputDivHorizontal', {read: HTMLElement}) inputDivs: HTMLElement[];
   @ViewChild('mainContainer', {read: ElementRef}) mainContainer: ElementRef;
   @ViewChild('drawingAndTableContainer', {read: ElementRef}) drawingAndTableContainer: ElementRef;
+
   constructor(
     private orderBackendService: OrderBackendService,
     private productMiniatureService: ProductMiniatureService,
@@ -134,6 +136,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
 
     // tslint:disable-next-line:max-line-length
   }
+
   initColumnNamesInSelectedLanguage(): void {
     // tslint:disable-next-line:max-line-length
     setTabelColumnAndOtherNamesForSelectedLanguage(this.orderNames, this.authenticationService.vocabulariesInSelectedLanguage);
@@ -212,7 +215,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
       this.createProductDto = {
         ...foundproduct
       };
-      this.bgImageVariable = this.rootUrl +  this.createProductDto.urlOfOrginalDrawing;
+      this.bgImageVariable = this.rootUrl + this.createProductDto.urlOfOrginalDrawing;
       this.tableFormService.setInitDataFromDrawingTableFromCreateOrderDto(null, this.createProductDto);
       this.tableFormService.disableTableForm();
 
@@ -283,7 +286,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     const input = this.renderer.createElement(inputTag);
     const inputContainer = this.renderer.createElement('div');
     input.innerHTML = dimension.dimensionvalue;
-    this.setInputPositionAndSeizeBazingOnDatabaseData(dimensionInfo, input,inputContainer);
+    this.setInputPositionAndSeizeBazingOnDatabaseData(dimensionInfo, input, inputContainer);
     this.renderer.appendChild(inputContainer, input);
     if (this.secondIndexDimensions.includes(input.id)) {
       this.LValue = dimension.dimensionvalue;
@@ -316,7 +319,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     label.value = input.id + ' ='; */
 
     if (this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT) {
-      this.rotateTextField(inputContainer);
+      this.rotateTextField(input);
       this.makeInputDivDragable(inputContainer);
       this.renderer.setProperty(input, 'innerHTML', dimensionInfo.dimensionId);
 
@@ -362,6 +365,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     }
 
   }
+
   enableOrDisableDraggingInputsEvent(): void {
     if (this.orderOperationMode === OrderOperationMode.CREATENEWPRODUCT || this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT) {
       this.mainContainer.nativeElement.addEventListener('contextmenu', (ev) => {
@@ -377,7 +381,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   }
 
   ngAfterViewInit(): void {
-     this.enableOrDisableDraggingInputsEvent();
+    this.enableOrDisableDraggingInputsEvent();
     /* in this method i create all drawing which does not require data from database but already have it stored in service*/
     // tslint:disable-next-line:max-line-length
 
@@ -390,43 +394,43 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   ngAfterViewChecked(): void {
     /* in this method i create drawing when obtaining data from database is required, because after viev init the data are not recived yet*/
     const allInputs = this.host.nativeElement.querySelectorAll('.dimensionInput');
-    if(this.drawing.nativeElement.getBoundingClientRect().width> 0.1 && this.drawing.nativeElement.getBoundingClientRect().height>0.1) {
+    if (this.drawing.nativeElement.getBoundingClientRect().width > 0.1 && this.drawing.nativeElement.getBoundingClientRect().height > 0.1) {
 
 
-    // tslint:disable-next-line:max-line-length
-    if (this.orderOperationMode && this.orderOperationMode === OrderOperationMode.SHOWDRAWING || this.orderOperationMode === OrderOperationMode.SHOWPRODUCT) {
-      console.error('in afterViev checked drawing modyfication');
       // tslint:disable-next-line:max-line-length
-      if (this.orderOperationMode === OrderOperationMode.SHOWDRAWING) {
-        if (this.createOrderDto) {
-         if (allInputs.length === 0){
-           this.createDimensionInputsForUpdateAndShowDrawingBasingOnProductDataAndOrderData();
-         }
+      if (this.orderOperationMode && this.orderOperationMode === OrderOperationMode.SHOWDRAWING || this.orderOperationMode === OrderOperationMode.SHOWPRODUCT) {
+        console.error('in afterViev checked drawing modyfication');
+        // tslint:disable-next-line:max-line-length
+        if (this.orderOperationMode === OrderOperationMode.SHOWDRAWING) {
+          if (this.createOrderDto) {
+            if (allInputs.length === 0) {
+              this.createDimensionInputsForUpdateAndShowDrawingBasingOnProductDataAndOrderData();
+            }
+          }
         }
-      }
-      // tslint:disable-next-line:max-line-length
-      if (this.createProductDto && this.orderOperationMode === OrderOperationMode.SHOWPRODUCT) {
-        if (this.createProductDto) {
-          if (allInputs.length === 0){
-            this.createDimensionInputsBasingOnProductData();
+        // tslint:disable-next-line:max-line-length
+        if (this.createProductDto && this.orderOperationMode === OrderOperationMode.SHOWPRODUCT) {
+          if (this.createProductDto) {
+            if (allInputs.length === 0) {
+              this.createDimensionInputsBasingOnProductData();
+            }
           }
         }
       }
-    }
-     if(this.orderOperationMode && this.orderOperationMode !== OrderOperationMode.SHOWDRAWING && this.orderOperationMode !== OrderOperationMode.SHOWPRODUCT) {
-      // tslint:disable-next-line:max-line-length
-      if (this.orderOperationMode === OrderOperationMode.CREATENEW || this.orderOperationMode === OrderOperationMode.UPDATEWITHCHANGEDPRODUCT || this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT || this.orderOperationMode === OrderOperationMode.CREATENEWPRODUCT) {
-        if(allInputs.length ===0) {
-          this.createDimensionInputsBasingOnProductData();
-          console.error('in afterViev init after createDimension Input basing on product data');
-        }
-      } else {
-        if(allInputs.length ===0) {
-          this.createDimensionInputsForUpdateAndShowDrawingBasingOnProductDataAndOrderData();
-        }
+      if (this.orderOperationMode && this.orderOperationMode !== OrderOperationMode.SHOWDRAWING && this.orderOperationMode !== OrderOperationMode.SHOWPRODUCT) {
+        // tslint:disable-next-line:max-line-length
+        if (this.orderOperationMode === OrderOperationMode.CREATENEW || this.orderOperationMode === OrderOperationMode.UPDATEWITHCHANGEDPRODUCT || this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT || this.orderOperationMode === OrderOperationMode.CREATENEWPRODUCT) {
+          if (allInputs.length === 0) {
+            this.createDimensionInputsBasingOnProductData();
+            console.error('in afterViev init after createDimension Input basing on product data');
+          }
+        } else {
+          if (allInputs.length === 0) {
+            this.createDimensionInputsForUpdateAndShowDrawingBasingOnProductDataAndOrderData();
+          }
 
+        }
       }
-    }
     }
   }
 
@@ -439,66 +443,66 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     if (event.target.className.includes('dimensionInput')) {
 
       const eventtargetinnerHTMLBeforeRemovingLetters: string = event.target.innerHTML;
-      if(this.checkIfLettersInString(eventtargetinnerHTMLBeforeRemovingLetters)) {
+      if (this.checkIfLettersInString(eventtargetinnerHTMLBeforeRemovingLetters)) {
         console.log('letters will be removed');
         // it makes cursor to go to beginning of line somehow when letter removed
         event.target.innerHTML = this.cleanLettersFromString(eventtargetinnerHTMLBeforeRemovingLetters);
 
       }
 
-      if (this.orderOperationMode !== OrderOperationMode.UPDATEPRODUCT && this.orderOperationMode !== OrderOperationMode.CREATENEWPRODUCT){
-      if (this.secondIndexDimensions.includes(event.target.id)) {
-        const maxLength = 5;
-        if (event.target.innerHTML.length > maxLength) {
-          event.target.innerHTML = event.target.innerHTML.slice(0, maxLength);
-        }
+      if (this.orderOperationMode !== OrderOperationMode.UPDATEPRODUCT && this.orderOperationMode !== OrderOperationMode.CREATENEWPRODUCT) {
+        if (this.secondIndexDimensions.includes(event.target.id)) {
+          const maxLength = 5;
+          if (event.target.innerHTML.length > maxLength) {
+            event.target.innerHTML = event.target.innerHTML.slice(0, maxLength);
+          }
 
 
-
-        this.tableFormService.Lvalue = String(event.target.innerHTML);
-        this.tableFormService.buildIndex();
-        this.tableFormService.setOrderName();
-      }
-      if (this.firstIndexDimensions.includes(event.target.id)) {
-        const maxLength = 4;
-        if (event.target.innerHTML.length > maxLength) {
-          event.target.innerHTML = event.target.innerHTML.slice(0, maxLength);
+          this.tableFormService.Lvalue = String(event.target.innerHTML);
+          this.tableFormService.buildIndex();
+          this.tableFormService.setOrderName();
         }
-        this.tableFormService.Dvalue = String(event.target.innerHTML);
-        this.tableFormService.buildIndex();
-        this.tableFormService.setOrderName();
-      }
-      if (!this.secondIndexDimensions.includes(event.target.id) && !this.firstIndexDimensions.includes(event.target.id)) {
-        const maxLength = 3;
-        if (event.target.innerHTML.length > maxLength) {
-          event.target.innerHTML = event.target.innerHTML.slice(0, maxLength);
+        if (this.firstIndexDimensions.includes(event.target.id)) {
+          const maxLength = 4;
+          if (event.target.innerHTML.length > maxLength) {
+            event.target.innerHTML = event.target.innerHTML.slice(0, maxLength);
+          }
+          this.tableFormService.Dvalue = String(event.target.innerHTML);
+          this.tableFormService.buildIndex();
+          this.tableFormService.setOrderName();
+        }
+        if (!this.secondIndexDimensions.includes(event.target.id) && !this.firstIndexDimensions.includes(event.target.id)) {
+          const maxLength = 3;
+          if (event.target.innerHTML.length > maxLength) {
+            event.target.innerHTML = event.target.innerHTML.slice(0, maxLength);
+          }
         }
       }
-    }
     }
 
   }
+
   cleanLettersFromString(str: string): string {
     let cleanedString: string
-    if(str.length>1) {
-      cleanedString= str.slice(0, str.length-1);
-    }
-    else {
-      cleanedString='';
+    if (str.length > 1) {
+      cleanedString = str.slice(0, str.length - 1);
+    } else {
+      cleanedString = '';
     }
 
     return cleanedString;
   }
+
   checkIfLettersInString(str: string): boolean {
     let letterInString: boolean = false;
-    str.split('').forEach((letter)=>{
+    str.split('').forEach((letter) => {
       if (letter.match(/^[A-Za-z]+$/)) {
         console.log('string has letters')
         letterInString = true
       }
     });
 
-      return letterInString;
+    return letterInString;
   }
 
   createOrderDtoToSaveInDatabase(): CreateOrderDto {
@@ -520,39 +524,40 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   }
 
   checkIfAllFieldsValidInCreateOrderDto(createOrderDto: CreateOrderDto): boolean {
-   let allowSubmit = true;
-   const dimensions: Dimension[] = createOrderDto.orderDetails.dimensions;
+    let allowSubmit = true;
+    const dimensions: Dimension[] = createOrderDto.orderDetails.dimensions;
     const notAllDimensionValueEnteredMessage = this.orderNames.giveValuesToAllDimension;
     let foundNotFilledDimensions = false;
-   dimensions.forEach((dimension) => {
+    dimensions.forEach((dimension) => {
       if (!dimension.dimensionvalue) {
         allowSubmit = false;
         foundNotFilledDimensions = true;
       }
     });
-   if (foundNotFilledDimensions) {
-     this.userInputErrorMessages.push(notAllDimensionValueEnteredMessage);
-   }
-   if (!this.tableFormService.workingTemperature.value) {
+    if (foundNotFilledDimensions) {
+      this.userInputErrorMessages.push(notAllDimensionValueEnteredMessage);
+    }
+    if (!this.tableFormService.workingTemperature.value) {
       allowSubmit = false;
       const foultMessage = this.orderNames.giveValueOfWorkingTemperature;
       this.userInputErrorMessages.push(foultMessage);
     }
-   if(!this.tableFormService.workingSide.value) {
+    if (!this.tableFormService.workingSide.value) {
       allowSubmit = false;
       const foultMessage = this.orderNames.setWorkignSide;
       this.userInputErrorMessages.push(foultMessage);
     }
-   if (this.userInputErrorMessages.length > 0) {
-     this.showUserInputErrorWindow = true;
+    if (this.userInputErrorMessages.length > 0) {
+      this.showUserInputErrorWindow = true;
     }
-   return allowSubmit;
+    return allowSubmit;
 
   }
+
   async getDrawingPdf(): Promise<void> {
     console.error(`this.router.url= ${this.router.url}`);
     console.error(`window.location.href= ${window.location.href}`);
-    const urlForPuppeter= this.router.url+`&languageCode=${this.authenticationService.selectedLanguageCode}`
+    const urlForPuppeter = this.router.url + `&languageCode=${this.authenticationService.selectedLanguageCode}`
     const pdfTodownLoad = await this.orderBackendService.getDrawingPdf(urlForPuppeter).toPromise();
     const newBlob = new Blob([pdfTodownLoad], {type: 'application/pdf'});
 
@@ -587,12 +592,12 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   onSubmitForInputCreating(): void {
     this.setIdValue()
     const container = this.renderer.createElement('div');
-    container.classList.add('dimensionInputContainer', 'dimensionInputContainerTop');
+    container.classList.add('dimensionInputContainer', 'dimensionInputContainerBottom');
 
     const input = this.renderer.createElement('div');
     input.contentEditable = 'true';
     input.innerHTML = this.idValue;
-    input.className= 'dimensionInput';
+    input.className = 'dimensionInput';
     this.renderer.setProperty(input, 'id', this.idValue);
     /*this.renderer.setProperty(input, 'data-test', this.idValue);
     this.renderer.setProperty(input, 'id', this.idValue);*/
@@ -604,24 +609,23 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     //this.renderer.setProperty(input, 'value', this.idValue);
 
 
-
     input.onkeyup = (event) => {
       this.renderer.setProperty(input, 'innerHTML', this.idValue);
     };
     /* const drawing = document.getElementById('drawingContainer'); */
     this.makeInputDivDragable(container);
-    this.rotateTextField(container);
+    this.rotateTextField(input);
     this.renderer.appendChild(this.drawing.nativeElement, container);
     this.dragable = true;
+   // this.position = 'bottom';
     this.createDimensionClicked = false;
-
 
 
   }
 
 
   makeInputDivDragable(input: HTMLElement): void {
-    input.oncontextmenu = ( event) => {
+    input.oncontextmenu = (event) => {
 
       event.preventDefault();
       this.drawing.nativeElement.removeChild(input);
@@ -644,7 +648,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
         const transform = input.style.transform;
         const inputWidth = input.getBoundingClientRect().width;
         const inputHeight = input.getBoundingClientRect().height;
-        const widthMinusHeightDevidedBy2 = (inputWidth - inputHeight) / 2 ;
+        const widthMinusHeightDevidedBy2 = (inputWidth - inputHeight) / 2;
         let shiftX: number;
         let shiftY: number;
         /*  if (!transform || transform === '' || transform === 'rotate(0deg)') {
@@ -675,8 +679,8 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
           const drawingContainerBoundaryY = this.drawing.nativeElement.offsetTop;
           console.log(`drawingCOntainerBoundaryX=${this.drawing.nativeElement.offsetLeft}`);
           console.log(`drawingCOntainerBoundaryY=${this.drawing.nativeElement.offsetTop}`);
-          input.style.left = ((pageX- shiftX - drawingCOntainerBoundaryX)/ this.drawing.nativeElement.getBoundingClientRect().width) *100 + '%';
-          input.style.top = ((pageY - shiftY - drawingContainerBoundaryY)/this.drawing.nativeElement.getBoundingClientRect().height)*100 + '%';
+          input.style.left = ((pageX - shiftX - drawingCOntainerBoundaryX) / this.drawing.nativeElement.getBoundingClientRect().width) * 100 + '%';
+          input.style.top = ((pageY - shiftY - drawingContainerBoundaryY) / this.drawing.nativeElement.getBoundingClientRect().height) * 100 + '%';
 
 
           /*
@@ -729,9 +733,9 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
         // navigateToUrlAfterTimout(url, this.router, 2000);
       }, (error) => {
         console.log(error);
-          this.statusService.operationFailerStatusMessage = this.messageService.returnErrorToUserBasingOnBackendErrorStringForCreateNew(error);
-          console.log(`this.statusService.operationFailerStatusMessage = ${this.statusService.operationFailerStatusMessage}`);
-          this.router.navigateByUrl('/products');
+        this.statusService.operationFailerStatusMessage = this.messageService.returnErrorToUserBasingOnBackendErrorStringForCreateNew(error);
+        console.log(`this.statusService.operationFailerStatusMessage = ${this.statusService.operationFailerStatusMessage}`);
+        this.router.navigateByUrl('/products');
       });
       // tslint:disable-next-line:max-line-length
     } else if (this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT && this.validateCreateProductDtoBeforeSavingInDatab(createProductDto) === true) {
@@ -739,10 +743,10 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
 
         console.log('dodano nowy Product');
         this.statusService.operationSuccessStatusMessage = this.messageService.returnSuccessMessageToUserForSuccessBackendResponseForUpdate();
-       this.router.navigateByUrl(url);
+        this.router.navigateByUrl(url);
       }, (error) => {
         console.log(error);
-          this.statusService.operationFailerStatusMessage = this.messageService.returnErrorToUserBasingOnBackendErrorStringForUpdate(error);
+        this.statusService.operationFailerStatusMessage = this.messageService.returnErrorToUserBasingOnBackendErrorStringForUpdate(error);
         this.router.navigateByUrl(url);
       });
     }
@@ -794,7 +798,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
         this.userInputErrorMessages.push(failMessage);
       }
     }
-    if (this.userInputErrorMessages.length >0) {
+    if (this.userInputErrorMessages.length > 0) {
       createProductDtoValid = false;
       this.showUserInputErrorWindow = true;
     }
@@ -894,6 +898,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   navigateBack(): void {
     this.router.navigateByUrl(this.authenticationService._previousUrl);
   }
+
   printDrawing(): void {
     window.print();
   }
@@ -920,18 +925,31 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
       const dimensionYAsInputStyleTop: number = inputDivs[i].offsetTop;
       const dimensionYRelativeShiftToDivHeight = (dimensionYAsInputStyleTop / this.drawing.nativeElement.offsetHeight) * 100;
       const dimensionInput: HTMLDivElement = (<HTMLDivElement>inputDivs[i].firstElementChild);
-      console.log(`dimensionYRelativeShiftToDivHeight= ${dimensionYRelativeShiftToDivHeight}`);
-      console.log(` dimensionYAsInputStyleTop ${ dimensionYAsInputStyleTop}`);
+      let dimensionWidthInRelationToDrawingWidth: number;
+      let dimensionHeightInRelationToDrawingHeight: number;
+      if(dimensionInput.offsetWidth>0 && this.drawing.nativeElement.offsetWidth>0){
+        dimensionWidthInRelationToDrawingWidth = (dimensionInput.offsetWidth/ this.drawing.nativeElement.offsetWidth) *100;
+      }
+      if(dimensionInput.offsetHeight>0 && this.drawing.nativeElement.offsetWidth>0){
+        dimensionHeightInRelationToDrawingHeight = (dimensionInput.offsetHeight/ this.drawing.nativeElement.offsetHeight) *100;
+      }
+
+      console.log(`dimensionInputOfsetWidth= ${dimensionInput.offsetWidth}`);
+
+      console.log(`dimensionInputOfsetHeight= ${dimensionInput.offsetHeight}`);
+        console.log(`dimensionYRelativeShiftToDivHeight= ${dimensionYRelativeShiftToDivHeight}`);
+      console.log(` dimensionYAsInputStyleTop ${dimensionYAsInputStyleTop}`);
       console.log(`this.drawing.nativeElement.offsetHeight= ${this.drawing.nativeElement.offsetHeight}`);
+
 
       const dimensionTextFIeldInfo: DimensionTextFIeldInfo = {
         dimensionId: dimensionInput.id, // id of input not container
         dimensionTexfieldXposition: String(dimensionXRelativeShiftToDivWith),  // position of input container not input
         dimensionTexfieldYposition: String(dimensionYRelativeShiftToDivHeight), //position of input container not input
-        dimensionTexFieldHeight: `${dimensionInput.style.height}`, //height input not container
-        dimensionTexFieldWidth: `${dimensionInput.style.width}`, // width of input not container
+        dimensionTexFieldHeight: String(dimensionHeightInRelationToDrawingHeight), //height input not container
+        dimensionTexFieldWidth: String(dimensionWidthInRelationToDrawingWidth), // width of input not container
         dimensionInputClass: inputDivs[i].className, // class  of input container not input
-        transform:''
+        transform: ''
       };
       console.log(`dimensionInput id = ${dimensionInput.id}`);
       console.log(`dimensionInput width = ${dimensionInput.style.width}`);
@@ -943,13 +961,14 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     }
     return dimensionsTextFieldInfoTable;
   }
+
   setInputPositionAndSeizeBazingOnDatabaseData(dimensionInfo: DimensionTextFIeldInfo, input: HTMLDivElement, inputContainer: HTMLDivElement): void {
     // tslint:disable-next-line:max-line-length
     if (dimensionInfo) {
-       input.contentEditable = 'true';
+      input.contentEditable = 'true';
       input.id = dimensionInfo.dimensionId;
-      input.className ='dimensionInput';
-      inputContainer.className=dimensionInfo.dimensionInputClass;
+      input.className = 'dimensionInput';
+      inputContainer.className = dimensionInfo.dimensionInputClass;
       console.log(inputContainer.className);
       const dimensionXInRelationToDiv = dimensionInfo.dimensionTexfieldXposition;
       // tslint:disable-next-line:max-line-length
@@ -961,17 +980,17 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
         const transformAsNumber = Number(dimensionInfo.transform);
 
       }
-      if (dimensionInfo.dimensionTexFieldWidth && dimensionInfo.dimensionTexFieldWidth !=='') {
-        input.style.width = dimensionInfo.dimensionTexFieldWidth;
+      if (dimensionInfo.dimensionTexFieldWidth && dimensionInfo.dimensionTexFieldWidth !== '' && Number(dimensionInfo.dimensionTexFieldWidth) !==0 ) {
+        input.style.width = (Number(dimensionInfo.dimensionTexFieldWidth)/100)* this.drawing.nativeElement.offsetWidth+'px';
       }
-      if (dimensionInfo.dimensionTexFieldHeight && dimensionInfo.dimensionTexFieldWidth !=='') {
-        input.style.height = dimensionInfo.dimensionTexFieldHeight;
+      if (dimensionInfo.dimensionTexFieldHeight && dimensionInfo.dimensionTexFieldHeight !== ''&& Number(dimensionInfo.dimensionTexFieldHeight) !==0) {
+        input.style.height = (Number(dimensionInfo.dimensionTexFieldHeight)/100)* this.drawing.nativeElement.offsetHeight+'px';
       }
 
       if (this.orderOperationMode === OrderOperationMode.SHOWDRAWING || this.orderOperationMode === OrderOperationMode.SHOWDRAWINGCONFIRM) {
         inputContainer.style.border = 'none';
       }
-      if(this.orderOperationMode === OrderOperationMode.CREATENEW || this.orderOperationMode === OrderOperationMode.UPDATEWITHCHANGEDPRODUCT || this.orderOperationMode === OrderOperationMode.UPDATE || this.orderOperationMode === OrderOperationMode.UPDATEDRAWING){
+      if (this.orderOperationMode === OrderOperationMode.CREATENEW || this.orderOperationMode === OrderOperationMode.UPDATEWITHCHANGEDPRODUCT || this.orderOperationMode === OrderOperationMode.UPDATE || this.orderOperationMode === OrderOperationMode.UPDATEDRAWING) {
         const placeholderValue = input.id + ' =';
         this.renderer.setProperty(input, 'placeholder', placeholderValue);
         const label = this.renderer.createElement('label');
@@ -980,15 +999,30 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
 
       }
 
-    }
-    else {
+    } else {
       console.error('can not set input position because no dimension info value');
     }
   }
+
   rotateTextField(textField): void {
 
-    textField.ondblclick =  ( event) => {
+    textField.ondblclick = (event) => {
       if (this.dragable === false) {
+        if(textField.parentNode.className.includes('Bottom')){
+          this.position = 'bottom';
+        }
+        else if(textField.parentNode.className.includes('Right')) {
+          this.position = 'right'
+        }
+        else if (textField.parentNode.className.includes('Left')) {
+          this.position = 'left'
+        }
+        const orginalWidth = textField.offsetWidth + 'px';
+        console.log(`orinalWidth= ${orginalWidth }`);
+        const orginalHeight = textField.offsetHeight + 'px';
+        console.log(`orinalHeight= ${orginalHeight }`);
+
+
 
         console.log(this.angle);
         // textField.style.transform = `rotate(${this.angle}deg)`;
@@ -1001,27 +1035,59 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
         console.log(`textField.getBoundingClientRect().width = ${textField.getBoundingClientRect().width}`);
         console.log(`textField.getBoundingClientRect().height = ${textField.getBoundingClientRect().height}`);
 
+        /*
         if (this.position === 'top') {
           event.target.parentNode.classList.remove('dimensionInputContainerTop', 'dimensionInputContainerRight', 'dimensionInputContainerBottom', 'dimensionInputContainerLeft');
           event.target.parentNode.classList.add('dimensionInputContainerRight');
           this.position = 'right';
+        * */
+          console.log(`position before rotation= ${this.position}`);
+         if (this.position === 'bottom') {
+          textField.parentNode.classList.remove('dimensionInputContainerTop', 'dimensionInputContainerRight', 'dimensionInputContainerBottom', 'dimensionInputContainerLeft');
+          textField.parentNode.classList.add('dimensionInputContainerRight');
+
+          textField.style.width = this.makeWidthValueToBecomeHeightValueOrOposite(orginalHeight);
+          textField.style.height = this.makeWidthValueToBecomeHeightValueOrOposite(orginalWidth);
+          this.position = 'right';
         } else if (this.position === 'right') {
-          event.target.parentNode.classList.remove('dimensionInputContainerTop', 'dimensionInputContainerRight', 'dimensionInputContainerBottom', 'dimensionInputContainerLeft');
-          event.target.parentNode.classList.add('dimensionInputContainerBottom');
-          this.position = 'bottom';
-        } else if (this.position === 'bottom') {
-          event.target.parentNode.classList.remove('dimensionInputContainerTop', 'dimensionInputContainerRight', 'dimensionInputContainerBottom', 'dimensionInputContainerLeft');
-          event.target.parentNode.classList.add('dimensionInputContainerLeft');
+          textField.parentNode.classList.remove('dimensionInputContainerTop', 'dimensionInputContainerRight', 'dimensionInputContainerBottom', 'dimensionInputContainerLeft');
+          textField.parentNode.classList.add('dimensionInputContainerLeft');
           this.position = 'left';
         } else {
-          event.target.parentNode.classList.remove('dimensionInputContainerTop', 'dimensionInputContainerRight', 'dimensionInputContainerBottom', 'dimensionInputContainerLeft');
-          event.target.parentNode.classList.add('dimensionInputContainerTop');
-          this.position = 'top';
+          textField.parentNode.classList.remove('dimensionInputContainerTop', 'dimensionInputContainerRight', 'dimensionInputContainerBottom', 'dimensionInputContainerLeft');
+          textField.parentNode.classList.add('dimensionInputContainerBottom');
+          textField.style.width = this.makeWidthValueToBecomeHeightValueOrOposite(orginalHeight);
+          textField.style.height = this.makeWidthValueToBecomeHeightValueOrOposite(orginalWidth);
+          this.position = 'bottom';
         }
+
+         /* if (this.position === 'bottom') {
+          textField.parentNode.classList.remove('dimensionInputContainerTop', 'dimensionInputContainerRight', 'dimensionInputContainerBottom', 'dimensionInputContainerLeft');
+          textField.parentNode.classList.add('dimensionInputContainerBottom');
+          textField.style.width = this.makeWidthValueToBecomeHeightValueOrOposite(orginalHeight);
+          textField.style.height = this.makeWidthValueToBecomeHeightValueOrOposite(orginalWidth);
+
+          this.position = 'right';
+        } else if (this.position === 'right') {
+          textField.parentNode.classList.remove('dimensionInputContainerTop', 'dimensionInputContainerRight', 'dimensionInputContainerBottom', 'dimensionInputContainerLeft');
+          textField.parentNode.classList.add('dimensionInputContainerRight');
+          textField.style.width = this.makeWidthValueToBecomeHeightValueOrOposite(orginalHeight);
+          textField.style.height = this.makeWidthValueToBecomeHeightValueOrOposite(orginalWidth);
+          this.position = 'left';
+        } else if (this.position === 'left') {
+          textField.parentNode.classList.remove('dimensionInputContainerTop', 'dimensionInputContainerRight', 'dimensionInputContainerBottom', 'dimensionInputContainerLeft');
+          textField.parentNode.classList.add('dimensionInputContainerLeft');
+          this.position = 'bottom';
+        }*/
+
         /*  it is always horizontal, because rotation means that horizontal dimension become also vertical*/
         // textField.style.resize = 'horizontal';
       }
     };
+  }
+
+  makeWidthValueToBecomeHeightValueOrOposite(valueToSetAfterRotation: string): string {
+    return valueToSetAfterRotation;
   }
 
 

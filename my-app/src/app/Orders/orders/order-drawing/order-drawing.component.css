@@ -79,13 +79,13 @@ z-index: 30;
 .dimensionInput {
   font-size: 16px;
   position: absolute;
-  height: 32px;
+  height: 30px;
   white-space: nowrap;
   overflow: hidden;
   resize: vertical;
   text-align: center;
   border: 1px solid black;
-  width: 32px;
+  width: 120px;
 }
 
 .dimensionInputContainerTop:before, .dimensionInputContainerTop div {
@@ -95,7 +95,7 @@ z-index: 30;
 }
 
 .dimensionInputContainerTop div {
-  width: 120px
+  /*width: 120px */
 }
 
 .dimensionInputContainerTop:before {
@@ -110,7 +110,7 @@ z-index: 30;
 .dimensionInputContainerRight div {
   right: 0;
   top: 50%;
-  height: 120px;
+  /*height: 120px;*/
   writing-mode: vertical-lr;
   overflow: hidden;
   resize: vertical;
@@ -135,7 +135,7 @@ z-index: 30;
 
 .dimensionInputContainerBottom div {
   resize: horizontal;
-  width: 120px;
+  /*width: 120px;*/
 }
 
 .dimensionInputContainerBottom:before {
@@ -156,7 +156,7 @@ z-index: 30;
   overflow: hidden;
   resize: vertical;
   transform: translate(-100%, -50%) scale(-1);
-  height: 120px;
+  /*height: 120px; */
   white-space: nowrap;
 }
 
