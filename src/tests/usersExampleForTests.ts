@@ -19,7 +19,8 @@ class UsersExampleForTests {
         id: 1,
         roles: [new Role(RoleEnum.ADMIN), new Role(RoleEnum.EDITOR)],
         businesPartnerCompanyName: null,
-        code: null
+        code: null,
+
     }
     public puppeterUser: User = {
         fulName: 'puppeteer',
@@ -29,7 +30,8 @@ class UsersExampleForTests {
         id: 1,
         roles: [new Role(RoleEnum.ADMIN), new Role(RoleEnum.EDITOR)],
         businesPartnerCompanyName: null,
-        code: null
+        code: null,
+        hidden: true
     }
     public inactiveAdminUserExample: User = {
         fulName: 'Jan Kowalski',

@@ -739,16 +739,23 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
       });
       // tslint:disable-next-line:max-line-length
     } else if (this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT && this.validateCreateProductDtoBeforeSavingInDatab(createProductDto) === true) {
-      this.productBackendService.updateRecordById(this.selectedProductId, createProductDto).subscribe((product) => {
+      this.productBackendService.deleteRecordById(this.selectedProductId).subscribe((deleteSuccessResponse)=>{
+        this.productBackendService.addRecords(createProductDto).subscribe((product) => {
 
-        console.log('dodano nowy Product');
-        this.statusService.operationSuccessStatusMessage = this.messageService.returnSuccessMessageToUserForSuccessBackendResponseForUpdate();
-        this.router.navigateByUrl(url);
-      }, (error) => {
-        console.log(error);
+          console.log('dodano nowy Product');
+          this.statusService.operationSuccessStatusMessage = this.messageService.returnSuccessMessageToUserForSuccessBackendResponseForUpdate();
+          this.router.navigateByUrl(url);
+        }, (error) => {
+          console.log(error);
+          this.statusService.operationFailerStatusMessage = this.messageService.returnErrorToUserBasingOnBackendErrorStringForUpdate(error);
+          this.router.navigateByUrl(url);
+        })
+      }, error => {
         this.statusService.operationFailerStatusMessage = this.messageService.returnErrorToUserBasingOnBackendErrorStringForUpdate(error);
         this.router.navigateByUrl(url);
+
       });
+
     }
   }
 

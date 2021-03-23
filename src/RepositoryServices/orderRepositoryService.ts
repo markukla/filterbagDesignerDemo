@@ -74,7 +74,10 @@ const orderVersionRegister = new OrderVersionRegister(createOrderDto.orderNumber
         let currentOrders:Order[]=[];
 
             ordersRegisters.forEach(rg=>{
-               currentOrders.push(rg.ordersInthisRegister[rg.ordersInthisRegister.length-1]);
+                if(rg) {
+                    currentOrders.push(rg.ordersInthisRegister[rg.ordersInthisRegister.length-1]);
+                }
+
 
         });
             return currentOrders;
@@ -83,11 +86,12 @@ const orderVersionRegister = new OrderVersionRegister(createOrderDto.orderNumber
     public async findAllCurentVerionsOfOrderForGivenPartnerCode(partnerCode:string):Promise<Order[]>{
         let allCurentOrders:Order[]=await this.findAllCurentVerionsOfOrder();// it would be good to query only orders for this business partner instead
 
-      let ordersForBusinessPartnerWithThisCode:Order[]=allCurentOrders.filter(o=>
-          o.businessPartner.code===partnerCode);
-
-
-
+      let ordersForBusinessPartnerWithThisCode:Order[]= [];
+        allCurentOrders.forEach((order)=>{
+            if(order && order.businessPartner.code ===partnerCode) {
+                ordersForBusinessPartnerWithThisCode.push(order);
+            }
+        });
 
         return ordersForBusinessPartnerWithThisCode;
 

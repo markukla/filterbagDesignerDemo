@@ -39,7 +39,7 @@
         </div>
       </div>
     </div>
-    <div *ngIf="this.partnerConfirmed">
+    <div *ngIf="this.partnerConfirmed || this.isPartner">
 
     <div *ngIf="productConfirmed && type.value && top.value && bottom.value">
       <p>

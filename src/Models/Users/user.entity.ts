@@ -28,13 +28,15 @@ class User {
     password: string;
     @Column()
     active: boolean;
-
     @Column({nullable:true})
     code?: string;
     @Column({nullable:true})
     businesPartnerCompanyName?: string;
     @Column({nullable: true})
     softDeleteDate?:Date;
+    @Column({nullable: true})
+    hidden?:boolean;
+
 
 @ManyToMany(()=>Role)  //here we reference to entity name, not table name
     @JoinTable()

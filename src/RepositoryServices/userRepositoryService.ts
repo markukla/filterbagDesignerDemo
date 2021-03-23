@@ -110,7 +110,7 @@ class UserService implements RepositoryService {
 
 
         allUsers.forEach(user => {
-            if (this.UserHasPartnerRole(user) === false && user.softDeleteDate === null) {
+            if (this.UserHasPartnerRole(user) === false && user.softDeleteDate === null && user.hidden===null) {
                 adminOrEditors.push(user);
             }
         });
@@ -127,7 +127,7 @@ class UserService implements RepositoryService {
 
 
         allUsers.forEach(user => {
-            if (this.UserHasAdminRole(user) === true && user.softDeleteDate === null) {
+            if (this.UserHasAdminRole(user) === true && user.softDeleteDate === null && user.hidden === null) {
                 admins.push(user);
             }
         });
@@ -144,7 +144,7 @@ class UserService implements RepositoryService {
 
 
         allUsers.forEach(user => {
-            if (this.UserHasEditorRoleButIsNotAdmin(user) === true && user.softDeleteDate === null) {
+            if (this.UserHasEditorRoleButIsNotAdmin(user) === true && user.softDeleteDate === null && user.hidden===null) {
                 editors.push(user);
             }
         });
