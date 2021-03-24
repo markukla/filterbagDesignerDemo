@@ -24,7 +24,7 @@ class AuthenticationService implements RepositoryService{
 
     public async login(logInData: LogInDto): Promise<LoggedUser> {
         var loggedUser: LoggedUser;
-        const user: User = await this.manager.findOne(User, {email: logInData.email}, {relations: ['roles']});
+        const user: User = await this.manager.findOne(User, {email: logInData.email, softDeleteDate:null}, {relations: ['roles']});
 
         if (user) {
             if(!user.active){

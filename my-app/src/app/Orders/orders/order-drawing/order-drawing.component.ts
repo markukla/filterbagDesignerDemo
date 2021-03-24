@@ -130,6 +130,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     this.dimensionRoleForm = new FormGroup({
       dimensionRole: new FormControl(null, [Validators.required]),
     });
+
     this.initColumnNamesInSelectedLanguage();
     await this.setOrderOperatiomModeAndSelectedOrderBasingOnQueryParamters();
     await this.getPreviouslyUsedCodes();
@@ -1115,6 +1116,10 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   makeWidthValueToBecomeHeightValueOrOposite(valueToSetAfterRotation: string): string {
     return valueToSetAfterRotation;
   }
+
+
+
+
 
 
 

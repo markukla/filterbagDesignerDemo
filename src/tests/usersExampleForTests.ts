@@ -20,6 +20,8 @@ class UsersExampleForTests {
         roles: [new Role(RoleEnum.ADMIN), new Role(RoleEnum.EDITOR)],
         businesPartnerCompanyName: null,
         code: null,
+        softDeleteDate: null,
+        hidden: null,
 
     }
     public puppeterUser: User = {
@@ -31,7 +33,8 @@ class UsersExampleForTests {
         roles: [new Role(RoleEnum.ADMIN), new Role(RoleEnum.EDITOR)],
         businesPartnerCompanyName: null,
         code: null,
-        hidden: true
+        hidden: true,
+        softDeleteDate: null
     }
     public inactiveAdminUserExample: User = {
         fulName: 'Jan Kowalski',
@@ -41,7 +44,8 @@ class UsersExampleForTests {
         id: 2,
         roles: [new Role(RoleEnum.ADMIN), new Role(RoleEnum.EDITOR)],
         businesPartnerCompanyName: null,
-        code: null
+        code: null,
+        softDeleteDate: null
     }
     public activeEditorUserExample: User = {
         fulName: 'Jacek Nowak',
@@ -51,7 +55,8 @@ class UsersExampleForTests {
         id: 3,
         roles: [new Role(RoleEnum.EDITOR)],
         businesPartnerCompanyName: null,
-        code: null
+        code: null,
+        softDeleteDate: null,
     }
     public inactiveEditorUserExample: User = {
         fulName: 'Piotr Nowak',
@@ -61,7 +66,8 @@ class UsersExampleForTests {
         id: 3,
         roles: [new Role(RoleEnum.EDITOR)],
         businesPartnerCompanyName: null,
-        code: null
+        code: null,
+        softDeleteDate: null,
     }
     public activePartnerUserExample: User = {
         fulName: 'Marian Kukla',

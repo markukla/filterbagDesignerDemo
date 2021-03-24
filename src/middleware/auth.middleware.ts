@@ -38,7 +38,7 @@ async function authMiddleware(request: RequestWithUser, response: Response, next
             const verificationResponse = jwt.verify(authorization, secret) as DataStoredInToken;
             console.log(verificationResponse);
 
-            const user: User = await manager.findOne(User, {id: verificationResponse.id}, {relations: ['roles']})
+            const user: User = await manager.findOne(User, {id: verificationResponse.id, softDeleteDate:null}, {relations: ['roles']})
             console.log(user);
 
 

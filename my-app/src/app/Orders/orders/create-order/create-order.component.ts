@@ -46,6 +46,7 @@ import {
 } from '../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription';
 import {SearchService} from "../../../helpers/directive/SearchDirective/search.service";
 import {createPartnersForCreateOrderFromPartners, PartnersForCreateOrder} from "./partnersForCreateOrder";
+import {DimensionCodeBackendService} from "../../../DimensionCodes/DimensionCodeServices/dimension-code-backend.service";
 
 @Component({
   selector: 'app-create-order',
@@ -117,7 +118,8 @@ export class CreateOrderComponent implements OnInit, AfterContentChecked, AfterV
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private searchService: SearchService) {
+    private searchService: SearchService,
+    private dimensionCodesBackendService: DimensionCodeBackendService) {
   }
 
 
@@ -129,6 +131,7 @@ export class CreateOrderComponent implements OnInit, AfterContentChecked, AfterV
       businessPartner: new FormControl(null, Validators.required),
       productMaterial: new FormControl(null, Validators.required)
     }, {updateOn: 'change'});
+    this.setDimensionCodesInDrawingTableFormService();
     this.initColumnNamesInSelectedLanguage();
     this.productHasBeenChanged = false;
     this.isPartner = this.authenticationService.userRole === RoleEnum.PARTNER;
@@ -754,6 +757,7 @@ setOrderNumbersinOrderTableForUpdateOrConfirmModes(): void {
         businessPartner: this.selectedPartner,
         productMaterial: this.selectedMaterial,
         product: this.selectedProduct,
+        creator: this.authenticationService.loggedUser.user,
         orderDetails,
         commentToOrder: commmentToOrder,
         // tslint:disable-next-line:max-line-length
@@ -805,5 +809,14 @@ listenToChangeProductEvent(event: any): void {
     else if(this.allParntersToSelect&&this.allParntersToSelect.length<10) {
       this.renderer.setProperty(select,'size', this.allParntersToSelect.length+1);
     }
+  }
+  setDimensionCodesInDrawingTableFormService (): void {
+    this.dimensionCodesBackendService.getFirstIndexDimensions().subscribe((firstDimensions) => {
+      this.tableFormService.allFirstIndexDimension = [];
+      this.tableFormService.allFirstIndexDimension=firstDimensions.body.map(dimension=>dimension.dimensionCode);
+    });
+    this.dimensionCodesBackendService.getSecondIndexDimensions().subscribe((secondDimensions)=> {
+      this.tableFormService.allSecondIndexDimnesions = secondDimensions.body.map(dimension=> dimension.dimensionCode);
+    });
   }
 }

@@ -23,8 +23,9 @@ const roles:Role[]=[new Role(RoleEnum.PARTNER),new Role(RoleEnum.EDITOR),new Rol
 
 async function insertTestUsersToDatabase() {
     const manager=getManager();
-    const usersInDatabse: User[] = await manager.find(User);
-    if(usersInDatabse.length ===0) {
+    const usersInDatabse: User[] = await manager.find(User, );
+    const notSoftDeletedUsersInDatabase = usersInDatabse.filter(user => user.softDeleteDate ===null && user.code ===null && user.hidden=== null);
+    if(notSoftDeletedUsersInDatabase.length ===0) {
         await manager.save(User,users);
         console.log("test users inserted to database")
     }

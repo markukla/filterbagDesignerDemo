@@ -12,6 +12,7 @@ services:
       - "3080:3080"
     volumes:
       - ./src:/usr/src/app/src
+      - ./src:/root/src
       - productImages:/root/src/public/images
     networks:
       - app-network
