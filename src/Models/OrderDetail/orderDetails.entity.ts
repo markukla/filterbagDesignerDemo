@@ -20,6 +20,7 @@ class OrderDetails {
     @Column({type:"jsonb"})
     dimensions:Dimension[];
 
+
 @OneToOne(()=>Order,(order:Order)=>order.orderDetails)
     order?:Order;
 

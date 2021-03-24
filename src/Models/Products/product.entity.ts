@@ -5,6 +5,7 @@ import ProductBottom from "./productBottom.entity";
 import ProductTop from "./productTop.entity";
 import Dimension from "../OrderDetail/dimension";
 import DimensionTextFIeldInfo from "./dimensionTextFIeldInfo";
+import {TabelAndDrawinglnformation} from "./tabeAndDrawinglnformation";
 
 @Entity("products")
 class Product{  // this class represents type of product and technical drawing of product
@@ -29,6 +30,9 @@ class Product{  // this class represents type of product and technical drawing o
 
     @Column({type:"jsonb"})
     dimensionsTextFieldInfo:DimensionTextFIeldInfo[];
+    @Column({type:"jsonb"})
+    drawinAndTableInfo: TabelAndDrawinglnformation;
+
     @Column({nullable: true})
     softDeleteDate?:Date;
 

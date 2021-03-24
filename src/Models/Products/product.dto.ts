@@ -4,6 +4,7 @@ import ProductType from "./productType.entity";
 import ProductTop from "./productTop.entity";
 import ProductBottom from "./productBottom.entity";
 import DimensionTextFIeldInfo from "./dimensionTextFIeldInfo";
+import {TabelAndDrawinglnformation} from "./tabeAndDrawinglnformation";
 
 //this class represents fields filled by the user, oter fields like url addresses will be obtained in other way
 class CreateProductDto{
@@ -25,5 +26,8 @@ class CreateProductDto{
 
     @IsString()
     urlOfThumbnailDrawing:string;
+
+    @IsObject()
+    drawinAndTableInfo: TabelAndDrawinglnformation;
 }
 export default CreateProductDto;

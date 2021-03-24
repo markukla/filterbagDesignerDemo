@@ -1,157 +1,58 @@
 <div id="DrawingDetailTableContainer" #DrawingDetailTableContainer>
-  <table id="drawingDetailTable" #drawingDetailTable >
-    <tbody>
 
-    <tr>
-      <td>
-
-          {{orderNames.creator}}:  <br>
-          {{orderCreator}}
-
-      </td>
-      <td>
-
-        {{orderNames.date}} <br>
-        {{date}}
-     </td>
-      <td>
-
-         {{orderNames.orderNumber}} <br>
-          {{orderTotalNumber}}
-
-      </td>
-      <td rowspan="2">
+  <div class="drawingDetailTable drawingDetailTableVertical">
+    <div class="drawingDetailTableRow">
+      <div class="drawingDetailTableCol">{{orderNames.creator}}</div>
+      <div class="drawingDetailTableCol">{{orderCreator}}</div>
+    </div>
+    <div class="drawingDetailTableRow">
+      <div class="drawingDetailTableCol">{{orderNames.date}} </div>
+      <div class="drawingDetailTableCol">{{date}}</div>
+    </div>
+    <div class="drawingDetailTableRow">
+      <div class="drawingDetailTableCol">{{orderNames.orderNumber}}</div>
+      <div class="drawingDetailTableCol">{{orderTotalNumber}}</div>
+    </div>
+    <div class="drawingDetailTableRow">
+      <div class="drawingDetailTableCol">Formularz</div>
+      <div class="drawingDetailTableCol">
         <form [formGroup]="tableForm">
-          <fieldset>
-            <label for="workingTemperature">{{drawingTableFormNames.workingTemperature}} [oC]</label>
-            <input type="text"  formControlName="workingTemperature" id="workingTemperature">
-          </fieldset>
-          <fieldset>
-            <label  for="antiElectrostatic">{{drawingTableFormNames.antielectrostatic}}</label>
-            <input type="checkbox"  formControlName="antiEelectrostatic" id="antiElectrostatic">
-          </fieldset>
-
-          <div>{{drawingTableFormNames.workingSide}}:</div>
-          <fieldset>
-            <input type="radio"  formControlName="workingSide" name="workingSide" id="workingSideInternal" [value]="workingSideInternal"
-            >
-            <label  for="workingSideInternal">{{drawingTableFormNames.workingSideInternal}}</label>
-          </fieldset>
-          <fieldset>
-            <input type="radio"  formControlName="workingSide" name="workingSide" id="workingSideExternal" [value]="workingSideExterinal"
-            >
-            <label  for="workingSideExternal">{{drawingTableFormNames.workingSideExternal}} </label>
-          </fieldset>
-        </form>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="3">
-        {{orderNames.index}} <br>
-        {{index}}
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2">Logo</td>
-      <td colspan="2">
-        {{generalNamesInSelectedLanguage.name}} <br>
-        {{orderName}}
-      </td>
-    </tr>
-
-
-
-
-
-
-
-<!--
-
-
-    <tr>
-      <td id="2RowsInOneCell" >
-        <form [formGroup]="tableForm">
-        <div class="form-group" >
-          <label for="workingTemperature">{{drawingTableFormNames.workingTemperature}}</label>
+        <fieldset>
+          <label for="workingTemperature">{{drawingTableFormNames.workingTemperature}} [oC]</label>
           <input type="text"  formControlName="workingTemperature" id="workingTemperature">
-          <p> [oC]</p>
-        </div>
-        <div class="form-group">
+        </fieldset>
+        <fieldset>
           <label  for="antiElectrostatic">{{drawingTableFormNames.antielectrostatic}}</label>
           <input type="checkbox"  formControlName="antiEelectrostatic" id="antiElectrostatic">
-        </div>
+        </fieldset>
 
-        <div class="form-group">
-          <p>{{drawingTableFormNames.workingSide}}:</p>
-
+        <div>{{drawingTableFormNames.workingSide}}:</div>
+        <fieldset>
           <input type="radio"  formControlName="workingSide" name="workingSide" id="workingSideInternal" [value]="workingSideInternal"
           >
           <label  for="workingSideInternal">{{drawingTableFormNames.workingSideInternal}}</label>
-        </div>
-        <div class="form-group">
-
-
+        </fieldset>
+        <fieldset>
           <input type="radio"  formControlName="workingSide" name="workingSide" id="workingSideExternal" [value]="workingSideExterinal"
           >
-          <label  for="workingSideExternal">{{drawingTableFormNames.workingSideExternal}} </label>
-        </div>
-        </form>
-      </td>
-      <td class="normalCell">
-        <div>
-          <p>{{orderNames.orderNumber}} </p> <br>
-          <p>{{orderTotalNumber}}</p>
-        </div>
-      </td>
+          <label  for="workingSideExternal">{{drawingTableFormNames.workingSideExternal}}</label>
+        </fieldset>
+      </form>
+      </div>
+    </div>
+    <div class="drawingDetailTableRow">
+      <div class="drawingDetailTableCol">{{orderNames.index}}</div>
+      <div class="drawingDetailTableCol">{{index}}</div>
+    </div>
+    <div class="drawingDetailTableRow">
+      <div class="drawingDetailTableCol">{{generalNamesInSelectedLanguage.name}}</div>
+      <div class="drawingDetailTableCol">{{orderName}}</div>
+    </div>
+    <div class="drawingDetailTableRow">
+      <div class="drawingDetailTableCol">Logo</div>
+      <div class="drawingDetailTableCol"></div>
+    </div>
+  </div>
 
-      <td>
-        <div>
-          <p>{{orderNames.index}} </p> <br>
-          <p>{{index}}</p>
-        </div>
-      </td>
-
-      <td>
-        <div>
-          <p>{{orderNames.creator}}: </p> <br>
-          <p>{{orderCreator}}</p>
-        </div>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <div>
-          <p>{{generalNamesInSelectedLanguage.name}}</p> <br>
-          <p>{{orderName}}</p>
-        </div>
-      </td>
-      <td colspan="3">
-        <div>
-          <p>{{orderNames.date}} </p> <br>
-          <p>{{date}}</p>
-        </div>
-      </td>
-
-    </tr>
-    <tr>
-
-      <td>
-        <div>
-          <p>{{drawingTableFormNames.material}}: </p> <br>
-          <p>{{materialName +' ' + materialCode}}</p>
-        </div>
-      </td>
-
-      <td colspan="3">
-        <p>logo</p>
-      </td>
-
-    </tr>
--->
-
-    </tbody>
-
-
-  </table>
 
 </div>

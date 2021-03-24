@@ -12,7 +12,7 @@
       </div>
     </div>
 
-    <div class="tableFormContainer">
+    <div class="tableFormContainer" #tabelFormContainer>
       <form [formGroup]="tableForm">
         <app-product-table-form></app-product-table-form>
       </form>
@@ -103,11 +103,18 @@
 
 
   <div class="saveButtons">
-    <button *ngIf="createOrUpdateProductMode() === false && checkIfShowDrawingMode()=== false;" class="saveButton" (click)="onSubmit()">{{this.orderNames.confirmButtonDescription}}</button>
+
     <button (click)="navigateBack()">{{this.orderNames.backButtonDescription}}</button>
-    <button *ngIf="createOrUpdateProductMode() === true;" class="saveButton" (click)="saveProductInDatabas()">{{this.orderNames.addProduct}}</button>
-    <button type="button" *ngIf="createOrUpdateProductMode() === true;" (click)="this.createDimensionClicked = true" >{{this.orderNames.create + ' '+ this.orderNames.dimension}}</button>
+
     <button (click)="printDrawing();">{{this.orderNames.printButtonDescription}}</button>
+    <div *ngIf="createOrUpdateProductMode() === true;">
+      <button *ngIf="createOrUpdateProductMode() === false && checkIfShowDrawingMode()=== false;" class="saveButton" (click)="onSubmit()">{{this.orderNames.confirmButtonDescription}}</button>
+      <button *ngIf="createOrUpdateProductMode() === true;" class="saveButton" (click)="saveProductInDatabas()">{{this.orderNames.addProduct}}</button>
+      <button type="button" *ngIf="createOrUpdateProductMode() === true;" (click)="this.createDimensionClicked = true" >{{this.orderNames.create + ' '+ this.orderNames.dimension}}</button>
+      <input [(ngModel)]="drawingRangeValue"  (change)="setDrawingPercentWidth();" )type="range" id="volume" name="volume"
+             min="0" max="100" #drawingRangeInput>
+      <button (click)="changeTabelOrientation()"></button>
+    </div>
     <div *ngIf=" checkIfShowDrawingMode();">
       <button class="saveButton" (click)="getDrawingPdf();">{{this.orderNames.saveToPdfButtonDescription}}</button>
     </div>

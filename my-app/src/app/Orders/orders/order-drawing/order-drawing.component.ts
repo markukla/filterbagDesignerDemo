@@ -31,8 +31,6 @@ import LocalizedDimensionCode from '../../../DimensionCodes/DimensionCodesTypesA
 import DimensionCode from '../../../DimensionCodes/DimensionCodesTypesAnClasses/diemensionCode.entity';
 import DimensionRoleEnum from '../../../DimensionCodes/DimensionCodesTypesAnClasses/dimensionRoleEnum';
 import CreateProductDto from '../../../Products/ProductTypesAndClasses/product.dto';
-import {getBackendErrrorMesage} from '../../../helpers/errorHandlingFucntion/handleBackendError';
-import {navigateToUrlAfterTimout} from '../../../helpers/otherGeneralUseFunction/navigateToUrlAfterTimeOut';
 import {API_URL} from '../../../Config/apiUrl';
 import {ProductMiniatureService} from '../productMiniature/productMiniatureService/product-miniature.service';
 import {
@@ -44,6 +42,7 @@ import {
 import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
 import {OperationStatusServiceService} from "../../../OperationStatusComponent/operation-status/operation-status-service.service";
 import {BackendMessageService} from "../../../helpers/ErrorHandling/backend-message.service";
+import {TabelAndDrawinglnformation} from "../../../Products/ProductTypesAndClasses/tabeAndDrawinglnformation";
 
 @Component({
   selector: 'app-order-drawing',
@@ -99,10 +98,13 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   generalUserNames = generalUserNames;
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
   dimensionNames = dimensionNames;
+  drawingRangeValue: number;
   @ViewChild('drawingContainer', {read: ElementRef}) drawing: ElementRef;
   @ViewChildren('.inputDivHorizontal', {read: HTMLElement}) inputDivs: HTMLElement[];
   @ViewChild('mainContainer', {read: ElementRef}) mainContainer: ElementRef;
-  @ViewChild('drawingAndTableContainer', {read: ElementRef}) drawingAndTableContainer: ElementRef;
+  @ViewChild('drawingAndTableContainer', {read: ElementRef}) drawingAndTableContainer: ElementRef; //drawingRangeInput
+  @ViewChild('mainContainer', {read: ElementRef}) drawingRangeInput: ElementRef; //tabelFormContainer
+  @ViewChild('tabelFormContainer', {read: ElementRef}) tabelFormContainer: ElementRef;
 
   constructor(
     private orderBackendService: OrderBackendService,
@@ -386,13 +388,28 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     if (this.orderOperationMode && this.orderOperationMode !== OrderOperationMode.SHOWDRAWING && this.orderOperationMode !== OrderOperationMode.SHOWPRODUCT) {
       // tslint:disable-next-line:max-line-length
       if (this.orderOperationMode === OrderOperationMode.CREATENEW || this.orderOperationMode === OrderOperationMode.UPDATEWITHCHANGEDPRODUCT || this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT || this.orderOperationMode === OrderOperationMode.CREATENEWPRODUCT) {
-
           this.createDimensionInputsBasingOnProductData();
+          if(this.orderOperationMode !== OrderOperationMode.CREATENEWPRODUCT) {
+            if(this.createProductDto) {
+              this.setDrawingAndTabelParamtersBasingOnDatabaseData(null, this.createProductDto);
+            }
+            else if(this.createOrderDto) {
+              this.setDrawingAndTabelParamtersBasingOnDatabaseData(this.createOrderDto);
+            }
+
+          }
 
 
       } else {
 
           this.createDimensionInputsForUpdateAndShowDrawingBasingOnProductDataAndOrderData();
+        if(this.createProductDto) {
+          this.setDrawingAndTabelParamtersBasingOnDatabaseData(null, this.createProductDto);
+        }
+        else if(this.createOrderDto) {
+          this.setDrawingAndTabelParamtersBasingOnDatabaseData(this.createOrderDto);
+        }
+
 
 
       }
@@ -419,7 +436,8 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
         if (this.orderOperationMode === OrderOperationMode.SHOWDRAWING) {
           if (this.createOrderDto) {
             if (allInputs.length === 0) {
-              this.createDimensionInputsForUpdateAndShowDrawingBasingOnProductDataAndOrderData();
+              this.createDimensionInputsForUpdateAndShowDrawingBasingOnProductDataAndOrderData()
+              this.setDrawingAndTabelParamtersBasingOnDatabaseData(this.createOrderDto);
             }
           }
         }
@@ -427,6 +445,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
         if (this.createProductDto && this.orderOperationMode === OrderOperationMode.SHOWPRODUCT) {
           if (this.createProductDto) {
             if (allInputs.length === 0) {
+              this.setDrawingAndTabelParamtersBasingOnDatabaseData(null,this.createProductDto)
               this.createDimensionInputsBasingOnProductData();
             }
           }
@@ -605,6 +624,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   /* below all methods moved from create-product-drawing*/
 
 
+
   onSubmitForInputCreating(): void {
     this.setIdValue()
     const container = this.renderer.createElement('div');
@@ -736,7 +756,8 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     const dimensionFieldInfoTable: DimensionTextFIeldInfo[] = this.getTextFieldsPositionsAndIdAndPushItToTable();
     const createProductDto: CreateProductDto = {
       ...this.createProductDto,
-      dimensionsTextFieldInfo: dimensionFieldInfoTable
+      dimensionsTextFieldInfo: dimensionFieldInfoTable,
+      drawinAndTableInfo: this.getDrawingAndTabelInformationFromViev()
     };
     if (this.orderOperationMode === OrderOperationMode.CREATENEWPRODUCT && this.validateCreateProductDtoBeforeSavingInDatab(createProductDto) === true) {
       this.productBackendService.addRecords(createProductDto).subscribe((product) => {
@@ -1117,10 +1138,43 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     return valueToSetAfterRotation;
   }
 
+  getDrawingAndTabelInformationFromViev(): TabelAndDrawinglnformation {
+    const drawingSizeProcent = this.drawingRangeInput.nativeElement.value;
+    const tabelAndDrawingInfo: TabelAndDrawinglnformation = {
+      drawingSizeProcent: drawingSizeProcent,
+      tabelOrientationClass: this.tabelFormContainer.nativeElement.className,
+
+    }
+    return tabelAndDrawingInfo;
 
 
+  }
 
 
+  setDrawingPercentWidth() {
+    this.drawing.nativeElement.style.width = (((this.drawingRangeValue*this.drawing.nativeElement.innerWidth)/window.innerWidth)*100) +'vw';
+console.log( `this.drawing.nativeElement.style.width = ${ this.drawing.nativeElement.style.width}`);
+  }
+
+  changeTabelOrientation() {
+    this.tabelFormContainer.nativeElement.classList.toggle("dupa");
+
+  }
+
+  setDrawingAndTabelParamtersBasingOnDatabaseData(createOrderDto?: CreateOrderDto, createProductDto?: CreateProductDto) {
+    let tabelAndDrawingInfo: TabelAndDrawinglnformation
+    if(createOrderDto && createOrderDto.product.drawinAndTableInfo) {
+      tabelAndDrawingInfo = createOrderDto.product.drawinAndTableInfo;
+    }
+    else if(createProductDto && createProductDto.drawinAndTableInfo) {
+      tabelAndDrawingInfo = createProductDto.drawinAndTableInfo;
+    }
+    if(tabelAndDrawingInfo) {
+      this.drawing.nativeElement.style.width = tabelAndDrawingInfo.drawingSizeProcent;
+      this.tabelFormContainer.nativeElement.className = tabelAndDrawingInfo.tabelOrientationClass;
+    }
+
+  }
 
 
 }
