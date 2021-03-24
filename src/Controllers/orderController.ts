@@ -119,6 +119,7 @@ class OrderController implements Controller {
     private getAllCurentVersionOfOrders = async (request: express.Request, response: express.Response, next: express.NextFunction) => {
         try {
             const orders: Order[] = await this.service.findAllCurentVerionsOfOrder();
+            console.log('bind mount works and local project files are copied to docker file system')
 
 
             response.send(orders);

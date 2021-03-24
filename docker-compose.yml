@@ -1,11 +1,11 @@
 version: "3"
 services:
-  web4:
+  filter_app:
     build:
       context: .
       dockerfile: Dockerfile
-    image: web4
-    container_name: web4
+    image: filter_app_image
+    container_name: filter_app_container
     restart: unless-stopped
     env_file: docker.env
     ports:

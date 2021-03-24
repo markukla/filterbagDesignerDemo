@@ -16,36 +16,34 @@
   flex-direction: column;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  height: 100vh;
+  min-height: 100vh;
   border: 3px solid black;
 }
 .drawingMain {
-
-box-sizing: border-box;
--webkit-box-flex: 1;
--ms-flex: 1;
-flex: 1;
-position: relative;
-z-index: 30;
+  box-sizing: border-box;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  position: relative;
+  z-index: 30;
   padding:  32px;
-
+  width: 100%;
 }
-
 
 .drawingContainer {
   position: relative;
   display: inline-block;
-  height: 100%;
+  width: 100%;
 }
 
 #drawingImage {
   display: block;
-  height: 100%;
+  max-width: 100%;
 }
 
 .createInputFormContainer {
   position: absolute;
-  bottom: 2%;
+  bottom: 4%;
   right: 2%;
   border: 3px solid grey;
   z-index: 40;
@@ -71,21 +69,21 @@ z-index: 30;
   z-index: 1000;
 }
 
-.dimensionInputContainer:before {
+.drawingContainerEdit .dimensionInputContainer:before {
   content: "";
   position: absolute;
 }
 
 .dimensionInput {
-  font-size: 16px;
+  font-size: 1.6vw;
   position: absolute;
-  height: 30px;
+  height: 2vw;
   white-space: nowrap;
   overflow: hidden;
   resize: vertical;
   text-align: center;
   border: 1px solid black;
-  width: 120px;
+  width: 12vw;
 }
 
 .dimensionInputContainerTop:before, .dimensionInputContainerTop div {
@@ -176,4 +174,11 @@ z-index: 30;
   flex: 0 0 auto;
   padding: 0 32px;
 }
+.saveButtons {
+  position: sticky;
+  z-index: 1000;
+  bottom: 1%;
+  left: 5%;
+}
+
 
