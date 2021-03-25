@@ -193,6 +193,7 @@ export class CreateProductComponent implements OnInit, AfterContentChecked, Afte
     }
     else if (this.operationMode === ProductModeEnum.UPDATE) {
       this.backendService.createProductDto = {
+        ...this.productToUpdate,
         dimensionsTextFieldInfo: this.productToUpdate.dimensionsTextFieldInfo,
         productBottom: this.bottom.value,
         productTop: this.top.value,

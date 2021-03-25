@@ -99,6 +99,7 @@ export class OrderBackendService {
       creator: order.creator,
       index: order.index,
       productMaterial: order.productMaterial
+
     };
     return createOrderDto;
   }

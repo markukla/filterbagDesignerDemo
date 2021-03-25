@@ -30,7 +30,7 @@ class Product{  // this class represents type of product and technical drawing o
 
     @Column({type:"jsonb"})
     dimensionsTextFieldInfo:DimensionTextFIeldInfo[];
-    @Column({type:"jsonb"})
+    @Column({type:"jsonb", nullable: true})
     drawinAndTableInfo: TabelAndDrawinglnformation;
 
     @Column({nullable: true})

@@ -1,5 +1,5 @@
 export class TabelAndDrawinglnformation {
-    drawingSizeProcent: string;
+    drawingSizeProcent: number;
     tabelOrientationClass: string;
 
 

@@ -6,6 +6,7 @@ import {
   ElementRef,
   HostListener,
   OnChanges,
+  OnDestroy,
   OnInit,
   Renderer2,
   SimpleChanges,
@@ -49,7 +50,7 @@ import {TabelAndDrawinglnformation} from "../../../Products/ProductTypesAndClass
   templateUrl: './order-drawing.component.html',
   styleUrls: ['./order-drawing.component.css']
 })
-export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterContentChecked, AfterViewChecked, OnChanges {
+export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterContentChecked, AfterViewChecked, OnChanges, OnDestroy {
   tableForm: FormGroup;
   bgImageVariable: string;
   LValue = '';
@@ -99,6 +100,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
   dimensionNames = dimensionNames;
   drawingRangeValue: number;
+  dimensionsAlreadyCreated = false;
   @ViewChild('drawingContainer', {read: ElementRef}) drawing: ElementRef;
   @ViewChildren('.inputDivHorizontal', {read: HTMLElement}) inputDivs: HTMLElement[];
   @ViewChild('mainContainer', {read: ElementRef}) mainContainer: ElementRef;
@@ -123,6 +125,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   ) {
     this.tableForm = this.tableFormService.tableForm;
 
+
   }
 
   async ngOnInit(): Promise<void> {
@@ -132,10 +135,10 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     this.dimensionRoleForm = new FormGroup({
       dimensionRole: new FormControl(null, [Validators.required]),
     });
-
     this.initColumnNamesInSelectedLanguage();
-    await this.setOrderOperatiomModeAndSelectedOrderBasingOnQueryParamters();
     await this.getPreviouslyUsedCodes();
+    await this.setOrderOperatiomModeAndSelectedOrderBasingOnQueryParamters();
+
 
     // tslint:disable-next-line:max-line-length
   }
@@ -385,35 +388,6 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
 
   ngAfterViewInit(): void {
     this.enableOrDisableDraggingInputsEvent();
-    if (this.orderOperationMode && this.orderOperationMode !== OrderOperationMode.SHOWDRAWING && this.orderOperationMode !== OrderOperationMode.SHOWPRODUCT) {
-      // tslint:disable-next-line:max-line-length
-      if (this.orderOperationMode === OrderOperationMode.CREATENEW || this.orderOperationMode === OrderOperationMode.UPDATEWITHCHANGEDPRODUCT || this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT || this.orderOperationMode === OrderOperationMode.CREATENEWPRODUCT) {
-          this.createDimensionInputsBasingOnProductData();
-          if(this.orderOperationMode !== OrderOperationMode.CREATENEWPRODUCT) {
-            if(this.createProductDto) {
-              this.setDrawingAndTabelParamtersBasingOnDatabaseData(null, this.createProductDto);
-            }
-            else if(this.createOrderDto) {
-              this.setDrawingAndTabelParamtersBasingOnDatabaseData(this.createOrderDto);
-            }
-
-          }
-
-
-      } else {
-
-          this.createDimensionInputsForUpdateAndShowDrawingBasingOnProductDataAndOrderData();
-        if(this.createProductDto) {
-          this.setDrawingAndTabelParamtersBasingOnDatabaseData(null, this.createProductDto);
-        }
-        else if(this.createOrderDto) {
-          this.setDrawingAndTabelParamtersBasingOnDatabaseData(this.createOrderDto);
-        }
-
-
-
-      }
-    }
     /* in this method i create all drawing which does not require data from database but already have it stored in service*/
     // tslint:disable-next-line:max-line-length
 
@@ -421,12 +395,13 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
 
   ngAfterContentChecked(): void {
 
+
   }
 
   ngAfterViewChecked(): void {
     /* in this method i create drawing when obtaining data from database is required, because after viev init the data are not recived yet*/
     const allInputs = this.host.nativeElement.querySelectorAll('.dimensionInput');
-    if (this.drawing.nativeElement.getBoundingClientRect().width > 0.1 && this.drawing.nativeElement.getBoundingClientRect().height > 0.1) {
+   // if (this.drawing.nativeElement.getBoundingClientRect().width > 0.1 && this.drawing.nativeElement.getBoundingClientRect().height > 0.1) {
 
 
       // tslint:disable-next-line:max-line-length
@@ -434,7 +409,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
         console.error('in afterViev checked drawing modyfication');
         // tslint:disable-next-line:max-line-length
         if (this.orderOperationMode === OrderOperationMode.SHOWDRAWING) {
-          if (this.createOrderDto) {
+          if (this.createOrderDto && this.tableFormService.allFirstIndexDimension && this.tableFormService.allSecondIndexDimnesions) {
             if (allInputs.length === 0) {
               this.createDimensionInputsForUpdateAndShowDrawingBasingOnProductDataAndOrderData()
               this.setDrawingAndTabelParamtersBasingOnDatabaseData(this.createOrderDto);
@@ -442,7 +417,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
           }
         }
         // tslint:disable-next-line:max-line-length
-        if (this.createProductDto && this.orderOperationMode === OrderOperationMode.SHOWPRODUCT) {
+        if (this.createProductDto && this.orderOperationMode === OrderOperationMode.SHOWPRODUCT && this.tableFormService.allFirstIndexDimension && this.tableFormService.allSecondIndexDimnesions) {
           if (this.createProductDto) {
             if (allInputs.length === 0) {
               this.setDrawingAndTabelParamtersBasingOnDatabaseData(null,this.createProductDto)
@@ -451,22 +426,41 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
           }
         }
       }
-      /*      if (this.orderOperationMode && this.orderOperationMode !== OrderOperationMode.SHOWDRAWING && this.orderOperationMode !== OrderOperationMode.SHOWPRODUCT) {
-        // tslint:disable-next-line:max-line-length
-        if (this.orderOperationMode === OrderOperationMode.CREATENEW || this.orderOperationMode === OrderOperationMode.UPDATEWITHCHANGEDPRODUCT || this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT || this.orderOperationMode === OrderOperationMode.CREATENEWPRODUCT) {
-          if (allInputs.length === 0) {
-            this.createDimensionInputsBasingOnProductData();
 
-          }
-        } else {
-          if (allInputs.length === 0) {
+      if (this.orderOperationMode && this.orderOperationMode !== OrderOperationMode.SHOWDRAWING && this.orderOperationMode !== OrderOperationMode.SHOWPRODUCT) {
+        // tslint:disable-next-line:max-line-length
+        if (allInputs.length === 0 && this.dimensionsAlreadyCreated ===false) {
+          if (this.orderOperationMode === OrderOperationMode.CREATENEW || this.orderOperationMode === OrderOperationMode.UPDATEWITHCHANGEDPRODUCT || this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT || this.orderOperationMode === OrderOperationMode.CREATENEWPRODUCT) {
+
+
+            this.createDimensionInputsBasingOnProductData();
+            this.dimensionsAlreadyCreated = true;
+              if (this.createProductDto) {
+                console.log(`before seting drawing and tabels parameters for products`);
+                this.setDrawingAndTabelParamtersBasingOnDatabaseData(null, this.createProductDto);
+              } else if (this.createOrderDto) {
+                this.setDrawingAndTabelParamtersBasingOnDatabaseData(this.createOrderDto);
+              }
+
+          } else {
+
             this.createDimensionInputsForUpdateAndShowDrawingBasingOnProductDataAndOrderData();
+            this.dimensionsAlreadyCreated = true;
+            if (this.createProductDto) {
+              this.setDrawingAndTabelParamtersBasingOnDatabaseData(null, this.createProductDto);
+            } else if (this.createOrderDto) {
+              this.setDrawingAndTabelParamtersBasingOnDatabaseData(this.createOrderDto);
+            }
           }
+
 
         }
       }
+
+
+      /*
 */
-    }
+   // }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -1139,7 +1133,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   }
 
   getDrawingAndTabelInformationFromViev(): TabelAndDrawinglnformation {
-    const drawingSizeProcent = this.drawingRangeInput.nativeElement.value;
+    const drawingSizeProcent = this.drawingRangeValue;
     const tabelAndDrawingInfo: TabelAndDrawinglnformation = {
       drawingSizeProcent: drawingSizeProcent,
       tabelOrientationClass: this.tabelFormContainer.nativeElement.className,
@@ -1151,29 +1145,55 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   }
 
 
-  setDrawingPercentWidth() {
-    this.drawing.nativeElement.style.width = (((this.drawingRangeValue*this.drawing.nativeElement.innerWidth)/window.innerWidth)*100) +'vw';
-console.log( `this.drawing.nativeElement.style.width = ${ this.drawing.nativeElement.style.width}`);
-  }
 
   changeTabelOrientation() {
     this.tabelFormContainer.nativeElement.classList.toggle("dupa");
+    console.log(`this.tabelFormContainer.className= ${this.tabelFormContainer.nativeElement.className}`);
 
   }
 
   setDrawingAndTabelParamtersBasingOnDatabaseData(createOrderDto?: CreateOrderDto, createProductDto?: CreateProductDto) {
-    let tabelAndDrawingInfo: TabelAndDrawinglnformation
+
+    let tabelAndDrawingInfo: TabelAndDrawinglnformation;
     if(createOrderDto && createOrderDto.product.drawinAndTableInfo) {
       tabelAndDrawingInfo = createOrderDto.product.drawinAndTableInfo;
     }
     else if(createProductDto && createProductDto.drawinAndTableInfo) {
+
+
       tabelAndDrawingInfo = createProductDto.drawinAndTableInfo;
     }
     if(tabelAndDrawingInfo) {
-      this.drawing.nativeElement.style.width = tabelAndDrawingInfo.drawingSizeProcent;
+      console.log(`tabelAndDrawingInfo.drawingSizeProcent+'vw= ${tabelAndDrawingInfo.drawingSizeProcent+'vw'}`)
+      this.drawing.nativeElement.style.width = tabelAndDrawingInfo.drawingSizeProcent+'vw';
+      this.drawingRangeInput.nativeElement.value = tabelAndDrawingInfo.drawingSizeProcent;
+      console.log(`this.drawingRangeInput.nativeElement.value= ${this.drawingRangeInput.nativeElement.value}`);
       this.tabelFormContainer.nativeElement.className = tabelAndDrawingInfo.tabelOrientationClass;
     }
 
+  }
+
+  @HostListener('change')
+  setDrawingPercentWidth() {
+    if(this.orderOperationMode ===OrderOperationMode.UPDATEPRODUCT || this.orderOperationMode === OrderOperationMode.CREATENEWPRODUCT) {
+      if(this.drawing && this.drawingRangeValue) {
+        this.drawing.nativeElement.style.width = ((this.drawingRangeValue*this.drawing.nativeElement.getBoundingClientRect().width)/window.innerWidth)*100 +'vw';
+        console.log( `window.innerWidth = ${ window.innerWidth}`);
+        console.log( `this.drawing.nativeElement.innerWidth = ${ this.drawing.nativeElement.innerWidth}`); // inner with is undefined
+        console.log( `this.drawingRangeValue = ${ this.drawingRangeValue}`);
+        console.log( `this.drawing.nativeElement.style.width = ${ this.drawing.nativeElement.style.width}`);
+      }
+
+    }
+
+
+
+
+}
+
+
+  ngOnDestroy(): void {
+    //document.remmove
   }
 
 
