@@ -8,13 +8,13 @@
 
     <div class="drawingMain">
       <div id="drawingContainer" #drawingContainer class="drawingContainer">
-        <img id="drawingImage" [src]="bgImageVariable" alt="">
+        <img id="drawingImage" [src]="bgImageVariable" alt="" #drawingImage>
       </div>
     </div>
 
     <div class="tableFormContainer" #tabelFormContainer>
       <form [formGroup]="tableForm">
-        <app-product-table-form></app-product-table-form>
+        <app-product-table-form #tableFormComponent></app-product-table-form>
       </form>
     </div>
   </div>
@@ -111,7 +111,7 @@
     <div *ngIf="createOrUpdateProductMode() === true;">
       <button  class="saveButton" (click)="saveProductInDatabas()">{{this.orderNames.addProduct}}</button>
       <button type="button"  (click)="this.createDimensionClicked = true;" >{{this.orderNames.create + ' '+ this.orderNames.dimension}}</button>
-      <input [(ngModel)]="drawingRangeValue"   type="range" id="volume" name="volume"
+      <input [(ngModel)]="drawingRangeValue"  (change)="this.setDrawingPercentWidth();" type="range" id="volume" name="volume"
              min="0" max="100" #drawingRangeInput>
       <button (click)="changeTabelOrientation()" type="button"> obróć tabelę</button>
     </div>

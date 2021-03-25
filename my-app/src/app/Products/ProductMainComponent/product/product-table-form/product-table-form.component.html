@@ -1,19 +1,19 @@
 <div id="DrawingDetailTableContainer" #DrawingDetailTableContainer>
 
-  <div class="drawingDetailTable drawingDetailTableVertical">
-    <div class="drawingDetailTableRow">
+  <div class="drawingDetailTable">
+    <div class="drawingDetailTableRow drawingDetailTableCreator">
       <div class="drawingDetailTableCol">{{orderNames.creator}}</div>
       <div class="drawingDetailTableCol">{{orderCreator}}</div>
     </div>
-    <div class="drawingDetailTableRow">
+    <div class="drawingDetailTableRow drawingDetailTableDate">
       <div class="drawingDetailTableCol">{{orderNames.date}} </div>
       <div class="drawingDetailTableCol">{{date}}</div>
     </div>
-    <div class="drawingDetailTableRow">
+    <div class="drawingDetailTableRow drawingDetailTableNumber">
       <div class="drawingDetailTableCol">{{orderNames.orderNumber}}</div>
       <div class="drawingDetailTableCol">{{orderTotalNumber}}</div>
     </div>
-    <div class="drawingDetailTableRow">
+    <div class="drawingDetailTableRow drawingDetailTableForm">
       <div class="drawingDetailTableCol">Formularz</div>
       <div class="drawingDetailTableCol">
         <form [formGroup]="tableForm">
@@ -40,15 +40,15 @@
       </form>
       </div>
     </div>
-    <div class="drawingDetailTableRow">
+    <div class="drawingDetailTableRow drawingDetailTableIndex">
       <div class="drawingDetailTableCol">{{orderNames.index}}</div>
       <div class="drawingDetailTableCol">{{index}}</div>
     </div>
-    <div class="drawingDetailTableRow">
+    <div class="drawingDetailTableRow drawingDetailTableOrderName">
       <div class="drawingDetailTableCol">{{generalNamesInSelectedLanguage.name}}</div>
       <div class="drawingDetailTableCol">{{orderName}}</div>
     </div>
-    <div class="drawingDetailTableRow">
+    <div class="drawingDetailTableRow drawingDetailTableLogo">
       <div class="drawingDetailTableCol">Logo</div>
       <div class="drawingDetailTableCol"></div>
     </div>

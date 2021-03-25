@@ -1,15 +1,30 @@
 .mainContainerClass {
-
+  box-sizing: border-box;
+  padding: 3.2vw;
+  height: 70.4vw;
+  width: 100%;
 }
 
 .drawingAndTableContainer {
   box-sizing: border-box;
-  border: 0.1vw solid black;
-  height: 70.7vw;
+  height: 100%;
   margin: 0;
   position: relative;
-  width: 100vw;
+  width: 100%;
 }
+
+.drawingAndTableContainer:before {
+  border: 0.1vw solid black;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 100;
+}
+
 
 .drawingMain {
   position: relative;
@@ -22,8 +37,8 @@
 .drawingContainer {
   position: relative;
   display: inline-block;
-  height: 100%;
   margin: 0 auto;
+  max-height: 100%;
 }
 
 #drawingImage {
@@ -170,6 +185,26 @@
   z-index: 1000;
   bottom: 1%;
   left: 5%;
+}
+@media print {
+  @page {
+    size: landscape
+
+  }
+  @page {
+    margin: 0
+
+  }
+
+
+  .saveButtons {
+    display: none;
+  }
+  .drawingContainer {
+    overflow: hidden;
+  }
+
+
 }
 
 

@@ -102,11 +102,13 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   drawingRangeValue: number;
   dimensionsAlreadyCreated = false;
   @ViewChild('drawingContainer', {read: ElementRef}) drawing: ElementRef;
+  @ViewChild('drawingImage', {read: ElementRef}) drawingImage: ElementRef;
   @ViewChildren('.inputDivHorizontal', {read: HTMLElement}) inputDivs: HTMLElement[];
   @ViewChild('mainContainer', {read: ElementRef}) mainContainer: ElementRef;
   @ViewChild('drawingAndTableContainer', {read: ElementRef}) drawingAndTableContainer: ElementRef; //drawingRangeInput
   @ViewChild('mainContainer', {read: ElementRef}) drawingRangeInput: ElementRef; //tabelFormContainer
   @ViewChild('tabelFormContainer', {read: ElementRef}) tabelFormContainer: ElementRef;
+  @ViewChild('tableFormComponent', {read: ElementRef}) tableFormComponent: ElementRef; //tableFormComponent
 
   constructor(
     private orderBackendService: OrderBackendService,
@@ -375,6 +377,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   enableOrDisableDraggingInputsEvent(): void {
     if (this.orderOperationMode === OrderOperationMode.CREATENEWPRODUCT || this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT) {
       this.mainContainer.nativeElement.addEventListener('contextmenu', (ev) => {
+        console.log('right clicked to disable or inable dimension rotation')
 
         ev.preventDefault();
         if (this.dragable === true) {
@@ -690,13 +693,14 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
           shiftX = event.clientX - widthMinusHeightDevidedBy2 - input.getBoundingClientRect().left;
           shiftY = event.clientY + widthMinusHeightDevidedBy2 - input.getBoundingClientRect().top;
         }*/
-        if (!transform || transform === '' || transform === 'rotate(0deg)') {
+
+          console.log(event.target);
+         // console.log(event.target.parentNode.offsetLeft);
+         // console.log(event.target.parentNode.offsetTop);
+
           shiftX = event.clientX - input.getBoundingClientRect().left;
           shiftY = event.clientY - input.getBoundingClientRect().top;
-        } else if (transform && (transform === 'rotate(-90deg)' || transform === 'rotate(90deg)')) {
-          shiftX = event.clientX - widthMinusHeightDevidedBy2 - input.getBoundingClientRect().left;
-          shiftY = event.clientY + widthMinusHeightDevidedBy2 - input.getBoundingClientRect().top;
-        }
+
 
 
         this.renderer.appendChild(this.drawing.nativeElement, input);
@@ -707,10 +711,10 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
           input.style.top = pageY  - drawingContainerBoundaryY - shiftY + 'px';*/
 
 
-          const drawingCOntainerBoundaryX = this.drawing.nativeElement.offsetLeft;
-          const drawingContainerBoundaryY = this.drawing.nativeElement.offsetTop;
-          input.style.left = ((pageX - shiftX - drawingCOntainerBoundaryX) / this.drawing.nativeElement.getBoundingClientRect().width) * 100 + '%';
-          input.style.top = ((pageY - shiftY - drawingContainerBoundaryY) / this.drawing.nativeElement.getBoundingClientRect().height) * 100 + '%';
+          const drawingCOntainerBoundaryX = this.drawing.nativeElement.getBoundingClientRect().left;
+          const drawingContainerBoundaryY = this.drawing.nativeElement.getBoundingClientRect().top;
+          input.style.left = ((pageX - shiftX - drawingCOntainerBoundaryX -window.scrollX) / this.drawing.nativeElement.getBoundingClientRect().width) * 100 + '%';
+          input.style.top = ((pageY - shiftY - drawingContainerBoundaryY -window.scrollY) / this.drawing.nativeElement.getBoundingClientRect().height) * 100 + '%';
 
 
           /*
@@ -1136,7 +1140,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     const drawingSizeProcent = this.drawingRangeValue;
     const tabelAndDrawingInfo: TabelAndDrawinglnformation = {
       drawingSizeProcent: drawingSizeProcent,
-      tabelOrientationClass: this.tabelFormContainer.nativeElement.className,
+      tabelOrientationClass: this.tableFormComponent.nativeElement.firstChild.className,
 
     }
     return tabelAndDrawingInfo;
@@ -1147,7 +1151,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
 
 
   changeTabelOrientation() {
-    this.tabelFormContainer.nativeElement.classList.toggle("dupa");
+    this.tableFormComponent.nativeElement.firstChild.classList.toggle("drawingDetailTableHorizontal");
     console.log(`this.tabelFormContainer.className= ${this.tabelFormContainer.nativeElement.className}`);
 
   }
@@ -1168,20 +1172,18 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
       this.drawing.nativeElement.style.width = tabelAndDrawingInfo.drawingSizeProcent+'vw';
       this.drawingRangeInput.nativeElement.value = tabelAndDrawingInfo.drawingSizeProcent;
       console.log(`this.drawingRangeInput.nativeElement.value= ${this.drawingRangeInput.nativeElement.value}`);
-      this.tabelFormContainer.nativeElement.className = tabelAndDrawingInfo.tabelOrientationClass;
+      this.tableFormComponent.nativeElement.firstChild.className = tabelAndDrawingInfo.tabelOrientationClass;
     }
 
   }
 
-  @HostListener('change')
+
   setDrawingPercentWidth() {
     if(this.orderOperationMode ===OrderOperationMode.UPDATEPRODUCT || this.orderOperationMode === OrderOperationMode.CREATENEWPRODUCT) {
       if(this.drawing && this.drawingRangeValue) {
-        this.drawing.nativeElement.style.width = ((this.drawingRangeValue*this.drawing.nativeElement.getBoundingClientRect().width)/window.innerWidth)*100 +'vw';
-        console.log( `window.innerWidth = ${ window.innerWidth}`);
-        console.log( `this.drawing.nativeElement.innerWidth = ${ this.drawing.nativeElement.innerWidth}`); // inner with is undefined
-        console.log( `this.drawingRangeValue = ${ this.drawingRangeValue}`);
-        console.log( `this.drawing.nativeElement.style.width = ${ this.drawing.nativeElement.style.width}`);
+      //  this.drawing.nativeElement.style.width = ((this.drawingRangeValue/100*this.drawing.nativeElement.offsetWidth)/window.innerWidth)*100 +'vw';
+        this.drawing.nativeElement.style.width = this.drawingRangeValue+ 'vw';
+
       }
 
     }
