@@ -374,7 +374,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
 
   }
 
-  enableOrDisableDraggingInputsEvent(): void {
+  /* enableOrDisableDraggingInputsEvent(): void {
     if (this.orderOperationMode === OrderOperationMode.CREATENEWPRODUCT || this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT) {
       this.mainContainer.nativeElement.addEventListener('contextmenu', (ev) => {
         console.log('right clicked to disable or inable dimension rotation')
@@ -387,10 +387,27 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
         }
       });
     }
+  }*/
+  @HostListener('contextmenu', ['$event'])
+  enableOrDisableDraggingInputs(event: any): void {
+    if (this.orderOperationMode === OrderOperationMode.CREATENEWPRODUCT || this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT) {
+
+      if (event.target.className.includes('dimensionInput') === false && event.target.className.includes('dimensionInputContainer') === false) {
+        console.log('right clicked to disable or inable dimension rotation')
+
+        event.preventDefault();
+        if (this.dragable === true) {
+          this.dragable = false;
+        } else if (this.dragable === false) {
+          this.dragable = true;
+        }
+      }
+    }
   }
 
+
   ngAfterViewInit(): void {
-    this.enableOrDisableDraggingInputsEvent();
+    //this.enableOrDisableDraggingInputsEvent();
     /* in this method i create all drawing which does not require data from database but already have it stored in service*/
     // tslint:disable-next-line:max-line-length
 
@@ -404,66 +421,66 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   ngAfterViewChecked(): void {
     /* in this method i create drawing when obtaining data from database is required, because after viev init the data are not recived yet*/
     const allInputs = this.host.nativeElement.querySelectorAll('.dimensionInput');
-   // if (this.drawing.nativeElement.getBoundingClientRect().width > 0.1 && this.drawing.nativeElement.getBoundingClientRect().height > 0.1) {
+    // if (this.drawing.nativeElement.getBoundingClientRect().width > 0.1 && this.drawing.nativeElement.getBoundingClientRect().height > 0.1) {
 
 
+    // tslint:disable-next-line:max-line-length
+    if (this.orderOperationMode && this.orderOperationMode === OrderOperationMode.SHOWDRAWING || this.orderOperationMode === OrderOperationMode.SHOWPRODUCT) {
+      console.error('in afterViev checked drawing modyfication');
       // tslint:disable-next-line:max-line-length
-      if (this.orderOperationMode && this.orderOperationMode === OrderOperationMode.SHOWDRAWING || this.orderOperationMode === OrderOperationMode.SHOWPRODUCT) {
-        console.error('in afterViev checked drawing modyfication');
-        // tslint:disable-next-line:max-line-length
-        if (this.orderOperationMode === OrderOperationMode.SHOWDRAWING) {
-          if (this.createOrderDto && this.tableFormService.allFirstIndexDimension && this.tableFormService.allSecondIndexDimnesions) {
-            if (allInputs.length === 0) {
-              this.createDimensionInputsForUpdateAndShowDrawingBasingOnProductDataAndOrderData()
-              this.setDrawingAndTabelParamtersBasingOnDatabaseData(this.createOrderDto);
-            }
-          }
-        }
-        // tslint:disable-next-line:max-line-length
-        if (this.createProductDto && this.orderOperationMode === OrderOperationMode.SHOWPRODUCT && this.tableFormService.allFirstIndexDimension && this.tableFormService.allSecondIndexDimnesions) {
-          if (this.createProductDto) {
-            if (allInputs.length === 0) {
-              this.setDrawingAndTabelParamtersBasingOnDatabaseData(null,this.createProductDto)
-              this.createDimensionInputsBasingOnProductData();
-            }
+      if (this.orderOperationMode === OrderOperationMode.SHOWDRAWING) {
+        if (this.createOrderDto && this.tableFormService.allFirstIndexDimension && this.tableFormService.allSecondIndexDimnesions) {
+          if (allInputs.length === 0) {
+            this.createDimensionInputsForUpdateAndShowDrawingBasingOnProductDataAndOrderData()
+            this.setDrawingAndTabelParamtersBasingOnDatabaseData(this.createOrderDto);
           }
         }
       }
-
-      if (this.orderOperationMode && this.orderOperationMode !== OrderOperationMode.SHOWDRAWING && this.orderOperationMode !== OrderOperationMode.SHOWPRODUCT) {
-        // tslint:disable-next-line:max-line-length
-        if (allInputs.length === 0 && this.dimensionsAlreadyCreated ===false) {
-          if (this.orderOperationMode === OrderOperationMode.CREATENEW || this.orderOperationMode === OrderOperationMode.UPDATEWITHCHANGEDPRODUCT || this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT || this.orderOperationMode === OrderOperationMode.CREATENEWPRODUCT) {
-
-
+      // tslint:disable-next-line:max-line-length
+      if (this.createProductDto && this.orderOperationMode === OrderOperationMode.SHOWPRODUCT && this.tableFormService.allFirstIndexDimension && this.tableFormService.allSecondIndexDimnesions) {
+        if (this.createProductDto) {
+          if (allInputs.length === 0) {
+            this.setDrawingAndTabelParamtersBasingOnDatabaseData(null, this.createProductDto)
             this.createDimensionInputsBasingOnProductData();
-            this.dimensionsAlreadyCreated = true;
-              if (this.createProductDto) {
-                console.log(`before seting drawing and tabels parameters for products`);
-                this.setDrawingAndTabelParamtersBasingOnDatabaseData(null, this.createProductDto);
-              } else if (this.createOrderDto) {
-                this.setDrawingAndTabelParamtersBasingOnDatabaseData(this.createOrderDto);
-              }
-
-          } else {
-
-            this.createDimensionInputsForUpdateAndShowDrawingBasingOnProductDataAndOrderData();
-            this.dimensionsAlreadyCreated = true;
-            if (this.createProductDto) {
-              this.setDrawingAndTabelParamtersBasingOnDatabaseData(null, this.createProductDto);
-            } else if (this.createOrderDto) {
-              this.setDrawingAndTabelParamtersBasingOnDatabaseData(this.createOrderDto);
-            }
           }
-
-
         }
       }
+    }
+
+    if (this.orderOperationMode && this.orderOperationMode !== OrderOperationMode.SHOWDRAWING && this.orderOperationMode !== OrderOperationMode.SHOWPRODUCT) {
+      // tslint:disable-next-line:max-line-length
+      if (allInputs.length === 0 && this.dimensionsAlreadyCreated === false) {
+        if (this.orderOperationMode === OrderOperationMode.CREATENEW || this.orderOperationMode === OrderOperationMode.UPDATEWITHCHANGEDPRODUCT || this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT || this.orderOperationMode === OrderOperationMode.CREATENEWPRODUCT) {
 
 
-      /*
+          this.createDimensionInputsBasingOnProductData();
+          this.dimensionsAlreadyCreated = true;
+          if (this.createProductDto) {
+            console.log(`before seting drawing and tabels parameters for products`);
+            this.setDrawingAndTabelParamtersBasingOnDatabaseData(null, this.createProductDto);
+          } else if (this.createOrderDto) {
+            this.setDrawingAndTabelParamtersBasingOnDatabaseData(this.createOrderDto);
+          }
+
+        } else {
+
+          this.createDimensionInputsForUpdateAndShowDrawingBasingOnProductDataAndOrderData();
+          this.dimensionsAlreadyCreated = true;
+          if (this.createProductDto) {
+            this.setDrawingAndTabelParamtersBasingOnDatabaseData(null, this.createProductDto);
+          } else if (this.createOrderDto) {
+            this.setDrawingAndTabelParamtersBasingOnDatabaseData(this.createOrderDto);
+          }
+        }
+
+
+      }
+    }
+
+
+    /*
 */
-   // }
+    // }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -621,7 +638,6 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   /* below all methods moved from create-product-drawing*/
 
 
-
   onSubmitForInputCreating(): void {
     this.setIdValue()
     const container = this.renderer.createElement('div');
@@ -639,7 +655,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     console.log(`inputId= ${input.id}`);
     container.appendChild(input);
     container.style.left = 5 + `%`;
-    container.style.top = 2+ '%';
+    container.style.top = 2 + '%';
 
     //this.renderer.setProperty(input, 'value', this.idValue);
 
@@ -652,7 +668,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     this.rotateTextField(input);
     this.renderer.appendChild(this.drawing.nativeElement, container);
     this.dragable = true;
-   // this.position = 'bottom';
+    // this.position = 'bottom';
     this.createDimensionClicked = false;
 
 
@@ -694,13 +710,12 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
           shiftY = event.clientY + widthMinusHeightDevidedBy2 - input.getBoundingClientRect().top;
         }*/
 
-          console.log(event.target);
-         // console.log(event.target.parentNode.offsetLeft);
-         // console.log(event.target.parentNode.offsetTop);
+        console.log(event.target);
+        // console.log(event.target.parentNode.offsetLeft);
+        // console.log(event.target.parentNode.offsetTop);
 
-          shiftX = event.clientX - input.getBoundingClientRect().left;
-          shiftY = event.clientY - input.getBoundingClientRect().top;
-
+        shiftX = event.clientX - input.getBoundingClientRect().left;
+        shiftY = event.clientY - input.getBoundingClientRect().top;
 
 
         this.renderer.appendChild(this.drawing.nativeElement, input);
@@ -713,8 +728,8 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
 
           const drawingCOntainerBoundaryX = this.drawing.nativeElement.getBoundingClientRect().left;
           const drawingContainerBoundaryY = this.drawing.nativeElement.getBoundingClientRect().top;
-          input.style.left = ((pageX - shiftX - drawingCOntainerBoundaryX -window.scrollX) / this.drawing.nativeElement.getBoundingClientRect().width) * 100 + '%';
-          input.style.top = ((pageY - shiftY - drawingContainerBoundaryY -window.scrollY) / this.drawing.nativeElement.getBoundingClientRect().height) * 100 + '%';
+          input.style.left = ((pageX - shiftX - drawingCOntainerBoundaryX - window.scrollX) / this.drawing.nativeElement.getBoundingClientRect().width) * 100 + '%';
+          input.style.top = ((pageY - shiftY - drawingContainerBoundaryY - window.scrollY) / this.drawing.nativeElement.getBoundingClientRect().height) * 100 + '%';
 
 
           /*
@@ -774,7 +789,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
       });
       // tslint:disable-next-line:max-line-length
     } else if (this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT && this.validateCreateProductDtoBeforeSavingInDatab(createProductDto) === true) {
-      this.productBackendService.deleteRecordById(this.selectedProductId).subscribe((deleteSuccessResponse)=>{
+      this.productBackendService.deleteRecordById(this.selectedProductId).subscribe((deleteSuccessResponse) => {
         this.productBackendService.addRecords(createProductDto).subscribe((product) => {
 
           console.log('dodano nowy Product');
@@ -971,17 +986,17 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
       const dimensionInput: HTMLDivElement = (<HTMLDivElement>inputDivs[i].firstElementChild);
       let dimensionWidthInRelationToDrawingWidth: number;
       let dimensionHeightInRelationToDrawingHeight: number;
-      if(dimensionInput.offsetWidth>0 && this.drawing.nativeElement.offsetWidth>0){
-        dimensionWidthInRelationToDrawingWidth = (dimensionInput.offsetWidth/window.innerWidth) *100;
+      if (dimensionInput.offsetWidth > 0 && this.drawing.nativeElement.offsetWidth > 0) {
+        dimensionWidthInRelationToDrawingWidth = (dimensionInput.offsetWidth / window.innerWidth) * 100;
       }
-      if(dimensionInput.offsetHeight>0 && this.drawing.nativeElement.offsetWidth>0){
-        dimensionHeightInRelationToDrawingHeight = (dimensionInput.offsetHeight/window.innerWidth) *100;
+      if (dimensionInput.offsetHeight > 0 && this.drawing.nativeElement.offsetWidth > 0) {
+        dimensionHeightInRelationToDrawingHeight = (dimensionInput.offsetHeight / window.innerWidth) * 100;
       }
 
       console.log(`dimensionInputOfsetWidth= ${dimensionInput.offsetWidth}`);
 
       console.log(`dimensionInputOfsetHeight= ${dimensionInput.offsetHeight}`);
-        console.log(`dimensionYRelativeShiftToDivHeight= ${dimensionYRelativeShiftToDivHeight}`);
+      console.log(`dimensionYRelativeShiftToDivHeight= ${dimensionYRelativeShiftToDivHeight}`);
       console.log(` dimensionYAsInputStyleTop ${dimensionYAsInputStyleTop}`);
       console.log(`this.drawing.nativeElement.offsetHeight= ${this.drawing.nativeElement.offsetHeight}`);
 
@@ -1024,11 +1039,11 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
         const transformAsNumber = Number(dimensionInfo.transform);
 
       }
-      if (dimensionInfo.dimensionTexFieldWidth && dimensionInfo.dimensionTexFieldWidth !== '' && Number(dimensionInfo.dimensionTexFieldWidth) !==0 ) {
-        input.style.width = Number(dimensionInfo.dimensionTexFieldWidth)+'vw';
+      if (dimensionInfo.dimensionTexFieldWidth && dimensionInfo.dimensionTexFieldWidth !== '' && Number(dimensionInfo.dimensionTexFieldWidth) !== 0) {
+        input.style.width = Number(dimensionInfo.dimensionTexFieldWidth) + 'vw';
       }
-      if (dimensionInfo.dimensionTexFieldHeight && dimensionInfo.dimensionTexFieldHeight !== ''&& Number(dimensionInfo.dimensionTexFieldHeight) !==0) {
-        input.style.height = Number(dimensionInfo.dimensionTexFieldHeight)+'vw';
+      if (dimensionInfo.dimensionTexFieldHeight && dimensionInfo.dimensionTexFieldHeight !== '' && Number(dimensionInfo.dimensionTexFieldHeight) !== 0) {
+        input.style.height = Number(dimensionInfo.dimensionTexFieldHeight) + 'vw';
       }
 
       if (this.orderOperationMode === OrderOperationMode.SHOWDRAWING || this.orderOperationMode === OrderOperationMode.SHOWDRAWINGCONFIRM) {
@@ -1049,25 +1064,22 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   }
 
   rotateTextField(textField): void {
-   this.drawing.nativeElement.classList.add('drawingContainerEdit');
-   // console.log("dupa");
-   // console.log(textField.parentNode[0].parentNode);
+    this.drawing.nativeElement.classList.add('drawingContainerEdit');
+    // console.log("dupa");
+    // console.log(textField.parentNode[0].parentNode);
     textField.ondblclick = (event) => {
       if (this.dragable === false) {
-        if(textField.parentNode.className.includes('Bottom')){
+        if (textField.parentNode.className.includes('Bottom')) {
           this.position = 'bottom';
-        }
-        else if(textField.parentNode.className.includes('Right')) {
+        } else if (textField.parentNode.className.includes('Right')) {
           this.position = 'right'
-        }
-        else if (textField.parentNode.className.includes('Left')) {
+        } else if (textField.parentNode.className.includes('Left')) {
           this.position = 'left'
         }
-        const orginalWidth = ((textField.offsetWidth/window.innerWidth)*100) + 'vw';
-        console.log(`orinalWidth= ${orginalWidth }`);
-        const orginalHeight = ((textField.offsetHeight/window.innerWidth)*100) + 'vw';
-        console.log(`orinalHeight= ${orginalHeight }`);
-
+        const orginalWidth = ((textField.offsetWidth / window.innerWidth) * 100) + 'vw';
+        console.log(`orinalWidth= ${orginalWidth}`);
+        const orginalHeight = ((textField.offsetHeight / window.innerWidth) * 100) + 'vw';
+        console.log(`orinalHeight= ${orginalHeight}`);
 
 
         console.log(this.angle);
@@ -1087,8 +1099,8 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
           event.target.parentNode.classList.add('dimensionInputContainerRight');
           this.position = 'right';
         * */
-          console.log(`position before rotation= ${this.position}`);
-         if (this.position === 'bottom') {
+        console.log(`position before rotation= ${this.position}`);
+        if (this.position === 'bottom') {
           textField.parentNode.classList.remove('dimensionInputContainerTop', 'dimensionInputContainerRight', 'dimensionInputContainerBottom', 'dimensionInputContainerLeft');
           textField.parentNode.classList.add('dimensionInputContainerRight');
 
@@ -1107,24 +1119,24 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
           this.position = 'bottom';
         }
 
-         /* if (this.position === 'bottom') {
-          textField.parentNode.classList.remove('dimensionInputContainerTop', 'dimensionInputContainerRight', 'dimensionInputContainerBottom', 'dimensionInputContainerLeft');
-          textField.parentNode.classList.add('dimensionInputContainerBottom');
-          textField.style.width = this.makeWidthValueToBecomeHeightValueOrOposite(orginalHeight);
-          textField.style.height = this.makeWidthValueToBecomeHeightValueOrOposite(orginalWidth);
+        /* if (this.position === 'bottom') {
+         textField.parentNode.classList.remove('dimensionInputContainerTop', 'dimensionInputContainerRight', 'dimensionInputContainerBottom', 'dimensionInputContainerLeft');
+         textField.parentNode.classList.add('dimensionInputContainerBottom');
+         textField.style.width = this.makeWidthValueToBecomeHeightValueOrOposite(orginalHeight);
+         textField.style.height = this.makeWidthValueToBecomeHeightValueOrOposite(orginalWidth);
 
-          this.position = 'right';
-        } else if (this.position === 'right') {
-          textField.parentNode.classList.remove('dimensionInputContainerTop', 'dimensionInputContainerRight', 'dimensionInputContainerBottom', 'dimensionInputContainerLeft');
-          textField.parentNode.classList.add('dimensionInputContainerRight');
-          textField.style.width = this.makeWidthValueToBecomeHeightValueOrOposite(orginalHeight);
-          textField.style.height = this.makeWidthValueToBecomeHeightValueOrOposite(orginalWidth);
-          this.position = 'left';
-        } else if (this.position === 'left') {
-          textField.parentNode.classList.remove('dimensionInputContainerTop', 'dimensionInputContainerRight', 'dimensionInputContainerBottom', 'dimensionInputContainerLeft');
-          textField.parentNode.classList.add('dimensionInputContainerLeft');
-          this.position = 'bottom';
-        }*/
+         this.position = 'right';
+       } else if (this.position === 'right') {
+         textField.parentNode.classList.remove('dimensionInputContainerTop', 'dimensionInputContainerRight', 'dimensionInputContainerBottom', 'dimensionInputContainerLeft');
+         textField.parentNode.classList.add('dimensionInputContainerRight');
+         textField.style.width = this.makeWidthValueToBecomeHeightValueOrOposite(orginalHeight);
+         textField.style.height = this.makeWidthValueToBecomeHeightValueOrOposite(orginalWidth);
+         this.position = 'left';
+       } else if (this.position === 'left') {
+         textField.parentNode.classList.remove('dimensionInputContainerTop', 'dimensionInputContainerRight', 'dimensionInputContainerBottom', 'dimensionInputContainerLeft');
+         textField.parentNode.classList.add('dimensionInputContainerLeft');
+         this.position = 'bottom';
+       }*/
 
         /*  it is always horizontal, because rotation means that horizontal dimension become also vertical*/
         // textField.style.resize = 'horizontal';
@@ -1149,7 +1161,6 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   }
 
 
-
   changeTabelOrientation() {
     this.tableFormComponent.nativeElement.firstChild.classList.toggle("drawingDetailTableHorizontal");
     console.log(`this.tabelFormContainer.className= ${this.tabelFormContainer.nativeElement.className}`);
@@ -1159,17 +1170,16 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   setDrawingAndTabelParamtersBasingOnDatabaseData(createOrderDto?: CreateOrderDto, createProductDto?: CreateProductDto) {
 
     let tabelAndDrawingInfo: TabelAndDrawinglnformation;
-    if(createOrderDto && createOrderDto.product.drawinAndTableInfo) {
+    if (createOrderDto && createOrderDto.product.drawinAndTableInfo) {
       tabelAndDrawingInfo = createOrderDto.product.drawinAndTableInfo;
-    }
-    else if(createProductDto && createProductDto.drawinAndTableInfo) {
+    } else if (createProductDto && createProductDto.drawinAndTableInfo) {
 
 
       tabelAndDrawingInfo = createProductDto.drawinAndTableInfo;
     }
-    if(tabelAndDrawingInfo) {
-      console.log(`tabelAndDrawingInfo.drawingSizeProcent+'vw= ${tabelAndDrawingInfo.drawingSizeProcent+'vw'}`)
-      this.drawing.nativeElement.style.width = tabelAndDrawingInfo.drawingSizeProcent+'vw';
+    if (tabelAndDrawingInfo) {
+      console.log(`tabelAndDrawingInfo.drawingSizeProcent+'vw= ${tabelAndDrawingInfo.drawingSizeProcent + 'vw'}`)
+      this.drawing.nativeElement.style.width = tabelAndDrawingInfo.drawingSizeProcent + 'vw';
       this.drawingRangeInput.nativeElement.value = tabelAndDrawingInfo.drawingSizeProcent;
       console.log(`this.drawingRangeInput.nativeElement.value= ${this.drawingRangeInput.nativeElement.value}`);
       this.tableFormComponent.nativeElement.firstChild.className = tabelAndDrawingInfo.tabelOrientationClass;
@@ -1179,19 +1189,17 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
 
 
   setDrawingPercentWidth() {
-    if(this.orderOperationMode ===OrderOperationMode.UPDATEPRODUCT || this.orderOperationMode === OrderOperationMode.CREATENEWPRODUCT) {
-      if(this.drawing && this.drawingRangeValue) {
-      //  this.drawing.nativeElement.style.width = ((this.drawingRangeValue/100*this.drawing.nativeElement.offsetWidth)/window.innerWidth)*100 +'vw';
-        this.drawing.nativeElement.style.width = this.drawingRangeValue+ 'vw';
+    if (this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT || this.orderOperationMode === OrderOperationMode.CREATENEWPRODUCT) {
+      if (this.drawing && this.drawingRangeValue) {
+        //  this.drawing.nativeElement.style.width = ((this.drawingRangeValue/100*this.drawing.nativeElement.offsetWidth)/window.innerWidth)*100 +'vw';
+        this.drawing.nativeElement.style.width = this.drawingRangeValue + 'vw';
 
       }
 
     }
 
 
-
-
-}
+  }
 
 
   ngOnDestroy(): void {
