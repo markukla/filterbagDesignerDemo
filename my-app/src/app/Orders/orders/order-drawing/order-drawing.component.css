@@ -49,8 +49,9 @@
 
 .createInputFormContainer {
   position: absolute;
-  bottom: 4%;
-  right: 2%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   border: 0.1vw solid grey;
   z-index: 1000;
   background-color: burlywood;
@@ -59,7 +60,7 @@
 
 #validateUserInputsErrorsContainer {
   position: absolute;
-  z-index: 100;
+  z-index: 1000;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -182,7 +183,7 @@
 
 .saveButtons {
   position: sticky;
-  z-index: 1000;
+  z-index: 950;
   bottom: 1%;
   left: 5%;
 }
