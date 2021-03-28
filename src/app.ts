@@ -56,6 +56,13 @@ class App {
         this.app.get('/', (req:any,res:any) => {
             res.sendFile(process.cwd()+"/my-app/dist/projekt1FilterFront/index.html")
         });
+        this.app.get('/*', function(req:any, res:any, next) {
+            if(req.url.includes('api')){
+               return next();
+
+            }
+            res.sendFile(process.cwd()+"/my-app/dist/projekt1FilterFront/index.html")
+        });
     }
 
     private initializeControllers(controllers:Controller[]) {
