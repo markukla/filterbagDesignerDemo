@@ -31,6 +31,7 @@ export class UpdateBusinessPartnerComponent implements OnInit, AfterContentCheck
   orderNames = orderNames;
   userForm: FormGroup;
 
+
   constructor(
     private authenticationService: AuthenticationService,
     private backendService: BusinesPartnerBackendService,
@@ -42,7 +43,12 @@ export class UpdateBusinessPartnerComponent implements OnInit, AfterContentCheck
   }
 
   ngOnInit(): void {
-    this.selectedId = String(this.tableService.selectedId);
+   // this.selectedId = String(this.tableService.selectedId);
+    this.route.queryParamMap.subscribe((queryParams) => {
+
+      this.selectedId = queryParams.get('parnterId');
+
+    });
     this.userForm = new FormGroup({
       code: new FormControl('', [Validators.nullValidator, Validators.required]),
       businesPartnerCompanyName: new FormControl('', [Validators.nullValidator, Validators.required]),
@@ -59,6 +65,7 @@ export class UpdateBusinessPartnerComponent implements OnInit, AfterContentCheck
       isAdmin: new FormControl(false),
     }, {updateOn: 'change'});
     // tslint:disable-next-line:typedef
+
     this.initColumnNamesInSelectedLanguage();
     this.setCurrentValueOfFormFields();
   }

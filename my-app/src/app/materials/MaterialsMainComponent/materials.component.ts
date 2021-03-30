@@ -169,7 +169,7 @@ export class MaterialsComponent implements OnChanges, OnInit, AfterContentChecke
 
   updateSelectedRecord(materialId: number): void {
     this.tableService.selectedId = materialId;
-    this.router.navigateByUrl('/materials/update');
+    this.router.navigateByUrl(`/materials/update?materialId=${String(materialId)}`);
   }
 
   ngOnChanges(changes: SimpleChanges): void {

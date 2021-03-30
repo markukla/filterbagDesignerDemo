@@ -29,6 +29,7 @@ export class ChangePasswordComponent implements OnInit {
   orderNames = orderNames;
   admin: string;
   editor: string;
+  userForm: FormGroup;
 
   constructor(
     private userBackendService: UserBackendService,
@@ -38,16 +39,27 @@ export class ChangePasswordComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private route: ActivatedRoute,
     private router: Router) {
-    this.selectedId = String(this.userTableService.selectedId);
+
 
   }
 
+  ngOnInit(): void {
+    this.route.queryParamMap.subscribe((queryParams) => {
+
+      this.selectedId = queryParams.get('userId');
+
+    });
+    this.userForm = new FormGroup({
+      // tslint:disable-next-line:max-line-length
+      password: new FormControl('', [Validators.nullValidator, Validators.required, Validators.minLength(8),  this.userValidatorService.patternValidator(/(?=(.*\d){2})/, { hasNumber: true }), this.userValidatorService.patternValidator(/[A-Z]/, { hasCapitalCase: true }), this.userValidatorService.patternValidator(/[a-z]/, { hasSmallCase: true })]),
+      confirmPassword: new FormControl('', [Validators.required]),
+    }, {updateOn: 'change', validators: [this.userValidatorService.passwordMatchValidator({NoPassswordMatch: true})]})
+    this.initColumnNamesInSelectedLanguage();
+    this.getSelectedUserData();
+  }
+
   // @ts-ignore
-  userForm = new FormGroup({
-    // tslint:disable-next-line:max-line-length
-    password: new FormControl('', [Validators.nullValidator, Validators.required, Validators.minLength(8),  this.userValidatorService.patternValidator(/(?=(.*\d){2})/, { hasNumber: true }), this.userValidatorService.patternValidator(/[A-Z]/, { hasCapitalCase: true }), this.userValidatorService.patternValidator(/[a-z]/, { hasSmallCase: true })]),
-    confirmPassword: new FormControl('', [Validators.required]),
-  }, {updateOn: 'change', validators: [this.userValidatorService.passwordMatchValidator({NoPassswordMatch: true})]});
+
 
   // tslint:disable-next-line:typedef
   get confirmPassword() {
@@ -75,10 +87,7 @@ export class ChangePasswordComponent implements OnInit {
     this.router.navigateByUrl('/users');
   }
 
-  ngOnInit(): void {
-    this.initColumnNamesInSelectedLanguage();
-    this.getSelectedUserData();
-  }
+
   initColumnNamesInSelectedLanguage(): void {
     // tslint:disable-next-line:max-line-length
     this.userNamesInSelectedLanguage = this.authenticationService.generalUserNames;

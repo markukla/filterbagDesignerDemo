@@ -6,7 +6,7 @@ import {MaterialTableService} from '../MaterialServices/material-table.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import HttpException from '../../helpers/ErrorHandling/httpException';
 import {getBackendErrrorMesage} from '../../helpers/errorHandlingFucntion/handleBackendError';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {AuthenticationService} from '../../LoginandLogOut/AuthenticationServices/authentication.service';
 import {ValidateMaterialCodeUniqueService} from '../MaterialServices/validate-material-code-unique.service';
 import {GeneralTableService} from '../../util/GeneralTableService/general-table.service';
@@ -29,13 +29,15 @@ export class UpdateMaterialComponent implements OnInit {
   materialForm: FormGroup;
   materialNamesInSelectedLanguage = materialNamesInSelectedLanguage;
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
+  selectedMaterialId: string;
 
   constructor(private materialTableService: GeneralTableService,
               private backendMessageService: BackendMessageService,
               private materialBackendService: MaterialBackendService,
               public validateMaterialCodeUniqueService: ValidateMaterialCodeUniqueService,
               private router: Router,
-              private authenticationService: AuthenticationService) {
+              private authenticationService: AuthenticationService,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
@@ -45,6 +47,11 @@ export class UpdateMaterialComponent implements OnInit {
       // tslint:disable-next-line:max-line-length
       materialName: new FormControl('', [Validators.nullValidator && Validators.required], [this.validateMaterialCodeUniqueService.materialNameValidatorForUpdate()]),
     }, {updateOn: 'change'});
+    this.route.queryParamMap.subscribe((queryParams) => {
+
+      this.selectedMaterialId = queryParams.get('materialId');
+
+    });
     this.initColumnNamesInSelectedLanguage();
     this.materialToUpdateId = this.materialTableService.selectedId;
     console.log(`materialToUpdateId= ${this.materialToUpdateId}`);
@@ -78,14 +85,21 @@ export class UpdateMaterialComponent implements OnInit {
     // tslint:disable-next-line:max-line-length
     console.log(`materialFOrrmValu= ${this.materialForm.value}`);
     // tslint:disable-next-line:max-line-length
-    this.materialBackendService.updateRecordById(String(this.materialTableService.selectedId), this.materialForm.value).subscribe((material) => {
-        this.operationStatusMessage = this.backendMessageService.returnSuccessMessageToUserForSuccessBackendResponseForUpdate();
-        this.resetMaterialFormValueAndOperationStatus();
-      }, error => {
-       this.operationStatusMessage = this.backendMessageService.returnErrorToUserBasingOnBackendErrorStringForUpdate(error);
-        this.resetMaterialFormValueAndOperationStatus();
-      }
-    );
+    this.materialBackendService.deleteRecordById(this.selectedMaterialId).subscribe((deletesuccessResponse)=>{
+        this.materialBackendService.addRecords( this.materialForm.value).subscribe((material) => {
+            this.operationStatusMessage = this.backendMessageService.returnSuccessMessageToUserForSuccessBackendResponseForUpdate();
+
+          }, error => {
+            this.operationStatusMessage = this.backendMessageService.returnErrorToUserBasingOnBackendErrorStringForUpdate(error);
+            this.resetMaterialFormValueAndOperationStatus();
+          }
+        )
+    },error => {
+      this.operationStatusMessage = this.backendMessageService.returnErrorToUserBasingOnBackendErrorStringForUpdate(error);
+      this.resetMaterialFormValueAndOperationStatus();
+    }
+      );
+
 
 
   }

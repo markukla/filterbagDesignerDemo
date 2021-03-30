@@ -147,8 +147,8 @@ export class BusinessPartnersComponent implements OnInit, AfterContentChecked {
   }
 
   updateSelectedRecord(userId: number): void {
-    this.tableService.selectedId = userId;
-    this.router.navigateByUrl('/updatebusinessPartners');
+    //this.tableService.selectedId = userId;
+    this.router.navigateByUrl(`/updatebusinessPartners?parnterId=${String(userId)}`);
   }
 
   blockOrUnblockUser(user: User): void {
@@ -174,12 +174,12 @@ export class BusinessPartnersComponent implements OnInit, AfterContentChecked {
 
   changePaswordForUserId(id: number): void {
     this.tableService.selectedId = id;
-    this.router.navigateByUrl('/changePasswordBusinessPartners');
+    this.router.navigateByUrl(`/changePasswordBusinessPartners?parnterId=${String(id)}`);
   }
 
 
   showOrders(id: number): void {
-    this.tableService.selectedId = id;
+   // this.tableService.selectedId = id;
     const partnerId = String(id);
     // this.backendService.findRecordById(String(id)).subscribe((partner) => {
     //  this.tableService.ordersOfBusinessPartner = partner.body.ordersOfPartner;

@@ -40,17 +40,22 @@ export class BusinessPartnerChangePasswordComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router) {
-    this.selectedId = String(this.tableService.selectedId);
+
 
   }
 
   ngOnInit(): void {
+    this.route.queryParamMap.subscribe((queryParams) => {
+
+      this.selectedId = queryParams.get('parnterId');
+
+    });
     this.userForm = new FormGroup({
       // tslint:disable-next-line:max-line-length
       password: new FormControl('', [Validators.nullValidator, Validators.required, Validators.minLength(8),  this.validatorService.patternValidator(/(?=(.*\d){2})/, { hasNumber: true }), this.validatorService.patternValidator(/[A-Z]/, { hasCapitalCase: true }), this.validatorService.patternValidator(/[a-z]/, { hasSmallCase: true })]),
       confirmPassword: new FormControl('', [Validators.required]),
     }, {updateOn: 'change', validators: [this.validatorService.passwordMatchValidator({NoPassswordMatch: true})]});
-    this.selectedId = String(this.tableService.selectedId);
+
     this.getSelectedUserData();
   }
 

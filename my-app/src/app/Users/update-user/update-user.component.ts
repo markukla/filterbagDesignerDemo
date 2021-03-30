@@ -29,13 +29,14 @@ import {setTabelColumnAndOtherNamesForSelectedLanguage} from '../../helpers/othe
 })
 export class UpdateUserComponent implements OnInit, AfterContentChecked, AfterViewInit {
   operationStatusMessage: string;
-  selectedId = String(this.userTableService.selectedId);
+  selectedId: string;
   admin: string;
   editor: string;
   userToUpdate: User;
   userNamesInSelectedLanguage = generalUserNames;
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
   orderNames = orderNames;
+  userForm: FormGroup;
   @ViewChild('selectStatus', {read: ElementRef}) selectStatusElement: ElementRef;
   @ViewChildren('optionForSelectStatus', {read: ElementRef}) optionsForSelectStatus: ElementRef[];
 
@@ -49,19 +50,30 @@ export class UpdateUserComponent implements OnInit, AfterContentChecked, AfterVi
     private router: Router) {
   }
 
-  userForm = new FormGroup({
-    // tslint:disable-next-line:max-line-length
-    fulName: new FormControl('', [Validators.nullValidator, Validators.required]),
-    // tslint:disable-next-line:max-line-length
-    email: new FormControl('', {
-      updateOn: 'change',
-      validators: [Validators.nullValidator, Validators.required, Validators.email],
-      asyncValidators: [this.userValidatorService.emailAsyncValidatorForUpdate(this.selectedId)]
-    }),
-    active: new FormControl(false),
-    // tslint:disable-next-line:max-line-length
-    isAdmin: new FormControl(false),
-  }, {updateOn: 'change'});
+  ngOnInit(): void {
+    this.route.queryParamMap.subscribe((queryParams) => {
+
+      this.selectedId = queryParams.get('userId');
+
+    });
+    this.userForm = new FormGroup({
+      // tslint:disable-next-line:max-line-length
+      fulName: new FormControl('', [Validators.nullValidator, Validators.required]),
+      // tslint:disable-next-line:max-line-length
+      email: new FormControl('', {
+        updateOn: 'change',
+        validators: [Validators.nullValidator, Validators.required, Validators.email],
+        asyncValidators: [this.userValidatorService.emailAsyncValidatorForUpdate(this.selectedId)]
+      }),
+      active: new FormControl(false),
+      // tslint:disable-next-line:max-line-length
+      isAdmin: new FormControl(false),
+    }, {updateOn: 'change'});
+
+    this.initColumnNamesInSelectedLanguage();
+    this.setCurrentValueOfFormFields();
+  }
+
 
   // tslint:disable-next-line:typedef
   get fulName() {
@@ -113,10 +125,7 @@ export class UpdateUserComponent implements OnInit, AfterContentChecked, AfterVi
     this.router.navigateByUrl(this.authenticationService._previousUrl);
   }
 
-  ngOnInit(): void {
-    this.initColumnNamesInSelectedLanguage();
-    this.setCurrentValueOfFormFields();
-  }
+
 
   initColumnNamesInSelectedLanguage(): void {
     // tslint:disable-next-line:max-line-length

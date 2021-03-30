@@ -27,6 +27,7 @@ export class ChangePasswordForLoggedUserComponent implements OnInit {
   userNamesInSelectedLanguage = generalUserNames;
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
   orderNames = orderNames;
+  userForm: FormGroup;
 
   constructor(
     private backendService: AuthenticationBackendService,
@@ -36,14 +37,18 @@ export class ChangePasswordForLoggedUserComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router) {
   }
+  ngOnInit(): void {
+    this.userForm = new FormGroup({
+      // tslint:disable-next-line:max-line-length
+      oldPassword: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.nullValidator, Validators.required, Validators.minLength(8),  this.validatorService.patternValidator(/(?=(.*\d){2})/, { hasNumber: true }), this.validatorService.patternValidator(/[A-Z]/, { hasCapitalCase: true }), this.validatorService.patternValidator(/[a-z]/, { hasSmallCase: true })]),
+      confirmPassword: new FormControl('', [Validators.required]),
+    }, {updateOn: 'change', validators: [this.validatorService.passwordMatchValidator({NoPassswordMatch: true})]})
+    this.initColumnNamesInSelectedLanguage();
+  }
 
   // @ts-ignore
-  userForm = new FormGroup({
-    // tslint:disable-next-line:max-line-length
-    oldPassword: new FormControl('', [Validators.required]),
-    password: new FormControl('', [Validators.nullValidator, Validators.required, Validators.minLength(8),  this.validatorService.patternValidator(/(?=(.*\d){2})/, { hasNumber: true }), this.validatorService.patternValidator(/[A-Z]/, { hasCapitalCase: true }), this.validatorService.patternValidator(/[a-z]/, { hasSmallCase: true })]),
-    confirmPassword: new FormControl('', [Validators.required]),
-  }, {updateOn: 'change', validators: [this.validatorService.passwordMatchValidator({NoPassswordMatch: true})]});
+
 
   // tslint:disable-next-line:typedef
   get confirmPassword() {
@@ -78,9 +83,7 @@ export class ChangePasswordForLoggedUserComponent implements OnInit {
     this.router.navigateByUrl(this.authenticationService._previousUrl);
   }
 
-  ngOnInit(): void {
-    this.initColumnNamesInSelectedLanguage();
-  }
+
   initColumnNamesInSelectedLanguage(): void {
     this.userNamesInSelectedLanguage = this.authenticationService.generalUserNames;
     this.generalNamesInSelectedLanguage = this.authenticationService.generalNamesInSelectedLanguage;

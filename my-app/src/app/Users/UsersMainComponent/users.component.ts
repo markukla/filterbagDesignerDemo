@@ -155,7 +155,7 @@ else {
   }
   updateSelectedRecord(userId: number): void {
     this.tableService.selectedId = userId;
-    this.router.navigateByUrl('/users/update');
+    this.router.navigateByUrl(`/users/update?userId=${String(userId)}`);
   }
   blockOrUnblockUser(user: User): void {
     let updatedActiveStatus: boolean;
@@ -181,7 +181,7 @@ else {
   }
   changePaswordForUserId(id: number): void {
     this.tableService.selectedId = id;
-    this.router.navigateByUrl('/users/changePassword');
+    this.router.navigateByUrl(`/users/changePassword?userId=${String(id)}`);
   }
 
 }
