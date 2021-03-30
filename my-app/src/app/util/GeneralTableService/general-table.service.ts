@@ -17,15 +17,20 @@ export class GeneralTableService {
   }
 
   addRecordToTable(record: any): void {
-    this.records.push(record);
-    this.searchService.orginalArrayCopy.push(record);
+    if(this.records && this.searchService.orginalArrayCopy) {
+      this.records.push(record);
+      this.searchService.orginalArrayCopy.push(record);
+    }
+
   }
 
   updateTableRecord(id: number, updatedRecord: any): void {
     for (let i = 0; i < this.records.length; i++) {
       if (this.records[i].id === updatedRecord.id) {
         this.records[i] = updatedRecord;
-        this.searchService.orginalArrayCopy[i] = updatedRecord;
+        if(this.searchService.orginalArrayCopy) {
+          this.searchService.orginalArrayCopy[i] = updatedRecord;
+        }
       }
     }
   }
@@ -34,7 +39,9 @@ export class GeneralTableService {
     this.records.forEach((record: any, index: number) => {
       if (record.id === id) {
         this.records.splice(index, 1);
-        this.searchService.orginalArrayCopy.splice(index, 1);
+        if(this.searchService.orginalArrayCopy) {
+          this.searchService.orginalArrayCopy.splice(index, 1);
+        }
       }
     });
   }

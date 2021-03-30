@@ -42,12 +42,8 @@ import { ProductBottomSearchDirective } from './helpers/directive/ForProductBott
 import { CreateProductBottomComponent } from './Products/ProductBottom/create-product-bottom/create-product-bottom.component';
 import { CreateProductTypeComponent } from './Products/ProductType/create-product-type/create-product-type.component';
 import { ProductTypeSearchDirective } from './helpers/directive/ForProductType/product-type-search.directive';
-import { TopsForProductTypeComponent } from './Products/ProductType/tops-for-product-type/tops-for-product-type.component';
-import { BottomsForProductTypeComponent } from './Products/ProductType/bottoms-for-product-type/bottoms-for-product-type.component';
 import { CreateProductComponent } from './Products/ProductMainComponent/product/create-product/create-product.component';
 import { ProductSearchDirective } from './helpers/directive/ForProducts/product-search.directive';
-import { ContainerForDragableComponent } from './Products/ProductMainComponent/product/DragAndDropTest/container-for-dragable/container-for-dragable.component';
-import {ResizableDraggableComponent} from './Products/ProductMainComponent/product/DragAndDropTest/resizable-draggable/resizable-draggable.component';
 import { ProductTableFormComponent } from './Products/ProductMainComponent/product/product-table-form/product-table-form.component';
 import { CreateOrderComponent } from './Orders/orders/create-order/create-order.component';
 import { UpdateOrderComponent } from './Orders/orders/update-order/update-order.component';
@@ -106,12 +102,8 @@ import { GeneretePasswordDirective } from './helpers/directive/GeneratePasswordD
     CreateProductBottomComponent,
     CreateProductTypeComponent,
     ProductTypeSearchDirective,
-    TopsForProductTypeComponent,
-    BottomsForProductTypeComponent,
     CreateProductComponent,
     ProductSearchDirective,
-    ContainerForDragableComponent,
-    ResizableDraggableComponent,
     ProductTableFormComponent,
     CreateOrderComponent,
     UpdateOrderComponent,
@@ -170,7 +162,6 @@ import { GeneretePasswordDirective } from './helpers/directive/GeneratePasswordD
       { path: 'products/tops/add', component: CreateProductTopComponent},
       { path: 'products/chooseByMiniature', component: ProcutMiniatureComponentComponent},
       {path: 'login', component: LoginComponent },
-      {path: 'drag', component: ContainerForDragableComponent },
       {path: 'languages', component: LanguageMainComponent},
       {path: 'languages/create', component: CreateOrUpdateLanguageComponent},
       {path: 'vocabularies', component: VocabularyMainComponentComponent},

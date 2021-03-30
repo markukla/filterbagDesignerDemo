@@ -31,6 +31,7 @@ export class OrderBackendService {
   createOrderDtoForConfirmUpdateShowDrawing: CreateOrderDto;
   constructor(private http: HttpClient,
               private tableService: GeneralTableService) {
+    this.setCreateOrderDtoBasingOnSessionStorage();
   }
 
   getCurrentOrdersForPrivilligedUsers(): Observable<HttpResponse<Order[]>> {
@@ -126,6 +127,12 @@ export class OrderBackendService {
     }
     return orderTableCell;
 
+  }
+  setCreateOrderDtoBasingOnSessionStorage():void{
+    const createOrderDtoFromSessionStorage = JSON.parse(sessionStorage.getItem('createOrderDto'));
+    if(createOrderDtoFromSessionStorage){
+      this.createOrderDtoForConfirmUpdateShowDrawing = createOrderDtoFromSessionStorage;
+    }
   }
 
 

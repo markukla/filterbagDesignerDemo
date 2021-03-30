@@ -203,6 +203,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   async initPropertiValuesToServicesValues(): Promise<void> {
     this.tableForm = this.tableFormService.tableForm;
     this.productMiniatureService.productChangedByDrawingCliclingInUpdateOrConfirmModes = false;
+    sessionStorage.setItem('productChangedByDrawingClicling', JSON.stringify(this.productMiniatureService.productChangedByDrawingCliclingInUpdateOrConfirmModes));
     // tslint:disable-next-line:max-line-length
     if (this.orderOperationMode === OrderOperationMode.SHOWDRAWING) {
       const foundOrder = await this.orderBackendService.findRecordById(this.selectedOrderId).toPromise();
@@ -341,6 +342,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
 
   onSubmit(): void {
     this.orderBackendService.createOrderDtoForConfirmUpdateShowDrawing = this.createOrderDtoToSaveInDatabase();
+    sessionStorage.setItem('createOrderDto', JSON.stringify(this.orderBackendService.createOrderDtoForConfirmUpdateShowDrawing));
     const allowSubmit = this.checkIfAllFieldsValidInCreateOrderDto(this.orderBackendService.createOrderDtoForConfirmUpdateShowDrawing);
     // tslint:disable-next-line:max-line-length
     if (allowSubmit === true) {

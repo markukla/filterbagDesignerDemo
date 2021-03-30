@@ -189,6 +189,7 @@ export class CreateProductComponent implements OnInit, AfterContentChecked, Afte
         urlOfOrginalDrawing: this.orginalDrawingPath,
         urlOfThumbnailDrawing: this.minimalizedDrawingPath,
       };
+      sessionStorage.setItem('createProductDto', JSON.stringify(this.backendService.createProductDto));
       this.router.navigateByUrl(`orders/drawing?productId=${this.selectedProductToUpdateId}&mode=${OrderOperationMode.UPDATEPRODUCT}`);
     }
     else if (this.operationMode === ProductModeEnum.UPDATE) {
@@ -201,6 +202,7 @@ export class CreateProductComponent implements OnInit, AfterContentChecked, Afte
         urlOfOrginalDrawing: this.orginalDrawingPath,
         urlOfThumbnailDrawing: this.minimalizedDrawingPath,
       };
+      sessionStorage.setItem('createProductDto', JSON.stringify(this.backendService.createProductDto));
       this.router.navigateByUrl(`orders/drawing?productId=${this.selectedProductToUpdateId}&mode=${OrderOperationMode.UPDATEPRODUCT}`);
     }
   }

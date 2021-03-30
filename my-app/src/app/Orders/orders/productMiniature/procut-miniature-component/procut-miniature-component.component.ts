@@ -53,6 +53,7 @@ export class ProcutMiniatureComponentComponent implements OnInit {
 
   selectProductAndNavigateBack(product: Product): void {
     this.orderBackendService.createOrderDtoForConfirmUpdateShowDrawing.product = product;
+    sessionStorage.setItem('createOrderDto', JSON.stringify(this.orderBackendService.createOrderDtoForConfirmUpdateShowDrawing));
     this.productMiniatureService.selectedProduct = product;
     const routeHistoryLastindex: number = this.authenticationService._routeHistory.length - 1;
     const routeHistorySecondLastindex = this.authenticationService._routeHistory.length - 1;

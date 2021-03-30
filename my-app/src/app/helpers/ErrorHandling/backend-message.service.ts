@@ -27,7 +27,11 @@ export class BackendMessageService {
 
   returnErrorToUserBasingOnBackendErrorStringForCreateNew(error: HttpErrorResponse): string {
     this.initColumnNamesInSelectedLanguage();
-    const errorMessage = error.error.message.toUpperCase();
+    let errorMessage: string;
+    if(error && error.error) {
+      errorMessage=error.error.message.toUpperCase();
+    }
+
     const errorToExpect = 'already exist'.toUpperCase();
     if (errorMessage.includes(errorToExpect)) {
       console.log(errorMessage);
@@ -38,10 +42,11 @@ export class BackendMessageService {
   }
   returnErrorToUserBasingOnBackendErrorStringForUpdate(error: HttpErrorResponse): string {
     this.initColumnNamesInSelectedLanguage();
-    if(error) {
-
+    let errorMessage: string;
+    if(error && error.error) {
+       errorMessage = error.error.message.toUpperCase();
     }
-    const errorMessage = error.error.message.toUpperCase();
+
     const errorToExpect = 'already exist'.toUpperCase();
     if (errorMessage&&errorMessage.includes(errorToExpect)) {
       console.log(`error.error.message = ${error.error.message}`);

@@ -156,6 +156,7 @@ export class CreateOrderComponent implements OnInit, AfterContentChecked, AfterV
         if (this.backendService.createOrderDtoForConfirmUpdateShowDrawing) {
           this.productHasBeenChanged = true;
           this.createOrderDto = this.backendService.createOrderDtoForConfirmUpdateShowDrawing;
+
         }
         else {
           this.createOrderDto = {
@@ -460,6 +461,7 @@ onSubmit(): void {
         this.createOrderDto.index = this.tableFormService.index;
         this.createOrderDto.orderName = this.tableFormService.orderName;
         this.backendService.createOrderDtoForConfirmUpdateShowDrawing = this.createOrderDto;
+        sessionStorage.setItem('createOrderDto', JSON.stringify(this.backendService.createOrderDtoForConfirmUpdateShowDrawing));
         this.router.navigateByUrl(`/orders/drawing?mode=${OrderOperationMode.CREATENEW}`);
       }, error => {
         console.log('nie udało się znaleźć produktu na postawie wybranych parametrów');
@@ -512,6 +514,7 @@ onSubmit(): void {
         this.createOrderDto.orderDetails = null;  // to reset dimensions and tableForm values
         this.createOrderDto = this.updateCreateOrderDto(this.createOrderDto);
         this.backendService.createOrderDtoForConfirmUpdateShowDrawing = this.createOrderDto;
+        sessionStorage.setItem('createOrderDto', JSON.stringify(this.backendService.createOrderDtoForConfirmUpdateShowDrawing));
         this.router.navigateByUrl(`/orders/drawing?orderId=${this.selctedOrderId}&mode=${OrderOperationMode.UPDATEWITHCHANGEDPRODUCT}`);
       }, error => {
         console.log('nie udało się znaleźć produktu na postawie wybranych parametrów');
@@ -608,8 +611,10 @@ confirmOrchangeProductButtonAction(): void {
      // tslint:disable-next-line:max-line-length
      if (this.orderOperationMode === OrderOperationMode.CREATENEW || this.orderOperationMode === OrderOperationMode.UPDATEWITHCHANGEDPRODUCT ) {
       this.productMiniatureService.productChangedByDrawingCliclingInUpdateOrConfirmModes = true;
+       sessionStorage.setItem('productChangedByDrawingClicling', JSON.stringify(this.productMiniatureService.productChangedByDrawingCliclingInUpdateOrConfirmModes));
      }
      this.productMiniatureService.allProducts = this.allProducts;
+     sessionStorage.setItem('allProductsInMiniatureService', JSON.stringify(this.allProducts));
     // tslint:disable-next-line:max-line-length
      const createProductDto: CreateProductDto = {
       productType: this.selectedtType,
@@ -619,13 +624,16 @@ confirmOrchangeProductButtonAction(): void {
      this.productBackendService.getProductByTypeTopBottom(createProductDto).subscribe((product) => {
       // tslint:disable-next-line:max-line-length
       this.productMiniatureService.selectedProduct = product.body;
+      sessionStorage.setItem('selectedProductsInMiniatureService', JSON.stringify(this.productMiniatureService.selectedProduct));
       // tslint:disable-next-line:max-line-length
       this.backendService.createOrderDtoForConfirmUpdateShowDrawing =  this.updateCreateOrderDtoForChooseDrawingByMiniature(this.createOrderDto, product.body);
+      sessionStorage.setItem('createOrderDto', JSON.stringify(this.backendService.createOrderDtoForConfirmUpdateShowDrawing));
       this.router.navigateByUrl('/products/chooseByMiniature');
       console.log('navigated to on sucess');
     }, error => {
       // tslint:disable-next-line:max-line-length
       this.backendService.createOrderDtoForConfirmUpdateShowDrawing =  this.updateCreateOrderDtoForChooseDrawingByMiniature(this.createOrderDto, null);
+      sessionStorage.setItem('createOrderDto', JSON.stringify(this.backendService.createOrderDtoForConfirmUpdateShowDrawing));
       this.router.navigateByUrl('/products/chooseByMiniature');
       console.log('navigated to on error');
     });
@@ -671,6 +679,7 @@ checkOperationMode(): void {
 seeDrawing(): void {
      this.createOrderDto = this.updateCreateOrderDto(this.createOrderDto);
      this.backendService.createOrderDtoForConfirmUpdateShowDrawing = this.createOrderDto;
+    sessionStorage.setItem('createOrderDto', JSON.stringify(this.backendService.createOrderDtoForConfirmUpdateShowDrawing));
      if (this.orderOperationMode === OrderOperationMode.CONFIRMNEW) {
     this.router.navigateByUrl(`orders/drawing?mode=${OrderOperationMode.SHOWDRAWINGCONFIRM}`);
   }
@@ -682,6 +691,7 @@ seeDrawing(): void {
 updateDrawing(): void {
     this.createOrderDto = this.updateCreateOrderDto(this.createOrderDto);
     this.backendService.createOrderDtoForConfirmUpdateShowDrawing = this.createOrderDto;
+    sessionStorage.setItem('createOrderDto', JSON.stringify(this.backendService.createOrderDtoForConfirmUpdateShowDrawing));
     if (this.orderOperationMode === OrderOperationMode.CONFIRMNEW) {
     this.router.navigateByUrl(`orders/drawing?mode=${OrderOperationMode.UPDATEDRAWING}`);
   }

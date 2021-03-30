@@ -33,6 +33,7 @@ export class ProductBackendService {
               private productTypeBackednService: ProductTypeBackendService,
               private productBottommBackednService: ProductBottomBackendService,
               private authenticationService: AuthenticationService) {
+    this.setCreateProductDtoFromSessionStorage();
   }
 
   getRecords(): Observable<HttpResponse<Product[]>> {
@@ -121,5 +122,12 @@ export class ProductBackendService {
       productTypeCodePlusName: product.productType.code + ' - ' + productTypeName,
     };
     return productForTableCell;
+  }
+  setCreateProductDtoFromSessionStorage(): void {
+    //sessionStorage.setItem('createProductDto', JSON.stringify(this.backendService.createProductDto));
+    const createProductDtoFromSessionStorage = JSON.parse(sessionStorage.getItem('createProductDto'));
+    if(createProductDtoFromSessionStorage) {
+      this.createProductDto = createProductDtoFromSessionStorage;
+    }
   }
 }
