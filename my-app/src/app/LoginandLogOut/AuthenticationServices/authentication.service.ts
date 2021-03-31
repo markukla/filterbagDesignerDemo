@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {HostListener, Injectable} from '@angular/core';
 import LoggedUser from '../authenticationTypesAndClasses/logedUser';
 import User from '../../Users/users/userTypes/user';
 import TokenData from '../authenticationTypesAndClasses/tokenData';
@@ -51,25 +51,39 @@ export class AuthenticationService {
               private authBackenService: AuthenticationBackendService,
               private vocabularyBackendService: VocabularyBackendServiceService) {
     console.log('new instance of authentication service created');
+    this.setRouteHistoryPreviousAndCurrentUrlBasingOnSessionStorage();
     this.logInFromSessionStorageAndInitColumNamesForSelectedLanguage();
     this.routeHistory = [];
     router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         this._setURLs(event);
+       // this.saveRouteHistoryInSessionBeforeReload(this._previousUrl, this._currentUrl, this._routeHistory);
+
       });
-    /*
-    *     window.addEventListener("beforeunload", event => {
-      let result: number;
+    router.events
+      .pipe(filter(event => event instanceof NavigationStart))
+      .subscribe((event: NavigationStart) => {
+        /* Nawigation start is used to save history in session before reload is taken in to account*/
+        this.saveRouteHistoryInSessionBeforeReload(this._previousUrl, this._currentUrl, this._routeHistory);
+
+      });
+
+
+    //window.addEventListener('beforeunload', this.saveRouteHistoryInSessionBeforeReload(this._previousUrl, this._currentUrl, this._routeHistory));
+
+
+
+
+
+     /*let result: number;
       const windowPerformanceArray = window.performance.getEntriesByType("navigation");
       if (window.performance.getEntriesByType("navigation")) {
         console.log('in beforeUnloadEvent');
         result = this.getnavigationType();
         console.log(`nawigation result= ${result}`);
         if(result ===1) {
-
-
-          console.log('window performance equlas navigation reload');
+        console.log('window performance equlas navigation reload');
 
           this.router.navigateByUrl(this.previousUrl);
           console.log('navigated to current url on reload ');
@@ -78,8 +92,11 @@ export class AuthenticationService {
 
       }
       event.returnValue=false;
-      return  false;
-    });*/
+      return  false;*/
+
+
+
+
 
 
 
@@ -95,14 +112,16 @@ export class AuthenticationService {
       }
     });*/
   }
-  /*
+
     getnavigationType(): number {
 
     let result: number;
-    let p;
+    let p: any;
 
     if (window.performance.getEntriesByType("navigation")){
-      p=window.performance.getEntriesByType("navigation")[0].type;
+      const entriesLength=window.performance.getEntriesByType("navigation").length;
+      p=(<any>(window.performance.getEntriesByType("navigation")[entriesLength-1])).type;
+
       console.log(`navigationType= ${p}`);
 
       if (p=='navigate'){result=0}
@@ -113,15 +132,18 @@ export class AuthenticationService {
     return result;
   }
 
-  * */
+
   private refreshPage(currrenturl: string): void  {
     this.router.navigateByUrl(currrenturl);
   }
   private _setURLs(event: NavigationEnd): void {
     const tempUrl = this.currentUrl;
-    this.previousUrl = tempUrl;
-    this.currentUrl = event.urlAfterRedirects;
-    this.routeHistory.push(event.urlAfterRedirects);
+
+      this.previousUrl = tempUrl;
+      this.currentUrl = event.urlAfterRedirects;
+      this.routeHistory.push(event.urlAfterRedirects);
+
+
   }
 
   get _previousUrl(): string {
@@ -283,5 +305,51 @@ export class AuthenticationService {
    }
 
   }
+
+
+  saveRouteHistoryInSessionBeforeReload(previous: string, curent: string, routeHistory: string[]): void {
+
+    const navigationTypeNumber = this.getnavigationType();
+    console.log(`navigationTypeBeforeSavingInSession = ${navigationTypeNumber}`);
+
+
+      console.log('saving route history in session storage');
+      if(previous){
+        sessionStorage.setItem('previousUrl', previous);
+        console.log(`sessionStorage.getItem(previousUrl)=${sessionStorage.getItem('previousUrl')}`);
+      }
+      if(curent) {
+        sessionStorage.setItem('currentUrl', curent);
+      }
+      if(routeHistory){
+        sessionStorage.setItem('routHistory', JSON.stringify(routeHistory));
+      }
+
+
+
+
+
+
+  }
+  setRouteHistoryPreviousAndCurrentUrlBasingOnSessionStorage():void {
+    console.log('settting route history basing on sesion storage');
+    console.log(`sessionStorage.getItem('previousUrl')= ${sessionStorage.getItem('previousUrl')}`);
+  const previousFromSesion: string =  sessionStorage.getItem('previousUrl');
+  if(previousFromSesion){
+    this.previousUrl = previousFromSesion;
+    console.log(`this.previousUrl= ${this.previousUrl}`)
+  }
+  const currentFromSesion:string = sessionStorage.getItem('currentUrl');
+  if(currentFromSesion){
+    this.currentUrl= currentFromSesion;
+    console.log(`this.currentUrl= ${this.currentUrl}`);
+  }
+
+   const routeHistoryFromSession: string[]=  JSON.parse(sessionStorage.getItem('routHistory'));
+ if(routeHistoryFromSession){
+   this.routeHistory = routeHistoryFromSession;
+ }
+  }
+
 }
 
