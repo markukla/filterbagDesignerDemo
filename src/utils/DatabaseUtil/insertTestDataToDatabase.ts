@@ -41,10 +41,17 @@ async function insertRolesToDatabase(){
 
 }
 async function insertInitVocabulariesToDatabase() {
-    const vocabulariesToInsert= initialVocabularyForDatabase;
+    let vocabulariesToInsert= initialVocabularyForDatabase;
     const repository = getRepository(Vocabulary);
     const vocabulariesInDatabase = await repository.find();
     if(vocabulariesInDatabase.length ===0) {
+        vocabulariesToInsert.forEach((vocabulary) => {
+         vocabulary.localizedNames.forEach((localizedName)=> {
+             if(localizedName.languageCode.toUpperCase()==='CZE'){
+                 localizedName.languageCode = 'CS';
+             }
+         });
+      });
         try{
             await repository.save(vocabulariesToInsert);
         }

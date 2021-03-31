@@ -8,8 +8,8 @@ const PL: Language = {
 }
 const CZE: Language = {
     active: true,
-    languageCode: 'CZE',
-    languageName: 'polski',
+    languageCode: 'CS',
+    languageName: 'czeski',
     flagUrl: '\\images\\1612045202729czeska_flaga.png'
 }
 const Languages: Language[] = [PL, CZE];

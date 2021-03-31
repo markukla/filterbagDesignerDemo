@@ -4,7 +4,9 @@
          [id]="language.languageCode">
   </span>
   <div class="validatorInfo" *ngIf="!this.loginService.selectedLanguageCode">
-    {{this.generalNamesInSelectedLanguage.chooseLanguageVersion}}
+    <p *ngFor="let name of this.chooseLanguageVersionInAllLanguages">
+      {{name}}
+    </p>
   </div>
 
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">

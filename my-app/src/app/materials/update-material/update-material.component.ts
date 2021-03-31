@@ -41,21 +41,22 @@ export class UpdateMaterialComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.materialForm = new FormGroup({
-      // tslint:disable-next-line:max-line-length
-      materialCode: new FormControl('', [Validators.nullValidator, Validators.required, Validators.minLength(6),   Validators.maxLength(6)], [this.validateMaterialCodeUniqueService.materialCodeValidatorForUpdate()]),
-      // tslint:disable-next-line:max-line-length
-      materialName: new FormControl('', [Validators.nullValidator && Validators.required], [this.validateMaterialCodeUniqueService.materialNameValidatorForUpdate()]),
-    }, {updateOn: 'change'});
     this.route.queryParamMap.subscribe((queryParams) => {
 
       this.selectedMaterialId = queryParams.get('materialId');
 
     });
+    this.materialForm = new FormGroup({
+      // tslint:disable-next-line:max-line-length
+      materialCode: new FormControl('', [Validators.nullValidator, Validators.required, Validators.minLength(6),   Validators.maxLength(6)], [this.validateMaterialCodeUniqueService.materialCodeValidatorForUpdate(Number(this.selectedMaterialId))]),
+      // tslint:disable-next-line:max-line-length
+      materialName: new FormControl('', [Validators.nullValidator && Validators.required], [this.validateMaterialCodeUniqueService.materialNameValidatorForUpdate(Number(this.selectedMaterialId))]),
+    }, {updateOn: 'change'});
+
     this.initColumnNamesInSelectedLanguage();
     this.materialToUpdateId = this.materialTableService.selectedId;
     console.log(`materialToUpdateId= ${this.materialToUpdateId}`);
-    this.materialBackendService.findRecordById(String(this.materialToUpdateId)).subscribe((material) => {
+    this.materialBackendService.findRecordById(String(this.selectedMaterialId)).subscribe((material) => {
         this.materialToUpdate = material.body;
         this.materialForm.controls.materialCode.setValue(this.materialToUpdate.materialCode);
         this.materialForm.controls.materialName.setValue(this.materialToUpdate.materialName);

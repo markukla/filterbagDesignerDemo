@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
   puppeterEmail: string;
   puppeterPassword: string;
   puppeterLanguageCode: string;
+  chooseLanguageVersionInAllLanguages:string[];
 
   constructor(
     private loginBackendService: AuthenticationBackendService,
@@ -119,6 +120,11 @@ export class LoginComponent implements OnInit {
 
     const languages = await this.languageBackendService.getRecords().toPromise();
     const vocabularies = await this.vocabularyBackendService.getRecords().toPromise();
+    const vocabularyChooseLanguageVersion: Vocabulary =vocabularies.body.filter(vocabulary => vocabulary.variableName === 'chooseLanguageVersion')[0];
+    this.chooseLanguageVersionInAllLanguages = [];
+    vocabularyChooseLanguageVersion.localizedNames.forEach((localizedName)=>{
+      this.chooseLanguageVersionInAllLanguages.push(localizedName.nameInThisLanguage);
+    });
     this.languages = languages.body;
     this.activeLanguages = this.languages.filter(language =>
       language.active === true);

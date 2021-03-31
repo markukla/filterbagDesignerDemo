@@ -35,11 +35,10 @@ export class ValidateMaterialCodeUniqueService {
   }
 
 
-  materialCodeValidatorForUpdate(): AsyncValidatorFn {
+  materialCodeValidatorForUpdate(selectedMaterialId: number): AsyncValidatorFn {
     return (
       ctrl: AbstractControl
     ): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
-      const selectedMaterialId = this.materialTableService.selectedId;
       return this.materialBackendService.findMaterialBycode({code: ctrl.value}).pipe(map
         (istaken => (istaken && istaken.id !== selectedMaterialId ? {taken: true} : null)),
         catchError(() => of(null))
@@ -47,11 +46,10 @@ export class ValidateMaterialCodeUniqueService {
     };
   }
 
-  materialNameValidatorForUpdate(): AsyncValidatorFn {
+  materialNameValidatorForUpdate(selectedMaterialId: number): AsyncValidatorFn {
     return (
       ctrl: AbstractControl
     ): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
-      const selectedMaterialId = this.materialTableService.selectedId;
       // tslint:disable-next-line:max-line-length
       return this.materialBackendService.findMaterialByName({name: ctrl.value}).pipe(map(istaken => (istaken && istaken.id !== selectedMaterialId ? {taken: true} : null)),
         catchError(() => of(null))
