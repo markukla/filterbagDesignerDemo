@@ -16,6 +16,12 @@ import {LanguageFormService} from '../language-form.service';
 import DimensionCode from '../../DimensionCodes/DimensionCodesTypesAnClasses/diemensionCode.entity';
 import {ActivatedRoute} from '@angular/router';
 import {API_URL} from '../../Config/apiUrl';
+import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
+import {
+  generalNamesInSelectedLanguage,
+  orderNames
+} from "../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
+import {AuthenticationService} from "../../LoginandLogOut/AuthenticationServices/authentication.service";
 
 @Component({
   selector: 'app-langage-form-component',
@@ -28,11 +34,14 @@ export class LangageFormComponentComponent implements OnInit, AfterViewInit, Aft
   operationMode: string;
   selectedRecordToupdateId: string;
   apiUrl = API_URL;
+  orderNamesInSelectedLanguage = orderNames;
+  generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
   @ViewChildren('nameInput', {read: ElementRef}) languageNames: ElementRef[];
   constructor(
     private languageService: LanguageBackendService,
     private languageFormService: LanguageFormService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authenticationService: AuthenticationService,
   ) { }
 
   ngOnInit(): void {
@@ -40,6 +49,13 @@ export class LangageFormComponentComponent implements OnInit, AfterViewInit, Aft
       this.operationMode = (queryParams.get('mode'));
       this.selectedRecordToupdateId = queryParams.get('recordId');
     });
+    this.initColumnNamesInSelectedLanguage();
+  }
+  initColumnNamesInSelectedLanguage(): void {
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.orderNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
+    // tslint:disable-next-line:max-line-length
+    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
   }
   setValueForLanguageInputInUpdateMode(inputIdEqualContryCode: string, localizedNames: LocalizedName[]): string {
     let name = '';
@@ -66,6 +82,10 @@ export class LangageFormComponentComponent implements OnInit, AfterViewInit, Aft
   }
 
   ngAfterViewChecked(): void {
+  }
+
+  getImageUrl(language: Language){
+    return API_URL+ language.flagUrl;
   }
 }
 

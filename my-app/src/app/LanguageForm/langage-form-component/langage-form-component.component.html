@@ -1,5 +1,11 @@
-<div *ngFor="let language of languages">
-  <label class="label" [for]="language.languageCode">{{language.languageCode}}</label>
-  <input type="text" class="form-control" [id]="language.languageCode" [value]="setValueForLanguageInputInUpdateMode(language.languageCode,this.namesInAllLanguages)" #nameInput>
 
+<div>
+  {{this.generalNamesInSelectedLanguage.addNamesInAllLanguages}}
+  <div class="languageVersionNames" *ngFor="let language of languages">
+
+    <img class="flagImage" [src]="getImageUrl(language)"> <label [for]="language.languageCode">{{language.languageCode}}</label>
+    <input type="text" class="form-control" [id]="language.languageCode" [value]="setValueForLanguageInputInUpdateMode(language.languageCode,this.namesInAllLanguages)" #nameInput>
+
+  </div>
 </div>
+
