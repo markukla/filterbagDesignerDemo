@@ -832,7 +832,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
         if (index !== self.indexOf(input)) {
           // tslint:disable-next-line:max-line-length
           /* if index of current element in array is not equal index od its first occurence in array (indexOf returns first occurence) so it is duplicated*/
-          const failMassage = this.orderNames.allDimensionsMustBeUnique;
+          const failMassage = this.orderNames.allDimensionsMustBeUnique + ' ' + input;
           this.userInputErrorMessages.push(failMassage);
         }
       });
