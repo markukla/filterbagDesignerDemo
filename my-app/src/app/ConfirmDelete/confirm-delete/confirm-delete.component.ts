@@ -2,7 +2,10 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ConfirmDeleteServiceService} from "../confirm-delete-service.service";
 import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
 import {AuthenticationService} from "../../LoginandLogOut/AuthenticationServices/authentication.service";
-import {generalNamesInSelectedLanguage} from "../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
+import {
+  generalNamesInSelectedLanguage,
+  orderNames
+} from "../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
 
 @Component({
   selector: 'app-confirm-delete',
@@ -12,12 +15,15 @@ import {generalNamesInSelectedLanguage} from "../../helpers/otherGeneralUseFunct
 export class ConfirmDeleteComponent implements OnInit {
   @Input()
   showConfirmDeleteWindow: boolean;
+  @Input()
+  showconsiderDeletingProducts: boolean;
   confirmDeleteDescritpion: string;
   confirmDeleteButtonDescription: string;
   resignFromDeletingButtonDescription: string;
   operationFailerStatusMessage: string;
   operationSuccessStatusMessage: string;
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
+  orderNames = orderNames;
   @Output() deleteConfirmedEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
   constructor(
     private authenticationService: AuthenticationService,
@@ -30,10 +36,13 @@ export class ConfirmDeleteComponent implements OnInit {
   initColumnNamesInSelectedLanguage(): void {
     // tslint:disable-next-line:max-line-length
     // tslint:disable-next-line:max-line-length
-    setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
+    this.orderNames = this.authenticationService.orderNamesInSelectedLanguage;
+    this.generalNamesInSelectedLanguage = this.authenticationService.generalNamesInSelectedLanguage;;
     this.confirmDeleteButtonDescription = this.generalNamesInSelectedLanguage.yes;
     this.confirmDeleteDescritpion = this.generalNamesInSelectedLanguage.confirmDeletingMessage;
     this.resignFromDeletingButtonDescription = this.generalNamesInSelectedLanguage.no;
+
+
   }
   confirmDeleteButtonAction(): void {
     this.showConfirmDeleteWindow = false;

@@ -207,6 +207,10 @@ export const orderNames = {
   backButtonDescription: 'Wstecz',
   create: 'Utwórz',
   dimension: 'Wymiar',
+  rotateTable: 'Obróć Tabelę',
+  changeDrawingSize: 'Zmień Rozmiar Rysunku',
+  considerDeletingProducts: 'Uwaga Istnieją produkty z wykończeniem góry/ dna, które chcesz usunąc. Rozważ usunięcię tych produktów z ich głównej tabeli, żeby zachować spójność danych.',
+  Form: 'Formularz'
 
 
 };

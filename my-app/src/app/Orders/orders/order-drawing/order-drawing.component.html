@@ -111,9 +111,10 @@
     <div *ngIf="createOrUpdateProductMode() === true;">
       <button  class="saveButton" (click)="saveProductInDatabas()">{{this.orderNames.addProduct}}</button>
       <button type="button"  (click)="this.createDimensionClicked = true;" >{{this.orderNames.create + ' '+ this.orderNames.dimension}}</button>
-      <input [(ngModel)]="drawingRangeValue"  (change)="this.setDrawingPercentWidth();" type="range" id="volume" name="volume"
+      <label for="changeDrawingSize">{{this.orderNames.changeDrawingSize}}</label>
+      <input  id=changeDrawingSize [(ngModel)]="drawingRangeValue"  (change)="this.setDrawingPercentWidth();" type="range" id="volume" name="volume"
              min="0" max="100" #drawingRangeInput>
-      <button (click)="changeTabelOrientation()" type="button"> obróć tabelę</button>
+      <button (click)="changeTabelOrientation()" type="button">{{this.orderNames.rotateTable}}</button>
     </div>
     <div *ngIf=" checkIfShowDrawingMode();">
       <button class="saveButton" (click)="getDrawingPdf();">{{this.orderNames.saveToPdfButtonDescription}}</button>

@@ -296,6 +296,33 @@ const generalTable47: Vocabulary = {
 initialVocabularyForDatabase.push(generalTable47);
 
 
+const generalTable48: Vocabulary = {
+    variableName: 'rotateTable',
+    localizedNames: [new LocalizedName('PL', 'Obróć Tabelę'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable48);
+
+const generalTable49: Vocabulary = {
+    variableName: 'changeDrawingSize',
+    localizedNames: [new LocalizedName('Zmień Rozmiar Rysunku', 'Wyloguj'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable49);
+
+const generalTable50: Vocabulary = {
+    variableName: 'considerDeletingProducts',
+    localizedNames: [new LocalizedName('PL', 'Uwaga Istnieją produkty z wykończeniem góry/ dna, które chcesz usunąc. Rozważ usunięcię tych produktów z ich głównej tabeli, żeby zachować spójność danych.'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable50);
+
+const generalTable51: Vocabulary = {
+    variableName: 'Form',
+    localizedNames: [new LocalizedName('PL', 'Formularz'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable50);
+
+
+
+
 
 
 

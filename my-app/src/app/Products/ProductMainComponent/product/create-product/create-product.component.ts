@@ -154,8 +154,8 @@ export class CreateProductComponent implements OnInit, AfterContentChecked, Afte
 
   setTopsAndBottomsToSelectAfterTypeSelected(productType: ProductType): void {
     if (productType) {
-      this.allTopsToSelect = productType.topsForThisProductType;
-      this.allBotomsToselect = productType.bottomsForThisProductType;
+      this.allTopsToSelect = productType.topsForThisProductType; //.filter(pt=> pt.softDeleteDate ===null);
+      this.allBotomsToselect = productType.bottomsForThisProductType; //.filter(pt=> pt.softDeleteDate ===null);
     }
   }
 

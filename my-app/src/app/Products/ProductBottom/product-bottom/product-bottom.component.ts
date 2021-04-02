@@ -45,6 +45,7 @@ export class ProductBottomComponent implements OnInit, AfterContentChecked {
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
   productTypeId: string;
   selectedproductType: ProductType;
+  allProductTypes: ProductType [];
 
   constructor(public tableService: GeneralTableService,
               public backendService: ProductBottomBackendService,
@@ -78,6 +79,9 @@ export class ProductBottomComponent implements OnInit, AfterContentChecked {
     }
   }
   getRecords(): void {
+    this.productTypeBackendService.getRecords().subscribe((productTypes)=>{
+      this.allProductTypes = productTypes.body;
+    });
     if(this.productTypeId) {
       console.log('in if for productTypeId')
       this.productTypeBackendService.findRecordById(this.productTypeId).subscribe((productType)=>{
@@ -154,6 +158,19 @@ export class ProductBottomComponent implements OnInit, AfterContentChecked {
       else {
         this.backendService.deleteRecordById(String(recordTodeleteId)).subscribe((response) => {
           this.operationSuccessStatusMessage = this.generalNamesInSelectedLanguage.operationDeleteSuccessStatusMessage;
+          this.allProductTypes.forEach((pt, typeIndex)=>{
+            pt.bottomsForThisProductType.forEach((bottom, index, self)=>{
+              if(bottom.id === recordTodeleteId) {
+                self.splice(index, 1);
+              }
+
+
+            });
+            /*bottoms tabel is updated in above loop, update ProductType - productBottoms relation required*/
+            const updatedProductType = this.allProductTypes.filter(pt=> pt.id=== pt.id)[0];
+            this.productTypeBackendService.updateRecordById(String(pt.id), updatedProductType).subscribe();
+          });
+
           this.tableService.selectedId = null;
           this.showConfirmDeleteWindow = false;
           this.statusService.makeOperationStatusVisable();

@@ -19,6 +19,8 @@ import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../../helpers/o
 import {AuthenticationService} from "../../../LoginandLogOut/AuthenticationServices/authentication.service";
 import {ProductTypeBackendService} from "../../ProductType/ProductTypeServices/product-type-backend.service";
 import ProductType from "../../ProductTypesAndClasses/productType.entity";
+import Product from "../../ProductTypesAndClasses/product.entity";
+import {ProductBackendService} from "../../ProductMainComponent/product/ProductServices/product-backend.service";
 
 @Component({
   selector: 'app-product-top',
@@ -45,6 +47,9 @@ export class ProductTopComponent implements OnInit, AfterContentChecked {
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
   productTypeId: string;
   selectedproductType: ProductType;
+  allProductTypes: ProductType [];
+  allProducts: Product[];
+  productsWithTopsSelectedToDeleteExists: boolean = false;
 
 
 
@@ -56,6 +61,7 @@ export class ProductTopComponent implements OnInit, AfterContentChecked {
               public statusService: OperationStatusServiceService,
               private authenticationService: AuthenticationService,
               private productTypeBackendService: ProductTypeBackendService,
+              private productBackendService: ProductBackendService,
               private route: ActivatedRoute) {
   }
   ngOnInit(): void {
@@ -76,6 +82,13 @@ export class ProductTopComponent implements OnInit, AfterContentChecked {
     }
   }
   getRecords(): void {
+    this.productTypeBackendService.getRecords().subscribe((productTypes)=>{
+      this.allProductTypes = productTypes.body;
+    });
+    this.productBackendService.getRecords().subscribe((products)=>{
+      this.allProducts = products.body;
+    });
+
     if(this.productTypeId) {
       console.log('in if for productTypeId');
       this.productTypeBackendService.findRecordById(this.productTypeId).subscribe((productType) => {
@@ -108,10 +121,11 @@ export class ProductTopComponent implements OnInit, AfterContentChecked {
 
   }
 
-  selectRecordtoDeleteAndShowConfirmDeleteWindow(materialId: number): void {
+  selectRecordtoDeleteAndShowConfirmDeleteWindow(recordToDeleteId: number): void {
     this.statusService.resetOperationStatus([this.operationFailerStatusMessage, this.operationSuccessStatusMessage]);
+    this.productsWithTopsSelectedToDeleteExists = this.allProducts.filter(product => product.productTop.id === recordToDeleteId).length>0
     this.showConfirmDeleteWindow = true;
-    this.tableService.selectedId = materialId;
+    this.tableService.selectedId = recordToDeleteId;
   }
   deleteSelectedRecordFromDatabase(recordTodeleteId: number, deleteConfirmed: boolean): void {
     if (deleteConfirmed === true) {
@@ -148,15 +162,32 @@ export class ProductTopComponent implements OnInit, AfterContentChecked {
 
       }
       else {
+
+
       this.backendService.deleteRecordById(String(recordTodeleteId)).subscribe((response) => {
         this.operationSuccessStatusMessage = this.generalNamesInSelectedLanguage.operationDeleteSuccessStatusMessage;
+        this.allProductTypes.forEach((pt, typeIndex)=>{
+          pt.topsForThisProductType.forEach((top, index, self)=>{
+            if(top.id === recordTodeleteId) {
+              self.splice(index, 1);
+            }
+
+
+          });
+          /*tops tabel is updated in above loop*/
+          const updatedProductType = this.allProductTypes.filter(pt=> pt.id=== pt.id)[0];
+          this.productTypeBackendService.updateRecordById(String(pt.id), updatedProductType).subscribe();
+
+        });
         this.tableService.selectedId = null;
+        this.productsWithTopsSelectedToDeleteExists = false;
         this.showConfirmDeleteWindow = false;
         this.statusService.makeOperationStatusVisable();
         this.statusService.resetOperationStatusAfterTimeout([this.operationFailerStatusMessage, this.operationSuccessStatusMessage]);
       }, error => {
         this.operationFailerStatusMessage = this.generalNamesInSelectedLanguage.operationDeleteFailerStatusMessage;
         this.tableService.selectedId = null;
+        this.productsWithTopsSelectedToDeleteExists = false;
         this.showConfirmDeleteWindow = false;
         this.statusService.makeOperationStatusVisable();
         this.statusService.resetOperationStatusAfterTimeout([this.operationFailerStatusMessage, this.operationSuccessStatusMessage]);
