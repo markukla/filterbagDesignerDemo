@@ -49,6 +49,8 @@ export const generalNamesInSelectedLanguage = {
   languages: 'Języki',
   dictionary: 'Słownik',
   logout: 'Wyloguj',
+  checkAll: 'Zaznacz Wszystkie',
+  uncheckAll: 'Odznacz Wszystkie',
 
 
 /*  <a [routerLink]="['/orders']" routerLinkActive="active"> Zamówienia</a>
@@ -209,8 +211,10 @@ export const orderNames = {
   dimension: 'Wymiar',
   rotateTable: 'Obróć Tabelę',
   changeDrawingSize: 'Zmień Rozmiar Rysunku',
-  considerDeletingProducts: 'Uwaga Istnieją produkty z wykończeniem góry/ dna, które chcesz usunąc. Rozważ usunięcię tych produktów z ich głównej tabeli, żeby zachować spójność danych.',
-  Form: 'Formularz'
+  considerDeletingProducts: 'Uwaga Istnieją produkty z wykończeniem góry/ dna /typem produktu, które chcesz usunąc. Rozważ usunięcię tych produktów z ich głównej tabeli, żeby zachować spójność danych.',
+  Form: 'Formularz',
+  deleteConnectedProducts:'Zaznacz jeśli chcesz usunąc powiązane produkty',
+
 
 
 };

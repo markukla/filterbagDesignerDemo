@@ -1,8 +1,10 @@
 <div class="confirmOrWarnWindow">
-  <p>{{confirmDeleteDescritpion}}</p>
+
   <div *ngIf="showconsiderDeletingProducts">{{this.orderNames.considerDeletingProducts}}
-  <input [(ngModel)]="allowProductRemoval" type = checkbox (change)="emitProductRemovalAllowed()">
+ <label for="confirmProductRemoval">{{this.orderNames.deleteConnectedProducts}}</label>
+  <input id="confirmProductRemoval" [(ngModel)]="allowProductRemoval" type = checkbox (change)="emitProductRemovalAllowed()">
   </div>
+  <p>{{confirmDeleteDescritpion}}</p>
     <button id="confirmDeleteButton" class="alert-warning" (click)="confirmDeleteButtonAction();">{{confirmDeleteButtonDescription}}</button>
   <button id="resignFromDeletingButton" class="alert-success" (click)="resignFromDeletingButtonAction();">{{resignFromDeletingButtonDescription}}</button>
 

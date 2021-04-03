@@ -95,7 +95,7 @@ export class ProductTypeComponent implements OnInit, AfterContentChecked {
     if (deleteConfirmed === true) {
       this.backendService.deleteRecordById(String(recordToDeleteId)).subscribe((response) => {
         if(this.deleteProductConfirmed){
-          const productsWithThisTopToDelete = this.allProducts.filter(product=> product.productTop.id === recordToDeleteId);
+          const productsWithThisTopToDelete = this.allProducts.filter(product=> product.productType.id === recordToDeleteId);
           productsWithThisTopToDelete.forEach((productToDelete)=>{
             this.productBackendService.deleteRecordById(String(productToDelete.id)).subscribe();
           });

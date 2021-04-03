@@ -318,7 +318,25 @@ const generalTable51: Vocabulary = {
     variableName: 'Form',
     localizedNames: [new LocalizedName('PL', 'Formularz'), new LocalizedName('CZE', 'CZE ....')]
 }
-initialVocabularyForDatabase.push(generalTable50);
+initialVocabularyForDatabase.push(generalTable51);
+
+const generalTable52: Vocabulary = {
+    variableName: 'deleteConnectedProducts',
+    localizedNames: [new LocalizedName('PL', 'Zaznacz jeśli chcesz usunąć powiązane produkty'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable52);
+
+const generalTable53: Vocabulary = {
+    variableName: 'checkAll',
+    localizedNames: [new LocalizedName('PL', 'Zaznacz Wszystkie'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable53);
+
+const generalTable54: Vocabulary = {
+    variableName: 'uncheckAll',
+    localizedNames: [new LocalizedName('PL', 'Odznacz Wszystkie'), new LocalizedName('CZE', 'CZE ....')]
+}
+initialVocabularyForDatabase.push(generalTable54);
 
 
 

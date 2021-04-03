@@ -6,7 +6,7 @@ import {
   ElementRef,
   OnChanges,
   OnInit,
-  SimpleChanges,
+  SimpleChanges, ViewChild,
   ViewChildren
 } from '@angular/core';
 import {ProductTopBackendService} from '../../ProductTop/ProductTopServices/product-top-backend.service';
@@ -43,7 +43,7 @@ import {
   templateUrl: './create-product-type.component.html',
   styleUrls: ['./create-product-type.component.css']
 })
-export class CreateProductTypeComponent implements OnInit {
+export class CreateProductTypeComponent implements OnInit, AfterContentChecked {
   operationMessage: string;
   showoperationStatusMessage: string;
   allBotomsToselect: ProductBottom[];
@@ -68,8 +68,14 @@ export class CreateProductTypeComponent implements OnInit {
   orderNamesInSelectedLanguage = orderNames;
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
   formTitileCreateOrUpdate: string;
+  checkAllTops = true;
+  checkAllBottoms = true;
   @ViewChildren('bottomCheckbox', {read: ElementRef}) bottomCheckBox: ElementRef[];
-  @ViewChildren('topsCheckbox', {read: ElementRef}) topscheckBox: ElementRef[];
+  @ViewChildren('topsCheckbox', {read: ElementRef}) topscheckBox: ElementRef[];  //checkOrUncheckBottomsButton
+  @ViewChild('checkOrUncheckBottomsButton', {read: ElementRef}) checkAllBottomsButton: ElementRef;
+  @ViewChild('checkOrUncheckTopsButton', {read: ElementRef}) checkAllTopsButton: ElementRef;
+  checkOrUncheckAllTopsButtonDescription: string;
+  checkOrUncheckAllBottomsButtonDescription: string;
 
   constructor(
     private backendService: ProductTypeBackendService,
@@ -259,5 +265,77 @@ export class CreateProductTypeComponent implements OnInit {
         }
       });
     }
+  }
+
+  checkOrUncheckAllTops():void {
+
+    this.topscheckBox.forEach((top)=> {
+      if(this.checkAllTops) {
+        top.nativeElement.checked = true;
+      }
+      else {
+        top.nativeElement.checked = false;
+      }
+
+    });
+
+    if(this.checkAllTops ===true) {
+      this.checkAllTops =false
+    }
+    else {
+      this.checkAllTops = true;
+    }
+
+  }
+
+  checkOrUncheckAllBottoms(): void {
+    this.bottomCheckBox.forEach((bottom)=> {
+      if(this.checkAllBottoms) {
+        bottom.nativeElement.checked = true;
+      }
+      else {
+        bottom.nativeElement.checked = false;
+      }
+
+    });
+
+    if(this.checkAllBottoms ===true) {
+      this.checkAllBottoms =false
+    }
+    else {
+      this.checkAllBottoms = true;
+    }
+
+
+  }
+  setCHeckOrUncheckAllButtonDescriptions(): void {
+    if(this.topscheckBox && this.topscheckBox.length>0) {
+      const allTopsChecked: boolean = this.topscheckBox.filter(top=>top.nativeElement.checked ===true).length ===this.topscheckBox.length;
+
+      if(allTopsChecked === false){
+        this.checkOrUncheckAllTopsButtonDescription = this.generalNamesInSelectedLanguage.checkAll;
+        this.checkAllTops = true;
+      }
+      else {
+        this.checkOrUncheckAllTopsButtonDescription = this.generalNamesInSelectedLanguage.uncheckAll;
+        this.checkAllTops = false;
+      }
+    }
+    if(this.bottomCheckBox && this.bottomCheckBox.length>0) {
+      const allBottomsChecked: boolean = this.bottomCheckBox.filter(bottom=>bottom.nativeElement.checked ===true).length ===this.bottomCheckBox.length;
+      if(allBottomsChecked === false){
+        this.checkOrUncheckAllBottomsButtonDescription = this.generalNamesInSelectedLanguage.checkAll;
+        this.checkAllBottoms =true;
+      }
+      else {
+        this.checkOrUncheckAllBottomsButtonDescription = this.generalNamesInSelectedLanguage.uncheckAll;
+        this.checkAllBottoms = false;
+      }
+    }
+
+  }
+
+  ngAfterContentChecked(): void {
+    this.setCHeckOrUncheckAllButtonDescriptions();
   }
 }
