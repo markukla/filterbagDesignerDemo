@@ -25,6 +25,8 @@ export class ConfirmDeleteComponent implements OnInit {
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
   orderNames = orderNames;
   @Output() deleteConfirmedEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
+  allowProductRemoval: boolean;
+  @Output() deleteProductConfirmedEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
   constructor(
     private authenticationService: AuthenticationService,
   ) { }
@@ -52,5 +54,10 @@ export class ConfirmDeleteComponent implements OnInit {
   resignFromDeletingButtonAction(): void {
     this.showConfirmDeleteWindow = false;
     this.deleteConfirmedEvent.emit(false);
+  }
+  emitProductRemovalAllowed(): void {
+    if(this.allowProductRemoval) {
+      this.deleteProductConfirmedEvent.emit(true);
+    }
   }
 }

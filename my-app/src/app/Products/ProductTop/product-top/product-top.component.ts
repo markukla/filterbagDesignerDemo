@@ -50,7 +50,7 @@ export class ProductTopComponent implements OnInit, AfterContentChecked {
   allProductTypes: ProductType [];
   allProducts: Product[];
   productsWithTopsSelectedToDeleteExists: boolean = false;
-
+  deleteProductConfirmed= false;
 
 
   constructor(public tableService: GeneralTableService,
@@ -123,7 +123,7 @@ export class ProductTopComponent implements OnInit, AfterContentChecked {
 
   selectRecordtoDeleteAndShowConfirmDeleteWindow(recordToDeleteId: number): void {
     this.statusService.resetOperationStatus([this.operationFailerStatusMessage, this.operationSuccessStatusMessage]);
-    this.productsWithTopsSelectedToDeleteExists = this.allProducts.filter(product => product.productTop.id === recordToDeleteId).length>0
+    this.productsWithTopsSelectedToDeleteExists = this.allProducts.filter(product => product.productTop.id === recordToDeleteId).length>0;
     this.showConfirmDeleteWindow = true;
     this.tableService.selectedId = recordToDeleteId;
   }
@@ -165,7 +165,6 @@ export class ProductTopComponent implements OnInit, AfterContentChecked {
 
 
       this.backendService.deleteRecordById(String(recordTodeleteId)).subscribe((response) => {
-        this.operationSuccessStatusMessage = this.generalNamesInSelectedLanguage.operationDeleteSuccessStatusMessage;
         this.allProductTypes.forEach((pt, typeIndex)=>{
           pt.topsForThisProductType.forEach((top, index, self)=>{
             if(top.id === recordTodeleteId) {
@@ -179,8 +178,16 @@ export class ProductTopComponent implements OnInit, AfterContentChecked {
           this.productTypeBackendService.updateRecordById(String(pt.id), updatedProductType).subscribe();
 
         });
+        if(this.deleteProductConfirmed){
+          const productsWithThisTopToDelete = this.allProducts.filter(product=> product.productTop.id === recordTodeleteId);
+          productsWithThisTopToDelete.forEach((productToDelete)=>{
+            this.productBackendService.deleteRecordById(String(productToDelete.id)).subscribe();
+          });
+        }
+        this.operationSuccessStatusMessage = this.generalNamesInSelectedLanguage.operationDeleteSuccessStatusMessage;
         this.tableService.selectedId = null;
         this.productsWithTopsSelectedToDeleteExists = false;
+        this.deleteProductConfirmed = false;
         this.showConfirmDeleteWindow = false;
         this.statusService.makeOperationStatusVisable();
         this.statusService.resetOperationStatusAfterTimeout([this.operationFailerStatusMessage, this.operationSuccessStatusMessage]);
@@ -188,6 +195,7 @@ export class ProductTopComponent implements OnInit, AfterContentChecked {
         this.operationFailerStatusMessage = this.generalNamesInSelectedLanguage.operationDeleteFailerStatusMessage;
         this.tableService.selectedId = null;
         this.productsWithTopsSelectedToDeleteExists = false;
+        this.deleteProductConfirmed = false;
         this.showConfirmDeleteWindow = false;
         this.statusService.makeOperationStatusVisable();
         this.statusService.resetOperationStatusAfterTimeout([this.operationFailerStatusMessage, this.operationSuccessStatusMessage]);
@@ -196,6 +204,8 @@ export class ProductTopComponent implements OnInit, AfterContentChecked {
     }
     else {
       this.showConfirmDeleteWindow = false;
+      this.productsWithTopsSelectedToDeleteExists = false;
+      this.deleteProductConfirmed = false;
     }
   }
   updateSelectedRecord(recordId: number): void {
@@ -213,4 +223,9 @@ export class ProductTopComponent implements OnInit, AfterContentChecked {
   }
 
 
+  deleteProductIfConfirmed(deleteConfirmedEvent: boolean) {
+    if(deleteConfirmedEvent) {
+      this.deleteProductConfirmed = true;
+    }
+  }
 }

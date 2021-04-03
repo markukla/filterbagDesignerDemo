@@ -21,6 +21,8 @@ import {AuthenticationService} from "../../../LoginandLogOut/AuthenticationServi
 import {Pagninator} from "../../../helpers/Paginator/paginator";
 import {ProductTypeBackendService} from "../../ProductType/ProductTypeServices/product-type-backend.service";
 import ProductType from "../../ProductTypesAndClasses/productType.entity";
+import Product from "../../ProductTypesAndClasses/product.entity";
+import {ProductBackendService} from "../../ProductMainComponent/product/ProductServices/product-backend.service";
 
 @Component({
   selector: 'app-product-bottom',
@@ -46,6 +48,9 @@ export class ProductBottomComponent implements OnInit, AfterContentChecked {
   productTypeId: string;
   selectedproductType: ProductType;
   allProductTypes: ProductType [];
+  allProducts: Product[];
+  productsWithBottomSelectedToDeleteExists: boolean = false;
+  deleteProductConfirmed= false;
 
   constructor(public tableService: GeneralTableService,
               public backendService: ProductBottomBackendService,
@@ -55,7 +60,8 @@ export class ProductBottomComponent implements OnInit, AfterContentChecked {
               public statusService: OperationStatusServiceService,
               private authenticationService: AuthenticationService,
               private route: ActivatedRoute,
-              private productTypeBackendService: ProductTypeBackendService) {
+              private productTypeBackendService: ProductTypeBackendService,
+              private productBackendService: ProductBackendService) {
   }
   ngOnInit(): void {
     this.route.queryParamMap.subscribe(params=> {
@@ -81,6 +87,9 @@ export class ProductBottomComponent implements OnInit, AfterContentChecked {
   getRecords(): void {
     this.productTypeBackendService.getRecords().subscribe((productTypes)=>{
       this.allProductTypes = productTypes.body;
+    });
+    this.productBackendService.getRecords().subscribe((products)=>{
+      this.allProducts = products.body;
     });
     if(this.productTypeId) {
       console.log('in if for productTypeId')
@@ -116,10 +125,11 @@ export class ProductBottomComponent implements OnInit, AfterContentChecked {
   }
 
 
-  selectRecordtoDeleteAndShowConfirmDeleteWindow(materialId: number): void {
+  selectRecordtoDeleteAndShowConfirmDeleteWindow(recordToDeleteId: number): void {
     this.statusService.resetOperationStatus([this.operationFailerStatusMessage, this.operationSuccessStatusMessage]);
+    this.productsWithBottomSelectedToDeleteExists = this.allProducts.filter(product => product.productBottom.id === recordToDeleteId).length>0;
     this.showConfirmDeleteWindow = true;
-    this.tableService.selectedId = materialId;
+    this.tableService.selectedId = recordToDeleteId;
   }
   deleteSelectedRecordFromDatabase(recordTodeleteId: number, deleteConfirmed: boolean): void {
     if (deleteConfirmed === true) {
@@ -170,12 +180,22 @@ export class ProductBottomComponent implements OnInit, AfterContentChecked {
             const updatedProductType = this.allProductTypes.filter(pt=> pt.id=== pt.id)[0];
             this.productTypeBackendService.updateRecordById(String(pt.id), updatedProductType).subscribe();
           });
+          if(this.deleteProductConfirmed){
+            const productsWithThisTopToDelete = this.allProducts.filter(product=> product.productTop.id === recordTodeleteId);
+            productsWithThisTopToDelete.forEach((productToDelete)=>{
+              this.productBackendService.deleteRecordById(String(productToDelete.id)).subscribe();
+            });
+          }
 
+          this.productsWithBottomSelectedToDeleteExists = false;
+          this.deleteProductConfirmed = false;
           this.tableService.selectedId = null;
           this.showConfirmDeleteWindow = false;
           this.statusService.makeOperationStatusVisable();
           this.statusService.resetOperationStatusAfterTimeout([this.operationFailerStatusMessage, this.operationSuccessStatusMessage]);
         }, error => {
+          this.productsWithBottomSelectedToDeleteExists = false;
+          this.deleteProductConfirmed = false;
           this.operationFailerStatusMessage = this.generalNamesInSelectedLanguage.operationDeleteFailerStatusMessage;
           this.tableService.selectedId = null;
           this.showConfirmDeleteWindow = false;
@@ -186,6 +206,8 @@ export class ProductBottomComponent implements OnInit, AfterContentChecked {
     }
     else {
       this.showConfirmDeleteWindow = false;
+      this.productsWithBottomSelectedToDeleteExists = false;
+      this.deleteProductConfirmed = false;
     }
   }
 
@@ -204,5 +226,11 @@ export class ProductBottomComponent implements OnInit, AfterContentChecked {
     }
 
   }
+  deleteProductIfConfirmed(deleteConfirmedEvent: boolean) {
+    if(deleteConfirmedEvent) {
+      this.deleteProductConfirmed = true;
+    }
+  }
+
 
 }

@@ -10,7 +10,7 @@
 
 <div class="materialComponent">
   <app-operation-status [operationFailerStatusMessage]="operationFailerStatusMessage" [operationSuccessStatusMessage]="operationSuccessStatusMessage"> </app-operation-status>
-  <app-confirm-delete [showConfirmDeleteWindow]="showConfirmDeleteWindow"  *ngIf="showConfirmDeleteWindow === true" [showconsiderDeletingProducts]="true" (deleteConfirmedEvent)="deleteSelectedRecordFromDatabase(this.tableService.selectedId, $event )"> </app-confirm-delete>
+  <app-confirm-delete [showConfirmDeleteWindow]="showConfirmDeleteWindow" *ngIf="showConfirmDeleteWindow === true" [showconsiderDeletingProducts]="this.productsWithBottomSelectedToDeleteExists" (deleteConfirmedEvent)="deleteSelectedRecordFromDatabase(this.tableService.selectedId, $event )" (deleteProductConfirmedEvent)="deleteProductIfConfirmed($event)"> </app-confirm-delete>
 
   <table class="table table-striped border mt-1">
     <thead>

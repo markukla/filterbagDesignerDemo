@@ -18,6 +18,8 @@ import {
 } from "../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
 import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
 import {AuthenticationService} from "../../../LoginandLogOut/AuthenticationServices/authentication.service";
+import Product from "../../ProductTypesAndClasses/product.entity";
+import {ProductBackendService} from "../../ProductMainComponent/product/ProductServices/product-backend.service";
 
 @Component({
   selector: 'app-product-type',
@@ -38,6 +40,9 @@ export class ProductTypeComponent implements OnInit, AfterContentChecked {
   operationSuccessStatusMessage: string;
   orderNamesInSelectedLanguage = orderNames;
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
+  allProducts: Product[];
+  productsWithTypeSelectedToDeleteExists: boolean = false;
+  deleteProductConfirmed= false;
 
   constructor(public tableService: GeneralTableService,
               public backendService: ProductTypeBackendService,
@@ -45,7 +50,8 @@ export class ProductTypeComponent implements OnInit, AfterContentChecked {
               private activedIdParam: ActivatedRoute,
               private searChService: SearchService,
               public statusService: OperationStatusServiceService,
-              private authenticationService: AuthenticationService) {
+              private authenticationService: AuthenticationService,
+              private productBackendService: ProductBackendService) {
   }
   ngOnInit(): void {
     this.initColumnNamesInSelectedLanguage();
@@ -71,25 +77,40 @@ export class ProductTypeComponent implements OnInit, AfterContentChecked {
         const recorForTableCell = this.backendService.createProductTypeForTableCellFromProductTop(record);
         this.tableService.records.push(recorForTableCell);
       });
+      this.productBackendService.getRecords().subscribe((products)=>{
+        this.allProducts = products.body;
+      });
       this.records = this.tableService.getRecords();
       this.searChService.orginalArrayCopy = [...this.tableService.getRecords()];
     });
   }
 
-  selectRecordtoDeleteAndShowConfirmDeleteWindow(materialId: number): void {
+  selectRecordtoDeleteAndShowConfirmDeleteWindow(recordToDeleteId: number): void {
     this.statusService.resetOperationStatus([this.operationFailerStatusMessage, this.operationSuccessStatusMessage]);
+    this.productsWithTypeSelectedToDeleteExists = this.allProducts.filter(product => product.productType.id === recordToDeleteId).length>0
     this.showConfirmDeleteWindow = true;
-    this.tableService.selectedId = materialId;
+    this.tableService.selectedId = recordToDeleteId;
   }
-  deleteSelectedRecordFromDatabase(recordId: number, deleteConfirmed: boolean): void {
+  deleteSelectedRecordFromDatabase(recordToDeleteId: number, deleteConfirmed: boolean): void {
     if (deleteConfirmed === true) {
-      this.backendService.deleteRecordById(String(recordId)).subscribe((response) => {
+      this.backendService.deleteRecordById(String(recordToDeleteId)).subscribe((response) => {
+        if(this.deleteProductConfirmed){
+          const productsWithThisTopToDelete = this.allProducts.filter(product=> product.productTop.id === recordToDeleteId);
+          productsWithThisTopToDelete.forEach((productToDelete)=>{
+            this.productBackendService.deleteRecordById(String(productToDelete.id)).subscribe();
+          });
+        }
+        this.productsWithTypeSelectedToDeleteExists = false;
+        this.deleteProductConfirmed = false;
         this.operationSuccessStatusMessage = this.generalNamesInSelectedLanguage.operationDeleteSuccessStatusMessage;
         this.tableService.selectedId = null;
         this.showConfirmDeleteWindow = false;
         this.statusService.makeOperationStatusVisable();
         this.statusService.resetOperationStatusAfterTimeout([this.operationFailerStatusMessage, this.operationSuccessStatusMessage]);
+
       }, error => {
+        this.productsWithTypeSelectedToDeleteExists = false;
+        this.deleteProductConfirmed = false;
         this.operationFailerStatusMessage = this.generalNamesInSelectedLanguage.operationDeleteFailerStatusMessage;
         this.tableService.selectedId = null;
         this.showConfirmDeleteWindow = false;
@@ -99,6 +120,8 @@ export class ProductTypeComponent implements OnInit, AfterContentChecked {
     }
     else {
       this.showConfirmDeleteWindow = false;
+      this.productsWithTypeSelectedToDeleteExists = false;
+      this.deleteProductConfirmed = false;
     }
   }
   updateSelectedRecord(recordId: number): void {
@@ -119,4 +142,10 @@ export class ProductTypeComponent implements OnInit, AfterContentChecked {
   showProductBottoms(selectedId: number) {
     this.router.navigateByUrl(`/products/bottoms?productTypeId=${String(selectedId)}`);
   }
+  deleteProductIfConfirmed(deleteConfirmedEvent: boolean) {
+    if(deleteConfirmedEvent) {
+      this.deleteProductConfirmed = true;
+    }
+  }
+
 }
