@@ -6,7 +6,7 @@ export const getSelectedLanguageFromNamesInAllLanguages = (localizedNames: Local
   let name = '';
   if (localizedNames && localizedNames.length > 0) {
     localizedNames.forEach((localizedName) => {
-      if (localizedName.languageCode.toUpperCase() === selectedLanguageLang.toUpperCase()) {
+      if (localizedName.language.languageCode.toUpperCase() === selectedLanguageLang.toUpperCase()) {
         localizedNameInGivenLanguage.push(localizedName);
       }
     });

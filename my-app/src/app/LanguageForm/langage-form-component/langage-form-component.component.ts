@@ -61,7 +61,7 @@ export class LangageFormComponentComponent implements OnInit, AfterViewInit, Aft
     let name = '';
     if (localizedNames && this.operationMode === OperationModeEnum.UPDATE) {
       localizedNames.forEach((lozalizedName) => {
-        if (lozalizedName.languageCode === inputIdEqualContryCode) {
+        if (lozalizedName.language.languageCode === inputIdEqualContryCode) {
           name = lozalizedName.nameInThisLanguage;
         }
       });

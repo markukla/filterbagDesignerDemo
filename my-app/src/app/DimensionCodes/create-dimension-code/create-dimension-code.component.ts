@@ -128,7 +128,7 @@ export class CreateDimensionCodeComponent implements OnInit {
     const localizedDimensionNames: LocalizedName[] = [];
     this.languageFormService.languageNames.forEach((languageInput) => {
       const localizedDimensionName: LocalizedName = {
-        languageCode: languageInput.nativeElement.id,
+        language: {id: languageInput.nativeElement.id},
         nameInThisLanguage: languageInput.nativeElement.value
       };
       localizedDimensionNames.push(localizedDimensionName);

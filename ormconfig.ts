@@ -16,6 +16,7 @@ import ProductBottom from "./src/Models/Products/productBottom.entity";
 import ProductTop from "./src/Models/Products/productTop.entity";
 import ProductType from "./src/Models/Products/productType.entity";
 import Vocabulary from "./src/Models/Vocabulary/vocabulary.entity";
+import LocalizedName from "./src/Models/LocalizedName/localizedName.entity";
 
 const config = {
     type: 'postgres',
@@ -24,7 +25,7 @@ const config = {
     username: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DB,
-    entities: [Role, User, BlackListedToken, DimensionCode, Language, Material, Order, OrderDetails, OrderVersionRegister, Product, ProductBottom, ProductTop, ProductType, Vocabulary],
+    entities: [Role, User, BlackListedToken, DimensionCode, Language, Material, Order, OrderDetails, OrderVersionRegister, Product, ProductBottom, ProductTop, ProductType, Vocabulary, LocalizedName],
     synchronize: true,
 };
 const config_test = {

@@ -1,5 +1,5 @@
 import HttpException from "./HttpException";
-import LocalizedName from "../Models/DimesnionCodes/localizedName";
+import LocalizedName from "../Models/LocalizedName/localizedName.entity";
 
 class LanguageNotFoundException extends HttpException{
 

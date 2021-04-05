@@ -1,11 +1,12 @@
 import DimensionCode from "../Models/DimesnionCodes/diemensionCode.entity";
-import LocalizedName from "../Models/DimesnionCodes/localizedName";
+import LocalizedName from "../Models/LocalizedName/localizedName.entity";
 import DimensionRoleEnum from "../Models/DimesnionCodes/dimensionRoleEnum";
 
 const LocalizedDimensionNamesForL: LocalizedName[] = []
-const dlugosc: LocalizedName = {
+
+/*const dlugosc: LocalizedName = {
     nameInThisLanguage:'długość',
-    languageCode: 'PL'
+    language: {id:1}
 };
 LocalizedDimensionNamesForL.push(dlugosc);
 const L: DimensionCode = {
@@ -17,7 +18,7 @@ const L: DimensionCode = {
 const LocalizedDimensionNamesForD: LocalizedName[] = []
 const srednica: LocalizedName = {
     nameInThisLanguage:'średnica',
-    languageCode: 'PL'
+    language: 'PL'
 };
 LocalizedDimensionNamesForD.push(dlugosc);
 const D: DimensionCode = {
@@ -27,4 +28,5 @@ const D: DimensionCode = {
 
 }
 const initialDimensionsForDatabase = [D,L];
-export {initialDimensionsForDatabase};
+export {initialDimensionsForDatabase};*/
+

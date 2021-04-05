@@ -1,8 +1,8 @@
-import {Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import Order from "../Order/order.entity";
 import Language from "../Languages/language.entity";
 import languageRepositoryService from "../../RepositoryServices/languageRepositoryService";
-import LocalizedName from "../DimesnionCodes/localizedName";
+import LocalizedName from "../LocalizedName/localizedName.entity";
 
 @Entity("vocabularies")
 class Vocabulary {
@@ -11,7 +11,8 @@ class Vocabulary {
     public id?: number;
     @Column({unique:true})
     variableName:string;
-    @Column({ type:"jsonb"})
+    @ManyToMany(()=>LocalizedName,{eager:true, cascade:true})
+    @JoinTable({name:"vocabulary_localizedName_id_pairs"})
     localizedNames: LocalizedName [];
     @Column({nullable: true})
     softDeleteDate?:Date;

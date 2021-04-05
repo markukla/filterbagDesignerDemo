@@ -1,5 +1,5 @@
 import {IS_BOOLEAN, IsArray, IsEnum, IsString} from "class-validator";
-import LocalizedName from "../DimesnionCodes/localizedName";
+import LocalizedName from "../LocalizedName/localizedName.entity";
 import DimensionRoleEnum from "../DimesnionCodes/dimensionRoleEnum";
 import {Column, PrimaryGeneratedColumn} from "typeorm";
 

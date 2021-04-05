@@ -2,14 +2,15 @@ import {Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn
 import Product from "./product.entity";
 import ProductTop from "./productTop.entity";
 import ProductBottom from "./productBottom.entity";
-import LocalizedName from "../DimesnionCodes/localizedName";
+import LocalizedName from "../LocalizedName/localizedName.entity";
 
 
 @Entity("productTypes")
 class ProductType {
     @PrimaryGeneratedColumn()
     public id?: number;
-    @Column({ type:"jsonb"})
+    @ManyToMany(()=>LocalizedName,{eager:true, cascade:true})
+    @JoinTable({name:"vocabulary_productType_id_pairs"})
     localizedNames: LocalizedName [];
     @Column()
     code:string;

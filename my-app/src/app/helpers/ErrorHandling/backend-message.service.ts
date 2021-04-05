@@ -33,7 +33,7 @@ export class BackendMessageService {
     }
 
     const errorToExpect = 'already exist'.toUpperCase();
-    if (errorMessage.includes(errorToExpect)) {
+    if (errorMessage&&errorMessage.includes(errorToExpect)) {
       console.log(errorMessage);
       return this.generalErrorMessageForCreate + ' ' + this.otherRecordAlreadyExist;
     } else {

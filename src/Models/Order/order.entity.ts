@@ -32,7 +32,7 @@ class Order {
     businessPartner: User;
 
 
-    @ManyToOne(() => Product, {eager: true} )  // has a forein key
+    @ManyToOne(() => Product, {/*eager: true*/} )  // has a forein key
     product: Product;
 
 

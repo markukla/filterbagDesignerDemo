@@ -1,6 +1,7 @@
+import Language from "../../Languages/LanguageTypesAndClasses/languageEntity";
 
 class LocalizedName{
-    languageCode: string;
+    language: Language|any;
     nameInThisLanguage: string;
 }
 export default LocalizedName;

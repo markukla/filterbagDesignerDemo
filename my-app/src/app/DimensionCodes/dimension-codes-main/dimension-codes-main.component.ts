@@ -132,7 +132,7 @@ getSelectedLanguageFromNamesInAllLanguages(localizedNames: LocalizedName[], sele
     let name = '';
     if (localizedNames && localizedNames.length > 0) {
       localizedNames.forEach((localizedName) => {
-        if (localizedName.languageCode === selectedLanguageLang) {
+        if (localizedName.language === selectedLanguageLang) {
           localizedNameInGivenLanguage.push(localizedName);
         }
       });

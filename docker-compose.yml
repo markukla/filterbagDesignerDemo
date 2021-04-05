@@ -13,6 +13,7 @@ services:
     volumes:
       - ./src:/usr/src/app/src
       - ./src:/root/src
+      - ./ormconfig.ts:/root/ormconfig.ts
       - productImages:/root/src/public/images
     networks:
       - app-network

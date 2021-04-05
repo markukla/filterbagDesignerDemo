@@ -81,7 +81,7 @@ export class CreateOrUpdateVocabularyComponent implements OnInit {
     const localizedNames: LocalizedName[] = [];
     this.languageFormService.languageNames.forEach((languageInput) => {
       const localizedDimensionName: LocalizedName = {
-        languageCode: languageInput.nativeElement.id,
+        language: {id: languageInput.nativeElement.id},
         nameInThisLanguage: languageInput.nativeElement.value
       };
       localizedNames.push(localizedDimensionName);

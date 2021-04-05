@@ -1,6 +1,6 @@
 import {IsArray, IsObject, IsString, Length} from "class-validator";
 import Language from "../Languages/language.entity";
-import LocalizedName from "../DimesnionCodes/localizedName";
+import LocalizedName from "../LocalizedName/localizedName.entity";
 
 class CreateVocabularyDto
 {

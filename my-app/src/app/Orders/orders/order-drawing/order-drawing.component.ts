@@ -74,8 +74,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   allDimensionCodes: LocalizedDimensionCode [];
   allFirstIndexDimensionCodes: LocalizedDimensionCode[];
   allSecondIndexDimensionCOde: LocalizedDimensionCode [];
-  allNonIndexDimensionCodes: LocalizedDimensionCode [];
-  selectedLanguageLang: string = 'PL'; /* it will be the value obtained form login service in the future*/
+  allNonIndexDimensionCodes: LocalizedDimensionCode [];/* it will be the value obtained form login service in the future*/
   addNewClicked = false;
   idValue: string;
   angle = -90;
@@ -915,7 +914,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     const localizedDimensionCodes: LocalizedDimensionCode[] = [];
     dimensnionCodes.forEach((dimensionCOde) => {
       dimensionCOde.localizedDimensionNames.forEach((localizedName) => {
-        if (localizedName.languageCode === this.selectedLanguageLang) {
+        if (localizedName.language.languageCode === this.authenticationService.selectedLanguageCode) {
           const localizedCode: LocalizedDimensionCode = {
             ...dimensionCOde,
             localizedDimensionName: localizedName
@@ -930,7 +929,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   getLocalizedDimensionFromDimension(dimension: DimensionCode): LocalizedDimensionCode {
     let localizedDimensionCode: LocalizedDimensionCode;
     dimension.localizedDimensionNames.forEach((localizedName) => {
-      if (localizedName.languageCode === this.selectedLanguageLang) {
+      if (localizedName.language === this.authenticationService.selectedLanguageCode) {
         localizedDimensionCode = {
           ...dimension,
           localizedDimensionName: localizedName

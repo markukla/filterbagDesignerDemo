@@ -8,7 +8,7 @@ import {PostgresConnectionOptions} from "typeorm/driver/postgres/PostgresConnect
 import {config_test} from "../../../ormconfig";
 import {
     insertInitVocabulariesToDatabase,
-    insertRolesToDatabase, insertTestDimensionCodesToDatabase, insertTestLanguagesToDatabase,
+    insertRolesToDatabase, insertTestLanguagesToDatabase,
     insertTestMaterialsToDatabase,
     insertTestUsersToDatabase
 } from "./insertTestDataToDatabase";
@@ -22,7 +22,7 @@ async function connectToDatabase(config:any){
         await insertTestUsersToDatabase();
         await insertTestMaterialsToDatabase();
         await insertTestLanguagesToDatabase();
-        await insertTestDimensionCodesToDatabase();
+        //await insertTestDimensionCodesToDatabase();
         await insertInitVocabulariesToDatabase();
 
       } catch (error) {

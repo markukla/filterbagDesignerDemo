@@ -11,7 +11,7 @@ import MaTerialsExamples from "../../tests/materialsExamplesForTests";
 import Language from "../../Models/Languages/language.entity";
 import {Languages} from "../../tests/languageExamplesForTest";
 import DimensionCode from "../../Models/DimesnionCodes/diemensionCode.entity";
-import {initialDimensionsForDatabase} from "../../tests/dimensionCodesForTests";
+//import {initialDimensionsForDatabase} from "../../tests/dimensionCodesForTests";
 import {initialVocabularyForDatabase} from "../../Models/Vocabulary/initialVocabularyToDatabase";
 import Vocabulary from "../../Models/Vocabulary/vocabulary.entity";
 
@@ -45,13 +45,16 @@ async function insertInitVocabulariesToDatabase() {
     const repository = getRepository(Vocabulary);
     const vocabulariesInDatabase = await repository.find();
     if(vocabulariesInDatabase.length ===0) {
-        vocabulariesToInsert.forEach((vocabulary) => {
+        /* vocabulariesToInsert.forEach((vocabulary) => {
+
          vocabulary.localizedNames.forEach((localizedName)=> {
-             if(localizedName.languageCode.toUpperCase()==='CZE'){
-                 localizedName.languageCode = 'CS';
+             if(localizedName.language ==='CZE'){
+                 localizedName.language = 'CS';
              }
          });
       });
+      */
+
         try{
             await repository.save(vocabulariesToInsert);
         }
@@ -85,7 +88,8 @@ async function insertTestLanguagesToDatabase(){
     }
 
 }
-async function insertTestDimensionCodesToDatabase(){
+
+/*async function insertTestDimensionCodesToDatabase(){
 
     const dimensionCodesToSaveInDatabase:DimensionCode[] = initialDimensionsForDatabase;
     const repository=getRepository(DimensionCode);
@@ -96,4 +100,5 @@ async function insertTestDimensionCodesToDatabase(){
     }
 
 }
-export{insertRolesToDatabase,insertTestUsersToDatabase,insertTestMaterialsToDatabase, insertTestLanguagesToDatabase, insertTestDimensionCodesToDatabase, insertInitVocabulariesToDatabase};
+*/
+export{insertRolesToDatabase,insertTestUsersToDatabase,insertTestMaterialsToDatabase, insertTestLanguagesToDatabase, /*insertTestDimensionCodesToDatabase*/ insertInitVocabulariesToDatabase};

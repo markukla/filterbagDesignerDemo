@@ -1,7 +1,7 @@
-import {Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import Product from "../Products/product.entity";
 import ProductType from "../Products/productType.entity";
-import LocalizedName from "./localizedName";
+import LocalizedName from "../LocalizedName/localizedName.entity";
 import DimensionRoleEnum from "./dimensionRoleEnum";
 
 
@@ -12,7 +12,8 @@ class DimensionCode {
     @Column()
     dimensionCode:string;
 
-    @Column({ type:"jsonb"})
+    @ManyToMany(()=>LocalizedName,{eager:true, cascade:true})
+    @JoinTable({name:"vocabulary_dimesnionCode_id_pairs"})
     localizedDimensionNames: LocalizedName [];
     @Column({default: DimensionRoleEnum.NOINDEXDIMENSION})
     dimensionRole: DimensionRoleEnum

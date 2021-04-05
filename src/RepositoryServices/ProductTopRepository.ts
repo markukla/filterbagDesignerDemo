@@ -71,7 +71,9 @@ class ProductTopService implements RepositoryService {
 
 
         const savedProductTop:ProductTop = await this.repository.save(productTopToSave);
-        return savedProductTop;
+        const recordToReturn = await this.repository.findOne(savedProductTop.id); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave
+
+        return recordToReturn;
 
     }
 
@@ -89,14 +91,15 @@ class ProductTopService implements RepositoryService {
             }
 
             const productTopeToUpdate: ProductTop = {
+                id: Number(id),
                 ...createProductTopDto
 
             }
-            const updateResult: UpdateResult = await this.repository.update(id, productTopeToUpdate);
-            if (updateResult.affected === 1) {
-                const updatedProductTop: ProductTop = await this.findOneProductTopById(id);
+            const updateResult: ProductTop = await this.repository.save(productTopeToUpdate);
+
+                const updatedProductTop: ProductTop = await this.findOneProductTopById(String(updateResult.id));
                 return updatedProductTop;
-            }
+
 
 
         }

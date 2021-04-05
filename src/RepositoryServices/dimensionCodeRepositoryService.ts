@@ -6,7 +6,7 @@ import CreateMaterialDto from "../Models/Materials/material.dto";
 import MaterialAlreadyExistsException from "../Exceptions/MaterialAlreadyExistsException";
 import DimensionCode from "../Models/DimesnionCodes/diemensionCode.entity";
 import DimensionCodeNotFoundException from "../Exceptions/DimensionCodeNotFoundException";
-import LocalizedName from "../Models/DimesnionCodes/localizedName";
+import LocalizedName from "../Models/LocalizedName/localizedName.entity";
 import DimensionRoleEnum from "../Models/DimesnionCodes/dimensionRoleEnum";
 import CreateDimensionCodeDto from "../Models/DimesnionCodes/createDimensionCode.dto";
 import DimensionCodeAlreadyExistException from "../Exceptions/dimensionAlreadyExistException";
@@ -84,7 +84,10 @@ return foundDimension;
             ...createDimensionDto
         };
         const savedDimensionCOde=await this.repository.save(dimensionCodeToSave);
-        return savedDimensionCOde;
+        const recordToReturn = await this.repository.findOne(savedDimensionCOde.id); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave
+
+        return recordToReturn;
+
 
     }
     public async updateDimensionCodeById(id:string, createDimensionDto:CreateDimensionCodeDto):Promise<DimensionCode>{
@@ -105,7 +108,10 @@ return foundDimension;
             });
             const updatedDimensionCode=await this.repository.save(dimensionTosave);
 
-            return updatedDimensionCode;
+            const recordToReturn = await this.repository.findOne(updatedDimensionCode.id); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave
+
+            return recordToReturn;
+
 
 
         }

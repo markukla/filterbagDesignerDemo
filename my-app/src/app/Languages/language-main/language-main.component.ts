@@ -129,7 +129,7 @@ export class LanguageMainComponent implements OnInit, AfterContentChecked {
   getSelectedLanguageFromNamesInAllLanguages(localizedNames: LocalizedName[], selectedLanguageLang: string): string {
     const localizedNameInGivenLanguage: LocalizedName[] = [];
     localizedNames.forEach((localizedName) => {
-      if (localizedName.languageCode === selectedLanguageLang) {
+      if (localizedName.language === selectedLanguageLang) {
         localizedNameInGivenLanguage.push(localizedName);
       }
     });

@@ -48,7 +48,9 @@ class VocabularyService implements RepositoryService{
             ...createVocabularyDto
         };
         const savedRecord=await this.repository.save(recordToSave);
-        return savedRecord;
+        const recordToReturn = await this.repository.findOne(savedRecord.id); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave
+
+        return recordToReturn;
 
     }
     public async updateRecordById(id:string, createVocabularyDto:CreateVocabularyDto):Promise<Vocabulary>{
@@ -71,7 +73,9 @@ class VocabularyService implements RepositoryService{
             });
             const updatedRecord=await this.repository.save(recordToUpdate);
 
-            return updatedRecord;
+            const recordToReturn = await this.repository.findOne(updatedRecord.id); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave
+
+            return recordToReturn;
 
 
         }
