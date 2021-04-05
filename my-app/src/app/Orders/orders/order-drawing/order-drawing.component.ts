@@ -329,10 +329,11 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     if (this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT) {
       this.rotateTextField(input);
       this.makeInputDivDragable(inputContainer);
-      this.renderer.setProperty(input, 'innerHTML', dimensionInfo.dimensionId);
+      const inputIdValue = this.allDimensionCodes.filter(d=> d.id===Number(dimensionInfo.dimensionId))[0].dimensionCode;
+      this.renderer.setProperty(input, 'innerHTML', inputIdValue)
 
       input.onkeyup = (event) => {
-        this.renderer.setProperty(input, 'innerHTML', input.id);
+        this.renderer.setProperty(input, 'innerHTML', inputIdValue);
       };
     }
     this.renderer.appendChild(this.drawing.nativeElement, inputContainer);
@@ -501,7 +502,9 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
       }
 
       if (this.orderOperationMode !== OrderOperationMode.UPDATEPRODUCT && this.orderOperationMode !== OrderOperationMode.CREATENEWPRODUCT) {
-        if (this.secondIndexDimensions.includes(event.target.id)) {
+        const valueOfEventTargetId = this.allDimensionCodes.filter(d=> d.id===Number(event.target.id))[0].dimensionCode;
+
+        if (this.secondIndexDimensions.includes(valueOfEventTargetId)) {
           const maxLength = 5;
           if (event.target.innerHTML.length > maxLength) {
             event.target.innerHTML = event.target.innerHTML.slice(0, maxLength);
@@ -512,7 +515,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
           this.tableFormService.buildIndex();
           this.tableFormService.setOrderName();
         }
-        if (this.firstIndexDimensions.includes(String(event.target.id))) {
+        if (this.firstIndexDimensions.includes(valueOfEventTargetId)) {
           const maxLength = 4;
           if (event.target.innerHTML.length > maxLength) {
             event.target.innerHTML = event.target.innerHTML.slice(0, maxLength);
@@ -521,7 +524,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
           this.tableFormService.buildIndex();
           this.tableFormService.setOrderName();
         }
-        if (!this.secondIndexDimensions.includes(String(event.target.id)) && !this.firstIndexDimensions.includes(String(event.target.id))) {
+        if (!this.secondIndexDimensions.includes(valueOfEventTargetId) && !this.firstIndexDimensions.includes(valueOfEventTargetId)) {
           const maxLength = 3;
           if (event.target.innerHTML.length > maxLength) {
             event.target.innerHTML = event.target.innerHTML.slice(0, maxLength);
@@ -646,7 +649,8 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
 
     const input = this.renderer.createElement('div');
     input.contentEditable = 'true';
-    input.innerHTML = this.idValue;
+   const inputIdValue = this.allDimensionCodes.filter(d=> d.id===Number(this.idValue))[0].dimensionCode;
+    input.innerHTML = inputIdValue;
     input.className = 'dimensionInput';
     this.renderer.setProperty(input, 'id', this.idValue);
     /*this.renderer.setProperty(input, 'data-test', this.idValue);
@@ -662,7 +666,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
 
 
     input.onkeyup = (event) => {
-      this.renderer.setProperty(input, 'innerHTML', this.idValue);
+      this.renderer.setProperty(input, 'innerHTML', inputIdValue);
     };
     /* const drawing = document.getElementById('drawingContainer'); */
     this.makeInputDivDragable(container);
@@ -817,21 +821,23 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
       const collectionOfFirtstIndexDiMensionsInCreateProductDto: string[] = [];
       const collectionOfSecondtIndexDiMensionsInCreateProductDto: string [] = [];
       /* map is used to obtain array of simple values from objects, cause indeksOf does not work for objects*/
-      inputs.map(x => x.dimensionId).forEach((input, index, self) => {
+      inputs.map(x => x.dimensionId).forEach((inputId, index, self) => {
+        const valueOfInputId = this.allDimensionCodes.filter(d=> d.id===Number(inputId))[0].dimensionCode;
         this.firstIndexDimensions.forEach((first) => {
-          if (input === first) {
-            collectionOfFirtstIndexDiMensionsInCreateProductDto.push(input);
+
+          if (valueOfInputId === first) {
+            collectionOfFirtstIndexDiMensionsInCreateProductDto.push(inputId);
           }
         });
         this.secondIndexDimensions.forEach((second) => {
-          if (input === second) {
-            collectionOfSecondtIndexDiMensionsInCreateProductDto.push(input);
+          if (valueOfInputId === second) {
+            collectionOfSecondtIndexDiMensionsInCreateProductDto.push(inputId);
           }
         });
-        if (index !== self.indexOf(input)) {
+        if (index !== self.indexOf(inputId)) {
           // tslint:disable-next-line:max-line-length
           /* if index of current element in array is not equal index od its first occurence in array (indexOf returns first occurence) so it is duplicated*/
-          const failMassage = this.orderNames.allDimensionsMustBeUnique + ' ' + input;
+          const failMassage = this.orderNames.allDimensionsMustBeUnique + ' ' + inputId;
           this.userInputErrorMessages.push(failMassage);
         }
       });
@@ -868,6 +874,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     try {
       const allDimensions = await this.dimensionBackendService.getRecords().toPromise();
       this.allDimensionCodes = this.getLocalizedNameFromAllLanguage(allDimensions.body);
+      this.tableFormService.allIndexDimenssions = this.allDimensionCodes;
 
     } catch (error: any) {
       console.log('could not get all dimensions');

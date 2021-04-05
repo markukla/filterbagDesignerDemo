@@ -6,6 +6,7 @@ import OrderOperationMode from '../../../../Orders/OrdersTypesAndClasses/orderOp
 import CreateProductDto from '../../../ProductTypesAndClasses/product.dto';
 import {AuthenticationService} from '../../../../LoginandLogOut/AuthenticationServices/authentication.service';
 import {getSelectedLanguageFromNamesInAllLanguages} from '../../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage';
+import LocalizedDimensionCode from "../../../../DimensionCodes/DimensionCodesTypesAnClasses/localizedDimensionCode";
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,8 @@ export class TableFormServiceService {
   firstIndexDimension: string;
   secondIndexDimension: string;
   allFirstIndexDimension: string[];
-  allSecondIndexDimnesions: string[]
+  allSecondIndexDimnesions: string[];
+  allIndexDimenssions: LocalizedDimensionCode[];
 
   constructor(private authenticationService: AuthenticationService) {
     this.initTableForm();
@@ -181,10 +183,11 @@ export class TableFormServiceService {
       if (createOrderDto.orderDetails.dimensions) {
         const dimensions = createOrderDto.orderDetails.dimensions;
         dimensions.forEach((dimension) => {
-          if (this.allFirstIndexDimension.includes(String(dimension.dimensionId))) {
+          const dimensionCodeForDimensionId = this.allIndexDimenssions.filter(d => d.id ===Number(dimension.dimensionId))[0].dimensionCode;
+          if (this.allFirstIndexDimension.includes(dimensionCodeForDimensionId)) {
             this.Dvalue = dimension.dimensionvalue;
           }
-          if (this.allSecondIndexDimnesions.includes(String(dimension.dimensionId))) {
+          if (this.allSecondIndexDimnesions.includes(dimensionCodeForDimensionId)) {
             this.Lvalue = dimension.dimensionvalue;
           }
         });

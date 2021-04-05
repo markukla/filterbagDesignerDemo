@@ -59,7 +59,7 @@
           <select class="form-control" formControlName="dimensionCodeControll" id="firstIndexDimension"
                   #dimensionIdSelect>
             <option [ngValue]="null" disabled>{{this.generalNamesInSelectedLanguage.select + ' '+ this.dimensionNames.dimensionCode}}</option>
-            <option *ngFor="let code of allFirstIndexDimensionCodes" [ngValue]="code.dimensionCode">
+            <option *ngFor="let code of allFirstIndexDimensionCodes" [ngValue]="code.id">
               {{ code.dimensionCode + '-' + code.localizedDimensionName.nameInThisLanguage}}
             </option>
           </select>
@@ -70,7 +70,7 @@
           <label class="label" for="secondIndex">{{this.generalNamesInSelectedLanguage.select+ ' '+ this.dimensionNames.dimensionRoleSecondIndex}}</label>
           <select class="form-control" formControlName="dimensionCodeControll" id="secondIndex" #dimensionIdSelect>
             <option [ngValue]="null" disabled>{{this.generalNamesInSelectedLanguage.select + ' '+ this.dimensionNames.dimensionCode}}</option>
-            <option *ngFor="let code of allSecondIndexDimensionCOde" [ngValue]="code.dimensionCode">
+            <option *ngFor="let code of allSecondIndexDimensionCOde" [ngValue]="code.id">
               {{ code.dimensionCode + '-' + code.localizedDimensionName.nameInThisLanguage}}
             </option>
           </select>
@@ -79,7 +79,7 @@
           <label class="label" for="noIndex">{{this.generalNamesInSelectedLanguage.select + ' '+ this.dimensionNames.dimensionRoleNoIndex}}</label>
           <select class="form-control" formControlName="dimensionCodeControll" id="noIndex" #dimensionIdSelect>
             <option [ngValue]="null" disabled>{{this.generalNamesInSelectedLanguage.select + ' '+ this.dimensionNames.dimensionCode}}</option>
-            <option *ngFor="let code of allNonIndexDimensionCodes" [ngValue]="code.dimensionCode">
+            <option *ngFor="let code of allNonIndexDimensionCodes" [ngValue]="code.id">
               {{ code.dimensionCode + '-' + code.localizedDimensionName.nameInThisLanguage}}
             </option>
           </select>
