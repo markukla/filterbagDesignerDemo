@@ -7,6 +7,7 @@ class DimensionCode {
     dimensionCode: string;
     localizedDimensionNames: LocalizedName [];
     dimensionRole: DimensionRoleEnum;
+    softDeleteDate?: Date;
 }
 
 export default DimensionCode;

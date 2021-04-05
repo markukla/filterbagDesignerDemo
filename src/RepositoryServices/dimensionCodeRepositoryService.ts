@@ -39,7 +39,7 @@ return foundDimension;
     }
 
     public async findAllDimensionCodes():Promise<DimensionCode[]>{
-        const foundDiemnsionCodes:DimensionCode[] =await this.repository.find( {softDeleteDate: null});
+        const foundDiemnsionCodes:DimensionCode[] =await this.repository.find( {});
 
         return foundDiemnsionCodes;
 
@@ -48,7 +48,7 @@ return foundDimension;
         const foundDiemnsionCodes:DimensionCode[] =await this.repository.find(
             {
                 dimensionRole: DimensionRoleEnum.FIRSTINDEXDIMENSION,
-                softDeleteDate: null}
+            }
                 );
 
         return foundDiemnsionCodes;
@@ -57,7 +57,6 @@ return foundDimension;
     public async findallSecondIndexDimensionCodes():Promise<DimensionCode[]>{
         const foundDiemnsionCodes:DimensionCode[] =await this.repository.find({
             dimensionRole: DimensionRoleEnum.SECONDINDEXDIMENSION,
-            softDeleteDate: null
         });
 
         return foundDiemnsionCodes;

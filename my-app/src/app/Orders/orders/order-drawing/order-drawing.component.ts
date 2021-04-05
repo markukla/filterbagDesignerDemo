@@ -108,6 +108,9 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   @ViewChild('mainContainer', {read: ElementRef}) drawingRangeInput: ElementRef; //tabelFormContainer
   @ViewChild('tabelFormContainer', {read: ElementRef}) tabelFormContainer: ElementRef;
   @ViewChild('tableFormComponent', {read: ElementRef}) tableFormComponent: ElementRef; //tableFormComponent
+  allNotDeletedFirstIndexDimensions: LocalizedDimensionCode[];
+  allNotDeletedSecondIndexDimensions: LocalizedDimensionCode[];
+  allNotDeletedNoIndexDimensions: LocalizedDimensionCode[];
 
   constructor(
     private orderBackendService: OrderBackendService,
@@ -881,28 +884,34 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     }
     try {
       const allFirstIndexDimensions = await this.dimensionBackendService.getFirstIndexDimensions().toPromise();
+      const allNotDeletedFirstIndexDimensions = allFirstIndexDimensions.body.filter(d=>d.softDeleteDate===null);
       this.allFirstIndexDimensionCodes = this.getLocalizedNameFromAllLanguage(allFirstIndexDimensions.body);
       this.allFirstIndexDimensionCodes.forEach((firstDimension) => {
         this.firstIndexDimensions.push(firstDimension.dimensionCode);
       });
+
       this.tableFormService.allFirstIndexDimension = this.firstIndexDimensions;
+      this.allNotDeletedFirstIndexDimensions = this.getLocalizedNameFromAllLanguage(allNotDeletedFirstIndexDimensions);
     } catch (error: any) {
       console.log('could not get allFirstIndexDimensions');
     }
     try {
       const secondIndexDimensions = await this.dimensionBackendService.getSecondIndexDimensions().toPromise();
+      const allNotDeletedSecondIndexDimensions = secondIndexDimensions.body.filter(d=>d.softDeleteDate===null);
       this.allSecondIndexDimensionCOde = this.getLocalizedNameFromAllLanguage(secondIndexDimensions.body);
       this.allSecondIndexDimensionCOde.forEach((secondDimension) => {
         this.secondIndexDimensions.push(secondDimension.dimensionCode);
       });
       this.tableFormService.allSecondIndexDimnesions = this.secondIndexDimensions;
-
+      this.allNotDeletedSecondIndexDimensions = this.getLocalizedNameFromAllLanguage(allNotDeletedSecondIndexDimensions);
     } catch (error: any) {
       console.log('could not get secondIndexDimensions');
     }
     try {
       const noIndexDimensions = await this.dimensionBackendService.getNonIndexDimensions().toPromise();
       this.allNonIndexDimensionCodes = this.getLocalizedNameFromAllLanguage(noIndexDimensions.body);
+      const allNotDeletedNoIndexDimensions= noIndexDimensions.body.filter(d=>d.softDeleteDate===null);
+      this.allNotDeletedNoIndexDimensions = this.getLocalizedNameFromAllLanguage(allNotDeletedNoIndexDimensions);
 
     } catch (error: any) {
       console.log('could not get noIndexDimensions');

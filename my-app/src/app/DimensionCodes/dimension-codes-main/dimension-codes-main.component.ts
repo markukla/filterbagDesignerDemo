@@ -85,7 +85,7 @@ export class DimensionCodesMainComponent implements OnInit, AfterContentChecked 
   getRecords(): void {
     this.backendService.getRecords().subscribe((records) => {
       this.tableService.records.length = 0;
-      records.body.forEach((record) => {
+      records.body.filter(r=>r.softDeleteDate ===null).forEach((record) => {
         const recorForTableCell = this.backendService.createProductTypeForTableCellFromProductTop(record);
         this.tableService.records.push(recorForTableCell);
       });
