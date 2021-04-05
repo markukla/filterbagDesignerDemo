@@ -11,8 +11,8 @@ class Vocabulary {
     public id?: number;
     @Column({unique:true})
     variableName:string;
-    @ManyToMany(()=>LocalizedName,{eager:true, cascade:true})
-    @JoinTable({name:"vocabulary_localizedName_id_pairs"})
+    @OneToMany(()=>LocalizedName,(lozalizedName: LocalizedName)=>lozalizedName.vocabulary,{eager:true, cascade:true})
+    //@JoinTable({name:"vocabulary_localizedName_id_pairs"})
     localizedNames: LocalizedName [];
     @Column({nullable: true})
     softDeleteDate?:Date;

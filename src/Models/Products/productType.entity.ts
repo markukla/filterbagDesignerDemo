@@ -9,8 +9,8 @@ import LocalizedName from "../LocalizedName/localizedName.entity";
 class ProductType {
     @PrimaryGeneratedColumn()
     public id?: number;
-    @ManyToMany(()=>LocalizedName,{eager:true, cascade:true})
-    @JoinTable({name:"vocabulary_productType_id_pairs"})
+    @OneToMany(()=>LocalizedName,(lozalizedName: LocalizedName)=>lozalizedName.productType,{eager:true, cascade:true})
+    //@JoinTable({name:"localizedN_productType_id_pairs"})
     localizedNames: LocalizedName [];
     @Column()
     code:string;

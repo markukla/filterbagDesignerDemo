@@ -12,8 +12,8 @@ class DimensionCode {
     @Column()
     dimensionCode:string;
 
-    @ManyToMany(()=>LocalizedName,{eager:true, cascade:true})
-    @JoinTable({name:"vocabulary_dimesnionCode_id_pairs"})
+    @OneToMany(()=>LocalizedName,(lozalizedName: LocalizedName)=>lozalizedName.dimensionCode,{eager:true, cascade:true})
+   // @JoinTable({name:"vocabulary_dimesnionCode_id_pairs"})
     localizedDimensionNames: LocalizedName [];
     @Column({default: DimensionRoleEnum.NOINDEXDIMENSION})
     dimensionRole: DimensionRoleEnum
