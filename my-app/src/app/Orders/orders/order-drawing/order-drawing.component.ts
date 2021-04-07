@@ -613,7 +613,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   async getDrawingPdf(): Promise<void> {
     console.error(`this.router.url= ${this.router.url}`);
     console.error(`window.location.href= ${window.location.href}`);
-    const urlForPuppeter = this.router.url + `&languageCode=${this.authenticationService.selectedLanguageCode}`
+    const urlForPuppeter = this.router.url + `&languageCode=${this.authenticationService.selectedLanguageCode}`;
     const pdfTodownLoad = await this.orderBackendService.getDrawingPdf(urlForPuppeter).toPromise();
     const newBlob = new Blob([pdfTodownLoad], {type: 'application/pdf'});
 
@@ -626,7 +626,14 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     const data = window.URL.createObjectURL(newBlob);
     const link = document.createElement('a');
     link.href = data;
-    link.download = 'file.pdf';
+    let pdfName: string;
+    if(this.createOrderDto && this.createOrderDto.index){
+      pdfName= this.createOrderDto.index;
+    }
+    else if(this.createProductDto){
+      pdfName= this.createProductDto.productType.code; // nedd to be change to product code when such update will be made
+    }
+    link.download = `${pdfName}.pdf`;
     link.click();
     setTimeout(() => {
       // For Firefox it is necessary to delay revoking the ObjectURL

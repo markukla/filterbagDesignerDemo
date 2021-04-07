@@ -66,11 +66,23 @@ class VocabularyService implements RepositoryService{
 
             }
 
-            const recordToUpdate = this.repository.create( {
-                ...createVocabularyDto,
-                id: Number(id)
-
+            const recordToUpdate = {
+                ...recordInDatabase,
+            }
+            recordToUpdate.localizedNames.forEach((localizedInDB)=>{
+                createVocabularyDto.localizedNames.forEach((localizedFromFront)=>{
+                    console.log(`localizedFromFront.language.id=${localizedFromFront.language.id}`);
+                    console.log(`localizedInDB.language.id=${localizedInDB.language.id}`);
+                    if(localizedInDB.language.id == localizedFromFront.language.id){
+                        console.log('in if');
+                        localizedInDB.nameInThisLanguage = localizedFromFront.nameInThisLanguage;
+                        console.log(`localizedInDB.nameInThisLanguage=${localizedInDB.nameInThisLanguage}`);
+                    }
+                });
             });
+            recordToUpdate.variableName = createVocabularyDto.variableName;
+
+
             const updatedRecord=await this.repository.save(recordToUpdate);
 
             const recordToReturn = await this.repository.findOne(updatedRecord.id); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave

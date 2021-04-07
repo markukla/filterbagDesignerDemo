@@ -14,6 +14,7 @@ services:
       - ./src:/usr/src/app/src
       - ./src:/root/src
       - ./ormconfig.ts:/root/ormconfig.ts
+      - ./.env:/root/.env
       - productImages:/root/src/public/images
     networks:
       - app-network

@@ -99,6 +99,11 @@ export class CreateOrUpdateVocabularyComponent implements OnInit {
         this.cleanOperationMessage();
       });
     } else if (this.operatiomMode === OperationModeEnum.UPDATE) {
+;
+      this.createVocabularyDto ={
+        ...this.createVocabularyDto
+
+      }
       this.backendService.updateRecordById(this.selectedRecordToupdateId, this.createVocabularyDto, this.authenticationService.selectedLanguageCode).subscribe((material) => {
         this.showoperationStatusMessage = this.backendMessageService.returnSuccessMessageToUserForSuccessBackendResponseForCreateNew();
         this.cleanOperationMessage();
