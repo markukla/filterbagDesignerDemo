@@ -15,6 +15,7 @@ import OperationModeEnum from '../../util/OperationModeEnum';
 import {CreateVocabularyDto} from '../VocabularyTypesAndClasses/VocabularyDto';
 import {Vocabulary} from '../VocabularyTypesAndClasses/VocabularyEntity';
 import {VocabularyBackendServiceService} from '../VocabularyServices/vocabulary-backend-service.service';
+import {navigateToUrlAfterTimout} from "../../helpers/otherGeneralUseFunction/navigateToUrlAfterTimeOut";
 
 @Component({
   selector: 'app-create-or-update-vocabulary',
@@ -93,10 +94,9 @@ export class CreateOrUpdateVocabularyComponent implements OnInit {
     if(this.operatiomMode === OperationModeEnum.CREATENEW) {
       this.backendService.addRecords(this.createVocabularyDto, this.authenticationService.selectedLanguageCode).subscribe((record) => {
         this.showoperationStatusMessage = this.backendMessageService.returnSuccessMessageToUserForSuccessBackendResponseForCreateNew();
-        this.cleanOperationMessage();
+        navigateToUrlAfterTimout(this.authenticationService._previousUrl, this.router);
       }, error => {
         this.showoperationStatusMessage = this.backendMessageService.returnErrorToUserBasingOnBackendErrorStringForCreateNew(error);
-        this.cleanOperationMessage();
       });
     } else if (this.operatiomMode === OperationModeEnum.UPDATE) {
 ;
@@ -106,10 +106,9 @@ export class CreateOrUpdateVocabularyComponent implements OnInit {
       }
       this.backendService.updateRecordById(this.selectedRecordToupdateId, this.createVocabularyDto, this.authenticationService.selectedLanguageCode).subscribe((material) => {
         this.showoperationStatusMessage = this.backendMessageService.returnSuccessMessageToUserForSuccessBackendResponseForCreateNew();
-        this.cleanOperationMessage();
+        navigateToUrlAfterTimout(this.authenticationService._previousUrl, this.router);
       }, error => {
         this.showoperationStatusMessage = this.backendMessageService.returnErrorToUserBasingOnBackendErrorStringForCreateNew(error);
-        this.cleanOperationMessage();
       });
     }
   }

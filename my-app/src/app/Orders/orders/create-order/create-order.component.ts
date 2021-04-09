@@ -475,7 +475,7 @@ onSubmit(): void {
         this.backendService.createOrderDtoForConfirmUpdateShowDrawing = this.createOrderDto;
         this.backendService.addRecords(this.createOrderDto).subscribe((order) => {
             this.operationSuccessStatusMessage = orderNames.orderAddSuccess;
-            navigateToUrlAfterTimout('/orders?pageNumber=1', this.router, 2000);
+            navigateToUrlAfterTimout('/orders?pageNumber=1', this.router);
           },
           error => {
             this.operationFailerStatusMessage = orderNames.orderAddFailer;
@@ -489,7 +489,7 @@ onSubmit(): void {
         this.createOrderDto = updatedCreateOrderDto;
         this.backendService.updateRecordById(String(this.selctedOrderId), this.createOrderDto).subscribe((order) => {
             this.operationSuccessStatusMessage = orderNames.orderUpdateSuccess;
-            navigateToUrlAfterTimout('/orders?pageNumber=1', this.router, 2000);
+            navigateToUrlAfterTimout('/orders?pageNumber=1', this.router);
           },
           error => {
           console.log(error);

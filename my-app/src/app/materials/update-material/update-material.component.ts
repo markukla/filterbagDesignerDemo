@@ -16,6 +16,7 @@ import {
   materialNamesInSelectedLanguage
 } from "../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
 import {BackendMessageService} from "../../helpers/ErrorHandling/backend-message.service";
+import {navigateToUrlAfterTimout} from "../../helpers/otherGeneralUseFunction/navigateToUrlAfterTimeOut";
 
 @Component({
   selector: 'app-update-material',
@@ -89,15 +90,14 @@ export class UpdateMaterialComponent implements OnInit {
     this.materialBackendService.deleteRecordById(this.selectedMaterialId).subscribe((deletesuccessResponse)=>{
         this.materialBackendService.addRecords( this.materialForm.value).subscribe((material) => {
             this.operationStatusMessage = this.backendMessageService.returnSuccessMessageToUserForSuccessBackendResponseForUpdate();
-
+          navigateToUrlAfterTimout(this.authenticationService._previousUrl, this.router);
           }, error => {
             this.operationStatusMessage = this.backendMessageService.returnErrorToUserBasingOnBackendErrorStringForUpdate(error);
-            this.resetMaterialFormValueAndOperationStatus();
+
           }
         )
     },error => {
       this.operationStatusMessage = this.backendMessageService.returnErrorToUserBasingOnBackendErrorStringForUpdate(error);
-      this.resetMaterialFormValueAndOperationStatus();
     }
       );
 

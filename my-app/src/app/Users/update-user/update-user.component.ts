@@ -21,6 +21,7 @@ import {
   generalUserNames, orderNames
 } from '../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription';
 import {setTabelColumnAndOtherNamesForSelectedLanguage} from '../../helpers/otherGeneralUseFunction/getNameInGivenLanguage';
+import {navigateToUrlAfterTimout} from "../../helpers/otherGeneralUseFunction/navigateToUrlAfterTimeOut";
 
 @Component({
   selector: 'app-update-user',
@@ -114,10 +115,10 @@ export class UpdateUserComponent implements OnInit, AfterContentChecked, AfterVi
   onSubmit(): void {
     this.userBackendService.updateUserById(this.selectedId, this.userForm.value).subscribe((user) => {
       this.operationStatusMessage = this.userNamesInSelectedLanguage.userUpdateSuccessStatusMessage;
-      this.cleanOperationMessageAndGoBack();
+      navigateToUrlAfterTimout(this.authenticationService._previousUrl, this.router);
     }, error => {
       this.operationStatusMessage = this.userNamesInSelectedLanguage.userUpdateFailerStatusMessage;
-      this.cleanOperationMessageAndGoBack();
+
     });
   }
 

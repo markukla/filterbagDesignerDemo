@@ -14,6 +14,7 @@ import {
 } from '../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription';
 import {AuthenticationService} from '../../LoginandLogOut/AuthenticationServices/authentication.service';
 import {GeneratePassordAlgoritm} from "../../helpers/directive/GeneratePasswordDirective/generatePassordAlgoritm";
+import {navigateToUrlAfterTimout} from "../../helpers/otherGeneralUseFunction/navigateToUrlAfterTimeOut";
 
 @Component({
   selector: 'app-change-password',
@@ -77,10 +78,9 @@ export class ChangePasswordComponent implements OnInit {
     const changePasswordData: CHangePasswordByAdminDto = {newPassword: this.password.value};
     this.userBackendService.changeUserPasswordById(this.selectedId, changePasswordData).subscribe((user) => {
       this.operationStatusMessage = this.userNamesInSelectedLanguage.passwordChangeSuccessStatus;
-      this.cleanOperationMessage();
+      navigateToUrlAfterTimout(this.authenticationService._previousUrl, this.router);
     }, error => {
       this.operationStatusMessage = this.userNamesInSelectedLanguage.passwordChangeFailerStatus;
-      this.cleanOperationMessage();
     });
   }
   closeAndGoBack(): void {

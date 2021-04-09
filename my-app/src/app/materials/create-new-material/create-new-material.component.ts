@@ -14,6 +14,7 @@ import {
 } from "../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
 import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
 import {BackendMessageService} from "../../helpers/ErrorHandling/backend-message.service";
+import {navigateToUrlAfterTimout} from "../../helpers/otherGeneralUseFunction/navigateToUrlAfterTimeOut";
 
 @Component({
   selector: 'app-create-new-material',
@@ -53,10 +54,9 @@ export class CreateNewMaterialComponent implements OnInit{
   onSubmit(): void {
     this.materialbackendService.addRecords(this.materialForm.value).subscribe((material) => {
       this.showoperationStatusMessage = this.backendMessageService.returnSuccessMessageToUserForSuccessBackendResponseForCreateNew();
-      this.cleanOperationMessage();
+      navigateToUrlAfterTimout(this.authenticationService._previousUrl, this.router);
     }, error => {
       this.showoperationStatusMessage = this.backendMessageService.returnErrorToUserBasingOnBackendErrorStringForCreateNew(error);
-      this.cleanOperationMessage();
     });
  }
   closeAndGoBack(): void {

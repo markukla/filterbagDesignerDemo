@@ -25,6 +25,7 @@ import {
 import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
 import ProductType from "../../ProductTypesAndClasses/productType.entity";
 import {ProductTypeBackendService} from "../../ProductType/ProductTypeServices/product-type-backend.service";
+import {navigateToUrlAfterTimout} from "../../../helpers/otherGeneralUseFunction/navigateToUrlAfterTimeOut";
 
 @Component({
   selector: 'app-create-product-top',
@@ -136,18 +137,18 @@ export class CreateProductTopComponent implements OnInit {
         }
 
         this.showoperationStatusMessage = this.backendMessageService.returnSuccessMessageToUserForSuccessBackendResponseForCreateNew();
-        this.cleanOperationMessage();
+        navigateToUrlAfterTimout(this.authenticationService._previousUrl, this.router);
       }, error => {
         this.showoperationStatusMessage = this.backendMessageService.returnErrorToUserBasingOnBackendErrorStringForCreateNew(error);
-        this.cleanOperationMessage();
+
       });
     } else if (this.operatiomMode === OperationModeEnum.UPDATE) {
       this.backendService.updateRecordById(this.selectedRecordToupdateId, this.createProductTopDto).subscribe((material) => {
         this.showoperationStatusMessage = this.backendMessageService.returnSuccessMessageToUserForSuccessBackendResponseForUpdate();
-        this.cleanOperationMessage();
+        navigateToUrlAfterTimout(this.authenticationService._previousUrl, this.router);
       }, error => {
         this.showoperationStatusMessage = this.backendMessageService.returnErrorToUserBasingOnBackendErrorStringForUpdate(error);
-        this.cleanOperationMessage();
+
       });
     }
   }

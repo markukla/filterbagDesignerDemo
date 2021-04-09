@@ -22,6 +22,7 @@ import {
   generalNamesInSelectedLanguage, generalUserNames,
   languageNames
 } from "../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
+import {navigateToUrlAfterTimout} from "../../helpers/otherGeneralUseFunction/navigateToUrlAfterTimeOut";
 
 @Component({
   selector: 'app-create-or-update-language',
@@ -154,10 +155,10 @@ export class CreateOrUpdateLanguageComponent implements OnInit {
       this.backendService.addRecords(this.createLanguageDto).subscribe((language) => {
         this.authenticationService.languages.push(language.body);
         this.showoperationStatusMessage = this.generalNamesInSelectedLanguage.operationAddSuccessStatusMessage;
-        this.cleanOperationMessage();
+        navigateToUrlAfterTimout(this.authenticationService._previousUrl, this.router);
       }, error => {
         this.showoperationStatusMessage = this.generalNamesInSelectedLanguage.operationAddFailerStatusMessage;
-        this.cleanOperationMessage();
+
       });
     } else if (this.languageOperationMode === 'update') {
       this.backendService.updateRecordById(this.languageToUpdateId, this.createLanguageDto).subscribe((language) => {
@@ -167,10 +168,10 @@ export class CreateOrUpdateLanguageComponent implements OnInit {
           }
         });
         this.showoperationStatusMessage = this.generalNamesInSelectedLanguage.operationUpdateSuccessStatusMessage;
-        this.cleanOperationMessage();
+        navigateToUrlAfterTimout(this.authenticationService._previousUrl, this.router);
       }, error => {
         this.showoperationStatusMessage = this.generalNamesInSelectedLanguage.operationUpdateFailerStatusMessage;
-        this.cleanOperationMessage();
+
       });
     }
   }

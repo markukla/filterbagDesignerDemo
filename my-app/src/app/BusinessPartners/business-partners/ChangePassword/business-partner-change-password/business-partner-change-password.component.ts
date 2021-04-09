@@ -17,6 +17,7 @@ import {
 } from '../../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription';
 import {GeneratePassordAlgoritm} from "../../../../helpers/directive/GeneratePasswordDirective/generatePassordAlgoritm";
 import {GeneralTableService} from "../../../../util/GeneralTableService/general-table.service";
+import {navigateToUrlAfterTimout} from "../../../../helpers/otherGeneralUseFunction/navigateToUrlAfterTimeOut";
 
 @Component({
   selector: 'app-business-partner-change-password',
@@ -79,10 +80,9 @@ export class BusinessPartnerChangePasswordComponent implements OnInit {
     const changePasswordData: CHangePasswordByAdminDto = {newPassword: this.password.value};
     this.backendService.changeUserPasswordById(this.selectedId, changePasswordData).subscribe((user) => {
       this.operationStatusMessage = this.userNamesInSelectedLanguage.passwordChangeSuccessStatus;
-      this.cleanOperationMessage();
+      navigateToUrlAfterTimout(this.authenticationService._previousUrl, this.router);
     }, error => {
       this.operationStatusMessage = this.userNamesInSelectedLanguage.passwordChangeFailerStatus;
-      this.cleanOperationMessage();
     });
   }
   closeAndGoBack(): void {

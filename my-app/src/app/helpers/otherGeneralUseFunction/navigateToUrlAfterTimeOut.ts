@@ -1,7 +1,7 @@
 import {Router} from '@angular/router';
 
-export const navigateToUrlAfterTimout =  (url: string, router: Router, timeout: number): void => {
+export const navigateToUrlAfterTimout =  (url: string, router: Router): void => {
   setTimeout(async () => {
    await router.navigateByUrl(`/${url}`);
-  }, timeout);
+  }, 2000);
 };

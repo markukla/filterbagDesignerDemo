@@ -16,6 +16,8 @@ import {
 } from '../../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription';
 import {GeneralTableService} from "../../../../util/GeneralTableService/general-table.service";
 import {BusinessPartnersComponent} from "../../BusinessPartnerMainComponent/business-partners.component";
+import {navigateToUrlAfterTimout} from "../../../../helpers/otherGeneralUseFunction/navigateToUrlAfterTimeOut";
+import {BackendMessageService} from "../../../../helpers/ErrorHandling/backend-message.service";
 
 @Component({
   selector: 'app-update-business-partner',
@@ -39,7 +41,8 @@ export class UpdateBusinessPartnerComponent implements OnInit, AfterContentCheck
     public validatorService: BusinessPartnerValidatorService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router,
+    private backendMessageService: BackendMessageService) {
   }
 
   ngOnInit(): void {
@@ -119,10 +122,10 @@ export class UpdateBusinessPartnerComponent implements OnInit, AfterContentCheck
 
   onSubmit(): void {
     this.backendService.updateRecordById(this.selectedId, this.userForm.value).subscribe((user) => {
-      this.operationStatusMessage = 'Zaktualizowano dane użytkownika';
-      this.cleanOperationMessageAndGoBack();
+      this.operationStatusMessage = this.userNamesInSelectedLanguage.partnerUpdateSuccessStatusMessage;
+      navigateToUrlAfterTimout(this.authenticationService._previousUrl, this.router);
     }, error => {
-      this.operationStatusMessage = 'Wystąpił bląd, nie udało się zmienić danych użytownika';
+      this.operationStatusMessage = this.backendMessageService.returnErrorToUserBasingOnBackendErrorStringForUpdate(error);
       this.cleanOperationMessageAndGoBack();
     });
   }

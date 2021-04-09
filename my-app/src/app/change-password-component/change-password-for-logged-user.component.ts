@@ -14,6 +14,7 @@ import {
   generalNamesInSelectedLanguage,
   generalUserNames, orderNames
 } from "../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
+import {navigateToUrlAfterTimout} from "../helpers/otherGeneralUseFunction/navigateToUrlAfterTimeOut";
 
 @Component({
   selector: 'app-change-password-component',
@@ -73,10 +74,10 @@ export class ChangePasswordForLoggedUserComponent implements OnInit {
     };
     this.backendService.changePasswordByLoggedUser(changePasswordData).subscribe((user) => {
       this.operationStatusMessage = this.userNamesInSelectedLanguage.passwordChangeSuccessStatus;
-      this.cleanOperationMessage();
+      navigateToUrlAfterTimout(this.authenticationService._previousUrl, this.router);
     }, error => {
       this.operationStatusMessage = this.userNamesInSelectedLanguage.passwordChangeFailerStatus;
-      this.cleanOperationMessage();
+
     });
   }
   closeAndGoBack(): void {

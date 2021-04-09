@@ -12,6 +12,8 @@ import {
   generalUserNames, orderNames
 } from '../../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription';
 import {GeneratePassordAlgoritm} from "../../../../helpers/directive/GeneratePasswordDirective/generatePassordAlgoritm";
+import {navigateToUrlAfterTimout} from "../../../../helpers/otherGeneralUseFunction/navigateToUrlAfterTimeOut";
+import {BackendMessageService} from "../../../../helpers/ErrorHandling/backend-message.service";
 
 @Component({
   selector: 'app-create-busines-partner',
@@ -30,7 +32,8 @@ export class CreateBusinesPartnerComponent implements OnInit {
     public validatorService: BusinessPartnerValidatorService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router,
+    private backendMessageService: BackendMessageService) {
 
   }
 
@@ -88,11 +91,11 @@ export class CreateBusinesPartnerComponent implements OnInit {
   onSubmit(): void {
     this.bakcendService.addOneRecord(this.userForm.value).subscribe((user) => {
       this.operationStatusMessage = this.userNamesInSelectedLanguage.partnerAddSuccessStatusMessage;
-      this.cleanOperationMessage();
-      this.userForm.reset();
+      navigateToUrlAfterTimout(this.authenticationService._previousUrl, this.router);
+
     }, error => {
-      this.operationStatusMessage = this.userNamesInSelectedLanguage.partnerAddFailerStatusMessage;
-      this.cleanOperationMessage();
+      this.operationStatusMessage = this.backendMessageService.returnErrorToUserBasingOnBackendErrorStringForCreateNew(error);
+
     });
   }
   closeAndGoBack(): void {

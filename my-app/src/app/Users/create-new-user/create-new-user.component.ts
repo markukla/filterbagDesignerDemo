@@ -12,6 +12,7 @@ import {
 } from '../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription';
 import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
 import {GeneratePassordAlgoritm} from "../../helpers/directive/GeneratePasswordDirective/generatePassordAlgoritm";
+import {navigateToUrlAfterTimout} from "../../helpers/otherGeneralUseFunction/navigateToUrlAfterTimeOut";
 
 @Component({
   selector: 'app-create-new-user',
@@ -85,11 +86,10 @@ export class CreateNewUserComponent implements OnInit {
   onSubmit(): void {
     this.userBackendService.addUsers(this.userForm.value).subscribe((user) => {
       this.operationStatusMessage = this.userNamesInSelectedLanguage.userAddSuccessStatusMessage;
-      this.cleanOperationMessage();
-      this.userForm.reset();
+      navigateToUrlAfterTimout(this.authenticationService._previousUrl, this.router);
+
     }, error => {
       this.operationStatusMessage = this.userNamesInSelectedLanguage.userAddFailerStatusMessage;
-      this.cleanOperationMessage();
     });
   }
   closeAndGoBack(): void {

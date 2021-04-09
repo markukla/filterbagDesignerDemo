@@ -21,6 +21,7 @@ import {
   dimensionNames,
   generalNamesInSelectedLanguage
 } from "../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
+import {navigateToUrlAfterTimout} from "../../helpers/otherGeneralUseFunction/navigateToUrlAfterTimeOut";
 
 @Component({
   selector: 'app-create-dimension-code',
@@ -143,20 +144,20 @@ export class CreateDimensionCodeComponent implements OnInit {
         this.showoperationStatusMessage = this.backendMessageService.returnSuccessMessageToUserForSuccessBackendResponseForCreateNew();
         this.createdDimensinoCode = material.body;
         this.createdDimensionEmiter.emit(this.createdDimensinoCode);
-        this.cleanOperationMessage();
+        navigateToUrlAfterTimout(this.authenticationService._previousUrl, this.router);
       }, error => {
         this.showoperationStatusMessage = this.backendMessageService.returnErrorToUserBasingOnBackendErrorStringForCreateNew(error);
-        this.cleanOperationMessage();
+
       });
     } else if (this.operatiomMode === OperationModeEnum.UPDATE) {
       this.backendService.updateRecordById(this.selectedRecordToupdateId, this.createDimensionCodeDto).subscribe((material) => {
         this.showoperationStatusMessage = this.backendMessageService.returnSuccessMessageToUserForSuccessBackendResponseForCreateNew();
         this.createdDimensinoCode = material.body;
         this.createdDimensionEmiter.emit(this.createdDimensinoCode);
-        this.cleanOperationMessage();
+        navigateToUrlAfterTimout(this.authenticationService._previousUrl, this.router);
       }, error => {
         this.showoperationStatusMessage = this.backendMessageService.returnErrorToUserBasingOnBackendErrorStringForCreateNew(error);
-        this.cleanOperationMessage();
+
       });
     }
   }

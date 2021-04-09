@@ -27,6 +27,7 @@ import {
 } from "../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
 import {ProductTypeBackendService} from "../../ProductType/ProductTypeServices/product-type-backend.service";
 import ProductType from "../../ProductTypesAndClasses/productType.entity";
+import {navigateToUrlAfterTimout} from "../../../helpers/otherGeneralUseFunction/navigateToUrlAfterTimeOut";
 
 @Component({
   selector: 'app-create-product-bottom',
@@ -140,7 +141,7 @@ export class CreateProductBottomComponent implements OnInit {
           });
         }
         this.showoperationStatusMessage = this.backendMessageService.returnSuccessMessageToUserForSuccessBackendResponseForCreateNew();
-        this.cleanOperationMessage();
+        navigateToUrlAfterTimout(this.authenticationService._previousUrl, this.router);
       }, error => {
         this.showoperationStatusMessage = this.backendMessageService.returnErrorToUserBasingOnBackendErrorStringForCreateNew(error);
         this.cleanOperationMessage();
@@ -148,10 +149,10 @@ export class CreateProductBottomComponent implements OnInit {
     } else if (this.operatiomMode === OperationModeEnum.UPDATE) {
       this.backendService.updateRecordById(this.selectedRecordToupdateId, this.createProductBottomDto).subscribe((material) => {
         this.showoperationStatusMessage = this.backendMessageService.returnSuccessMessageToUserForSuccessBackendResponseForUpdate();
-        this.cleanOperationMessage();
+        navigateToUrlAfterTimout(this.authenticationService._previousUrl, this.router)
       }, error => {
         this.showoperationStatusMessage = this.backendMessageService.returnErrorToUserBasingOnBackendErrorStringForUpdate(error);
-        this.cleanOperationMessage();
+
       });
     }
   }
