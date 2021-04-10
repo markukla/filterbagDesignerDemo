@@ -10,6 +10,7 @@ import LocalizedName from "../Models/LocalizedName/localizedName.entity";
 import DimensionRoleEnum from "../Models/DimesnionCodes/dimensionRoleEnum";
 import CreateDimensionCodeDto from "../Models/DimesnionCodes/createDimensionCode.dto";
 import DimensionCodeAlreadyExistException from "../Exceptions/dimensionAlreadyExistException";
+import {addIdsForCascadeUpdateLocalizedNames} from "../Models/LocalizedName/localizedNamesHelperFunction";
 
 class DimensionCodeService implements RepositoryService{
 
@@ -90,7 +91,8 @@ return foundDimension;
 
     }
     public async updateDimensionCodeById(id:string, createDimensionDto:CreateDimensionCodeDto):Promise<DimensionCode>{
-        const idOfExistingDimensionCode:boolean=await this.findOneById(id)!==null;
+        const recordInDatabase = await this.findOneById(id);
+        const idOfExistingDimensionCode:boolean=recordInDatabase!==null;
         if(idOfExistingDimensionCode){
             const dimensionCodeWithThisCodeInDatabase= await this.findOneByDimensionCode(createDimensionDto.dimensionCode)
             // do not allow to update if other material with this code or name already exist and throw exception
@@ -100,14 +102,18 @@ return foundDimension;
                 }
             }
 
-            const dimensionTosave = this.repository.create( {
+            const localizedNamesWithIds= recordInDatabase.localizedDimensionNames;
+
+            const recordToUpdate = {
                 ...createDimensionDto,
-                id: Number(id)
+                localizedNames: addIdsForCascadeUpdateLocalizedNames(createDimensionDto.localizedDimensionNames, localizedNamesWithIds),
+                id:Number(id)
+            }
 
-            });
-            const updatedDimensionCode=await this.repository.save(dimensionTosave);
 
-            const recordToReturn = await this.repository.findOne(updatedDimensionCode.id); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave
+            const updatedRecord=await this.repository.save(recordToUpdate);
+
+            const recordToReturn = await this.repository.findOne(updatedRecord.id); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave
 
             return recordToReturn;
 

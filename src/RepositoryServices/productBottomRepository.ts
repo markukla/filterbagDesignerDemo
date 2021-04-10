@@ -11,6 +11,7 @@ import {DeleteResult, getRepository, UpdateResult} from "typeorm";
 import ProductTop from "../Models/Products/productTop.entity";
 import Material from "../Models/Materials/material.entity";
 import DimensionCodeNotFoundException from "../Exceptions/DimensionCodeNotFoundException";
+import {addIdsForCascadeUpdateLocalizedNames} from "../Models/LocalizedName/localizedNamesHelperFunction";
 
 
 class ProductBottomService implements RepositoryService {
@@ -75,7 +76,8 @@ class ProductBottomService implements RepositoryService {
     }
 
     public async updateProductBottomById(id: string, createProductBottomDto: CreateProductBottomDto): Promise<ProductBottom> {
-        const idOfExistingProductBottom: boolean = await this.findOneProductBottomById(id) !== null;
+       const recordInDatabase=await this.findOneProductBottomById(id);
+        const idOfExistingProductBottom: boolean = recordInDatabase !== null;
         if (idOfExistingProductBottom) {
 
             // do not allow to update if other ProductType with the same filds already exists
@@ -87,17 +89,20 @@ class ProductBottomService implements RepositoryService {
                 }
             }
 
-            const productBottomToUpdate: ProductBottom = {
-                id: Number(id),
-                ...createProductBottomDto
+            const localizedNamesWithIds= recordInDatabase.localizedNames;
 
+            const recordToUpdate = {
+                ...createProductBottomDto,
+                localizedNames: addIdsForCascadeUpdateLocalizedNames(createProductBottomDto.localizedNames, localizedNamesWithIds),
+                id:Number(id)
             }
-            const updateResult: ProductBottom = await this.repository.save(productBottomToUpdate);
-
-                const updatedProductBottom: ProductBottom = await this.findOneProductBottomById(String(updateResult.id));
-                return updatedProductBottom;
 
 
+            const updatedRecord=await this.repository.save(recordToUpdate);
+
+            const recordToReturn = await this.repository.findOne(updatedRecord.id); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave
+
+            return recordToReturn;
 
         }
     }

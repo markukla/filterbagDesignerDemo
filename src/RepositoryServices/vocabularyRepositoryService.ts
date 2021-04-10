@@ -9,6 +9,7 @@ import VocabularyNotFoundException from "../Exceptions/vocabularyNotFoundExcepti
 import Vocabulary from "../Models/Vocabulary/vocabulary.entity";
 import CreateVocabularyDto from "../Models/Vocabulary/vocabulary.dto";
 import DimensionCodeNotFoundException from "../Exceptions/DimensionCodeNotFoundException";
+import {addIdsForCascadeUpdateLocalizedNames} from "../Models/LocalizedName/localizedNamesHelperFunction";
 
 class VocabularyService implements RepositoryService{
 
@@ -45,7 +46,8 @@ class VocabularyService implements RepositoryService{
         }
 
         const recordToSave ={
-            ...createVocabularyDto
+            ...createVocabularyDto,
+
         };
         const savedRecord=await this.repository.save(recordToSave);
         const recordToReturn = await this.repository.findOne(savedRecord.id); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave
@@ -66,21 +68,14 @@ class VocabularyService implements RepositoryService{
 
             }
 
+
+            const localizedNamesWithIds= recordInDatabase.localizedNames;
+
             const recordToUpdate = {
-                ...recordInDatabase,
+                ...createVocabularyDto,
+                localizedNames: addIdsForCascadeUpdateLocalizedNames(createVocabularyDto.localizedNames, localizedNamesWithIds),
+                id:Number(id)
             }
-            recordToUpdate.localizedNames.forEach((localizedInDB)=>{
-                createVocabularyDto.localizedNames.forEach((localizedFromFront)=>{
-                    console.log(`localizedFromFront.language.id=${localizedFromFront.language.id}`);
-                    console.log(`localizedInDB.language.id=${localizedInDB.language.id}`);
-                    if(localizedInDB.language.id == localizedFromFront.language.id){
-                        console.log('in if');
-                        localizedInDB.nameInThisLanguage = localizedFromFront.nameInThisLanguage;
-                        console.log(`localizedInDB.nameInThisLanguage=${localizedInDB.nameInThisLanguage}`);
-                    }
-                });
-            });
-            recordToUpdate.variableName = createVocabularyDto.variableName;
 
 
             const updatedRecord=await this.repository.save(recordToUpdate);

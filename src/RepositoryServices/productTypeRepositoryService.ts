@@ -11,6 +11,7 @@ import ProductTypeAlreadyExistsException from "../Exceptions/ProductTypeAlreadyE
 import ProductTop from "../Models/Products/productTop.entity";
 import Material from "../Models/Materials/material.entity";
 import DimensionCodeNotFoundException from "../Exceptions/DimensionCodeNotFoundException";
+import {addIdsForCascadeUpdateLocalizedNames} from "../Models/LocalizedName/localizedNamesHelperFunction";
 
 
 class ProductTypeService implements RepositoryService {
@@ -74,7 +75,8 @@ class ProductTypeService implements RepositoryService {
     }
 
     public async updateProductTypeById(id: string, createProductTypeDto: CreateProductTypeDto): Promise<ProductType> {
-        const idOfExistingProductType: boolean = await this.findOneProductTypeById(id) !== null;
+       const recordInDatabase=await this.findOneProductTypeById(id);
+        const idOfExistingProductType: boolean = recordInDatabase !== null;
         if (idOfExistingProductType) {
 
             // do not allow to update if other ProductType with the same filds already exists
@@ -88,15 +90,22 @@ class ProductTypeService implements RepositoryService {
                 }
             }
 
-            const productTypeToUpdate: ProductType = {
+            const localizedNamesWithIds= recordInDatabase.localizedNames;
+
+            const recordToUpdate = {
                 ...createProductTypeDto,
-                id: Number(id)
+                localizedNames: addIdsForCascadeUpdateLocalizedNames(createProductTypeDto.localizedNames, localizedNamesWithIds),
+                id:Number(id)
+            }
 
-            };
-            const ProductToUpdate: ProductType = await this.repository.save(productTypeToUpdate);
 
-            const updatedProductType: ProductType = await this.findOneProductTypeById(id);
-            return updatedProductType;
+            const updatedRecord=await this.repository.save(recordToUpdate);
+
+            const recordToReturn = await this.repository.findOne(updatedRecord.id); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave
+
+            return recordToReturn;
+
+
         }
     }
 

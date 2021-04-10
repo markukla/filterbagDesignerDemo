@@ -16,6 +16,7 @@ import CreateProductTopDto from "../Models/Products/createProductTop.dto";
 import ProductTopAlreadyExistsException from "../Exceptions/ProductTopAlreadyExistsException";
 import Material from "../Models/Materials/material.entity";
 import DimensionCodeNotFoundException from "../Exceptions/DimensionCodeNotFoundException";
+import {addIdsForCascadeUpdateLocalizedNames} from "../Models/LocalizedName/localizedNamesHelperFunction";
 
 
 class ProductTopService implements RepositoryService {
@@ -78,7 +79,8 @@ class ProductTopService implements RepositoryService {
     }
 
     public async updateProductTopById(id: string, createProductTopDto: CreateProductTopDto): Promise<ProductTop> {
-        const idOfExistingProductTOp: boolean = await this.findOneProductTopById(id) !== null;
+        const recordInDatabase= await this.findOneProductTopById(id);
+        const idOfExistingProductTOp: boolean = recordInDatabase !== null;
         if (idOfExistingProductTOp) {
 
             // do not allow to update if other ProductType with the same filds already exists
@@ -90,15 +92,20 @@ class ProductTopService implements RepositoryService {
                 }
             }
 
-            const productTopeToUpdate: ProductTop = {
-                id: Number(id),
-                ...createProductTopDto
+            const localizedNamesWithIds= recordInDatabase.localizedNames;
 
+            const recordToUpdate = {
+                ...createProductTopDto,
+                localizedNames: addIdsForCascadeUpdateLocalizedNames(createProductTopDto.localizedNames, localizedNamesWithIds),
+                id:Number(id)
             }
-            const updateResult: ProductTop = await this.repository.save(productTopeToUpdate);
 
-                const updatedProductTop: ProductTop = await this.findOneProductTopById(String(updateResult.id));
-                return updatedProductTop;
+
+            const updatedRecord=await this.repository.save(recordToUpdate);
+
+            const recordToReturn = await this.repository.findOne(updatedRecord.id); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave
+
+            return recordToReturn;
 
 
 
