@@ -17,6 +17,8 @@ import {
 } from "../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
 import {BackendMessageService} from "../../helpers/ErrorHandling/backend-message.service";
 import {navigateToUrlAfterTimout} from "../../helpers/otherGeneralUseFunction/navigateToUrlAfterTimeOut";
+import LocalizedName from "../../DimensionCodes/DimensionCodesTypesAnClasses/localizedName";
+import {LanguageFormService} from "../../LanguageForm/language-form.service";
 
 @Component({
   selector: 'app-update-material',
@@ -38,7 +40,8 @@ export class UpdateMaterialComponent implements OnInit {
               public validateMaterialCodeUniqueService: ValidateMaterialCodeUniqueService,
               private router: Router,
               private authenticationService: AuthenticationService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private languageFormService: LanguageFormService) {
   }
 
   ngOnInit(): void {
@@ -47,6 +50,7 @@ export class UpdateMaterialComponent implements OnInit {
       this.selectedMaterialId = queryParams.get('materialId');
 
     });
+    this.languageFormService.languages = this.authenticationService.languages;
     this.materialForm = new FormGroup({
       // tslint:disable-next-line:max-line-length
       materialCode: new FormControl('', [Validators.nullValidator, Validators.required, Validators.minLength(6),   Validators.maxLength(6)], [this.validateMaterialCodeUniqueService.materialCodeValidatorForUpdate(Number(this.selectedMaterialId))]),
@@ -61,6 +65,7 @@ export class UpdateMaterialComponent implements OnInit {
         this.materialToUpdate = material.body;
         this.materialForm.controls.materialCode.setValue(this.materialToUpdate.materialCode);
         this.materialForm.controls.materialName.setValue(this.materialToUpdate.materialName);
+        this.languageFormService.namesInAllLanguages = this.materialToUpdate.localizedNames;
       },
       error => {
         console.log(`This error occured: ${error.error}`);
@@ -84,11 +89,21 @@ export class UpdateMaterialComponent implements OnInit {
 
 
   onSubmit(): void {
-    // tslint:disable-next-line:max-line-length
-    console.log(`materialFOrrmValu= ${this.materialForm.value}`);
-    // tslint:disable-next-line:max-line-length
-    this.materialBackendService.deleteRecordById(this.selectedMaterialId).subscribe((deletesuccessResponse)=>{
-        this.materialBackendService.addRecords( this.materialForm.value).subscribe((material) => {
+    const localizedNames: LocalizedName[] = [];
+    this.languageFormService.languageNames.forEach((languageInput) => {
+      const localizedDimensionName: LocalizedName = {
+        language: {id: languageInput.nativeElement.id},
+        nameInThisLanguage: languageInput.nativeElement.value
+      };
+      localizedNames.push(localizedDimensionName);
+    });
+    const material: Material = {
+      localizedNames,
+      materialCode: this.materialCode.value,
+      materialName: this.materialName.value
+    };
+
+        this.materialBackendService.updateRecordById(this.selectedMaterialId, material).subscribe((material) => {
             this.operationStatusMessage = this.backendMessageService.returnSuccessMessageToUserForSuccessBackendResponseForUpdate();
           navigateToUrlAfterTimout(this.authenticationService._previousUrl, this.router);
           }, error => {
@@ -96,10 +111,7 @@ export class UpdateMaterialComponent implements OnInit {
 
           }
         )
-    },error => {
-      this.operationStatusMessage = this.backendMessageService.returnErrorToUserBasingOnBackendErrorStringForUpdate(error);
-    }
-      );
+
 
 
 

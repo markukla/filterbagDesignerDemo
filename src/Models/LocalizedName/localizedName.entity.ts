@@ -6,6 +6,7 @@ import ProductBottom from "../Products/productBottom.entity";
 import ProductType from "../Products/productType.entity";
 import Dimension from "../OrderDetail/dimension";
 import DimensionCode from "../DimesnionCodes/diemensionCode.entity";
+import Material from "../Materials/material.entity";
 
 @Entity("localizedNames")
 class LocalizedName{
@@ -25,6 +26,8 @@ class LocalizedName{
     productType: ProductType;
     @ManyToOne(()=>DimensionCode, (dimensionCode: DimensionCode)=>dimensionCode.localizedDimensionNames)
     dimensionCode: DimensionCode;
+    @ManyToOne(()=>DimensionCode, (dimensionCode: DimensionCode)=>dimensionCode.localizedDimensionNames)
+    material: Material;
 
 
 

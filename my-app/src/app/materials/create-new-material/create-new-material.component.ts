@@ -15,6 +15,8 @@ import {
 import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
 import {BackendMessageService} from "../../helpers/ErrorHandling/backend-message.service";
 import {navigateToUrlAfterTimout} from "../../helpers/otherGeneralUseFunction/navigateToUrlAfterTimeOut";
+import LocalizedName from "../../DimensionCodes/DimensionCodesTypesAnClasses/localizedName";
+import {LanguageFormService} from "../../LanguageForm/language-form.service";
 
 @Component({
   selector: 'app-create-new-material',
@@ -33,7 +35,8 @@ export class CreateNewMaterialComponent implements OnInit{
               public validateMaterialCodeUniqueService: ValidateMaterialCodeUniqueService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private languageFormService: LanguageFormService) {
 
   }
   materialForm = new FormGroup({
@@ -52,7 +55,20 @@ export class CreateNewMaterialComponent implements OnInit{
     return this.materialForm.get('materialName');
   }
   onSubmit(): void {
-    this.materialbackendService.addRecords(this.materialForm.value).subscribe((material) => {
+    const localizedNames: LocalizedName[] = [];
+    this.languageFormService.languageNames.forEach((languageInput) => {
+      const localizedDimensionName: LocalizedName = {
+        language: {id: languageInput.nativeElement.id},
+        nameInThisLanguage: languageInput.nativeElement.value
+      };
+      localizedNames.push(localizedDimensionName);
+    });
+    const material: Material = {
+      localizedNames,
+      materialCode: this.materialCode.value,
+      materialName: this.materialName.value
+    };
+    this.materialbackendService.addRecords(material).subscribe((material) => {
       this.showoperationStatusMessage = this.backendMessageService.returnSuccessMessageToUserForSuccessBackendResponseForCreateNew();
       navigateToUrlAfterTimout(this.authenticationService._previousUrl, this.router);
     }, error => {
@@ -65,6 +81,7 @@ export class CreateNewMaterialComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    this.languageFormService.languages = this.authenticationService.languages;
     this.initColumnNamesInSelectedLanguage();
   }
 

@@ -7,6 +7,7 @@ import MaterialAlreadyExistsException from "../Exceptions/MaterialAlreadyExistsE
 import User from "../Models/Users/user.entity";
 import DimensionCode from "../Models/DimesnionCodes/diemensionCode.entity";
 import DimensionCodeNotFoundException from "../Exceptions/DimensionCodeNotFoundException";
+import {addIdsForCascadeUpdateLocalizedNames} from "../Models/LocalizedName/localizedNamesHelperFunction";
 
 
 class MaterialService implements RepositoryService {
@@ -72,7 +73,8 @@ class MaterialService implements RepositoryService {
     }
 
     public async updateMaterialById(id: string, createMaterialDto: CreateMaterialDto): Promise<Material> {
-        const idOfExistingUser: boolean = await this.findOneMaterialById(id) !== null;
+       const recordInDatabase=await this.findOneMaterialById(id);
+        const idOfExistingUser: boolean = recordInDatabase !== null;
         if (idOfExistingUser) {
             const materialWithThisCodeInDatabase = await this.findOneMaterialByMaterialCode(createMaterialDto.materialCode);
             const materialWithThisNameInDatabase = await this.findOneMaterialByMaterialName(createMaterialDto.materialName);
@@ -95,14 +97,20 @@ class MaterialService implements RepositoryService {
                 }
 
             }
-            const materialToSave = this.repository.create({
+            const localizedNamesWithIds= recordInDatabase.localizedNames;
+
+            const recordToUpdate = {
                 ...createMaterialDto,
-                id: Number(id)
+                localizedNames: addIdsForCascadeUpdateLocalizedNames(createMaterialDto.localizedNames, localizedNamesWithIds),
+                id:Number(id)
+            }
 
-            });
-            const updatedMaterial = await this.repository.save(materialToSave);
 
-            return updatedMaterial;
+            const updatedRecord=await this.repository.save(recordToUpdate);
+
+            const recordToReturn = await this.repository.findOne(updatedRecord.id); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave
+
+            return recordToReturn;
 
 
         }

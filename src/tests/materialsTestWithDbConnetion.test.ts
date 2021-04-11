@@ -11,7 +11,8 @@ import Material from "../Models/Materials/material.entity";
 import MaterialNotFoundExceptionn from "../Exceptions/MaterialNotFoundException";
 
 
-beforeAll(async () => {
+/*
+* beforeAll(async () => {
         await connectToDatabase(config_test);
         await insertTestMaterialsToDatabase();
 
@@ -184,4 +185,4 @@ describe('MaterialService', () => {
     });
 
 
-});
+});*/

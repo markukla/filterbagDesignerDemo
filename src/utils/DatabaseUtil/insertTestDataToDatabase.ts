@@ -66,15 +66,16 @@ async function insertInitVocabulariesToDatabase() {
     }
 }
 async function insertTestMaterialsToDatabase(){
-
-    const maTerialsExamples:MaTerialsExamples=new MaTerialsExamples();
+/*
+*const maTerialsExamples:MaTerialsExamples=new MaTerialsExamples();
     const materials:Material[]=maTerialsExamples.validMaterials;
     const repository=getRepository(Material);
     const materialsInDatabase: Material[] = await repository.find();
     if(materialsInDatabase.length ===0 ) {
         await repository.save(materials);
         console.log(" initial materials inserted")
-    }
+    } */
+
 
 }
 async function insertTestLanguagesToDatabase(){

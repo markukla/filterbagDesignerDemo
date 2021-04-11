@@ -1,6 +1,7 @@
 import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {IsString} from "class-validator";
 import Order from "../Order/order.entity";
+import LocalizedName from "../LocalizedName/localizedName.entity";
 
 @Entity("materials")
 class Material{
@@ -19,6 +20,9 @@ class Material{
     orders?:Order[];
     @Column({nullable: true})
     softDeleteDate?:Date;
+    @OneToMany(()=>LocalizedName,(lozalizedName: LocalizedName)=>lozalizedName.material,{eager:true, cascade:true})
+        // @JoinTable({name:"localizedN_productTop_id_pairs"})
+    localizedNames: LocalizedName [];
 
 
     constructor(materialCode: string, materialName: string) {

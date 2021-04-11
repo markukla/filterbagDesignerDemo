@@ -36,7 +36,7 @@ class Order {
     product: Product;
 
 
-    @ManyToOne(() => Material, (productMaterial: Material) => productMaterial.orders, {eager: true})
+    @ManyToOne(() => Material, (productMaterial: Material) => productMaterial.orders, {/*eager: true*/})
     productMaterial: Material;
 
     @OneToOne(() => OrderDetails, {eager: true, cascade:true,onDelete:"CASCADE"})// has a forein key

@@ -4,8 +4,7 @@ import CreateMaterialDto from "../Models/Materials/material.dto";
 
 class MaTerialsExamples {
 
-
-validMaterial1:Material={
+/*validMaterial1:Material={
     materialCode:"mat123",
     materialName:"material1"
 };
@@ -43,7 +42,8 @@ validMaterial2:Material={
     invalidMaterialwhichDuplicateMaterial1NameDTO:CreateMaterialDto={
         ...this.validMaterial1,
         materialCode:"mat987"
-    };
+    };*/
+
 }
 
 export default MaTerialsExamples;

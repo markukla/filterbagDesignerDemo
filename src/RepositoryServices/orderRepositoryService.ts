@@ -29,7 +29,7 @@ class OrderService implements RepositoryService {
     public materialRepositoryService=new MaterialService();
 
     public async findOneOrderById(id: string): Promise<Order> {
-        const foundOrder: Order = await this.repository.findOne(id, {relations:["orderVersionRegister","product"]});
+        const foundOrder: Order = await this.repository.findOne(id, {relations:["orderVersionRegister","product","productMaterial"]});
         if (!foundOrder) {
             throw new OrderNotFoundException(id);
         }
@@ -41,7 +41,7 @@ class OrderService implements RepositoryService {
 
 
     public async findAllOrders(): Promise<Order[]> {
-        const foundOrders: Order[] = await this.repository.find({relations:["orderVersionRegister","product"]});
+        const foundOrders: Order[] = await this.repository.find({relations:["orderVersionRegister","product","productMaterial"]});
 
         return foundOrders;
 

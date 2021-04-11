@@ -1,4 +1,5 @@
-import {IsString, Length} from "class-validator";
+import {IsArray, IsString, Length} from "class-validator";
+import LocalizedName from "../LocalizedName/localizedName.entity";
 
 class CreateMaterialDto{
 
@@ -8,6 +9,8 @@ class CreateMaterialDto{
     materialCode:string;
     @IsString()
     materialName:string;
+    @IsArray()
+    localizedNames: LocalizedName [];
 
 
 }
