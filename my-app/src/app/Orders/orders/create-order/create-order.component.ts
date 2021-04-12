@@ -4,7 +4,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  HostListener,
+  HostListener, Input,
   OnInit,
   Renderer2,
   ViewChild
@@ -100,6 +100,8 @@ export class CreateOrderComponent implements OnInit, AfterContentChecked, AfterV
   generalUserNames = generalUserNames;
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
   formTitleCreateNewOrUpdate: string;
+  @Input() addMaterialDescriptiontoDrawingTabel: boolean;
+
   @ViewChild('commentToOrder', {read: ElementRef}) commentToOrder: ElementRef;
   @ViewChild('businessPartner', {read: ElementRef}) htmlselectBusinessPartner: ElementRef<HTMLSelectElement>;
   constructor(
@@ -330,6 +332,7 @@ get businessPartner() {
   }
 
   // tslint:disable-next-line:typedef
+
 get productMaterial() {
     return this.form.get('productMaterial');
   }

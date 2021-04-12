@@ -26,6 +26,8 @@ class Order {
 
     @Column()
     commentToOrder?:string;
+    @Column()
+    addMaterialDescription: boolean
 
 
     @ManyToOne(() => User, (businessPartner: User) => businessPartner.ordersOfPartner, {eager: true})    // has a forein key
@@ -38,6 +40,7 @@ class Order {
 
     @ManyToOne(() => Material, (productMaterial: Material) => productMaterial.orders, {/*eager: true*/})
     productMaterial: Material;
+
 
     @OneToOne(() => OrderDetails, {eager: true, cascade:true,onDelete:"CASCADE"})// has a forein key
     @JoinColumn() // this determines that foreing key will be on this side of relation

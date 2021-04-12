@@ -24,6 +24,7 @@ import {
   generalNamesInSelectedLanguage,
   materialNamesInSelectedLanguage
 } from '../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription';
+import {MaterialForTabelCell} from "./materialForTabelCell";
 
 @Component({
   selector: 'app-materials',
@@ -32,7 +33,7 @@ import {
 })
 export class MaterialsComponent implements OnChanges, OnInit, AfterContentChecked, AfterViewInit, AfterViewChecked {
   @Input()
-  materials: Material[];
+  materials: MaterialForTabelCell[];
   @Input()
   orginalMaterialsCopy: Material[];
   createNewMaterialDescription = 'Create new Material';
@@ -134,9 +135,14 @@ export class MaterialsComponent implements OnChanges, OnInit, AfterContentChecke
   getRecords(): void {
     this.backendService.getRecords().subscribe((materials) => {
       this.tableService.records.length = 0;
-      this.tableService.records = materials.body;
+      this.tableService.records = [];
+      materials.body.forEach((material)=>{
+       const materialForTabelCell: MaterialForTabelCell= this.backendService.createMaterialForTableCellFromMaterial(material);
+        this.tableService.records.push(materialForTabelCell);
+      });
       this.materials = this.tableService.getRecords();
       this.searChService.orginalArrayCopy = [...this.tableService.getRecords()];
+
     });
 
   }
@@ -169,7 +175,7 @@ export class MaterialsComponent implements OnChanges, OnInit, AfterContentChecke
 
   updateSelectedRecord(materialId: number): void {
     this.tableService.selectedId = materialId;
-    this.router.navigateByUrl(`/materials/update?materialId=${String(materialId)}`);
+    this.router.navigateByUrl(`/materials/update?materialId=${String(materialId)}&mode=update`);
   }
 
   ngOnChanges(changes: SimpleChanges): void {

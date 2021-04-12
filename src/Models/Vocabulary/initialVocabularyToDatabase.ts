@@ -338,6 +338,24 @@ const generalTable54: Vocabulary = {
 }
 initialVocabularyForDatabase.push(generalTable54);
 
+const generalTable55: Vocabulary = {
+    variableName: 'giveMaterialDescriptionInAllLanguages',
+    localizedNames: [new LocalizedName({id:1}, 'Podaj opis Materiału we wszystkich językach'), new LocalizedName({id:2}, '{id:2} ....')]
+}
+initialVocabularyForDatabase.push(generalTable55);
+const generalTable56: Vocabulary = {
+    variableName: 'materialDescription',
+    localizedNames: [new LocalizedName({id:1}, 'Opis Materiału'), new LocalizedName({id:2}, '{id:2} ....')]
+}
+initialVocabularyForDatabase.push(generalTable56);
+
+const generalTable57: Vocabulary = {
+    variableName: 'addMaterialDescriptionToDrawingTabel',
+    localizedNames: [new LocalizedName({id:1}, 'Zaznacz pole jeśli chcesz dodać opis materiału do informacji w tabelce na rysunku'), new LocalizedName({id:2}, '{id:2} ....')]
+}
+initialVocabularyForDatabase.push(generalTable57);
+
+
 
 
 

@@ -20,6 +20,8 @@ export class TableFormServiceService {
   date: Date;
   materialName: string;
   materialCode: string;
+  materialDescriptionInSelectedLanguage: string;
+  allowMaterialDescription:boolean;
   Lvalue: string;  // value for second indexDimension
   Dvalue: string; // value for first index dimension
   productTypeName: string;
@@ -150,9 +152,17 @@ export class TableFormServiceService {
     if (createOrderDto && createOrderDto.productMaterial) {
       this.materialCode = createOrderDto.productMaterial.materialCode;
       this.materialName = createOrderDto.productMaterial.materialName;
+      if(createOrderDto.addMaterialDescription){
+        this.materialDescriptionInSelectedLanguage= getSelectedLanguageFromNamesInAllLanguages(createOrderDto.productMaterial.localizedNames, this.authenticationService.selectedLanguageCode);
+      }
+      else {
+        this.materialDescriptionInSelectedLanguage=''
+      }
+
     } else {
       this.materialCode = '';
       this.materialName = '';
+      this.materialDescriptionInSelectedLanguage=''
     }
     if (createOrderDto && createOrderDto.product) {
       // tslint:disable-next-line:max-line-length

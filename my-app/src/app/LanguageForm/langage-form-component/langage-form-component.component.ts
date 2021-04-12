@@ -14,7 +14,7 @@ import LocalizedName from '../../DimensionCodes/DimensionCodesTypesAnClasses/loc
 import OperationModeEnum from '../../util/OperationModeEnum';
 import {LanguageFormService} from '../language-form.service';
 import DimensionCode from '../../DimensionCodes/DimensionCodesTypesAnClasses/diemensionCode.entity';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {API_URL} from '../../Config/apiUrl';
 import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
 import {
@@ -36,11 +36,13 @@ export class LangageFormComponentComponent implements OnInit, AfterViewInit, Aft
   apiUrl = API_URL;
   orderNamesInSelectedLanguage = orderNames;
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
+  languageFormTitle: string;
   @ViewChildren('nameInput', {read: ElementRef}) languageNames: ElementRef[];
   constructor(
     private languageService: LanguageBackendService,
     private languageFormService: LanguageFormService,
     private route: ActivatedRoute,
+    private router: Router,
     private authenticationService: AuthenticationService,
   ) { }
 
@@ -56,6 +58,13 @@ export class LangageFormComponentComponent implements OnInit, AfterViewInit, Aft
     setTabelColumnAndOtherNamesForSelectedLanguage(this.orderNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
     // tslint:disable-next-line:max-line-length
     setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
+ if(this.router.url.includes('material')){
+   this.languageFormTitle=this.generalNamesInSelectedLanguage.giveMaterialDescriptionInAllLanguages;
+ }
+ else {
+   this.languageFormTitle=this.generalNamesInSelectedLanguage.addNamesInAllLanguages;
+
+ }
   }
   setValueForLanguageInputInUpdateMode(inputIdEqualContryCode: string, localizedNames: LocalizedName[]): string {
     let name = '';

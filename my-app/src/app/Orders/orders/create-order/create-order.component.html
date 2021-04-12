@@ -98,14 +98,21 @@
     <div *ngIf="materialConfirmed && selectedMaterial">
       {{orderNames.productMaterial}}: <br>
       {{generalNamesInSelectedLanguage.code + ': ' + selectedMaterial.materialCode}} <br>
-      {{generalNamesInSelectedLanguage.name + ': ' + selectedMaterial.materialName}}
+      {{generalNamesInSelectedLanguage.name + ': ' + selectedMaterial.materialName}} <br>
+      <div>
+        {{generalNamesInSelectedLanguage.materialDescription + ': ' + getNameInSelectedLanguage(selectedMaterial.localizedNames)}}<br>
+        <label for="addMaterialDescriptionCheckboc">{{this.generalNamesInSelectedLanguage.addMaterialDescriptionToDrawingTabel}}</label>
+        <input id="addMaterialDescriptionCheckboc" type="checkbox" [(ngModel)]="addMaterialDescriptiontoDrawingTabel">
+      </div>
+
+
     </div>
     <div *ngIf="!materialConfirmed">
       <label class="label" for="productMaterial">{{generalNamesInSelectedLanguage.select +' '+orderNames.productMaterial}}</label>
       <select class="form-control" formControlName="productMaterial" id="productMaterial">
         <option [ngValue]="null" disabled> -</option>
         <option *ngFor="let material of allMaterialsToSelect" [ngValue]="material">
-          {{ material.materialCode + ' - ' + material.materialName }}
+          {{ material.materialCode + ' - ' + material.materialName+ ' - ' + getNameInSelectedLanguage(material.localizedNames) }}
         </option>
       </select>
       <div *ngIf="bottom.invalid && (bottom.dirty || bottom.touched)"

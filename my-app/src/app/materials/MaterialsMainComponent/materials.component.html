@@ -17,6 +17,7 @@
   <tr>
     <th [appSort]="materials" data-order="desc" data-name="materialCode" scope="col">{{materialNamesInSelectedLanguage.materialCode}} <br></th>
     <th [appSort]="materials" data-order="desc" data-name="materialName" scope="col">{{materialNamesInSelectedLanguage.materialName}}</th>
+    <th [appSort]="materials" data-order="desc" data-name="descriptionInSelectedLanguage" scope="col">{{generalNamesInSelectedLanguage.materialDescription}}</th>
     <th>{{materialNamesInSelectedLanguage.quantity}}</th>
 
   </tr>
@@ -26,13 +27,15 @@
       <input class="tableSearchInput"[appSearch]="materials" serchedColumn="materialCode" id="serchInCodes" [placeholder]="generalNamesInSelectedLanguage.search" />
     </th>
     <th><input class="tableSearchInput" [appSearch]="materials" serchedColumn="materialName" id="serchInNames" [placeholder]="generalNamesInSelectedLanguage.search" /></th>
-  <th>{{this.recordNumbers}}</th>
+    <th><input class="tableSearchInput" [appSearch]="materials" serchedColumn="descriptionInSelectedLanguage" id="serchInDescriptions" [placeholder]="generalNamesInSelectedLanguage.search" /></th>
+    <th>{{this.recordNumbers}}</th>
   </tr>
   </thead>
   <tbody>
   <tr *ngFor="let material of materials">
     <td>{{material.materialCode}}</td>
     <td>{{material.materialName}}</td>
+    <td>{{material.descriptionInSelectedLanguage}}</td>
     <td>
       <text *ngIf="deleTedMaterialMessage">{{deleTedMaterialMessage}}</text>
       <br>

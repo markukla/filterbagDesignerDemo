@@ -1,4 +1,4 @@
-import {IsDate, IsNumber, IsObject, IsString, Length} from "class-validator";
+import {IsBoolean, IsDate, IsNumber, IsObject, IsString, Length} from "class-validator";
 import OrderDetails from "../OrderDetail/orderDetails.entity";
 import {Column} from "typeorm";
 import User from "../Users/user.entity";
@@ -30,6 +30,8 @@ class CreateOrderDto{
     orderName:string;
     @IsString()
     commentToOrder:string;
+    @IsBoolean()
+    addMaterialDescription?: boolean
 
 }
 export default CreateOrderDto;

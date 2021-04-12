@@ -6,6 +6,11 @@ import {Material} from '../MaterialsMainComponent/material';
 import {MaterialTableService} from './material-table.service';
 import {API_URL} from '../../Config/apiUrl';
 import {GeneralTableService} from '../../util/GeneralTableService/general-table.service';
+import ProductTop from "../../Products/ProductTypesAndClasses/productTop.entity";
+import {ProductTopForTableCell} from "../../Products/ProductTypesAndClasses/productTopForTableCell";
+import {getSelectedLanguageFromNamesInAllLanguages} from "../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
+import {MaterialForTabelCell} from "../MaterialsMainComponent/materialForTabelCell";
+import {AuthenticationService} from "../../LoginandLogOut/AuthenticationServices/authentication.service";
 
 
 @Injectable({
@@ -15,7 +20,8 @@ export class MaterialBackendService {
   rootURL = API_URL;
   endpointUrl = '/api/materials';
   constructor(private http: HttpClient,
-              private materialTableService: GeneralTableService) {
+              private materialTableService: GeneralTableService,
+              private authenticationService: AuthenticationService) {
   }
 
   getRecords(): Observable<HttpResponse<Material[]>> {
@@ -74,4 +80,14 @@ export class MaterialBackendService {
     const getUrl = `${this.rootURL + this.endpointUrl}/${materialToUpdateId}`;
     return this.http.get<Material>(getUrl, {observe: 'response'} );
   }
+  createMaterialForTableCellFromMaterial(material: Material): MaterialForTabelCell {
+    // tslint:disable-next-line:max-line-length
+    const descriptionInSelectedLanguage = getSelectedLanguageFromNamesInAllLanguages(material.localizedNames, this.authenticationService.selectedLanguageCode);
+    const materialForTabelCell: MaterialForTabelCell = {
+      ...material,
+      descriptionInSelectedLanguage: descriptionInSelectedLanguage,
+    };
+    return materialForTabelCell;
+  }
+
 }

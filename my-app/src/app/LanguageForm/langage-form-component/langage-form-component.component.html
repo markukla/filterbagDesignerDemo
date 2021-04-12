@@ -1,6 +1,6 @@
 
 <div>
-  {{this.generalNamesInSelectedLanguage.addNamesInAllLanguages}}
+  {{this.languageFormTitle}}
   <div class="languageVersionNames" *ngFor="let language of languages">
 
     <img class="flagImage" [src]="getImageUrl(language)"> <label [for]="language.id">{{language.languageCode}}</label>

@@ -19,6 +19,7 @@ class Order {
   orderDetails: OrderDetails;
   creator: User;
   orderVersionRegister: OrderVersionRegister;
+  addMaterialDescription?: boolean
 }
 
 export default Order;
