@@ -7,7 +7,7 @@ import {setTabelColumnAndOtherNamesForSelectedLanguage} from '../../../../helper
 import {AuthenticationService} from '../../../../LoginandLogOut/AuthenticationServices/authentication.service';
 import {
   drawingTableFormNames,
-  generalNamesInSelectedLanguage,
+  generalNamesInSelectedLanguage, materialNamesInSelectedLanguage,
   orderNames
 } from '../../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription';
 
@@ -40,6 +40,9 @@ export class ProductTableFormComponent implements OnInit, AfterContentChecked {
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
   orderNames = orderNames;
   drawingTableFormNames = drawingTableFormNames;
+  materialNames= materialNamesInSelectedLanguage;
+  materialDescriptionInSelectedLanguage: string;
+  materialNameCodeAndOptionalDescription: string;
 
   constructor(
     private backendService: ProductBackendService,
@@ -55,6 +58,7 @@ export class ProductTableFormComponent implements OnInit, AfterContentChecked {
     this.generalNamesInSelectedLanguage = this.authenticationService.generalNamesInSelectedLanguage;
     this.orderNames = this.authenticationService.orderNamesInSelectedLanguage;
     this.drawingTableFormNames = this.authenticationService.drawingTableFormNamesInSelectedLanguage;
+    this.materialNames = this.authenticationService.materialNamesInSelectedLanguage;
   }
 
 
@@ -84,5 +88,7 @@ export class ProductTableFormComponent implements OnInit, AfterContentChecked {
     this.materialPartialCodeForIndex = this.tableFormService.materialPartialCodeForIndex;
     this.firstIndexDimension = this.tableFormService.firstIndexDimension;
     this.secondIndexDimension = this.tableFormService.secondIndexDimension;
+    this.materialDescriptionInSelectedLanguage= this.tableFormService.materialDescriptionInSelectedLanguage;
+    this.materialNameCodeAndOptionalDescription= this.tableFormService.setMaterialInformation();
   }
 }

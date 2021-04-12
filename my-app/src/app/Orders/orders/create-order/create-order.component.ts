@@ -174,6 +174,7 @@ export class CreateOrderComponent implements OnInit, AfterContentChecked, AfterV
             orderName: null,
             orderDetails: null,
             orderNumber: null,
+            addMaterialDescription: null,
           };
         }
         this.setInitStateofConfirmOrCHangeButtonsAndSubmitButton();
@@ -238,6 +239,9 @@ setFormControlValuesForUpdateOrShowDrawingMode(createOrderDto: CreateOrderDto): 
         this.selectedTop = createOrderDto.product.productTop;
         this.selectedBottom = createOrderDto.product.productBottom;
         this.selectedProduct = createOrderDto.product;
+      }
+      if(createOrderDto.addMaterialDescription){
+        this.addMaterialDescriptiontoDrawingTabel = createOrderDto.addMaterialDescription;
       }
     }
   }
@@ -452,6 +456,7 @@ onSubmit(): void {
           orderName: null,
           commentToOrder: null,
           product: this.selectedProduct,
+          addMaterialDescription: this.addMaterialDescriptiontoDrawingTabel,
           productMaterial: this.selectedMaterial,
           date: this.setDateInOrderTable(),
           orderNumber: this.newOrderNumber,
@@ -769,6 +774,7 @@ setOrderNumbersinOrderTableForUpdateOrConfirmModes(): void {
         ...createOrderDto,
         businessPartner: this.selectedPartner,
         productMaterial: this.selectedMaterial,
+        addMaterialDescription: this.addMaterialDescriptiontoDrawingTabel,
         product: this.selectedProduct,
         creator: this.authenticationService.loggedUser.user,
         orderDetails,
@@ -811,6 +817,7 @@ listenToChangeProductEvent(event: any): void {
       ... createOrderDto,
       productMaterial: this.selectedMaterial,
       businessPartner: this.selectedPartner,
+      addMaterialDescription: this.addMaterialDescriptiontoDrawingTabel,
       product
     };
     return updatedCreateOrderDto;

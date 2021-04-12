@@ -31,7 +31,7 @@ class CreateOrderDto{
     @IsString()
     commentToOrder:string;
     @IsBoolean()
-    addMaterialDescription?: boolean
+    addMaterialDescription: boolean
 
 }
 export default CreateOrderDto;

@@ -21,7 +21,7 @@ export class TableFormServiceService {
   materialName: string;
   materialCode: string;
   materialDescriptionInSelectedLanguage: string;
-  allowMaterialDescription:boolean;
+  materialNameCodeAndOptionalDescription: string;
   Lvalue: string;  // value for second indexDimension
   Dvalue: string; // value for first index dimension
   productTypeName: string;
@@ -162,7 +162,8 @@ export class TableFormServiceService {
     } else {
       this.materialCode = '';
       this.materialName = '';
-      this.materialDescriptionInSelectedLanguage=''
+      this.materialDescriptionInSelectedLanguage='';
+
     }
     if (createOrderDto && createOrderDto.product) {
       // tslint:disable-next-line:max-line-length
@@ -246,6 +247,10 @@ export class TableFormServiceService {
     this.antiEelectrostatic.setValue(false);
     this.workingSide.setValue(null);
     this.workingTemperature.setValue(null);
+  }
+
+  setMaterialInformation():string{
+    return this.materialName+' '+ this.materialCode+' '+ this.materialDescriptionInSelectedLanguage;
   }
 }
 

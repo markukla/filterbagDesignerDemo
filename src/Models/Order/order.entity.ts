@@ -26,7 +26,7 @@ class Order {
 
     @Column()
     commentToOrder?:string;
-    @Column()
+    @Column({nullable:true})
     addMaterialDescription: boolean
 
 
