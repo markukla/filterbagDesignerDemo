@@ -16,12 +16,12 @@ class ProductType {
     code:string;
     @OneToMany(()=>Product,(productsWithThisType:Product)=>productsWithThisType.productType)
     productsWithThisType?:Product[];
-    @ManyToMany(()=>ProductTop, (topsForThisProductType: ProductTop)=> topsForThisProductType.productTypeswithThisTop)
+    @ManyToMany(()=>ProductTop, (topsForThisProductType: ProductTop)=> topsForThisProductType.productTypeswithThisTop, {cascade:true, onUpdate:"CASCADE"})
     @JoinTable({name:"productType_productTop_id_pairs"})
-    topsForThisProductType:ProductTop[];
-    @ManyToMany(()=>ProductBottom, (bottomsForThisProductType:ProductBottom) => bottomsForThisProductType.productTypesWithThisBottom)
+    topsForThisProductType?:ProductTop[];
+    @ManyToMany(()=>ProductBottom, (bottomsForThisProductType:ProductBottom) => bottomsForThisProductType.productTypesWithThisBottom, {cascade:true, onUpdate:"CASCADE"})
     @JoinTable({name:"productType_productBottom_id_pairs"})
-    bottomsForThisProductType:ProductBottom[];
+    bottomsForThisProductType?:ProductBottom[];
     @Column({nullable: true})
     softDeleteDate?:Date;
 

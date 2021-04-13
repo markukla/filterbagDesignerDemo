@@ -9,8 +9,8 @@ class ProductType {
   localizedNames: LocalizedName [];
   code: string;
   productsWithThisType?: Product[];
-  topsForThisProductType: ProductTop[];
-  bottomsForThisProductType: ProductBottom[];
+  topsForThisProductType?: ProductTop[];
+  bottomsForThisProductType?: ProductBottom[];
   softDeleteDate?: Date;
 }
 

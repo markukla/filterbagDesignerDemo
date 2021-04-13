@@ -13,7 +13,7 @@ class Product{  // this class represents type of product and technical drawing o
     @PrimaryGeneratedColumn()
     public id?: number;
 
-   @ManyToOne(()=>ProductType,(productType:ProductType)=>productType.productsWithThisType, {eager:true}) //eager cause strange error table name (long alias name) is spacyfied more than once
+   @ManyToOne(()=>ProductType,(productType:ProductType)=>productType.productsWithThisType, {eager:true,cascade:true, onUpdate:"CASCADE"} ) //eager cause strange error table name (long alias name) is spacyfied more than once
    productType:ProductType;
 
     @ManyToOne(()=>ProductBottom,(productBottom:ProductBottom)=>productBottom.productsWithThisBottom,{eager:true})

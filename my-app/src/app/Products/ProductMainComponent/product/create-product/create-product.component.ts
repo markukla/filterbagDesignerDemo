@@ -22,6 +22,8 @@ import {
   generalNamesInSelectedLanguage,
   orderNames
 } from "../../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
+import {ProductTopBackendService} from "../../../ProductTop/ProductTopServices/product-top-backend.service";
+import {ProductBottomBackendService} from "../../../ProductBottom/ProductBottomServices/product-bottom-backend.service";
 
 @Component({
   selector: 'app-create-product',
@@ -54,6 +56,8 @@ export class CreateProductComponent implements OnInit, AfterContentChecked, Afte
   orderNamesInSelectedLanguage = orderNames;
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
   formTitleCreateOrUpdate: string;
+  allTopsFromDatabase: ProductTop[];
+  allBottomsFromDatabase: ProductBottom[];
   @ViewChild('selectType', {read: ElementRef}) selectTypeElement: ElementRef;
   @ViewChild('selectTop', {read: ElementRef}) selectTopElement: ElementRef;
   @ViewChild('selectBottom', {read: ElementRef}) selectBottomElement: ElementRef;
@@ -63,6 +67,8 @@ export class CreateProductComponent implements OnInit, AfterContentChecked, Afte
     private backendService: ProductBackendService,
     public validationService: ProductValidatorService,
     private typesBackendService: ProductTypeBackendService,
+    private topBackendService: ProductTopBackendService,
+    private bottomBackendService: ProductBottomBackendService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private element: ElementRef,
@@ -99,12 +105,12 @@ export class CreateProductComponent implements OnInit, AfterContentChecked, Afte
       this.formTitleCreateOrUpdate = this.orderNamesInSelectedLanguage.updateProduct;
       // tslint:disable-next-line:max-line-length
       await this.initFormValuesForUpdateMode(this.productToUpdate); // it does not set select element it is done in ngAfterContent checked due to ngFor synchronization problem
-    }
-    else {
+    } else {
       this.formTitleCreateOrUpdate = this.orderNamesInSelectedLanguage.addNewProduct;
     }
     this.uploadSuccessStatus = false;
   }
+
   initColumnNamesInSelectedLanguage(): void {
     // tslint:disable-next-line:max-line-length
     setTabelColumnAndOtherNamesForSelectedLanguage(this.orderNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
@@ -112,6 +118,7 @@ export class CreateProductComponent implements OnInit, AfterContentChecked, Afte
     setTabelColumnAndOtherNamesForSelectedLanguage(this.generalNamesInSelectedLanguage, this.authenticationService.vocabulariesInSelectedLanguage);
     this.changeDrawingButtonDescription = this.orderNamesInSelectedLanguage.changeDrawing;
   }
+
   initUserInterfaceVariablesForGivenLanguage(): void {
 
   }
@@ -150,12 +157,18 @@ export class CreateProductComponent implements OnInit, AfterContentChecked, Afte
   async getDataToDropdownLists(): Promise<void> {
     const allTypes = await this.typesBackendService.getRecords().toPromise();
     this.allTypesToSelect = allTypes.body;
+    const allTops = await this.topBackendService.getRecords().toPromise();
+    this.allTopsFromDatabase = allTops.body;
+    const allBottoms = await this.bottomBackendService.getRecords().toPromise();
+    this.allBottomsFromDatabase = allBottoms.body;
+
+
   }
 
   setTopsAndBottomsToSelectAfterTypeSelected(productType: ProductType): void {
     if (productType) {
-      this.allTopsToSelect = productType.topsForThisProductType; //.filter(pt=> pt.softDeleteDate ===null);
-      this.allBotomsToselect = productType.bottomsForThisProductType; //.filter(pt=> pt.softDeleteDate ===null);
+      this.allTopsToSelect = this.allTopsFromDatabase;
+      this.allBotomsToselect = this.allBottomsFromDatabase;
     }
   }
 
@@ -170,35 +183,36 @@ export class CreateProductComponent implements OnInit, AfterContentChecked, Afte
   }
 
   onSubmit(): void {
+    const productType: ProductType = this.returnProductTypeWithTopsOfProductTypeAndBottomOfProductTypeSet();
     if (this.operationMode === ProductModeEnum.CREATENEW) {
+
       this.backendService.createProductDto = {
         dimensionsTextFieldInfo: null,
         productBottom: this.bottom.value,
         productTop: this.top.value,
-        productType: this.type.value,
+        productType: productType,
         urlOfOrginalDrawing: this.orginalDrawingPath,
         urlOfThumbnailDrawing: this.minimalizedDrawingPath,
       };
       this.router.navigateByUrl(`orders/drawing?mode=${OrderOperationMode.CREATENEWPRODUCT}`);
-    }  else if (this.operationMode === ProductModeEnum.UPDATE && this.changeDrawingClicked === true) {
+    } else if (this.operationMode === ProductModeEnum.UPDATE && this.changeDrawingClicked === true) {
       this.backendService.createProductDto = {
         dimensionsTextFieldInfo: null,
         productBottom: this.bottom.value,
         productTop: this.top.value,
-        productType: this.type.value,
+        productType: productType,
         urlOfOrginalDrawing: this.orginalDrawingPath,
         urlOfThumbnailDrawing: this.minimalizedDrawingPath,
       };
       sessionStorage.setItem('createProductDto', JSON.stringify(this.backendService.createProductDto));
       this.router.navigateByUrl(`orders/drawing?productId=${this.selectedProductToUpdateId}&mode=${OrderOperationMode.UPDATEPRODUCT}`);
-    }
-    else if (this.operationMode === ProductModeEnum.UPDATE) {
+    } else if (this.operationMode === ProductModeEnum.UPDATE) {
       this.backendService.createProductDto = {
         ...this.productToUpdate,
         dimensionsTextFieldInfo: this.productToUpdate.dimensionsTextFieldInfo,
         productBottom: this.bottom.value,
         productTop: this.top.value,
-        productType: this.type.value,
+        productType: productType,
         urlOfOrginalDrawing: this.orginalDrawingPath,
         urlOfThumbnailDrawing: this.minimalizedDrawingPath,
       };
@@ -206,6 +220,7 @@ export class CreateProductComponent implements OnInit, AfterContentChecked, Afte
       this.router.navigateByUrl(`orders/drawing?productId=${this.selectedProductToUpdateId}&mode=${OrderOperationMode.UPDATEPRODUCT}`);
     }
   }
+
   onUpload(): void {
     this.uploadSuccessStatus = false;
     const formData = new FormData();
@@ -323,8 +338,7 @@ export class CreateProductComponent implements OnInit, AfterContentChecked, Afte
       } else {
         return false;
       }
-    }
-    else if (this.operationMode === ProductModeEnum.UPDATE && this.changeDrawingClicked === true) {
+    } else if (this.operationMode === ProductModeEnum.UPDATE && this.changeDrawingClicked === true) {
       if (this.form.valid && this.uploadSuccessStatus === true) {
         return true;
       } else {
@@ -332,7 +346,33 @@ export class CreateProductComponent implements OnInit, AfterContentChecked, Afte
       }
     }
   }
+
   getNameInSelectedLanguage(localizedNames: LocalizedName[]): string {
     return getSelectedLanguageFromNamesInAllLanguages(localizedNames, this.authenticationService.selectedLanguageCode);
+  }
+
+  returnProductTypeWithTopsOfProductTypeAndBottomOfProductTypeSet(): ProductType {
+    let topsOfProductType: ProductTop[];
+    if (this.type.value.topsForThisProductType.length > 0) {
+      topsOfProductType = this.type.value.topsForThisProductType;
+    } else {
+      topsOfProductType = [];
+    }
+    topsOfProductType.push(this.top.value);
+
+    let bottomsOfProductTYpe: ProductBottom[];
+    if (this.type.value.bottomsForThisProductType.length > 0) {
+      bottomsOfProductTYpe = this.type.value.bottomsForThisProductType;
+    } else {
+      bottomsOfProductTYpe = [];
+
+    }
+    bottomsOfProductTYpe.push(this.bottom.value);
+    const productType: ProductType = {
+      ...this.type.value,
+      bottomsForThisProductType: bottomsOfProductTYpe,
+      topsForThisProductType: topsOfProductType,
+    }
+return productType;
   }
 }

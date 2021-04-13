@@ -31,27 +31,7 @@
         <app-langage-form-component></app-langage-form-component>
 
       </div>
-      <div class="row">
-        <div class="form-group col-md-6">
-          <p>{{this.generalNamesInSelectedLanguage.select + ' '+ orderNamesInSelectedLanguage.productTops}}</p>
-          <div *ngFor="let top of allTopsToSelect">
 
-            <label [for]="'topInput'+top.id"  > {{ top.code +'-' + getNameInSelectedLanguage(top.localizedNames) }}</label>
-            <input  type = "checkbox" [id]="'topInput'+top.id" #topsCheckbox [checked]="setCheckedpropertyOfTopsCheckBoxForUpdateMode(topsCheckbox.id)">
-          </div>
-          <button type="button" (click)="checkOrUncheckAllTops()" #checkOrUncheckTopsButton>{{this.checkOrUncheckAllTopsButtonDescription}}</button>
-        </div>
-      <div class="form-group col-md-6">
-        <p>{{this.generalNamesInSelectedLanguage.select + ' '+ orderNamesInSelectedLanguage.productBottoms}}</p>
-        <div *ngFor="let bottom of allBotomsToselect">
-
-          <label [for]="'bottomInput'+bottom .id"  > {{ bottom .code +'-' + getNameInSelectedLanguage(bottom.localizedNames) }}</label>
-          <input type = "checkbox" [id]="'bottomInput'+bottom.id" #bottomCheckbox [checked]="setCheckedpropertyOfBotttomCheckBoxForUpdateMode(bottomCheckbox.id)">
-        </div>
-        <button type="button" (click)="checkOrUncheckAllBottoms()" #checkOrUncheckBottomsButton>{{this.checkOrUncheckAllBottomsButtonDescription}}</button>
-      </div>
-
-      </div>
     <div class="addButon">
       <button type="submit" [disabled]="!form.valid" class="btn btn-danger">{{this.generalNamesInSelectedLanguage.saveButtonDescription}}</button>
     </div>

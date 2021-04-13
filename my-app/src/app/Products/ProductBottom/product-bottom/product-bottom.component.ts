@@ -96,8 +96,10 @@ export class ProductBottomComponent implements OnInit, AfterContentChecked {
       this.productTypeBackendService.findRecordById(this.productTypeId).subscribe((productType)=>{
         this.tableService.records.length = 0;
         this.selectedproductType = productType.body;
-        productType.body.bottomsForThisProductType.forEach((record) => {
+        const bottomsOfProductTypeAndNotSoftDeletedProducts= this.selectedproductType.bottomsForThisProductType.filter(pt=> this.allProducts.map(p=> p.productBottom.id).includes(pt.id));
+        bottomsOfProductTypeAndNotSoftDeletedProducts.forEach((record) => {
           if(record.softDeleteDate ===null) {
+
             const recorForTableCell = this.backendService.createProductBottomForTableCellFromProductTop(record);
             this.tableService.records.push(recorForTableCell);
           }

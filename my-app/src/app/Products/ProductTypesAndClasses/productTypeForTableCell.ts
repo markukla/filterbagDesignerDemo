@@ -10,8 +10,8 @@ export class ProductTypeForTableCell {
   localizedNameInSelectedLanguage: string;
   code: string;
   productsWithThisType?: Product[];
-  topsForThisProductType: ProductTop[];
-  bottomsForThisProductType: ProductBottom[];
+  topsForThisProductType?: ProductTop[];
+  bottomsForThisProductType?: ProductBottom[];
 }
 
 

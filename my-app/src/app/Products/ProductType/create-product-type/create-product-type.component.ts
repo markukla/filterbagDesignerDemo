@@ -71,12 +71,7 @@ export class CreateProductTypeComponent implements OnInit, AfterContentChecked {
   formTitileCreateOrUpdate: string;
   checkAllTops = true;
   checkAllBottoms = true;
-  @ViewChildren('bottomCheckbox', {read: ElementRef}) bottomCheckBox: ElementRef[];
-  @ViewChildren('topsCheckbox', {read: ElementRef}) topscheckBox: ElementRef[];  //checkOrUncheckBottomsButton
-  @ViewChild('checkOrUncheckBottomsButton', {read: ElementRef}) checkAllBottomsButton: ElementRef;
-  @ViewChild('checkOrUncheckTopsButton', {read: ElementRef}) checkAllTopsButton: ElementRef;
-  checkOrUncheckAllTopsButtonDescription: string;
-  checkOrUncheckAllBottomsButtonDescription: string;
+
 
   constructor(
     private backendService: ProductTypeBackendService,
@@ -154,25 +149,9 @@ export class CreateProductTypeComponent implements OnInit, AfterContentChecked {
       };
       localizedNames.push(localizedDimensionName);
     });
-    this.topscheckBox.forEach((topCheckBox) => {
-      if(topCheckBox.nativeElement.checked === true) {
-        const selectedTopId = Number(topCheckBox.nativeElement.id.substring(8));
-        const selectedTopObject = {id: selectedTopId};
-        this.selectedTopsId.push(selectedTopObject );
-      }
 
-    });
-    this.bottomCheckBox.forEach((bottomCheckbox) => {
-      if (bottomCheckbox.nativeElement.checked === true){
-      const selectedBottomId = Number(bottomCheckbox.nativeElement.id.substring(11));
-      const selectedBottomObject = {id: selectedBottomId};
-      this.selectedBottomsId.push(selectedBottomObject);
-      }
-    });
     this.createProductTypeDto = {
       localizedNames,
-      bottomsForThisProductType: this.selectedBottomsId,
-      topsForThisProductType: this.selectedTopsId,
       code: this.code.value,
     };
     if(this.operatiomMode === OperationModeEnum.CREATENEW) {
@@ -205,137 +184,11 @@ export class CreateProductTypeComponent implements OnInit, AfterContentChecked {
     return getSelectedLanguageFromNamesInAllLanguages(localizedNames, this.authenticationService.selectedLanguageCode);
 }
 
-  setCheckedpropertyOfTopsCheckBoxForUpdateMode(checkBoxId: string): boolean {
-    let checked: boolean = false;
-    let checBoxWithSameIdLikeInDatabaseExists: boolean;
-    if (this.recordToUpdate && this.recordToUpdate.topsForThisProductType) {
-      this.recordToUpdate.topsForThisProductType.forEach((top) => {
-        const idToCompareWithCheckboxId = `topInput${top.id}`;
-        if (checkBoxId === idToCompareWithCheckboxId ) {
-          checBoxWithSameIdLikeInDatabaseExists = true;
-        }
-      });
-    }
-    if (checBoxWithSameIdLikeInDatabaseExists === true) {
-      checked = true;
-    }
-    else {
-      checked = false;
-    }
-    return checked;
-  }
-
-  setCheckedpropertyOfBotttomCheckBoxForUpdateMode(checkBoxId: string): boolean {
-    let checked: boolean = false;
-    let checBoxWithSameIdLikeInDatabaseExists: boolean;
-    if (this.recordToUpdate && this.recordToUpdate.bottomsForThisProductType) {
-      this.recordToUpdate.bottomsForThisProductType.forEach((bottom) => {
-        const idToCompareWithCheckboxId = `bottomInput${bottom.id}`;
-        if (checkBoxId === idToCompareWithCheckboxId ) {
-          checBoxWithSameIdLikeInDatabaseExists = true;
-        }
-      });
-    }
-    if (checBoxWithSameIdLikeInDatabaseExists === true) {
-      checked = true;
-    }
-    else {
-      checked = false;
-    }
-    return checked;
-  }
-  setCheckBoxInitPropertiesForUpdateMode(): void {
-    if (this.topscheckBox && this.topscheckBox.length > 0) {
-    this.topscheckBox.forEach((topCheckbox) => {
-      if (this.setCheckedpropertyOfTopsCheckBoxForUpdateMode(topCheckbox.nativeElement.id) === true) {
-        topCheckbox.nativeElement.checked = true;
-      }
-      else {
-        topCheckbox.nativeElement.checked = false;
-      }
-    });
-    }
-    if (this.bottomCheckBox && this.bottomCheckBox.length > 0) {
-      this.bottomCheckBox.forEach((bottomCheckBox) => {
-        if (this.setCheckedpropertyOfBotttomCheckBoxForUpdateMode(bottomCheckBox.nativeElement.id) === true) {
-          bottomCheckBox.nativeElement.checked = true;
-        }
-        else {
-          bottomCheckBox.nativeElement.checked = false;
-        }
-      });
-    }
-  }
-
-  checkOrUncheckAllTops():void {
-
-    this.topscheckBox.forEach((top)=> {
-      if(this.checkAllTops) {
-        top.nativeElement.checked = true;
-      }
-      else {
-        top.nativeElement.checked = false;
-      }
-
-    });
-
-    if(this.checkAllTops ===true) {
-      this.checkAllTops =false
-    }
-    else {
-      this.checkAllTops = true;
-    }
-
-  }
-
-  checkOrUncheckAllBottoms(): void {
-    this.bottomCheckBox.forEach((bottom)=> {
-      if(this.checkAllBottoms) {
-        bottom.nativeElement.checked = true;
-      }
-      else {
-        bottom.nativeElement.checked = false;
-      }
-
-    });
-
-    if(this.checkAllBottoms ===true) {
-      this.checkAllBottoms =false
-    }
-    else {
-      this.checkAllBottoms = true;
-    }
 
 
-  }
-  setCHeckOrUncheckAllButtonDescriptions(): void {
-    if(this.topscheckBox && this.topscheckBox.length>0) {
-      const allTopsChecked: boolean = this.topscheckBox.filter(top=>top.nativeElement.checked ===true).length ===this.topscheckBox.length;
 
-      if(allTopsChecked === false){
-        this.checkOrUncheckAllTopsButtonDescription = this.generalNamesInSelectedLanguage.checkAll;
-        this.checkAllTops = true;
-      }
-      else {
-        this.checkOrUncheckAllTopsButtonDescription = this.generalNamesInSelectedLanguage.uncheckAll;
-        this.checkAllTops = false;
-      }
-    }
-    if(this.bottomCheckBox && this.bottomCheckBox.length>0) {
-      const allBottomsChecked: boolean = this.bottomCheckBox.filter(bottom=>bottom.nativeElement.checked ===true).length ===this.bottomCheckBox.length;
-      if(allBottomsChecked === false){
-        this.checkOrUncheckAllBottomsButtonDescription = this.generalNamesInSelectedLanguage.checkAll;
-        this.checkAllBottoms =true;
-      }
-      else {
-        this.checkOrUncheckAllBottomsButtonDescription = this.generalNamesInSelectedLanguage.uncheckAll;
-        this.checkAllBottoms = false;
-      }
-    }
-
-  }
 
   ngAfterContentChecked(): void {
-    this.setCHeckOrUncheckAllButtonDescriptions();
+
   }
 }

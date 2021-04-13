@@ -58,6 +58,7 @@
           </div>
         </div>
       </div>
+      <div *ngIf="this.type.value">
       <div class="form-group col-md-6">
         <label class="label" for="top">{{this.generalNamesInSelectedLanguage.select + ' '+ this.orderNamesInSelectedLanguage.productTop}}</label>
         <select class="form-control" formControlName="top" id="top" #selectTop (click)="selectTopClicked = true">
@@ -87,6 +88,7 @@
             {{this.generalNamesInSelectedLanguage.thisFieldIsRequired}}
           </div>
         </div>
+      </div>
       </div>
     </div>
     <div class="addButon">
