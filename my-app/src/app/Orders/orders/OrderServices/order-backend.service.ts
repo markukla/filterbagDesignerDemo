@@ -99,7 +99,8 @@ export class OrderBackendService {
       businessPartner: order.businessPartner,
       creator: order.creator,
       index: order.index,
-      productMaterial: order.productMaterial
+      productMaterial: order.productMaterial,
+      addMaterialDescription: order.addMaterialDescription,
 
     };
     return createOrderDto;

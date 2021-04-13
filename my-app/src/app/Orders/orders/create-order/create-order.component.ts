@@ -100,7 +100,7 @@ export class CreateOrderComponent implements OnInit, AfterContentChecked, AfterV
   generalUserNames = generalUserNames;
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
   formTitleCreateNewOrUpdate: string;
-  @Input() addMaterialDescriptiontoDrawingTabel: boolean;
+
 
   @ViewChild('commentToOrder', {read: ElementRef}) commentToOrder: ElementRef;
   @ViewChild('businessPartner', {read: ElementRef}) htmlselectBusinessPartner: ElementRef<HTMLSelectElement>;
@@ -131,7 +131,8 @@ export class CreateOrderComponent implements OnInit, AfterContentChecked, AfterV
       top: new FormControl(null),
       bottom: new FormControl(null),
       businessPartner: new FormControl(null, Validators.required),
-      productMaterial: new FormControl(null, Validators.required)
+      productMaterial: new FormControl(null, Validators.required),
+      addMaterialDescriptiontoDrawingTabel: new FormControl(null),
     }, {updateOn: 'change'});
     this.setDimensionCodesInDrawingTableFormService();
     this.initColumnNamesInSelectedLanguage();
@@ -241,7 +242,7 @@ setFormControlValuesForUpdateOrShowDrawingMode(createOrderDto: CreateOrderDto): 
         this.selectedProduct = createOrderDto.product;
       }
       if(createOrderDto.addMaterialDescription){
-        this.addMaterialDescriptiontoDrawingTabel = createOrderDto.addMaterialDescription;
+        this.addMaterialDescriptiontoDrawingTabel.setValue(createOrderDto.addMaterialDescription);
       }
     }
   }
@@ -340,8 +341,14 @@ get businessPartner() {
 get productMaterial() {
     return this.form.get('productMaterial');
   }
+  //addMaterialDescriptiontoDrawingTabel
 
-async getDataToDropdownLists(): Promise<void> {
+  get addMaterialDescriptiontoDrawingTabel() {
+    return this.form.get('addMaterialDescriptiontoDrawingTabel');
+  }
+
+
+  async getDataToDropdownLists(): Promise<void> {
   if (this.isPartner === false) {
     this.partnersBackendService.getAllRecords().subscribe((records) => {
 
@@ -456,7 +463,7 @@ onSubmit(): void {
           orderName: null,
           commentToOrder: null,
           product: this.selectedProduct,
-          addMaterialDescription: this.addMaterialDescriptiontoDrawingTabel,
+          addMaterialDescription: this.addMaterialDescriptiontoDrawingTabel.value,
           productMaterial: this.selectedMaterial,
           date: this.setDateInOrderTable(),
           orderNumber: this.newOrderNumber,
@@ -774,7 +781,7 @@ setOrderNumbersinOrderTableForUpdateOrConfirmModes(): void {
         ...createOrderDto,
         businessPartner: this.selectedPartner,
         productMaterial: this.selectedMaterial,
-        addMaterialDescription: this.addMaterialDescriptiontoDrawingTabel,
+        addMaterialDescription: this.addMaterialDescriptiontoDrawingTabel.value,
         product: this.selectedProduct,
         creator: this.authenticationService.loggedUser.user,
         orderDetails,
@@ -817,7 +824,7 @@ listenToChangeProductEvent(event: any): void {
       ... createOrderDto,
       productMaterial: this.selectedMaterial,
       businessPartner: this.selectedPartner,
-      addMaterialDescription: this.addMaterialDescriptiontoDrawingTabel,
+      addMaterialDescription: this.addMaterialDescriptiontoDrawingTabel.value,
       product
     };
     return updatedCreateOrderDto;

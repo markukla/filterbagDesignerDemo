@@ -53,9 +53,7 @@ export const generalNamesInSelectedLanguage = {
   uncheckAll: 'Odznacz Wszystkie',
   giveMaterialDescriptionInAllLanguages: 'Podaj opis Materiału we wszystkich językach',
   materialDescription:'Opis Materiału',
-  addMaterialDescriptionToDrawingTabel: 'Zaznacz pole jeśli chcesz dodać opis materiału do informacji w tabelce na rysunku',
-
-
+  addMaterialDescriptionToDrawingTabel: 'Zaznacz aby dodać opis materiału do informacji na rysunku',
 
 /*  <a [routerLink]="['/orders']" routerLinkActive="active"> Zamówienia</a>
   <a [routerLink]="['/businessPartners']" routerLinkActive="active"> Partnerzy</a>

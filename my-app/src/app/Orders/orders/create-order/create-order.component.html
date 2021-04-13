@@ -102,7 +102,7 @@
       <div>
         {{generalNamesInSelectedLanguage.materialDescription + ': ' + getNameInSelectedLanguage(selectedMaterial.localizedNames)}}<br>
         <label for="addMaterialDescriptionCheckboc">{{this.generalNamesInSelectedLanguage.addMaterialDescriptionToDrawingTabel}}</label>
-        <input id="addMaterialDescriptionCheckboc" type="checkbox" [(ngModel)]="addMaterialDescriptiontoDrawingTabel">
+        <input id="addMaterialDescriptionCheckboc" type="checkbox" formControlName="addMaterialDescriptiontoDrawingTabel" >
       </div>
 
 

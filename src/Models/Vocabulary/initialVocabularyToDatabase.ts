@@ -351,7 +351,7 @@ initialVocabularyForDatabase.push(generalTable56);
 
 const generalTable57: Vocabulary = {
     variableName: 'addMaterialDescriptionToDrawingTabel',
-    localizedNames: [new LocalizedName({id:1}, 'Zaznacz pole jeśli chcesz dodać opis materiału do informacji w tabelce na rysunku'), new LocalizedName({id:2}, '{id:2} ....')]
+    localizedNames: [new LocalizedName({id:1}, 'Zaznacz aby dodać opis materiału do informacji na rysunku'), new LocalizedName({id:2}, '{id:2} ....')]
 }
 initialVocabularyForDatabase.push(generalTable57);
 
