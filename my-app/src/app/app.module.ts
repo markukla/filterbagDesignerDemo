@@ -43,7 +43,7 @@ import { CreateProductBottomComponent } from './Products/ProductBottom/create-pr
 import { CreateProductTypeComponent } from './Products/ProductType/create-product-type/create-product-type.component';
 import { ProductTypeSearchDirective } from './helpers/directive/ForProductType/product-type-search.directive';
 import { CreateProductComponent } from './Products/ProductMainComponent/product/create-product/create-product.component';
-import { ProductSearchDirective } from './helpers/directive/ForProducts/product-search.directive';
+import { SearchDirectiveWithRandomChars } from './helpers/directive/ForProducts/search-directive-with-random-chars.directive';
 import { ProductTableFormComponent } from './Products/ProductMainComponent/product/product-table-form/product-table-form.component';
 import { CreateOrderComponent } from './Orders/orders/create-order/create-order.component';
 import { UpdateOrderComponent } from './Orders/orders/update-order/update-order.component';
@@ -103,7 +103,7 @@ import { GeneretePasswordDirective } from './helpers/directive/GeneratePasswordD
     CreateProductTypeComponent,
     ProductTypeSearchDirective,
     CreateProductComponent,
-    ProductSearchDirective,
+    SearchDirectiveWithRandomChars,
     ProductTableFormComponent,
     CreateOrderComponent,
     UpdateOrderComponent,
