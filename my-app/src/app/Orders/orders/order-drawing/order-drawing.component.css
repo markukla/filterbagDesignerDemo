@@ -32,6 +32,7 @@
   text-align: center;
   height: 100%;
   width: 100%;
+  overflow: hidden;
 }
 
 .drawingContainer {
@@ -39,6 +40,8 @@
   display: inline-block;
   margin: 0 auto;
   max-height: 100%;
+
+
 }
 
 #drawingImage {
@@ -83,24 +86,38 @@
 
 .dimensionInput {
   font-size: 1.6vw;
+  line-height: 1.6vw;
   position: absolute;
-  height: 2vw;
   white-space: nowrap;
-  overflow: hidden;
-  resize: vertical;
+  /*overflow: hidden*/ /*no overflow if we do not want to have active corners for resize*/;
+  resize: none;
   text-align: center;
   border: 1px solid black;
-  width: 12vw;
+  min-width: 3vw;
+}
+.drawingContainerPlaceHolders .dimensionInput:before {
+  content: attr(data-value);
+  pointer-events: none;
+}
+.drawingContainerEdit .dimensionInput:before {
+  pointer-events: none;
 }
 
-.dimensionInputContainerTop:before, .dimensionInputContainerTop div {
+
+.dimensionInput:focus:before, .inputDimensionWithoutPlaceholder.dimensionInput:before {
+  display: none;
+}
+
+.dimensionInputContainerTop:before, .dimensionInputContainerTop .dimensionInput {
   left: 50%;
   top: 0;
   transform: translate(-50%, 0);
 }
 
-.dimensionInputContainerTop div {
+.dimensionInputContainerTop .dimensionInput {
   /*width: 120px */
+  min-width: 5vw;
+  min-height: unset;
 }
 
 .dimensionInputContainerTop:before {
@@ -112,15 +129,17 @@
   height: 0;
 }
 
-.dimensionInputContainerRight div {
+.dimensionInputContainerRight .dimensionInput {
   right: 0;
   top: 50%;
   /*height: 120px;*/
   writing-mode: vertical-lr;
-  overflow: hidden;
+  /*overflow: hidden*/;
   resize: vertical;
   transform: translate(100%, -50%);
   white-space: nowrap;
+  min-width: unset;
+  min-height: 5vw;
 }
 
 .dimensionInputContainerRight:before {
@@ -132,14 +151,16 @@
   height: 0;
 }
 
-.dimensionInputContainerBottom:before, .dimensionInputContainerBottom div {
+.dimensionInputContainerBottom:before, .dimensionInputContainerBottom .dimensionInput {
   left: 50%;
   bottom: 0;
   transform: translate(-50%, 0);
 }
 
-.dimensionInputContainerBottom div {
+.dimensionInputContainerBottom .dimensionInput {
   resize: horizontal;
+  min-width: 5vw;
+  min-height: unset;
   /*width: 120px;*/
 }
 
@@ -154,15 +175,17 @@
   height: 0;
 }
 
-.dimensionInputContainerLeft div {
+.dimensionInputContainerLeft .dimensionInput {
   left: 0;
   top: 50%;
   writing-mode: vertical-lr;
-  overflow: hidden;
+  /*overflow: hidden*/;
   resize: vertical;
   transform: translate(-100%, -50%) scale(-1);
   /*height: 120px; */
   white-space: nowrap;
+  min-width: unset;
+  min-height: 5vw;
 }
 
 .dimensionInputContainerLeft:before {
@@ -201,9 +224,7 @@
   .saveButtons {
     display: none;
   }
-  .drawingContainer {
-    overflow: hidden;
-  }
+
 
 
 }

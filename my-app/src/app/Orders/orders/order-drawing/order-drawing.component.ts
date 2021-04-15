@@ -332,12 +332,6 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     if (this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT) {
       this.rotateTextField(input);
       this.makeInputDivDragable(inputContainer);
-      const inputIdValue = this.allDimensionCodes.filter(d=> d.id===Number(dimensionInfo.dimensionId))[0].dimensionCode;
-      this.renderer.setProperty(input, 'innerHTML', inputIdValue)
-
-      input.onkeyup = (event) => {
-        this.renderer.setProperty(input, 'innerHTML', inputIdValue);
-      };
     }
     this.renderer.appendChild(this.drawing.nativeElement, inputContainer);
     // this.renderer.appendChild(this.drawing.nativeElement, label);
@@ -496,6 +490,13 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     const inputId = event.target.id;
     if (event.target.className.includes('dimensionInput')) {
 
+      if(event.target.innerHTML.length>0){
+        event.target.classList.add('inputDimensionWithoutPlaceholder');
+      }
+      else {
+        event.target.classList.remove('inputDimensionWithoutPlaceholder');
+      }
+
       const eventtargetinnerHTMLBeforeRemovingLetters: string = event.target.innerHTML;
       if (this.checkIfLettersInString(eventtargetinnerHTMLBeforeRemovingLetters)) {
         console.log('letters will be removed');
@@ -503,6 +504,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
         event.target.innerHTML = this.cleanLettersFromString(eventtargetinnerHTMLBeforeRemovingLetters);
 
       }
+
 
       if (this.orderOperationMode !== OrderOperationMode.UPDATEPRODUCT && this.orderOperationMode !== OrderOperationMode.CREATENEWPRODUCT) {
         const valueOfEventTargetId = this.allDimensionCodes.filter(d=> d.id===Number(event.target.id))[0].dimensionCode;
@@ -658,10 +660,21 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     container.classList.add('dimensionInputContainer', 'dimensionInputContainerBottom');
 
     const input = this.renderer.createElement('div');
-    input.contentEditable = 'true';
+
    const inputIdValue = this.allDimensionCodes.filter(d=> d.id===Number(this.idValue))[0].dimensionCode;
     input.innerHTML = inputIdValue;
+    input.contentEditable ='false';
     input.className = 'dimensionInput';
+
+
+    //
+    /* ';
+    input.type="number";
+    input.style.width="auto";*/
+
+
+
+    //
     this.renderer.setProperty(input, 'id', this.idValue);
     /*this.renderer.setProperty(input, 'data-test', this.idValue);
     this.renderer.setProperty(input, 'id', this.idValue);*/
@@ -674,10 +687,10 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
 
     //this.renderer.setProperty(input, 'value', this.idValue);
 
-
-    input.onkeyup = (event) => {
+/* input.onkeyup = (event) => {
       this.renderer.setProperty(input, 'innerHTML', inputIdValue);
-    };
+    };*/
+
     /* const drawing = document.getElementById('drawingContainer'); */
     this.makeInputDivDragable(container);
     this.rotateTextField(input);
@@ -1050,7 +1063,9 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     if (dimensionInfo) {
       input.contentEditable = 'true';
       input.id = dimensionInfo.dimensionId;
+      const inputIdValue = this.allDimensionCodes.filter(d=> d.id===Number(dimensionInfo.dimensionId))[0].dimensionCode;
       input.className = 'dimensionInput';
+
       inputContainer.className = dimensionInfo.dimensionInputClass;
       console.log(inputContainer.className);
       const dimensionXInRelationToDiv = dimensionInfo.dimensionTexfieldXposition;
@@ -1070,16 +1085,23 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
         input.style.height = Number(dimensionInfo.dimensionTexFieldHeight) + 'vw';
       }
 
-      if (this.orderOperationMode === OrderOperationMode.SHOWDRAWING || this.orderOperationMode === OrderOperationMode.SHOWDRAWINGCONFIRM) {
-        inputContainer.style.border = 'none';
+      if (this.orderOperationMode === OrderOperationMode.SHOWDRAWING || this.orderOperationMode === OrderOperationMode.SHOWDRAWINGCONFIRM ||this.orderOperationMode === OrderOperationMode.SHOWPRODUCT) {
+        input.style.border = 'none';
+        input.contentEditable ='false';
       }
       if (this.orderOperationMode === OrderOperationMode.CREATENEW || this.orderOperationMode === OrderOperationMode.UPDATEWITHCHANGEDPRODUCT || this.orderOperationMode === OrderOperationMode.UPDATE || this.orderOperationMode === OrderOperationMode.UPDATEDRAWING) {
-        const placeholderValue = input.id + ' =';
-        this.renderer.setProperty(input, 'placeholder', placeholderValue);
-        const label = this.renderer.createElement('label');
-        this.renderer.setProperty(label, 'for', input.id);
-        label.value = input.id + ' =';
 
+        input.dataset.value = inputIdValue;
+        this.drawing.nativeElement.classList.add('drawingContainerPlaceHolders');
+        if(input.innerHTML.length>0){
+          input.classList.add('inputDimensionWithoutPlaceholder');
+        }
+
+
+      }
+      if(this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT || this.orderOperationMode === OrderOperationMode.SHOWPRODUCT) {
+      this.renderer.setProperty(input, 'innerHTML', inputIdValue)
+      input.contentEditable='false';
       }
 
     } else {
