@@ -111,7 +111,9 @@ export class CreateNewUserComponent implements OnInit {
 
   generatePassword() {
     const passordGenerator = new GeneratePassordAlgoritm();
-    this.password.setValue(passordGenerator.generatePassword(10));
+    const generetedPassword= passordGenerator.generatePassword(10)
+    this.password.setValue(generetedPassword)
+    this.confirmPassword.setValue(generetedPassword);
   }
 
 

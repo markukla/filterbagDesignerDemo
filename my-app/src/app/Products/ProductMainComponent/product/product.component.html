@@ -18,7 +18,8 @@
   <table class="table table-striped border mt-1">
     <thead>
     <tr>
-      <th [appSort]="records" data-order="desc" data-name="productFullCodePlusTypeName" scope="col">{{this.orderNamesInSelectedLanguage.productType}} <br></th>
+      <th [appSort]="records" data-order="desc" data-name="productFullCodePlusTypeName" scope="col">{{this.generalNamesInSelectedLanguage.code}} <br></th>
+      <th [appSort]="records" data-order="desc" data-name="productTypeCodePlusName" scope="col">{{this.orderNamesInSelectedLanguage.productType}}</th>
       <th [appSort]="records" data-order="desc" data-name="productTopCodePlusName" scope="col">{{this.orderNamesInSelectedLanguage.productTop}}</th>
       <th [appSort]="records" data-order="desc" data-name="productBottomCodePlusNAme" scope="col">{{this.orderNamesInSelectedLanguage.productBottom}}</th>
       <th>{{this.generalNamesInSelectedLanguage.quantity}}</th>
@@ -27,7 +28,8 @@
     <tr>
       <th>
 
-        <input class="tableSearchInput"  id="serchInType" [placeholder]="generalNamesInSelectedLanguage.search" [appProductSearch]="records" serchedColumn="productFullCodePlusTypeName" /> </th>
+        <input class="tableSearchInput"  id="serchInType" [placeholder]="generalNamesInSelectedLanguage.search+' **'" [appProductSearch]="records" serchedColumn="productFullCodePlusTypeName" /> </th>
+      <th><input class="tableSearchInput"  id="serchInTypes" [placeholder]="generalNamesInSelectedLanguage.search"  [appSearch]="records" serchedColumn="productTypeCodePlusName"/> </th>
       <th><input class="tableSearchInput"  id="serchInTops" [placeholder]="generalNamesInSelectedLanguage.search"  [appSearch]="records" serchedColumn="productTopCodePlusName"/> </th>
       <th><input class="tableSearchInput"  id="serchInBottoms" [placeholder]="generalNamesInSelectedLanguage.search" [appSearch]="records" serchedColumn="productBottomCodePlusNAme"/></th>
       <th>{{this.recordNumbers}}</th>
@@ -38,6 +40,7 @@
 
     <tr *ngFor="let record of records">
       <td>{{record.productFullCodePlusTypeName}}</td>
+      <td>{{record.productTypeCodePlusName}}</td>
       <td>{{record.productTopCodePlusName}}</td>
       <td>{{record.productBottomCodePlusNAme}}</td>
       <td>

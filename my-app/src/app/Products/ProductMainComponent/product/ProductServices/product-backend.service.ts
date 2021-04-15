@@ -120,7 +120,7 @@ export class ProductBackendService {
       productBottomCodePlusNAme: product.productBottom.code + ' - ' + productBottomName,
       productTopCodePlusName: product.productTop.code + ' - ' + productTopName,
       productTypeCodePlusName: product.productType.code + ' - ' + productTypeName,
-      productFullCodePlusTypeName: product.productType.code+ product.productTop.code+product.productBottom.code+ ' - ' + productTypeName,
+      productFullCodePlusTypeName: product.productType.code+ product.productTop.code+product.productBottom.code,
     };
     return productForTableCell;
   }
