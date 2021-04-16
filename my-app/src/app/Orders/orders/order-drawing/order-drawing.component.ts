@@ -709,6 +709,9 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
       event.preventDefault();
       this.drawing.nativeElement.removeChild(input);
     };
+    input.ondblclick=(event)=>{
+      event.preventDefault();
+    };
     input.onmousedown = (event) => {
       /*
        console.log(`event.type= ${event.type}`);
@@ -1113,7 +1116,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
 
       }
       if(this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT || this.orderOperationMode === OrderOperationMode.SHOWPRODUCT) {
-      this.renderer.setProperty(input, 'innerHTML', inputIdValue)
+      this.renderer.setProperty(input, 'innerHTML', inputIdValue);
       input.contentEditable='false';
       }
 
@@ -1124,9 +1127,10 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
 
   rotateTextField(textField): void {
     this.drawing.nativeElement.classList.add('drawingContainerEdit');
-    // console.log("dupa");
-    // console.log(textField.parentNode[0].parentNode);
-
+textField.onmousedown = (event)=>{
+  // to prevent select event on dbClick
+  event.preventDefault();
+}
     textField.ondblclick = (event) => {
       event.preventDefault();
       if (this.dragable === false) {

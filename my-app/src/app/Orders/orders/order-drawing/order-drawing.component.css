@@ -101,7 +101,7 @@
   pointer-events: none;
 }
 .drawingContainerEdit .dimensionInput:before {
-  pointer-events: none;
+ /*pointer-events: none;*/
 }
 
 
