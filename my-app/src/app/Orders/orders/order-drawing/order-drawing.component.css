@@ -82,6 +82,7 @@
 .drawingContainerEdit .dimensionInputContainer:before {
   content: "";
   position: absolute;
+
 }
 
 .dimensionInput {
@@ -93,7 +94,7 @@
   resize: none;
   text-align: center;
   border: 1px solid black;
-  min-width: 3vw;
+  min-width: 2vw;
 }
 .drawingContainerPlaceHolders .dimensionInput:before {
   content: attr(data-value);
@@ -116,7 +117,7 @@
 
 .dimensionInputContainerTop .dimensionInput {
   /*width: 120px */
-  min-width: 5vw;
+  min-width: 2vw;
   min-height: unset;
 }
 
@@ -139,7 +140,7 @@
   transform: translate(100%, -50%);
   white-space: nowrap;
   min-width: unset;
-  min-height: 5vw;
+  min-height: 2vw;
 }
 
 .dimensionInputContainerRight:before {
@@ -159,7 +160,7 @@
 
 .dimensionInputContainerBottom .dimensionInput {
   resize: horizontal;
-  min-width: 5vw;
+  min-width: 2vw;
   min-height: unset;
   /*width: 120px;*/
 }
@@ -185,7 +186,7 @@
   /*height: 120px; */
   white-space: nowrap;
   min-width: unset;
-  min-height: 5vw;
+  min-height: 2vw;
 }
 
 .dimensionInputContainerLeft:before {

@@ -758,6 +758,18 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
           const drawingContainerBoundaryY = this.drawing.nativeElement.getBoundingClientRect().top;
           input.style.left = ((pageX - shiftX - drawingCOntainerBoundaryX - window.scrollX) / this.drawing.nativeElement.getBoundingClientRect().width) * 100 + '%';
           input.style.top = ((pageY - shiftY - drawingContainerBoundaryY - window.scrollY) / this.drawing.nativeElement.getBoundingClientRect().height) * 100 + '%';
+          if(input.style.left.charAt(0)==='-'){
+            input.style.left= 2+'%';
+          }
+          if(input.style.top.charAt(0)==='-'){
+            input.style.top= 2+'%';
+          }
+          if(Number(input.style.top.split('%')[0])>100){
+            input.style.top= 98+'%';
+          }
+          if(Number(input.style.left.split('%')[0])>100){
+            input.style.left= 98+'%';
+          }
 
 
           /*
@@ -895,6 +907,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
 
   async getPreviouslyUsedCodes(): Promise<void> {
     try {
+
       const allDimensions = await this.dimensionBackendService.getRecords().toPromise();
       this.allDimensionCodes = this.getLocalizedNameFromAllLanguage(allDimensions.body);
       this.tableFormService.allIndexDimenssions = this.allDimensionCodes;
@@ -1113,7 +1126,9 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     this.drawing.nativeElement.classList.add('drawingContainerEdit');
     // console.log("dupa");
     // console.log(textField.parentNode[0].parentNode);
+
     textField.ondblclick = (event) => {
+      event.preventDefault();
       if (this.dragable === false) {
         if (textField.parentNode.className.includes('Bottom')) {
           this.position = 'bottom';
