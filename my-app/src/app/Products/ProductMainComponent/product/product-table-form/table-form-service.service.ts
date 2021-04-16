@@ -7,6 +7,8 @@ import CreateProductDto from '../../../ProductTypesAndClasses/product.dto';
 import {AuthenticationService} from '../../../../LoginandLogOut/AuthenticationServices/authentication.service';
 import {getSelectedLanguageFromNamesInAllLanguages} from '../../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage';
 import LocalizedDimensionCode from "../../../../DimensionCodes/DimensionCodesTypesAnClasses/localizedDimensionCode";
+import {DimensionCodeBackendService} from "../../../../DimensionCodes/DimensionCodeServices/dimension-code-backend.service";
+import DimensionCode from "../../../../DimensionCodes/DimensionCodesTypesAnClasses/diemensionCode.entity";
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +38,9 @@ export class TableFormServiceService {
   allIndexDimenssions: LocalizedDimensionCode[];
   commentToOrder: string;
 
-  constructor(private authenticationService: AuthenticationService) {
+
+  constructor(private authenticationService: AuthenticationService,
+              private dimensionCodesBackendService: DimensionCodeBackendService) {
     this.initTableForm();
   }
 
@@ -259,5 +263,41 @@ export class TableFormServiceService {
   setMaterialInformation():string{
     return this.materialName+' '+ this.materialCode+' '+ this.materialDescriptionInSelectedLanguage;
   }
+  setDimensionCodesFromSessionStorage():void{
+    this.allSecondIndexDimnesions= JSON.parse(sessionStorage.getItem('allSecondIndexDimnesions'));
+    this.allFirstIndexDimension=JSON.parse(sessionStorage.getItem('allFirstIndexDimension'));
+  }
+  addDimensionCodesToSessionStorage(): void{
+    sessionStorage.setItem('allSecondIndexDimnesions', JSON.stringify(this.allSecondIndexDimnesions));
+    sessionStorage.setItem('allFirstIndexDimension', JSON.stringify(this.allFirstIndexDimension));
+  }
+  async setDimensionCodesInDrawingTableFormService (): Promise<void> {
+    const allDimensions = await this.dimensionCodesBackendService.getRecords().toPromise();
+    const allDimensionCodes = this.getLocalizedNameFromAllLanguage(allDimensions.body);
+    this.allIndexDimenssions = allDimensionCodes;
+    const firstDimensions= await this.dimensionCodesBackendService.getFirstIndexDimensions().toPromise();
+    this.allFirstIndexDimension = [];
+    this.allFirstIndexDimension=firstDimensions.body.map(dimension=>dimension.dimensionCode);
+    const secondDimensions=await this.dimensionCodesBackendService.getSecondIndexDimensions().toPromise();
+    this.allSecondIndexDimnesions = secondDimensions.body.map(dimension=> dimension.dimensionCode);
+   // this.addDimensionCodesToSessionStorage();
+
+  }
+  getLocalizedNameFromAllLanguage(dimensnionCodes: DimensionCode[]): LocalizedDimensionCode[] {
+    const localizedDimensionCodes: LocalizedDimensionCode[] = [];
+    dimensnionCodes.forEach((dimensionCOde) => {
+      dimensionCOde.localizedDimensionNames.forEach((localizedName) => {
+        if (localizedName.language.languageCode === this.authenticationService.selectedLanguageCode) {
+          const localizedCode: LocalizedDimensionCode = {
+            ...dimensionCOde,
+            localizedDimensionName: localizedName
+          };
+          localizedDimensionCodes.push(localizedCode);
+        }
+      });
+    });
+    return localizedDimensionCodes;
+  }
+
 }
 

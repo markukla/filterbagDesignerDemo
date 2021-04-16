@@ -135,7 +135,7 @@ export class CreateOrderComponent implements OnInit, AfterContentChecked, AfterV
       addMaterialDescriptiontoDrawingTabel: new FormControl(null),
       commentToOrder: new FormControl(''),
     }, {updateOn: 'change'});
-    this.setDimensionCodesInDrawingTableFormService();
+    await this.tableFormService.setDimensionCodesInDrawingTableFormService();
     this.initColumnNamesInSelectedLanguage();
     this.productHasBeenChanged = false;
     this.isPartner = this.authenticationService.userRole === RoleEnum.PARTNER;
@@ -844,13 +844,6 @@ listenToChangeProductEvent(event: any): void {
       this.renderer.setProperty(select,'size', this.allParntersToSelect.length+1);
     }
   }
-  setDimensionCodesInDrawingTableFormService (): void {
-    this.dimensionCodesBackendService.getFirstIndexDimensions().subscribe((firstDimensions) => {
-      this.tableFormService.allFirstIndexDimension = [];
-      this.tableFormService.allFirstIndexDimension=firstDimensions.body.map(dimension=>dimension.dimensionCode);
-    });
-    this.dimensionCodesBackendService.getSecondIndexDimensions().subscribe((secondDimensions)=> {
-      this.tableFormService.allSecondIndexDimnesions = secondDimensions.body.map(dimension=> dimension.dimensionCode);
-    });
-  }
+
+
 }
