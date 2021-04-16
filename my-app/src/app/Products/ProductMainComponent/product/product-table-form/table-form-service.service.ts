@@ -34,6 +34,7 @@ export class TableFormServiceService {
   allFirstIndexDimension: string[];
   allSecondIndexDimnesions: string[];
   allIndexDimenssions: LocalizedDimensionCode[];
+  commentToOrder: string;
 
   constructor(private authenticationService: AuthenticationService) {
     this.initTableForm();
@@ -164,6 +165,12 @@ export class TableFormServiceService {
       this.materialName = '';
       this.materialDescriptionInSelectedLanguage='';
 
+    }
+    if(createOrderDto&&createOrderDto.commentToOrder){
+      this.commentToOrder=createOrderDto.commentToOrder;
+    }
+    else {
+      this.commentToOrder='';
     }
     if (createOrderDto && createOrderDto.product) {
       // tslint:disable-next-line:max-line-length

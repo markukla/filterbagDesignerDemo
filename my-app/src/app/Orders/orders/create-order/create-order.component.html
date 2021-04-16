@@ -138,7 +138,7 @@
         <button type="button" class="confirmOrChangeButton" (click)="updateDrawing();"> {{orderNames.changeDrawingParameters}}
         </button>
         <label for="commentToOrder">{{orderNames.yourCommentToOrder}} </label> <br>
-        <textarea id="commentToOrder" #commentToOrder>  </textarea>
+        <textarea id="commentToOrder" #commentToOrder formControlName="commentToOrder"> </textarea>
 
       </div>
     </div>

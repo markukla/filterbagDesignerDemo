@@ -43,6 +43,7 @@ export class ProductTableFormComponent implements OnInit, AfterContentChecked {
   materialNames= materialNamesInSelectedLanguage;
   materialDescriptionInSelectedLanguage: string;
   materialNameCodeAndOptionalDescription: string;
+  commentToOrder: string;
 
   constructor(
     private backendService: ProductBackendService,
@@ -90,5 +91,6 @@ export class ProductTableFormComponent implements OnInit, AfterContentChecked {
     this.secondIndexDimension = this.tableFormService.secondIndexDimension;
     this.materialDescriptionInSelectedLanguage= this.tableFormService.materialDescriptionInSelectedLanguage;
     this.materialNameCodeAndOptionalDescription= this.tableFormService.setMaterialInformation();
+    this.commentToOrder=this.tableFormService.commentToOrder;
   }
 }

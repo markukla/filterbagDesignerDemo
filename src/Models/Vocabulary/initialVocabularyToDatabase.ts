@@ -379,6 +379,7 @@ const generalUser2: Vocabulary = {
     variableName: 'partnerCompanyName',
     localizedNames: [new LocalizedName({id:1}, 'Nazwa Partnera Handlowego'), new LocalizedName({id:2}, '{id:2} ....')]
 }
+initialVocabularyForDatabase.push(generalUser2);
 const generalUser3: Vocabulary = {
     variableName: 'addNewBusinessPartner',
     localizedNames: [new LocalizedName({id:1}, 'Dodaj nowego Partnera Handlowego'), new LocalizedName({id:2}, '{id:2} ....')]
@@ -1118,6 +1119,11 @@ const orderName78: Vocabulary = {
     localizedNames: [new LocalizedName({id:1}, 'Wymiar'), new LocalizedName({id:2}, '{id:2} ....')]
 }
 initialVocabularyForDatabase.push(orderName78)
+const orderName79: Vocabulary = {
+    variableName: 'comments',
+    localizedNames: [new LocalizedName({id:1}, 'Uwagi:'), new LocalizedName({id:2}, '{id:2} ....')]
+}
+initialVocabularyForDatabase.push(orderName79);
 
 
 

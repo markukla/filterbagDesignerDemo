@@ -102,7 +102,7 @@ export class CreateOrderComponent implements OnInit, AfterContentChecked, AfterV
   formTitleCreateNewOrUpdate: string;
 
 
-  @ViewChild('commentToOrder', {read: ElementRef}) commentToOrder: ElementRef;
+ // @ViewChild('commentToOrder', {read: ElementRef}) commentToOrder: ElementRef;
   @ViewChild('businessPartner', {read: ElementRef}) htmlselectBusinessPartner: ElementRef<HTMLSelectElement>;
   constructor(
     private backendService: OrderBackendService,
@@ -133,6 +133,7 @@ export class CreateOrderComponent implements OnInit, AfterContentChecked, AfterV
       businessPartner: new FormControl(null, Validators.required),
       productMaterial: new FormControl(null, Validators.required),
       addMaterialDescriptiontoDrawingTabel: new FormControl(null),
+      commentToOrder: new FormControl(''),
     }, {updateOn: 'change'});
     this.setDimensionCodesInDrawingTableFormService();
     this.initColumnNamesInSelectedLanguage();
@@ -232,6 +233,9 @@ setFormControlValuesForUpdateOrShowDrawingMode(createOrderDto: CreateOrderDto): 
         this.productMaterial.setValue(createOrderDto.productMaterial);
         this.selectedMaterial = createOrderDto.productMaterial;
       }
+      if(createOrderDto.commentToOrder){
+        this.commentToOrder.setValue(createOrderDto.commentToOrder);
+      }
       if (createOrderDto.product) {
         this.type.setValue(createOrderDto.product.productType);
         this.top.setValue(createOrderDto.product.productTop);
@@ -240,6 +244,7 @@ setFormControlValuesForUpdateOrShowDrawingMode(createOrderDto: CreateOrderDto): 
         this.selectedTop = createOrderDto.product.productTop;
         this.selectedBottom = createOrderDto.product.productBottom;
         this.selectedProduct = createOrderDto.product;
+
       }
       if(createOrderDto.addMaterialDescription){
         this.addMaterialDescriptiontoDrawingTabel.setValue(createOrderDto.addMaterialDescription);
@@ -319,6 +324,10 @@ setFormControlValueForConfirmMode(createOrderDto: CreateOrderDto): void {
   // tslint:disable-next-line:typedef
 get type() {
     return this.form.get('type');
+  }
+
+  get commentToOrder() {
+    return this.form.get('commentToOrder');
   }
 
 // tslint:disable-next-line:typedef
@@ -769,12 +778,9 @@ setOrderNumbersinOrderTableForUpdateOrConfirmModes(): void {
   updateCreateOrderDto(createOrderDto: CreateOrderDto): CreateOrderDto {
     this.setOrderNumbersinOrderTableForUpdateOrConfirmModes();
     let commmentToOrder: string;
-    if (this.commentToOrder && this.commentToOrder.nativeElement.value) {
-      commmentToOrder = this.commentToOrder.nativeElement.value;
-    }
-    else {
-      commmentToOrder = '';
-    }
+
+      commmentToOrder = this.commentToOrder.value;
+
     const orderDetails: OrderDetails = {...this.createOrderDto.orderDetails,
     id: null};
     const updatedCreateOrderDtoWithoutIndexAndOrderNameRebuild: CreateOrderDto = {
@@ -822,6 +828,7 @@ listenToChangeProductEvent(event: any): void {
   updateCreateOrderDtoForChooseDrawingByMiniature(createOrderDto: CreateOrderDto, product: Product): CreateOrderDto {
     const updatedCreateOrderDto = {
       ... createOrderDto,
+      commentToOrder: this.commentToOrder.value,
       productMaterial: this.selectedMaterial,
       businessPartner: this.selectedPartner,
       addMaterialDescription: this.addMaterialDescriptiontoDrawingTabel.value,

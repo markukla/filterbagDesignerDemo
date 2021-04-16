@@ -160,6 +160,7 @@ export const orderNames = {
   choosingAndConfirmMaterialIsRequired: '',
   changeDrawingParameters: '',
   yourCommentToOrder: '',
+  comments:'Uwagi:',
   businessPartnerName: 'Nazwa Parnera Handlowego',
   businessPartners: 'Partne Handlowy',
   productType: 'Typ Produktu',
