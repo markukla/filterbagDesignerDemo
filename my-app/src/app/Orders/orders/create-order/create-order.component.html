@@ -1,6 +1,6 @@
 <div class="createOrUpdateOrder">
   <button id="close button" class="closeButton" (click)="closeAndGoBack() " [title]='generalNamesInSelectedLanguage.closeButtonDescription'>x</button>
-  <h2>{{orderNames.createNewOrder}}</h2>
+  <h2>{{createOrUpdateFormTitle}}</h2>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div *ngIf="!updateModeOrPartnerLogged">

@@ -86,15 +86,15 @@
 }
 
 .dimensionInput {
-  font-size: 1.6vw;
-  line-height: 1.6vw;
+  font-size: 1.2vw;
+  line-height: 1.2vw;
   position: absolute;
   white-space: nowrap;
   /*overflow: hidden*/ /*no overflow if we do not want to have active corners for resize*/;
-  resize: none;
+  /*resize: none;*/
   text-align: center;
   border: 1px solid black;
-  min-width: 2vw;
+  min-width: 1.4vw;
 }
 .drawingContainerPlaceHolders .dimensionInput:before {
   content: attr(data-value);
@@ -117,7 +117,7 @@
 
 .dimensionInputContainerTop .dimensionInput {
   /*width: 120px */
-  min-width: 2vw;
+  min-width: 1.4vw;
   min-height: unset;
 }
 
@@ -140,7 +140,7 @@
   transform: translate(100%, -50%);
   white-space: nowrap;
   min-width: unset;
-  min-height: 2vw;
+  min-height: 1.4vw;
 }
 
 .dimensionInputContainerRight:before {
@@ -160,7 +160,7 @@
 
 .dimensionInputContainerBottom .dimensionInput {
   resize: horizontal;
-  min-width: 2vw;
+  min-width: 1.4vw;
   min-height: unset;
   /*width: 120px;*/
 }
@@ -186,7 +186,7 @@
   /*height: 120px; */
   white-space: nowrap;
   min-width: unset;
-  min-height: 2vw;
+  min-height: 1.4vw;
 }
 
 .dimensionInputContainerLeft:before {

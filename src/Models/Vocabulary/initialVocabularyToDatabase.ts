@@ -243,7 +243,7 @@ initialVocabularyForDatabase.push(generalTable38);
 
 const generalTable39: Vocabulary = {
     variableName: 'orders',
-    localizedNames: [new LocalizedName({id:1}, 'Zamówienia'), new LocalizedName({id:2}, '{id:2} ....')]
+    localizedNames: [new LocalizedName({id:1}, 'Zapytania'), new LocalizedName({id:2}, '{id:2} ....')]
 }
 initialVocabularyForDatabase.push(generalTable39);
 
@@ -849,12 +849,12 @@ const orderName31: Vocabulary = {
 initialVocabularyForDatabase.push(orderName31)
 const orderName32: Vocabulary = {
     variableName: 'productTop',
-    localizedNames: [new LocalizedName({id:1}, 'Wykończenie Góry'), new LocalizedName({id:2}, '{id:2} ....')]
+    localizedNames: [new LocalizedName({id:1}, 'Wykończenie góra'), new LocalizedName({id:2}, '{id:2} ....')]
 }
 initialVocabularyForDatabase.push(orderName32)
 const orderName33: Vocabulary = {
     variableName: 'productBottom',
-    localizedNames: [new LocalizedName({id:1}, 'Wykończenie Dna'), new LocalizedName({id:2}, '{id:2} ....')]
+    localizedNames: [new LocalizedName({id:1}, 'Wykończenie dół'), new LocalizedName({id:2}, '{id:2} ....')]
 }
 initialVocabularyForDatabase.push(orderName33)
 const orderName34: Vocabulary = {
@@ -881,7 +881,7 @@ initialVocabularyForDatabase.push(orderName37)
 
 const orderName38: Vocabulary = {
     variableName: 'updateProductBottom',
-    localizedNames: [new LocalizedName({id:1}, 'Aktualizuj wykończenie dna'), new LocalizedName({id:2}, '{id:2} ....')]
+    localizedNames: [new LocalizedName({id:1}, 'Aktualizuj Wykończenie dółu'), new LocalizedName({id:2}, '{id:2} ....')]
 }
 initialVocabularyForDatabase.push(orderName38)
 
@@ -899,7 +899,7 @@ initialVocabularyForDatabase.push(orderName40)
 
 const orderName41: Vocabulary = {
     variableName: 'addNewProductBottom',
-    localizedNames: [new LocalizedName({id:1}, 'Dodaj nowe wykończenie dna'), new LocalizedName({id:2}, '{id:2} ....')]
+    localizedNames: [new LocalizedName({id:1}, 'Dodaj nowe Wykończenie dołu'), new LocalizedName({id:2}, '{id:2} ....')]
 }
 initialVocabularyForDatabase.push(orderName41)
 
@@ -929,19 +929,19 @@ initialVocabularyForDatabase.push(orderName45)
 
 const orderName46: Vocabulary = {
     variableName: 'productBottomCode',
-    localizedNames: [new LocalizedName({id:1}, 'Kod Wykończenia Dna'), new LocalizedName({id:2}, '{id:2} ....')]
+    localizedNames: [new LocalizedName({id:1}, 'Kod Wykończenia dołu'), new LocalizedName({id:2}, '{id:2} ....')]
 }
 initialVocabularyForDatabase.push(orderName46)
 
 const orderName47: Vocabulary = {
     variableName: 'productBottomName',
-    localizedNames: [new LocalizedName({id:1}, 'Nazwa Wykończenia Dna'), new LocalizedName({id:2}, '{id:2} ....')]
+    localizedNames: [new LocalizedName({id:1}, 'Nazwa Wykończenia dołu'), new LocalizedName({id:2}, '{id:2} ....')]
 }
 initialVocabularyForDatabase.push(orderName47)
 
 const orderName48: Vocabulary = {
     variableName: 'productBottoms',
-    localizedNames: [new LocalizedName({id:1}, 'Wykończenia Dna'), new LocalizedName({id:2}, '{id:2} ....')]
+    localizedNames: [new LocalizedName({id:1}, 'Wykończenia Dołu'), new LocalizedName({id:2}, '{id:2} ....')]
 }
 initialVocabularyForDatabase.push(orderName48)
 
@@ -1038,7 +1038,7 @@ initialVocabularyForDatabase.push(orderName63)
 
 const orderName64: Vocabulary = {
     variableName: 'giveValuesToAllDimension',
-    localizedNames: [new LocalizedName({id:1}, 'Prosze podać wartości wszystkich wymiarów'), new LocalizedName({id:2}, '{id:2} ....')]
+    localizedNames: [new LocalizedName({id:1}, 'Prosze podać wartość dla wymiaru: '), new LocalizedName({id:2}, '{id:2} ....')]
 }
 initialVocabularyForDatabase.push(orderName64)
 

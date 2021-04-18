@@ -100,9 +100,11 @@ export class CreateOrderComponent implements OnInit, AfterContentChecked, AfterV
   generalUserNames = generalUserNames;
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
   formTitleCreateNewOrUpdate: string;
+  createOrUpdateFormTitle: string;
 
 
- // @ViewChild('commentToOrder', {read: ElementRef}) commentToOrder: ElementRef;
+
+  // @ViewChild('commentToOrder', {read: ElementRef}) commentToOrder: ElementRef;
   @ViewChild('businessPartner', {read: ElementRef}) htmlselectBusinessPartner: ElementRef<HTMLSelectElement>;
   constructor(
     private backendService: OrderBackendService,
@@ -132,7 +134,7 @@ export class CreateOrderComponent implements OnInit, AfterContentChecked, AfterV
       bottom: new FormControl(null),
       businessPartner: new FormControl(null, Validators.required),
       productMaterial: new FormControl(null, Validators.required),
-      addMaterialDescriptiontoDrawingTabel: new FormControl(null),
+      addMaterialDescriptiontoDrawingTabel: new FormControl(false),
       commentToOrder: new FormControl(''),
     }, {updateOn: 'change'});
     await this.tableFormService.setDimensionCodesInDrawingTableFormService();
@@ -148,6 +150,7 @@ export class CreateOrderComponent implements OnInit, AfterContentChecked, AfterV
     this.generalNamesInSelectedLanguage = this.authenticationService.generalNamesInSelectedLanguage;
     this.orderNames = this.authenticationService.orderNamesInSelectedLanguage;
 
+
   }
 
    async setOrderOperatiomModeBasingOnQueryParamtersAndInitPropertyValues(): Promise<void> {
@@ -155,6 +158,12 @@ export class CreateOrderComponent implements OnInit, AfterContentChecked, AfterV
       const mode = queryParams.get('mode');
       const orderId = queryParams.get('orderId');
       this.selctedOrderId = orderId;
+      if(mode.toUpperCase().includes('update'.toUpperCase())){
+        this.createOrUpdateFormTitle= this.orderNames.updateOrder;
+      }
+      else {
+        this.createOrUpdateFormTitle= this.orderNames.createNewOrder;
+      }
       if (mode === OrderOperationMode.CREATENEW ) {
         this.orderOperationMode = OrderOperationMode.CREATENEW;
         if (this.backendService.createOrderDtoForConfirmUpdateShowDrawing) {

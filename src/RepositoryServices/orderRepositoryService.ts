@@ -27,6 +27,10 @@ class OrderService implements RepositoryService {
     public productRepositoryService=new ProductService();
     public userRepositoryService=new UserService();
     public materialRepositoryService=new MaterialService();
+    private collator = new Intl.Collator(undefined, {
+        numeric: true,
+        sensitivity: 'base',
+    });
 
     public async findOneOrderById(id: string): Promise<Order> {
         const foundOrder: Order = await this.repository.findOne(id, {relations:["orderVersionRegister","product","productMaterial"]});
@@ -72,9 +76,12 @@ const orderVersionRegister = new OrderVersionRegister(createOrderDto.orderNumber
     public async findAllCurentVerionsOfOrder():Promise<Order[]>{
         const ordersRegisters= await this.findAllOrdersVersionsRegisters();
         let currentOrders:Order[]=[];
-
+        const sordOrder=1;  //ascending
             ordersRegisters.forEach(rg=>{
                 if(rg) {
+                    rg.ordersInthisRegister.sort((a, b): number=>{
+                        return this.collator.compare(String(a.id),String(b.id))*sordOrder;
+                    });
                     currentOrders.push(rg.ordersInthisRegister[rg.ordersInthisRegister.length-1]);
                 }
 
@@ -158,8 +165,27 @@ const registerToUpdate:OrderVersionRegister= currentOrder.orderVersionRegister;
     public async obtainOrderNumberForNewOrder():Promise<NewestOrderNumber>{
         const orderRegisters=await this.findAllOrdersVersionsRegisters();
         let newestNumber:number;
+        const sortOrderAscending= 1;
+        const sortOrderDescending= -1;
+        let sortOrder: number;
+        sortOrder=sortOrderAscending;
+
+        orderRegisters.sort((a, b): number=>{
+            if(a.id<b.id){
+                return -1* sortOrder;
+
+            }
+            else if(a.id>b.id) {
+                return 1*sortOrder
+            }
+            else {
+                return 0
+            }
+
+        });
+
         if(orderRegisters&&orderRegisters.length>0){
-            let newestOrderNumberinDataBase:number=orderRegisters.length+1
+            let newestOrderNumberinDataBase:number=orderRegisters[orderRegisters.length-1].id+1;
        newestNumber=newestOrderNumberinDataBase;
         }
         else {  // no ordersREgistersFound(they are created with addingOrders) which means that it is first order in database

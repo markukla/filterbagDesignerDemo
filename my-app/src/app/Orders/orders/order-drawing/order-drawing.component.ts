@@ -492,9 +492,11 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
 
       if(event.target.innerHTML.length>0){
         event.target.classList.add('inputDimensionWithoutPlaceholder');
+        event.target.classList.remove('drawingContainerPlaceHolders');
       }
       else {
         event.target.classList.remove('inputDimensionWithoutPlaceholder');
+        event.target.classList.add('drawingContainerPlaceHolders');
       }
 
       const eventtargetinnerHTMLBeforeRemovingLetters: string = event.target.innerHTML;
@@ -585,16 +587,21 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     let allowSubmit = true;
     const dimensions: Dimension[] = createOrderDto.orderDetails.dimensions;
     const notAllDimensionValueEnteredMessage = this.orderNames.giveValuesToAllDimension;
-    let foundNotFilledDimensions = false;
+   const dimensionValueNotEntered= this.orderNames.giveValuesToAllDimension;
+   // let foundNotFilledDimensions = false;
     dimensions.forEach((dimension) => {
       if (!dimension.dimensionvalue) {
         allowSubmit = false;
-        foundNotFilledDimensions = true;
+       // foundNotFilledDimensions = true;
+        const dimensionCode=this.allDimensionCodes.filter(d=> d.id===Number(dimension.dimensionId))[0].dimensionCode;
+        this.userInputErrorMessages.push(dimensionValueNotEntered+dimensionCode);
+
       }
     });
-    if (foundNotFilledDimensions) {
+    /*
+    *if (foundNotFilledDimensions) {
       this.userInputErrorMessages.push(notAllDimensionValueEnteredMessage);
-    }
+    } */
     if (!this.tableFormService.workingTemperature.value) {
       allowSubmit = false;
       const foultMessage = this.orderNames.giveValueOfWorkingTemperature;
@@ -633,7 +640,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
       pdfName= this.createOrderDto.index;
     }
     else if(this.createProductDto){
-      pdfName= this.createProductDto.productType.code; // nedd to be change to product code when such update will be made
+      pdfName= this.createProductDto.productType.code+this.createProductDto.productTop.code+this.createProductDto.productBottom.code; // nedd to be change to product code when such update will be made
     }
     link.download = `${pdfName}.pdf`;
     link.click();
@@ -683,7 +690,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     console.log(`inputId= ${input.id}`);
     container.appendChild(input);
     container.style.left = 5 + `%`;
-    container.style.top = 2 + '%';
+    container.style.top = 5 + '%';
 
     //this.renderer.setProperty(input, 'value', this.idValue);
 

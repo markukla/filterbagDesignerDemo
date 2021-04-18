@@ -57,6 +57,7 @@
 
     </tr>
     </tbody>
+    <!---->
     <div *ngFor="let pageNumber of paginator.pages">
       <a [routerLink]="['/orders']" [queryParams]="{pageNumber:pageNumber}">{{pageNumber}}</a>
     </div>
