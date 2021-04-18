@@ -17,6 +17,10 @@ import NewestOrderNumber from '../../OrdersTypesAndClasses/newestOrderNumber';
 import {API_URL} from '../../../Config/apiUrl';
 import OrderforTableCell from '../../OrdersTypesAndClasses/orderforTableCell';
 import {GeneralTableService} from "../../../util/GeneralTableService/general-table.service";
+import {getSelectedLanguageFromNamesInAllLanguages} from "../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
+import {AuthenticationService} from "../../../LoginandLogOut/AuthenticationServices/authentication.service";
+import {ProductBackendService} from "../../../Products/ProductMainComponent/product/ProductServices/product-backend.service";
+import {addWarning} from "@angular-devkit/build-angular/src/utils/webpack-diagnostics";
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +34,9 @@ export class OrderBackendService {
   logedUser: User;
   createOrderDtoForConfirmUpdateShowDrawing: CreateOrderDto;
   constructor(private http: HttpClient,
-              private tableService: GeneralTableService) {
+              private tableService: GeneralTableService,
+              private authenticatoinService: AuthenticationService,
+              private productBackenService: ProductBackendService) {
     this.setCreateOrderDtoBasingOnSessionStorage();
   }
 
@@ -70,7 +76,7 @@ export class OrderBackendService {
 
       tap((record) => {
         const recordbody = record.body;
-        this.tableService.updateTableRecord(Number(id), this.createOrderTableCellFromOrderEntity(record.body));
+        this.tableService.updateTableRecord(Number(id),  this.createOrderTableCellFromOrderEntity(record.body));
       }));
   }
   findRecordById(id: string): Observable<HttpResponse<Order>>{
@@ -105,30 +111,46 @@ export class OrderBackendService {
     };
     return createOrderDto;
   }
-  createOrderTableCellFromOrderEntity(order: Order): OrderforTableCell {
+   createOrderTableCellFromOrderEntity(order: Order): OrderforTableCell {
     let orderTableCell: OrderforTableCell;
-    if(order) {
-    const dateString = new Date(order.date).toLocaleDateString();
-     orderTableCell = {
-      businessPartnerCode: order.businessPartner.code,
-      businessPartnerFulname: order.businessPartner.fulName,
-      businessPartnerEmail: order.businessPartner.email,
-      date: new Date(order.date),
-      dateString,
-      id: order.id,
-      index: order.index,
-      orderName: order.orderName,
-      orderNumber: order.orderName,
-      orderTotalNumber: order.orderTotalNumber,
-      orderVersionNumber: order.orderVersionNumber,
-      orderVersionRegisterId: order.orderVersionRegister.id,
-      businessPartnerCompanyName: order.businessPartner.businesPartnerCompanyName,
-      commentToOrderString: order.commentToOrder,
-    };
-    }
-    return orderTableCell;
+
+
+      if(order) {
+        const dateString = new Date(order.date).toLocaleDateString();
+        let orderName: string;
+        if(order.product){
+          orderName=getSelectedLanguageFromNamesInAllLanguages(order.product.productType.localizedNames, this.authenticatoinService.selectedLanguageCode)+' '+order.orderName;
+        }
+        else {
+          orderName=order.orderName;
+        }
+        orderTableCell = {
+          businessPartnerCode: order.businessPartner.code,
+          businessPartnerFulname: order.businessPartner.fulName,
+          businessPartnerEmail: order.businessPartner.email,
+          date: new Date(order.date),
+          dateString,
+          id: order.id,
+          index: order.index,
+
+          orderName: orderName,
+          orderNumber: order.orderName,
+          orderTotalNumber: order.orderTotalNumber,
+          orderVersionNumber: order.orderVersionNumber,
+          orderVersionRegisterId: null,
+          businessPartnerCompanyName: order.businessPartner.businesPartnerCompanyName,
+          commentToOrderString: order.commentToOrder,
+        };
+      }
+      return orderTableCell;
+
+
 
   }
+
+
+
+
   setCreateOrderDtoBasingOnSessionStorage():void{
     const createOrderDtoFromSessionStorage = JSON.parse(sessionStorage.getItem('createOrderDto'));
     if(createOrderDtoFromSessionStorage){

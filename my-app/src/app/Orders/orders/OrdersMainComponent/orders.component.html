@@ -20,7 +20,7 @@
       <th [appSort]="records" data-order="desc" data-name="businessPartnerEmail">{{generalUserNames.email}}</th>
       <th [appSort]="records" data-order="desc" data-name="index">{{orderNames.index}}</th>
       <th [appSort]="records" data-order="desc" data-name="orderName">{{generalNamesInSelectedLanguage.name}}</th>
-      <th [appSort]="records" data-order="desc" data-name="date" data-typ="date">{{orderNames.date}}</th>
+      <th [appSort]="records" data-order="asc" data-name="date" data-typ="date">{{orderNames.date}}</th>
       <th>Ilość</th>
     </tr>
     <tr>
@@ -44,7 +44,6 @@
       <td>{{record.index}}</td>
       <td>{{record.orderName}}</td>
       <td>{{record.dateString}}</td>
-      <td>{{this.recordNumbers}}</td>
       <td>
         <text *ngIf="deleTedMaterialMessage">{{deleTedMaterialMessage}}</text>
         <br>

@@ -34,7 +34,7 @@ class Order {
     businessPartner: User;
 
 
-    @ManyToOne(() => Product, {/*eager: true*/} )  // has a forein key
+    @ManyToOne(() => Product, {/*eager: true}*/ }) // has a forein key
     product: Product;
 
 
@@ -48,7 +48,7 @@ class Order {
     @ManyToOne(() => User, (creator: User) => creator.orderCreatedByUser, {eager: true})
     creator: User
 
-@ManyToOne(()=>OrderVersionRegister,(orderVersionRegister:OrderVersionRegister)=>orderVersionRegister.ordersInthisRegister,{eager: true,cascade:true})
+@ManyToOne(()=>OrderVersionRegister,(orderVersionRegister:OrderVersionRegister)=>orderVersionRegister.ordersInthisRegister,{/*eager: true,*/cascade:true})
     orderVersionRegister:OrderVersionRegister;
 
 

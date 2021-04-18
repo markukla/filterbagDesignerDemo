@@ -575,7 +575,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     };
     const orderDtoToSaveInDatabae: CreateOrderDto = {
       ...this.createOrderDto,
-      orderName: this.tableFormService.orderName,
+      orderName: this.tableFormService.setPartialOrderName(),
       index: this.tableFormService.index,
       orderDetails
     };

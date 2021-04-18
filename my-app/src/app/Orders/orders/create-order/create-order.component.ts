@@ -813,7 +813,7 @@ setOrderNumbersinOrderTableForUpdateOrConfirmModes(): void {
     const updatedCreateOrderDto: CreateOrderDto = {
       ... updatedCreateOrderDtoWithoutIndexAndOrderNameRebuild,
       index: this.tableFormService.index,
-      orderName: this.tableFormService.orderName
+      orderName: this.tableFormService.setPartialOrderName(),
     };
     return updatedCreateOrderDto;
   }

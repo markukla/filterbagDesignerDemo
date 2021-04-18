@@ -39,6 +39,7 @@ export class TableFormServiceService {
   commentToOrder: string;
 
 
+
   constructor(private authenticationService: AuthenticationService,
               private dimensionCodesBackendService: DimensionCodeBackendService) {
     this.initTableForm();
@@ -135,6 +136,21 @@ export class TableFormServiceService {
       this.orderName = `${this.productTypeName}  0  x  0 mm ${this.materialCode}`;
     }
   }
+public setPartialOrderName(): string{
+    let partialOrderName: string;
+  if (this.Dvalue && this.Lvalue) {
+    partialOrderName= `${this.Dvalue}  x  ${this.Lvalue} mm ${this.materialCode}`;
+  } else if (this.Dvalue && !this.Lvalue) {
+    partialOrderName = `${this.Dvalue}  x  0 mm ${this.materialCode}`;
+  } else if (!this.Dvalue && this.Lvalue) {
+    partialOrderName = `0  x  ${this.Lvalue} mm ${this.materialCode}`;
+  } else {
+    partialOrderName = `0  x  0 mm ${this.materialCode}`;
+  }
+  return partialOrderName;
+
+
+}
 
   /*  remember that createOrderDto is obtained in diffrentWay for diffrent modes*/
   setInitDataFromDrawingTableFromCreateOrderDto(createOrderDto?: CreateOrderDto, createProductDto?: CreateProductDto): void {
@@ -220,11 +236,8 @@ export class TableFormServiceService {
     } else {
       this.buildIndex();
     }
-    if (createOrderDto && createOrderDto.orderName) {
-      this.orderName = createOrderDto.orderName;
-    } else {
-      this.setOrderName();
-    }
+
+    this.setOrderName();
   }
 
   enableTableForm(): void {
