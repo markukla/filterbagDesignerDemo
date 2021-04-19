@@ -310,7 +310,7 @@ initialVocabularyForDatabase.push(generalTable49);
 
 const generalTable50: Vocabulary = {
     variableName: 'considerDeletingProducts',
-    localizedNames: [new LocalizedName({id:1}, 'Uwaga Istnieją produkty z wykończeniem góry/ dna, które chcesz usunąc. Rozważ usunięcię tych produktów z ich głównej tabeli, żeby zachować spójność danych.'), new LocalizedName({id:2}, '{id:2} ....')]
+    localizedNames: [new LocalizedName({id:1}, 'Uwaga Istnieją produkty z wykończeniem góry/ dna, które chcesz usunąc. Zrezygnuj z operacji usuwania, lub rozważ usunięcię tych produktów z ich głównej tabeli, żeby zachować spójność danych.'), new LocalizedName({id:2}, '{id:2} ....')]
 }
 initialVocabularyForDatabase.push(generalTable50);
 

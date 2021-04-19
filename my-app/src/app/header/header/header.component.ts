@@ -3,6 +3,7 @@ import RoleEnum from '../../Users/users/userTypes/roleEnum';
 import {AuthenticationService} from '../../LoginandLogOut/AuthenticationServices/authentication.service';
 import {NavigationEnd, NavigationStart, Router, RouterEvent} from '@angular/router';
 import {filter} from 'rxjs/operators';
+import {orderNames} from "../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
 
 @Component({
   selector: 'app-header',
@@ -17,6 +18,7 @@ export class HeaderComponent implements AfterContentChecked, AfterViewChecked, O
   private previousUrl: string;
   private currentUrl: string;
   generalNamesInSelectedLanguage: any;
+  orderNamesInSelectedLanguage = orderNames;
   constructor(public authenticationService: AuthenticationService,
               private router: Router) {
    // this.resetLoggedUserInAuthenticationService();
@@ -44,7 +46,7 @@ export class HeaderComponent implements AfterContentChecked, AfterViewChecked, O
   }
   initNamesInSelectedLanguage(): void {
     this.generalNamesInSelectedLanguage = this.authenticationService.generalNamesInSelectedLanguage;
-
+    this.orderNamesInSelectedLanguage= this.authenticationService.orderNamesInSelectedLanguage;
   }
   showHeaderIfNoDrawing(): boolean {
     if (this.authenticationService && this.authenticationService._currentUrl) {

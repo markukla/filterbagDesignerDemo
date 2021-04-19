@@ -499,6 +499,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
         event.target.classList.add('drawingContainerPlaceHolders');
       }
 
+
       const eventtargetinnerHTMLBeforeRemovingLetters: string = event.target.innerHTML;
       if (this.checkIfLettersInString(eventtargetinnerHTMLBeforeRemovingLetters)) {
         console.log('letters will be removed');
@@ -1102,10 +1103,10 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
 
       }
       if (dimensionInfo.dimensionTexFieldWidth && dimensionInfo.dimensionTexFieldWidth !== '' && Number(dimensionInfo.dimensionTexFieldWidth) !== 0) {
-        input.style.width = Number(dimensionInfo.dimensionTexFieldWidth) + 'vw';
+        input.style.minWidth = Number(dimensionInfo.dimensionTexFieldWidth) + 'vw';
       }
       if (dimensionInfo.dimensionTexFieldHeight && dimensionInfo.dimensionTexFieldHeight !== '' && Number(dimensionInfo.dimensionTexFieldHeight) !== 0) {
-        input.style.height = Number(dimensionInfo.dimensionTexFieldHeight) + 'vw';
+        input.style.minHeight = Number(dimensionInfo.dimensionTexFieldHeight) + 'vw';
       }
 
       if (this.orderOperationMode === OrderOperationMode.SHOWDRAWING || this.orderOperationMode === OrderOperationMode.SHOWDRAWINGCONFIRM ||this.orderOperationMode === OrderOperationMode.SHOWPRODUCT) {

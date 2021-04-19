@@ -1,33 +1,45 @@
 <div *ngIf="showHeaderIfNoDrawing()===true">
   <div *ngIf="this.authenticationService.userRole && this.authenticationService.userRole === this.admin">
-  <span>
-    <a [routerLink]="['/orders']" [queryParams]="{pageNumber: 1}" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.orders}}</a>
-  <a [routerLink]="['/businessPartners/1']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.partners}}</a>
-  <a [routerLink]="['/materials']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.materials}}</a>
-  <a [routerLink]="['/products']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.products}}</a>
-     <a [routerLink]="['/users']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.users}}</a>
-    <a [routerLink]="['/dimensionCodes']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.dimensionCodes}}</a>
-    <a [routerLink]="['/languages']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.languages}}</a>
-     <a [routerLink]="['/vocabularies']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.dictionary}}</a>
-     <a [routerLink]="['/changePasswordByLoggedUser']" routerLinkActive="active">{{this.authenticationService.generalUserNames.changeYourPassword}}</a>
-      <button (click)="this.authenticationService.logOut()">{{this.generalNamesInSelectedLanguage.logout}}</button>
+    <div>
+  <span class="menuSpan">
+    <a class="menuLink"[routerLink]="['/orders']" [queryParams]="{pageNumber: 1}" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.orders}}</a>
+  <a class="menuLink" [routerLink]="['/businessPartners/1']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.partners}}</a>
+  <a class="menuLink" [routerLink]="['/materials']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.materials}}</a>
+     <a class="menuLink" [routerLink]="['/users']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.users}}</a>
+    <a class="menuLink" [routerLink]="['/dimensionCodes']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.dimensionCodes}}</a>
+    <a class="menuLink" [routerLink]="['/languages']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.languages}}</a>
+     <a class="menuLink" [routerLink]="['/vocabularies']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.dictionary}}</a>
+     <a class="menuButton" [routerLink]="['/changePasswordByLoggedUser']" routerLinkActive="active">{{this.authenticationService.generalUserNames.changeYourPassword}}</a>
+    <button class="menuButton"(click)="this.authenticationService.logOut()">{{this.generalNamesInSelectedLanguage.logout}}</button>
   </span>
+    </div>
+    <div>
+    <span>
+
+    <a class="menuLink" [routerLink]="['/products']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.products}}</a>
+    <a class="menuLink" [routerLink]="['/products/types']" >{{this.orderNamesInSelectedLanguage.productTypes}}</a>
+      <a class="menuLink" [routerLink]="['/products/tops']" > {{this.orderNamesInSelectedLanguage.productTops}}</a>
+<a class="menuLink"[routerLink]="['/products/bottoms']">{{this.orderNamesInSelectedLanguage.productBottoms}}</a>
+
+
+  </span>
+    </div>
 
   </div>
   <div *ngIf="this.authenticationService.userRole && this.authenticationService.userRole === this.editor">
-  <span>
-     <a [routerLink]="['/orders']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.orders}}</a>
-    <a [routerLink]="['/businessPartners']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.partners}}</a>
-      <a [routerLink]="['/changePasswordByLoggedUser']" routerLinkActive="active">{{this.authenticationService.generalUserNames.changeYourPassword}}</a>
-      <button (click)="this.authenticationService.logOut()">{{this.generalNamesInSelectedLanguage.logout}}</button>
+  <span class="menuSpan">
+     <a class="menuLink" [routerLink]="['/orders']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.orders}}</a>
+    <a class="menuLink" [routerLink]="['/businessPartners']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.partners}}</a>
+      <a class="menuButton" [routerLink]="['/changePasswordByLoggedUser']" routerLinkActive="active">{{this.authenticationService.generalUserNames.changeYourPassword}}</a>
+      <button class="menuButton" (click)="this.authenticationService.logOut()">{{this.generalNamesInSelectedLanguage.logout}}</button>
   </span>
 
   </div>
   <div *ngIf="this.authenticationService.userRole && this.authenticationService.userRole === this.partner">
   <span>
-     <a [routerLink]="['/orders']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.orders}}</a>
-      <a [routerLink]="['/changePasswordByLoggedUser']" routerLinkActive="active">{{this.authenticationService.generalUserNames.changeYourPassword}}</a>
-      <button (click)="this.authenticationService.logOut()">{{this.generalNamesInSelectedLanguage.logout}}</button>
+     <a class="menuLink" [routerLink]="['/orders']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.orders}}</a>
+      <a class="menuButton" [routerLink]="['/changePasswordByLoggedUser']" routerLinkActive="active">{{this.authenticationService.generalUserNames.changeYourPassword}}</a>
+      <button class="menuButton" (click)="this.authenticationService.logOut()">{{this.generalNamesInSelectedLanguage.logout}}</button>
   </span>
 
 
