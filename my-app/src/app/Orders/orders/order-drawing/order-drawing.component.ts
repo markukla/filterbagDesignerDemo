@@ -869,21 +869,18 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
       /* map is used to obtain array of simple values from objects, cause indeksOf does not work for objects*/
       inputs.map(x => x.dimensionId).forEach((inputId, index, self) => {
         const valueOfInputId = this.allDimensionCodes.filter(d=> d.id===Number(inputId))[0].dimensionCode;
-        this.firstIndexDimensions.forEach((first) => {
 
-          if (valueOfInputId === first) {
-            collectionOfFirtstIndexDiMensionsInCreateProductDto.push(inputId);
-          }
-        });
-        this.secondIndexDimensions.forEach((second) => {
-          if (valueOfInputId === second) {
-            collectionOfSecondtIndexDiMensionsInCreateProductDto.push(inputId);
-          }
-        });
+        if(this.firstIndexDimensions.includes(valueOfInputId)){
+          collectionOfFirtstIndexDiMensionsInCreateProductDto.push(valueOfInputId);
+        }
+        if(this.secondIndexDimensions.includes(valueOfInputId)){
+          collectionOfSecondtIndexDiMensionsInCreateProductDto.push(valueOfInputId);
+        }
+
         if (index !== self.indexOf(inputId)) {
           // tslint:disable-next-line:max-line-length
           /* if index of current element in array is not equal index od its first occurence in array (indexOf returns first occurence) so it is duplicated*/
-          const failMassage = this.orderNames.allDimensionsMustBeUnique + ' ' + inputId;
+          const failMassage = this.orderNames.allDimensionsMustBeUnique + ' ' + valueOfInputId;
           this.userInputErrorMessages.push(failMassage);
         }
       });

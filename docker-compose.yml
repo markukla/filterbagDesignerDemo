@@ -16,6 +16,8 @@ services:
       - ./ormconfig.ts:/root/ormconfig.ts
       - ./.env:/root/.env
       - productImages:/root/src/public/images
+    depends_on:
+      - postgres
     networks:
       - app-network
   postgres:
