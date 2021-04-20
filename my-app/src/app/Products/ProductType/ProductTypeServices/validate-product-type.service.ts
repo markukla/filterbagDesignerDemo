@@ -3,7 +3,7 @@ import {ProductTopBackendService} from '../../ProductTop/ProductTopServices/prod
 import {AbstractControl, AsyncValidatorFn, ValidationErrors} from '@angular/forms';
 import {Observable, of} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
-import {ProductTypeTableService} from './product-type-table.service';
+
 import {ProductTypeBackendService} from './product-type-backend.service';
 
 @Injectable({

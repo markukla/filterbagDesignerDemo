@@ -12,6 +12,7 @@ import ProductTop from "../Models/Products/productTop.entity";
 import Material from "../Models/Materials/material.entity";
 import DimensionCodeNotFoundException from "../Exceptions/DimensionCodeNotFoundException";
 import {addIdsForCascadeUpdateLocalizedNames} from "../Models/LocalizedName/localizedNamesHelperFunction";
+import Vocabulary from "../Models/Vocabulary/vocabulary.entity";
 
 
 class ProductTypeService implements RepositoryService {
@@ -55,26 +56,31 @@ class ProductTypeService implements RepositoryService {
 
     }
 
-    public async addOneProductType(createProductTypeDto: CreateProductTypeDto): Promise<ProductType> {
+    public async addOneProductType(createProductTypeDto: CreateProductTypeDto|ProductType): Promise<ProductType> {
         // do not allow to add the same product twice
         const productTypeWithThisCodeInDatabase: ProductType = await this.findOneProductTypeByProductTypeCode(createProductTypeDto);
 
         if (productTypeWithThisCodeInDatabase && productTypeWithThisCodeInDatabase.softDeleteDate === null) {
             throw new ProductTypeAlreadyExistsException();
         }
-        const productTypeToSave = {
-            ...createProductTypeDto
+        const vocabularyVariableName= `type_${createProductTypeDto.code}`
+        const vocabularyInNewRecord= new Vocabulary(vocabularyVariableName, createProductTypeDto.localizedNames);
+
+        const recordToSave: ProductType = {
+            ...createProductTypeDto,
+            vocabulary: vocabularyInNewRecord
+
         };
 
 
-        const savedProductType: ProductType = await this.repository.save(productTypeToSave);
+        const savedProductType: ProductType = await this.repository.save(recordToSave);
         const recordToReturn = await this.repository.findOne(savedProductType.id); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave
 
         return recordToReturn;
 
     }
 
-    public async updateProductTypeById(id: string, createProductTypeDto: CreateProductTypeDto): Promise<ProductType> {
+    public async updateProductTypeById(id: string, createProductTypeDto: CreateProductTypeDto|ProductType): Promise<ProductType> {
        const recordInDatabase=await this.findOneProductTypeById(id);
         const idOfExistingProductType: boolean = recordInDatabase !== null;
         if (idOfExistingProductType) {
@@ -91,10 +97,12 @@ class ProductTypeService implements RepositoryService {
             }
 
             const localizedNamesWithIds= recordInDatabase.localizedNames;
+            const vocabulary: Vocabulary= recordInDatabase.vocabulary;
+            vocabulary.localizedNames=addIdsForCascadeUpdateLocalizedNames(createProductTypeDto.localizedNames, localizedNamesWithIds);
 
             const recordToUpdate = {
                 ...createProductTypeDto,
-                localizedNames: addIdsForCascadeUpdateLocalizedNames(createProductTypeDto.localizedNames, localizedNamesWithIds),
+                vocabulary: vocabulary,
                 id:Number(id)
             }
 

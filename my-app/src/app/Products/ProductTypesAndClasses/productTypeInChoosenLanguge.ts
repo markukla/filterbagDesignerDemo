@@ -1,2 +1,0 @@
-name: string [];
-code: string;

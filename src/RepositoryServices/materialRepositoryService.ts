@@ -8,6 +8,8 @@ import User from "../Models/Users/user.entity";
 import DimensionCode from "../Models/DimesnionCodes/diemensionCode.entity";
 import DimensionCodeNotFoundException from "../Exceptions/DimensionCodeNotFoundException";
 import {addIdsForCascadeUpdateLocalizedNames} from "../Models/LocalizedName/localizedNamesHelperFunction";
+import Vocabulary from "../Models/Vocabulary/vocabulary.entity";
+import ProductTop from "../Models/Products/productTop.entity";
 
 
 class MaterialService implements RepositoryService {
@@ -64,10 +66,15 @@ class MaterialService implements RepositoryService {
             throw new MaterialAlreadyExistsException(null, createMaterialDto.materialName);
         }
 
-        const materialTosave: Material = {
-            ...createMaterialDto
+        const vocabularyVariableName= `material_${createMaterialDto.materialCode}`
+        const vocabularyInNewRecord= new Vocabulary(vocabularyVariableName, createMaterialDto.localizedNames);
+
+        const recordToSave: Material = {
+            ...createMaterialDto,
+            vocabulary: vocabularyInNewRecord
+
         };
-        const savedMaterial = await this.repository.save(materialTosave);
+        const savedMaterial = await this.repository.save(recordToSave);
         return savedMaterial;
 
     }
@@ -97,11 +104,13 @@ class MaterialService implements RepositoryService {
                 }
 
             }
-            const localizedNamesWithIds= recordInDatabase.localizedNames;
+            const localizedNamesWithIds= recordInDatabase.vocabulary.localizedNames;
+            const vocabulary: Vocabulary= recordInDatabase.vocabulary;
+            vocabulary.localizedNames=addIdsForCascadeUpdateLocalizedNames(createMaterialDto.localizedNames, localizedNamesWithIds);
 
             const recordToUpdate = {
                 ...createMaterialDto,
-                localizedNames: addIdsForCascadeUpdateLocalizedNames(createMaterialDto.localizedNames, localizedNamesWithIds),
+                vocabulary: vocabulary,
                 id:Number(id)
             }
 

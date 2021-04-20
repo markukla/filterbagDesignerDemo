@@ -26,6 +26,7 @@ import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../../helpers/o
 import ProductType from "../../ProductTypesAndClasses/productType.entity";
 import {ProductTypeBackendService} from "../../ProductType/ProductTypeServices/product-type-backend.service";
 import {navigateToUrlAfterTimout} from "../../../helpers/otherGeneralUseFunction/navigateToUrlAfterTimeOut";
+import CreateProductTypeDto from "../../ProductTypesAndClasses/createProductType.dto";
 
 @Component({
   selector: 'app-create-product-top',
@@ -126,8 +127,12 @@ export class CreateProductTopComponent implements OnInit {
         if(this.productTypeId) {
           this.productTypeBackendService.findRecordById(this.productTypeId).subscribe((productType)=> {
             this.selectedProductType = productType.body;
-            this.selectedProductType.topsForThisProductType.push(productTop.body);
-            this.productTypeBackendService.updateRecordById(this.productTypeId, this.selectedProductType).subscribe((updatedProductType)=>{
+            this.selectedProductType.tops.push(productTop.body);
+            const productTypeDto:CreateProductTypeDto = {
+              ...this.selectedProductType,
+              localizedNames: this.selectedProductType.vocabulary.localizedNames
+            }
+            this.productTypeBackendService.updateRecordById(this.productTypeId, productTypeDto).subscribe((updatedProductType)=>{
               console.log('ProductBottom added To selected ProductTYpe bottoms list');
             },error => {
               console.log('error during adding ProductBottom  to selected ProductTYpe bottoms list');

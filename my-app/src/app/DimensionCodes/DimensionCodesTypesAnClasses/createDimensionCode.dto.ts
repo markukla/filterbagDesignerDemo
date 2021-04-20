@@ -4,7 +4,7 @@ import DimensionRoleEnum from './dimensionRoleEnum';
 
 class CreateDimensionCodeDto {
     dimensionCode: string;
-    localizedDimensionNames: LocalizedName [];
+    localizedNames: LocalizedName [];
     dimensionRole: DimensionRoleEnum;
 }
 

@@ -5,7 +5,6 @@ import {ProductTopTableService} from '../../ProductTop/ProductTopServices/produc
 import {ProductTopBackendService} from '../../ProductTop/ProductTopServices/product-top-backend.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import ProductType from '../../ProductTypesAndClasses/productType.entity';
-import {ProductTypeTableService} from '../ProductTypeServices/product-type-table.service';
 import {ProductTypeBackendService} from '../ProductTypeServices/product-type-backend.service';
 import {SearchService} from '../../../helpers/directive/SearchDirective/search.service';
 import {GeneralTableService} from '../../../util/GeneralTableService/general-table.service';

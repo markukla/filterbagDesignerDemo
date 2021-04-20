@@ -119,7 +119,7 @@ export class OrderBackendService {
         const dateString = new Date(order.date).toLocaleDateString();
         let orderName: string;
         if(order.product){
-          orderName=getSelectedLanguageFromNamesInAllLanguages(order.product.productType.localizedNames, this.authenticatoinService.selectedLanguageCode)+' '+order.orderName;
+          orderName=getSelectedLanguageFromNamesInAllLanguages(order.product.productType.vocabulary.localizedNames, this.authenticatoinService.selectedLanguageCode)+' '+order.orderName;
         }
         else {
           orderName=order.orderName;

@@ -370,8 +370,8 @@ export class CreateProductComponent implements OnInit, AfterContentChecked, Afte
     bottomsOfProductTYpe.push(this.bottom.value);
     const productType: ProductType = {
       ...this.type.value,
-      bottomsForThisProductType: bottomsOfProductTYpe,
-      topsForThisProductType: topsOfProductType,
+      bottoms: bottomsOfProductTYpe,
+      tops: topsOfProductType,
     }
 return productType;
   }

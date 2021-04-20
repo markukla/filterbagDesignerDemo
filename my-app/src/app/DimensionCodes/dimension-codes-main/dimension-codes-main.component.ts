@@ -1,21 +1,14 @@
 import {AfterContentChecked, Component, Input, OnInit} from '@angular/core';
-import ProductType from '../../Products/ProductTypesAndClasses/productType.entity';
-import {ProductTypeTableService} from '../../Products/ProductType/ProductTypeServices/product-type-table.service';
-import {ProductTypeBackendService} from '../../Products/ProductType/ProductTypeServices/product-type-backend.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {DimensionCodeTableService} from '../DimensionCodeServices/dimension-code-table.service';
 import {DimensionCodeBackendService} from '../DimensionCodeServices/dimension-code-backend.service';
-import DimensionCode from '../DimensionCodesTypesAnClasses/diemensionCode.entity';
 import LocalizedName from '../DimensionCodesTypesAnClasses/localizedName';
 import {LanguageBackendService} from '../../Languages/languageServices/language-backend.service';
 import Language from '../../Languages/LanguageTypesAndClasses/languageEntity';
-import {CreateDimensionCodeComponent} from '../create-dimension-code/create-dimension-code.component';
 import OperationModeEnum from '../../util/OperationModeEnum';
 import {SearchService} from '../../helpers/directive/SearchDirective/search.service';
 import {GeneralTableService} from '../../util/GeneralTableService/general-table.service';
 import {OperationStatusServiceService} from '../../OperationStatusComponent/operation-status/operation-status-service.service';
 import {DimensionCodeForTableCell} from "../DimensionCodesTypesAnClasses/dimensionCodeForTableCell";
-import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
 import {
   dimensionNames,
   generalNamesInSelectedLanguage

@@ -2,14 +2,13 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
-import {DimensionCodeTableService} from './dimension-code-table.service';
 import CreateDimensionCodeDto from '../DimensionCodesTypesAnClasses/createDimensionCode.dto';
 import {API_URL} from '../../Config/apiUrl';
 import {
   getSelectedLanguageFromNamesInAllLanguages,
   setTabelColumnAndOtherNamesForSelectedLanguage
 } from "../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
-import {ProductTypeForTableCell} from "../../Products/ProductTypesAndClasses/productTypeForTableCell";
+
 import {DimensionCodeForTableCell} from "../DimensionCodesTypesAnClasses/dimensionCodeForTableCell";
 import DimensionCode from "../DimensionCodesTypesAnClasses/diemensionCode.entity";
 import {AuthenticationService} from "../../LoginandLogOut/AuthenticationServices/authentication.service";
@@ -102,7 +101,7 @@ export class DimensionCodeBackendService {
 
   createProductTypeForTableCellFromProductTop(diemensionCode: DimensionCode): DimensionCodeForTableCell{
     // tslint:disable-next-line:max-line-length
-    const localizedNameInSelectedLanguage = getSelectedLanguageFromNamesInAllLanguages(diemensionCode.localizedDimensionNames, this.authenticationService.selectedLanguageCode);
+    const localizedNameInSelectedLanguage = getSelectedLanguageFromNamesInAllLanguages(diemensionCode.vocabulary.localizedNames, this.authenticationService.selectedLanguageCode);
     setTabelColumnAndOtherNamesForSelectedLanguage(this.dimensionNames, this.authenticationService.vocabulariesInSelectedLanguage);
     let dimensionRole: string;
     if(diemensionCode.dimensionRole === DimensionRoleEnum.FIRSTINDEXDIMENSION) {

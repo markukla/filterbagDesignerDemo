@@ -194,14 +194,14 @@ public setPartialOrderName(): string{
     }
     if (createOrderDto && createOrderDto.product) {
       // tslint:disable-next-line:max-line-length
-      this.productTypeName = getSelectedLanguageFromNamesInAllLanguages(createOrderDto.product.productType.localizedNames, this.authenticationService.selectedLanguageCode);
+      this.productTypeName = getSelectedLanguageFromNamesInAllLanguages(createOrderDto.product.productType.vocabulary.localizedNames, this.authenticationService.selectedLanguageCode);
       this.productTypeCode = createOrderDto.product.productType.code;
       this.productBottomCode = createOrderDto.product.productBottom.code;
       this.productTopCode = createOrderDto.product.productTop.code;
     }
     else if (createProductDto) {
       // tslint:disable-next-line:max-line-length
-      this.productTypeName = getSelectedLanguageFromNamesInAllLanguages(createProductDto.productType.localizedNames, this.authenticationService.selectedLanguageCode);
+      this.productTypeName = getSelectedLanguageFromNamesInAllLanguages(createProductDto.productType.vocabulary.localizedNames, this.authenticationService.selectedLanguageCode);
       this.productTypeCode = createProductDto.productType.code;
       this.productBottomCode = createProductDto.productBottom.code;
       this.productTopCode = createProductDto.productTop.code;

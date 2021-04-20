@@ -46,7 +46,7 @@
         <label class="label" for="type">{{this.generalNamesInSelectedLanguage.select + ' '+ this.orderNamesInSelectedLanguage.productType}}</label>
         <select class="form-control" formControlName="type" id="type" #selectType>
           <option class="selectTypeValues" [id]="'type'+type.id"  *ngFor="let type of allTypesToSelect" [ngValue]="type">
-            {{ type.code + ' - ' + getNameInSelectedLanguage(type.localizedNames)}}
+            {{ type.code + ' - ' + getNameInSelectedLanguage(type.vocabulary.localizedNames)}}
             <!-- type.names-->
           </option>
         </select>

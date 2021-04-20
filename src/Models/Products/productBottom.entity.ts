@@ -1,23 +1,27 @@
-import {Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import Product from "./product.entity";
 import ProductType from "./productType.entity";
 import LocalizedName from "../LocalizedName/localizedName.entity";
+import Vocabulary from "../Vocabulary/vocabulary.entity";
 
 
 @Entity("productBottoms")
 class ProductBottom {
     @PrimaryGeneratedColumn()
     public id?: number;
-    @OneToMany(()=>LocalizedName,(lozalizedName: LocalizedName)=>lozalizedName.productBottom,{eager:true, cascade:true})
+    @OneToOne(()=>Vocabulary, {eager: true, cascade:true,  onUpdate:"CASCADE"})
+    @JoinColumn()
+    vocabulary: Vocabulary;
+   /* @OneToMany(()=>LocalizedName,(lozalizedName: LocalizedName)=>lozalizedName.productBottom,{eager:true, cascade:true})
     //@JoinTable({name:"localizedN_productBottom_id_pairs"})
-    localizedNames: LocalizedName [];
+    localizedNames: LocalizedName [];*/
 
     @Column()
     code:string;
     @OneToMany(()=>Product,(productWithThisBottom:Product)=>productWithThisBottom.productBottom)
-    productsWithThisBottom?:Product[];
-    @ManyToMany(()=>ProductType,(productType:ProductType)=>productType.bottomsForThisProductType)
-    productTypesWithThisBottom?:ProductType[]
+    products?:Product[];
+    @ManyToMany(()=>ProductType,(productType:ProductType)=>productType.bottoms)
+    productTypes?:ProductType[]
     @Column({nullable: true})
     softDeleteDate?:Date;
 

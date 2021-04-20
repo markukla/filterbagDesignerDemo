@@ -18,7 +18,7 @@ class Order {
   productMaterial: Material;
   orderDetails: OrderDetails;
   creator: User;
-  orderVersionRegister: OrderVersionRegister;
+  register: OrderVersionRegister;
   addMaterialDescription: boolean
 }
 

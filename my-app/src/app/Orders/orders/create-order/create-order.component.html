@@ -64,7 +64,7 @@
               (change)="setTopsToSelectAfterTypeSelected(this.type.value)">
         <option [ngValue]="null" disabled> -</option>
         <option *ngFor="let type of allTypesToSelect" [ngValue]="type">
-          {{ type.code + ' - ' + getNameInSelectedLanguage(type.localizedNames) }}
+          {{ type.code + ' - ' + getNameInSelectedLanguage(type.vocabulary.localizedNames) }}
         </option>
       </select>
       <div *ngIf="type.value">

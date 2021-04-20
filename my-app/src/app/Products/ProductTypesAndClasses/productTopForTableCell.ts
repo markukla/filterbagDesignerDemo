@@ -7,8 +7,8 @@ export class ProductTopForTableCell {
   public id?: number;
   localizedNameInSelectedLanguage: string;
   code: string;
-  productsWithThisTop?: Product[];
-  productTypeswithThisTop?: ProductType[];
+  products?: Product[];
+  productTypes?: ProductType[];
 
 }
 

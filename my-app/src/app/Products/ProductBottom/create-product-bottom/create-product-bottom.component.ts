@@ -28,6 +28,7 @@ import {
 import {ProductTypeBackendService} from "../../ProductType/ProductTypeServices/product-type-backend.service";
 import ProductType from "../../ProductTypesAndClasses/productType.entity";
 import {navigateToUrlAfterTimout} from "../../../helpers/otherGeneralUseFunction/navigateToUrlAfterTimeOut";
+import CreateProductTypeDto from "../../ProductTypesAndClasses/createProductType.dto";
 
 @Component({
   selector: 'app-create-product-bottom',
@@ -131,8 +132,12 @@ export class CreateProductBottomComponent implements OnInit {
         if(this.productTypeId) {
           this.productTypeBackendService.findRecordById(this.productTypeId).subscribe((productType)=> {
             this.selectedProductType = productType.body;
-            this.selectedProductType.bottomsForThisProductType.push(productBottom.body);
-            this.productTypeBackendService.updateRecordById(this.productTypeId, this.selectedProductType).subscribe((updatedProductType)=>{
+            this.selectedProductType.bottoms.push(productBottom.body);
+            const productTypeDto:CreateProductTypeDto = {
+              ...this.selectedProductType,
+              localizedNames: this.selectedProductType.vocabulary.localizedNames
+            }
+            this.productTypeBackendService.updateRecordById(this.productTypeId, productTypeDto).subscribe((updatedProductType)=>{
               console.log('ProductBottom added To selected ProductTYpe bottoms list');
             },error => {
               console.log('error during adding ProductBottom  to selected ProductTYpe bottoms list');

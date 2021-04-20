@@ -1,6 +1,5 @@
 import {AfterContentChecked, Component, Input, OnInit} from '@angular/core';
 import ProductType from '../../ProductTypesAndClasses/productType.entity';
-import {ProductTypeTableService} from '../../ProductType/ProductTypeServices/product-type-table.service';
 import {ProductTypeBackendService} from '../../ProductType/ProductTypeServices/product-type-backend.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import Product from '../../ProductTypesAndClasses/product.entity';

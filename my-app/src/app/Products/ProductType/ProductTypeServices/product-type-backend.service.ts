@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpResponse} from '@angular/common/http';
-import {ProductTopTableService} from '../../ProductTop/ProductTopServices/product-top-table.service';
 import {Observable} from 'rxjs';
-import ProductTop from '../../ProductTypesAndClasses/productTop.entity';
 import {tap} from 'rxjs/operators';
-import {ProductTypeTableService} from './product-type-table.service';
 import ProductType from '../../ProductTypesAndClasses/productType.entity';
 import {API_URL} from '../../../Config/apiUrl';
 import {ProductTopForTableCell} from '../../ProductTypesAndClasses/productTopForTableCell';
@@ -12,6 +9,7 @@ import {getSelectedLanguageFromNamesInAllLanguages} from '../../../helpers/other
 import {AuthenticationService} from '../../../LoginandLogOut/AuthenticationServices/authentication.service';
 import {ProductTypeForTableCell} from '../../ProductTypesAndClasses/productTypeForTableCell';
 import {GeneralTableService} from '../../../util/GeneralTableService/general-table.service';
+import CreateProductTypeDto from "../../ProductTypesAndClasses/createProductType.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +27,7 @@ export class ProductTypeBackendService {
   }
 
   // tslint:disable-next-line:typedef
-  addRecords(record: ProductType): Observable<HttpResponse<ProductType>> {
+  addRecords(record: CreateProductTypeDto): Observable<HttpResponse<ProductType>> {
     // tslint:disable-next-line:max-line-length
     return this.http.post<ProductType>(this.rootURL + this.endpointUrl, record, {observe: 'response'}).pipe(
       // tslint:disable-next-line:no-shadowed-variable
@@ -47,7 +45,7 @@ export class ProductTypeBackendService {
       }));
   }
 
-  updateRecordById(id: string, updatedRecord: ProductType): Observable<HttpResponse<ProductType>> {
+  updateRecordById(id: string, updatedRecord: CreateProductTypeDto): Observable<HttpResponse<ProductType>> {
     const updateUrl = `${this.rootURL + this.endpointUrl}/${id}`;
     return this.http.patch<ProductType>(updateUrl, updatedRecord, {observe: 'response'}).pipe(
       // tslint:disable-next-line:no-shadowed-variable
@@ -80,7 +78,7 @@ export class ProductTypeBackendService {
 
   createProductTypeForTableCellFromProductTop(productType: ProductType): ProductTopForTableCell {
     // tslint:disable-next-line:max-line-length
-    const localizedNameInSelectedLanguage = getSelectedLanguageFromNamesInAllLanguages(productType.localizedNames, this.authenticationService.selectedLanguageCode);
+    const localizedNameInSelectedLanguage = getSelectedLanguageFromNamesInAllLanguages(productType.vocabulary.localizedNames, this.authenticationService.selectedLanguageCode);
     const productTypeForTableCell: ProductTypeForTableCell = {
       ...productType,
       localizedNameInSelectedLanguage,

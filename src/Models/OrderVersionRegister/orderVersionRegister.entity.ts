@@ -6,8 +6,8 @@ import Order from "../Order/order.entity";
 class OrderVersionRegister{
     @PrimaryColumn()
     id:number
-    @OneToMany(()=>Order,(order:Order)=>order.orderVersionRegister, {eager: true})
-    ordersInthisRegister: Order [];
+    @OneToMany(()=>Order,(order:Order)=>order.register, {/*eager: true*/})
+    orders: Order [];
 
 
     constructor(id: number) {

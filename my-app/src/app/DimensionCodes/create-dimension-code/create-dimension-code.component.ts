@@ -119,7 +119,7 @@ export class CreateDimensionCodeComponent implements OnInit {
     if (this.operatiomMode === OperationModeEnum.UPDATE) {
       const foundRecord = await this.backendService.findRecordById(this.selectedRecordToupdateId).toPromise();
       this.recordToUpdate = foundRecord.body;
-      this.languageFormService.namesInAllLanguages = this.recordToUpdate.localizedDimensionNames;
+      this.languageFormService.namesInAllLanguages = this.recordToUpdate.vocabulary.localizedNames;
       this.role.setValue(this.recordToUpdate.dimensionRole);
       this.code.setValue(this.recordToUpdate.dimensionCode);
     }
@@ -135,7 +135,7 @@ export class CreateDimensionCodeComponent implements OnInit {
       localizedDimensionNames.push(localizedDimensionName);
     });
     this.createDimensionCodeDto = {
-      localizedDimensionNames,
+      localizedNames: localizedDimensionNames,
       dimensionCode: this.code.value,
       dimensionRole: this.role.value,
     };

@@ -9,9 +9,9 @@ export class ProductTypeForTableCell {
   public id?: number;
   localizedNameInSelectedLanguage: string;
   code: string;
-  productsWithThisType?: Product[];
-  topsForThisProductType?: ProductTop[];
-  bottomsForThisProductType?: ProductBottom[];
+  products?: Product[];
+  tops?: ProductTop[];
+  bottoms?: ProductBottom[];
 }
 
 

@@ -33,7 +33,7 @@ class OrderService implements RepositoryService {
     });
 
     public async findOneOrderById(id: string): Promise<Order> {
-        const foundOrder: Order = await this.repository.findOne(id, {relations:["orderVersionRegister","product","productMaterial"]});
+        const foundOrder: Order = await this.repository.findOne(id, {relations:["register","product","productMaterial"]});
         if (!foundOrder) {
             throw new OrderNotFoundException(id);
         }
@@ -45,7 +45,7 @@ class OrderService implements RepositoryService {
 
 
     public async findAllOrders(): Promise<Order[]> {
-        const foundOrders: Order[] = await this.repository.find({relations:["orderVersionRegister","product","productMaterial"]});
+        const foundOrders: Order[] = await this.repository.find({relations:["register","product","productMaterial"]});
 
         return foundOrders;
 
@@ -57,7 +57,7 @@ const orderVersionRegister = new OrderVersionRegister(createOrderDto.orderNumber
             // it would be good to add only id of related object, because actually they are save, in this version extra quring is required. I need to try to optimize this it time allows !!
 
             ...createOrderDto,
-            orderVersionRegister:orderVersionRegister, // this entity is saved due to cascade enabled
+            register:orderVersionRegister, // this entity is saved due to cascade enabled
 
         };
         const savedOrder:Order = await this.repository.save(orderToSave);
@@ -65,11 +65,11 @@ const orderVersionRegister = new OrderVersionRegister(createOrderDto.orderNumber
 
     }
     public async findOrderVersionRegisterById(id:string):Promise<OrderVersionRegister>{
-      const foundRegister=  await this.manager.findOne(OrderVersionRegister,id,{relations:["ordersInthisRegister"]});
+      const foundRegister=  await this.manager.findOne(OrderVersionRegister,id,{relations:["orders"]});
       return foundRegister
     }
     public async findAllOrdersVersionsRegisters():Promise<OrderVersionRegister[]>{
-        const ordersRegisters=await this.manager.find(OrderVersionRegister,{relations:["ordersInthisRegister"]});
+        const ordersRegisters=await this.manager.find(OrderVersionRegister,{relations:["orders"]});
         return ordersRegisters;
     }
 
@@ -79,10 +79,10 @@ const orderVersionRegister = new OrderVersionRegister(createOrderDto.orderNumber
         const sordOrder=1;  //ascending
             ordersRegisters.forEach(rg=>{
                 if(rg) {
-                    rg.ordersInthisRegister.sort((a, b): number=>{
+                    rg.orders.sort((a, b): number=>{
                         return this.collator.compare(String(a.id),String(b.id))*sordOrder;
                     });
-                    currentOrders.push(rg.ordersInthisRegister[rg.ordersInthisRegister.length-1]);
+                    currentOrders.push(rg.orders[rg.orders.length-1]);
                 }
 
 
@@ -123,10 +123,10 @@ const orderVersionRegister = new OrderVersionRegister(createOrderDto.orderNumber
        if(!currentOrder){
            throw new OrderNotFoundException(currentOrderId);
        }
-       const orderRegisterToDeleteId=currentOrder.orderVersionRegister.id;
+       const orderRegisterToDeleteId=currentOrder.register.id;
        // other query is required to obtain orders in this OrderRegister, it cannot be done by currentOrder.orderVersionRegister.orders due to eager limitations
-       const orderRegisterToDeleteObtainedWithDiffrentQuery=await this.manager.findOne(OrderVersionRegister,orderRegisterToDeleteId,{relations:["ordersInthisRegister"]})
-       const ordersOfOrderRegsterTODelete=orderRegisterToDeleteObtainedWithDiffrentQuery.ordersInthisRegister;
+       const orderRegisterToDeleteObtainedWithDiffrentQuery=await this.manager.findOne(OrderVersionRegister,orderRegisterToDeleteId,{relations:["orders"]})
+       const ordersOfOrderRegsterTODelete=orderRegisterToDeleteObtainedWithDiffrentQuery.orders;
 
 /*
 cascade removal of orderDetails does not work,
@@ -149,11 +149,11 @@ On the end i remove version register object for given order, to remove all versi
     public async addNewVersionOfOrder(createOrderDto: CreateOrderDto,currentOrderId:string): Promise<Order> {
         const currentOrder:Order=await this.findOneOrderById(currentOrderId);
 
-const registerToUpdate:OrderVersionRegister= currentOrder.orderVersionRegister;
+const registerToUpdate:OrderVersionRegister= currentOrder.register;
 
         const newVersionOfOrderToSaveInRegister: Order = {
             ...createOrderDto,
-            orderVersionRegister: registerToUpdate
+            register: registerToUpdate
         };
 
 

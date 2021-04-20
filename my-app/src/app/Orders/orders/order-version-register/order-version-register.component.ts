@@ -80,7 +80,7 @@ export class OrderVersionRegisterComponent implements OnInit, AfterContentChecke
 
   getRecords(): void {
     this.backendService.findRecordById(this.selectedOrderId).subscribe((order) => {
-      this.backendService.findOrderVersionRegisterById(String(order.body.orderVersionRegister.id)).subscribe((register) => {
+      this.backendService.findOrderVersionRegisterById(String(order.body.register.id)).subscribe((register) => {
           this.orderVersionRegister = register.body;
           this.ordersInRegister = this.orderVersionRegister.ordersInthisRegister;
           this.ordersInRegister.forEach((order) => {

@@ -10,11 +10,11 @@ class CreateProductTypeDto{
 
 
     @IsArray()
-    localizedNames: LocalizedName [];
+    localizedNames: LocalizedName[];
     @IsString()
     code:string;
-    topsForThisProductType?:ProductTop[];  // insteed of using whole objects we nan use id of each product type eg [{"id"=1},{"id=2"}]
-    bottomsForThisProductType?:ProductBottom[];
+    tops?:ProductTop[];  // insteed of using whole objects we nan use id of each product type eg [{"id"=1},{"id=2"}]
+    bottoms?:ProductBottom[];
 
 
 

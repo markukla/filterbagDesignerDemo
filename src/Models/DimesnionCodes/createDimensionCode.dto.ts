@@ -14,7 +14,7 @@ class CreateDimensionCodeDto {
     dimensionCode: string;
 
     @IsArray()
-    localizedDimensionNames: LocalizedName [];
+    localizedNames: LocalizedName [];
     @IsEnum(DimensionRoleEnum)
     dimensionRole: DimensionRoleEnum;
 }

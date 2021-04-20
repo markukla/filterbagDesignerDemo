@@ -1,18 +1,11 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpResponse} from '@angular/common/http';
-import {ProductTypeTableService} from '../../../ProductType/ProductTypeServices/product-type-table.service';
 import {Observable} from 'rxjs';
-import ProductType from '../../../ProductTypesAndClasses/productType.entity';
 import {tap} from 'rxjs/operators';
-import {ProductTableService} from './product-table.service';
 import Product from '../../../ProductTypesAndClasses/product.entity';
 import CreateProductDto from '../../../ProductTypesAndClasses/product.dto';
 import {DrawingPaths} from '../../../ProductTypesAndClasses/drawingPaths';
-import ProductBottom from '../../../ProductTypesAndClasses/productBottom.entity';
-import ProductTop from '../../../ProductTypesAndClasses/productTop.entity';
 import {API_URL} from '../../../../Config/apiUrl';
-import {ProductTopForTableCell} from '../../../ProductTypesAndClasses/productTopForTableCell';
-import {getSelectedLanguageFromNamesInAllLanguages} from '../../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage';
 import {AuthenticationService} from '../../../../LoginandLogOut/AuthenticationServices/authentication.service';
 import {GeneralTableService} from '../../../../util/GeneralTableService/general-table.service';
 import {ProductTopBackendService} from '../../../ProductTop/ProductTopServices/product-top-backend.service';

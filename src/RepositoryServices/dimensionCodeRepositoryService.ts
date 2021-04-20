@@ -11,6 +11,7 @@ import DimensionRoleEnum from "../Models/DimesnionCodes/dimensionRoleEnum";
 import CreateDimensionCodeDto from "../Models/DimesnionCodes/createDimensionCode.dto";
 import DimensionCodeAlreadyExistException from "../Exceptions/dimensionAlreadyExistException";
 import {addIdsForCascadeUpdateLocalizedNames} from "../Models/LocalizedName/localizedNamesHelperFunction";
+import Vocabulary from "../Models/Vocabulary/vocabulary.entity";
 
 class DimensionCodeService implements RepositoryService{
 
@@ -32,12 +33,13 @@ return foundDimension;
 
 
     }
-    public async findOneByLocalizedName(localizedNames:LocalizedName[]):Promise<DimensionCode>{
-        const foundMaterial:DimensionCode=await this.repository.findOne({localizedDimensionNames:localizedNames});
+    /*public async findOneByLocalizedName(localizedNames:LocalizedName[]):Promise<DimensionCode>{
+        const foundMaterial:DimensionCode=await this.repository.findOne({localizedNames:localizedNames});
         return foundMaterial;
 
 
-    }
+    }*/
+
 
     public async findAllDimensionCodes():Promise<DimensionCode[]>{
         const foundDiemnsionCodes:DimensionCode[] =await this.repository.find( {});
@@ -80,10 +82,15 @@ return foundDimension;
         }
 
 
-        const dimensionCodeToSave:DimensionCode={
-            ...createDimensionDto
+        const vocabularyVariableName= `dimension_${createDimensionDto.dimensionCode}`
+        const vocabularyInNewRecord= new Vocabulary(vocabularyVariableName, createDimensionDto.localizedNames);
+
+        const recordToSave: DimensionCode = {
+            ...createDimensionDto,
+            vocabulary: vocabularyInNewRecord
+
         };
-        const savedDimensionCOde=await this.repository.save(dimensionCodeToSave);
+        const savedDimensionCOde=await this.repository.save(recordToSave);
         const recordToReturn = await this.repository.findOne(savedDimensionCOde.id); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave
 
         return recordToReturn;
@@ -102,14 +109,15 @@ return foundDimension;
                 }
             }
 
-            const localizedNamesWithIds= recordInDatabase.localizedDimensionNames;
+            const localizedNamesWithIds= recordInDatabase.vocabulary.localizedNames;
+            const vocabulary: Vocabulary= recordInDatabase.vocabulary;
+            vocabulary.localizedNames=addIdsForCascadeUpdateLocalizedNames(createDimensionDto.localizedNames, localizedNamesWithIds);
 
             const recordToUpdate = {
                 ...createDimensionDto,
-                localizedNames: addIdsForCascadeUpdateLocalizedNames(createDimensionDto.localizedDimensionNames, localizedNamesWithIds),
+                vocabulary: vocabulary,
                 id:Number(id)
             }
-
 
             const updatedRecord=await this.repository.save(recordToUpdate);
 

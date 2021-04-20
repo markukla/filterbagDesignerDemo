@@ -6,8 +6,8 @@ class ProductTop {
   public id?: number;
   localizedNames: LocalizedName [];
   code: string;
-  productsWithThisTop?: Product[];
-  productTypeswithThisTop?: ProductType[];
+  products?: Product[];
+  productTypes?: ProductType[];
   softDeleteDate?: Date;
 
 }

@@ -12,6 +12,7 @@ import ProductTop from "../Models/Products/productTop.entity";
 import Material from "../Models/Materials/material.entity";
 import DimensionCodeNotFoundException from "../Exceptions/DimensionCodeNotFoundException";
 import {addIdsForCascadeUpdateLocalizedNames} from "../Models/LocalizedName/localizedNamesHelperFunction";
+import Vocabulary from "../Models/Vocabulary/vocabulary.entity";
 
 
 class ProductBottomService implements RepositoryService {
@@ -63,12 +64,17 @@ class ProductBottomService implements RepositoryService {
         if (productBottomWithThisCodeInDatabase && productBottomWithThisCodeInDatabase.softDeleteDate === null) {
             throw new ProductBottomAlreadyExistsException();
         }
-        const productBottomToSave={
-            ...createProductBottomDto
+        const vocabularyVariableName= `bottom_${createProductBottomDto.code}`
+        const vocabularyInNewRecord= new Vocabulary(vocabularyVariableName, createProductBottomDto.localizedNames);
+
+        const recordToSave: ProductBottom = {
+            ...createProductBottomDto,
+            vocabulary: vocabularyInNewRecord
+
         };
 
 
-        const savedProductBottom:ProductBottom = await this.repository.save(productBottomToSave);
+        const savedProductBottom:ProductBottom = await this.repository.save(recordToSave);
         const recordToReturn = await this.repository.findOne(savedProductBottom.id); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave
 
         return recordToReturn;
@@ -89,11 +95,13 @@ class ProductBottomService implements RepositoryService {
                 }
             }
 
-            const localizedNamesWithIds= recordInDatabase.localizedNames;
+            const localizedNamesWithIds= recordInDatabase.vocabulary.localizedNames;
+            const vocabulary: Vocabulary= recordInDatabase.vocabulary;
+            vocabulary.localizedNames=addIdsForCascadeUpdateLocalizedNames(createProductBottomDto.localizedNames, localizedNamesWithIds);
 
             const recordToUpdate = {
                 ...createProductBottomDto,
-                localizedNames: addIdsForCascadeUpdateLocalizedNames(createProductBottomDto.localizedNames, localizedNamesWithIds),
+                vocabulary: vocabulary,
                 id:Number(id)
             }
 

@@ -23,6 +23,7 @@ import {ProductTypeBackendService} from "../../ProductType/ProductTypeServices/p
 import ProductType from "../../ProductTypesAndClasses/productType.entity";
 import Product from "../../ProductTypesAndClasses/product.entity";
 import {ProductBackendService} from "../../ProductMainComponent/product/ProductServices/product-backend.service";
+import CreateProductTypeDto from "../../ProductTypesAndClasses/createProductType.dto";
 
 @Component({
   selector: 'app-product-bottom',
@@ -96,7 +97,7 @@ export class ProductBottomComponent implements OnInit, AfterContentChecked {
       this.productTypeBackendService.findRecordById(this.productTypeId).subscribe((productType)=>{
         this.tableService.records.length = 0;
         this.selectedproductType = productType.body;
-        const bottomsOfProductTypeAndNotSoftDeletedProducts= this.selectedproductType.bottomsForThisProductType.filter(pt=> this.allProducts.map(p=> p.productBottom.id).includes(pt.id));
+        const bottomsOfProductTypeAndNotSoftDeletedProducts= this.selectedproductType.bottoms.filter(pt=> this.allProducts.map(p=> p.productBottom.id).includes(pt.id));
         bottomsOfProductTypeAndNotSoftDeletedProducts.forEach((record) => {
           if(record.softDeleteDate ===null) {
 
@@ -137,16 +138,18 @@ export class ProductBottomComponent implements OnInit, AfterContentChecked {
     if (deleteConfirmed === true) {
       if(this.productTypeId && this.selectedproductType) {
         //delete only for this selected productType(remove from list), not from all productTops
-        const bottomsOfSelectedProductType: ProductBottom[]= this.selectedproductType.bottomsForThisProductType;
+        const bottomsOfSelectedProductType: ProductBottom[]= this.selectedproductType.bottoms;
         bottomsOfSelectedProductType.forEach((record: ProductBottom, index: number) => {
           if (record.id === recordTodeleteId ) {
             bottomsOfSelectedProductType.splice(index, 1);
           }
         });
-        const updatedProductType: ProductType = {
+        const updatedProductType: CreateProductTypeDto = {
           ...this.selectedproductType,
-          bottomsForThisProductType: bottomsOfSelectedProductType
+          bottoms: bottomsOfSelectedProductType,
+          localizedNames: this.selectedproductType.vocabulary.localizedNames
         };
+
         this.productTypeBackendService.updateRecordById(this.productTypeId, updatedProductType).subscribe((response)=> {
           this.operationSuccessStatusMessage = this.generalNamesInSelectedLanguage.operationDeleteSuccessStatusMessage;
           this.tableService.selectedId = null;
@@ -171,7 +174,7 @@ export class ProductBottomComponent implements OnInit, AfterContentChecked {
         this.backendService.deleteRecordById(String(recordTodeleteId)).subscribe((response) => {
           this.operationSuccessStatusMessage = this.generalNamesInSelectedLanguage.operationDeleteSuccessStatusMessage;
           this.allProductTypes.forEach((pt, typeIndex)=>{
-            pt.bottomsForThisProductType.forEach((bottom, index, self)=>{
+            pt.bottoms.forEach((bottom, index, self)=>{
               if(bottom.id === recordTodeleteId) {
                 self.splice(index, 1);
               }
@@ -179,7 +182,11 @@ export class ProductBottomComponent implements OnInit, AfterContentChecked {
 
             });
             /*bottoms tabel is updated in above loop, update ProductType - productBottoms relation required*/
-            const updatedProductType = this.allProductTypes.filter(pt=> pt.id=== pt.id)[0];
+            const updatedProductType: CreateProductTypeDto = {
+              ...this.allProductTypes.filter(pt=> pt.id=== pt.id)[0],
+              localizedNames: this.selectedproductType.vocabulary.localizedNames
+            };
+
             this.productTypeBackendService.updateRecordById(String(pt.id), updatedProductType).subscribe();
           });
           if(this.deleteProductConfirmed){

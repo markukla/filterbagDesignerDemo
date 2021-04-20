@@ -18,6 +18,9 @@ class Vocabulary {
     softDeleteDate?:Date;
 
 
-
+    constructor(variableName: string, localizedNames: LocalizedName[]) {
+        this.variableName = variableName;
+        this.localizedNames = localizedNames;
+    }
 }
 export default Vocabulary;

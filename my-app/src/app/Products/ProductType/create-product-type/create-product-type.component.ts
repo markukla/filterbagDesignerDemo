@@ -131,7 +131,7 @@ export class CreateProductTypeComponent implements OnInit, AfterContentChecked {
     if (this.operatiomMode === OperationModeEnum.UPDATE) {
       const foundRecord =  await this.backendService.findRecordById(this.selectedRecordToupdateId).toPromise();
       this.recordToUpdate = foundRecord.body;
-      this.languageFormService.namesInAllLanguages = this.recordToUpdate.localizedNames;
+      this.languageFormService.namesInAllLanguages = this.recordToUpdate.vocabulary.localizedNames;
       this.code.setValue(this.recordToUpdate.code);
       this.formTitileCreateOrUpdate = this.orderNamesInSelectedLanguage.updateProductType;
     }
