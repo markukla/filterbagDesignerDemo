@@ -127,8 +127,6 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
         this.backendService.getCurrentOrdersForPartners(partner.body.code).subscribe((orders)=>{
           this.ordersOfBusinessPartner = orders.body.filter(order=>String(order.businessPartner.id)===this.partnerIdForOrdersShow);
           this.ordersOfBusinessPartner.forEach((record) => {
-            this.backendService.findRecordById(String(record.id)).subscribe((orderWithProduct)=>{
-              record.product= orderWithProduct.body.product;
               if(record.product) {
                 this.tableService.records.push(this.backendService.createOrderTableCellFromOrderEntity(record));
                 this.sortOrder(this.tableService.records);
@@ -136,7 +134,6 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
                 this.searChService.orginalArrayCopy = [...this.tableService.getRecords()];
                 this.recordsForCurrentPage = this.paginator.paginateRecords(this.records, this.numberOfRecordsForPage)
               }
-            });
             }
           );
         });
@@ -148,8 +145,7 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
       this.backendService.getCurrentOrdersForPartners(partnerCode).subscribe((records) => {
         this.tableService.records.length = 0;
         records.body.forEach((record) => {
-            this.backendService.findRecordById(String(record.id)).subscribe((orderWithProduct)=>{
-              record.product= orderWithProduct.body.product;
+
               if(record.product) {
                 this.tableService.records.push(this.backendService.createOrderTableCellFromOrderEntity(record));
                 this.sortOrder(this.tableService.records);
@@ -157,7 +153,6 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
                 this.searChService.orginalArrayCopy = [...this.tableService.getRecords()];
                 this.recordsForCurrentPage = this.paginator.paginateRecords(this.records, this.numberOfRecordsForPage);
               }
-            });
 
           }
         );
@@ -168,8 +163,7 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
       this.backendService.getCurrentOrdersForPrivilligedUsers().subscribe((records) => {
         this.tableService.records.length = 0;
         records.body.forEach((record) => {
-          this.backendService.findRecordById(String(record.id)).subscribe((orderWithProduct)=>{
-            record.product= orderWithProduct.body.product;
+
             if(record.product) {
               this.tableService.records.push(this.backendService.createOrderTableCellFromOrderEntity(record));
               this.sortOrder(this.tableService.records);
@@ -177,10 +171,8 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
               this.searChService.orginalArrayCopy = [...this.tableService.getRecords()];
               this.recordsForCurrentPage = this.paginator.paginateRecords(this.records, this.numberOfRecordsForPage);
             }
-              });
 
           });
-
           }
         );
     }

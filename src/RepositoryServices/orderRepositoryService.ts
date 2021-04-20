@@ -1,5 +1,5 @@
 import RepositoryService from "../interfaces/service.interface";
-import {DeleteResult, getManager, getRepository, Timestamp, UpdateResult} from "typeorm";
+import {DeleteResult, getConnection, getManager, getRepository, Timestamp, UpdateResult} from "typeorm";
 import Material from "../Models/Materials/material.entity";
 import MaterialNotFoundExceptionn from "../Exceptions/MaterialNotFoundException";
 import CreateMaterialDto from "../Models/Materials/material.dto";
@@ -69,8 +69,16 @@ const orderVersionRegister = new OrderVersionRegister(createOrderDto.orderNumber
       return foundRegister
     }
     public async findAllOrdersVersionsRegisters():Promise<OrderVersionRegister[]>{
-        const ordersRegisters=await this.manager.find(OrderVersionRegister,{relations:["orders"]});
-        return ordersRegisters;
+        /*
+         standard way is not sufficient because it causes tabel name is specyfied more than once problem due to intesive nesting and long standard alias names
+         const ordersRegisters=await this.manager.find(OrderVersionRegister,{relations:["orders"]});
+        return ordersRegisters;*/
+
+
+        /*good way to resolve tabel name is specyfied more than once problem is using query builder, and leftJojn with short alias*/
+        const orderRegisterByQueryBuilder= await getConnection().createQueryBuilder(OrderVersionRegister,'register').leftJoinAndSelect("register.orders","orders").leftJoinAndSelect('orders.creator','creators').leftJoinAndSelect('orders.businessPartner','partners').leftJoinAndSelect("orders.product",'products').leftJoinAndSelect("products.productType",'types').leftJoinAndSelect('types.vocabulary','v').leftJoinAndSelect('v.localizedNames','names').leftJoinAndSelect('names.language','l').getMany();
+
+        return orderRegisterByQueryBuilder;
     }
 
     public async findAllCurentVerionsOfOrder():Promise<Order[]>{
