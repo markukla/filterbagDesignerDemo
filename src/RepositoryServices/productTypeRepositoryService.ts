@@ -20,7 +20,7 @@ class ProductTypeService implements RepositoryService {
     public repository = getRepository(ProductType);
 
     public async findOneProductTypeById(id: string): Promise<ProductType> {
-        const foundProductType: ProductType = await this.repository.findOne(id,{relations:["topsForThisProductType","bottomsForThisProductType"]}); // table name not entity name
+        const foundProductType: ProductType = await this.repository.findOne(id,{relations:["tops","bottoms"]}); // table name not entity name
         if (!foundProductType) {
             throw new ProductTypeNotFoundException(id);
         }
@@ -33,7 +33,7 @@ class ProductTypeService implements RepositoryService {
         const foundProduct: ProductType = await this.repository.findOne({
             code: createProductTypeDto.code,
             softDeleteDate: null
-        },{relations:["topsForThisProductType","bottomsForThisProductType"]});
+        },{relations:["tops","bottoms"]});
 
         return foundProduct;
 
@@ -50,7 +50,7 @@ class ProductTypeService implements RepositoryService {
 
 
     public async findAllProductsTypes(): Promise<ProductType[]> {
-        const foundProductTypes: ProductType[] = await this.repository.find({relations:["topsForThisProductType","bottomsForThisProductType"]});
+        const foundProductTypes: ProductType[] = await this.repository.find({relations:["tops","bottoms"]});
         const foundNotDeletedProductTypes: ProductType[] = foundProductTypes.filter(productType => productType.softDeleteDate === null);
         return foundNotDeletedProductTypes;
 
