@@ -1,10 +1,5 @@
 import {AfterContentChecked, Component, Input, OnInit} from '@angular/core';
-import ProductTop from '../../ProductTypesAndClasses/productTop.entity';
-import {Material} from '../../../materials/MaterialsMainComponent/material';
-import {ProductTopTableService} from '../../ProductTop/ProductTopServices/product-top-table.service';
-import {ProductTopBackendService} from '../../ProductTop/ProductTopServices/product-top-backend.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import ProductType from '../../ProductTypesAndClasses/productType.entity';
 import {ProductTypeBackendService} from '../ProductTypeServices/product-type-backend.service';
 import {SearchService} from '../../../helpers/directive/SearchDirective/search.service';
 import {GeneralTableService} from '../../../util/GeneralTableService/general-table.service';

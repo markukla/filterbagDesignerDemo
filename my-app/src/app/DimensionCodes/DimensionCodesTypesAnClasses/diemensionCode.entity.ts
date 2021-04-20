@@ -1,6 +1,7 @@
 import LocalizedName from './localizedName';
 import DimensionRoleEnum from './dimensionRoleEnum';
-import Vocabulary from "../../../../../src/Models/Vocabulary/vocabulary.entity";
+import {Vocabulary} from "../../Vocablulaty/VocabularyTypesAndClasses/VocabularyEntity";
+
 
 
 class DimensionCode {

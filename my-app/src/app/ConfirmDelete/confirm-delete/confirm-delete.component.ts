@@ -1,6 +1,4 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ConfirmDeleteServiceService} from "../confirm-delete-service.service";
-import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
 import {AuthenticationService} from "../../LoginandLogOut/AuthenticationServices/authentication.service";
 import {
   generalNamesInSelectedLanguage,

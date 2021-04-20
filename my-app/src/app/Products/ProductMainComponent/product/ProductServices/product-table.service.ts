@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import ProductType from '../../../ProductTypesAndClasses/productType.entity';
-import ProductTop from '../../../ProductTypesAndClasses/productTop.entity';
 import Product from '../../../ProductTypesAndClasses/product.entity';
 
 @Injectable({

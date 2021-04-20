@@ -3,7 +3,6 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProductBackendService} from '../ProductServices/product-backend.service';
 import WorkingSideEnum from '../../../../Orders/OrdersTypesAndClasses/workingSideEnum';
 import {TableFormServiceService} from './table-form-service.service';
-import {setTabelColumnAndOtherNamesForSelectedLanguage} from '../../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage';
 import {AuthenticationService} from '../../../../LoginandLogOut/AuthenticationServices/authentication.service';
 import {
   drawingTableFormNames,

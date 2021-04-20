@@ -1,8 +1,6 @@
 import {Injectable} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CreateOrderDto} from '../../../../Orders/OrdersTypesAndClasses/orderDto';
-import WorkingSideEnum from '../../../../Orders/OrdersTypesAndClasses/workingSideEnum';
-import OrderOperationMode from '../../../../Orders/OrdersTypesAndClasses/orderOperationMode';
 import CreateProductDto from '../../../ProductTypesAndClasses/product.dto';
 import {AuthenticationService} from '../../../../LoginandLogOut/AuthenticationServices/authentication.service';
 import {getSelectedLanguageFromNamesInAllLanguages} from '../../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage';
@@ -174,7 +172,7 @@ public setPartialOrderName(): string{
       this.materialCode = createOrderDto.productMaterial.materialCode;
       this.materialName = createOrderDto.productMaterial.materialName;
       if(createOrderDto.addMaterialDescription){
-        this.materialDescriptionInSelectedLanguage= getSelectedLanguageFromNamesInAllLanguages(createOrderDto.productMaterial.localizedNames, this.authenticationService.selectedLanguageCode);
+        this.materialDescriptionInSelectedLanguage= getSelectedLanguageFromNamesInAllLanguages(createOrderDto.productMaterial.vocabulary.localizedNames, this.authenticationService.selectedLanguageCode);
       }
       else {
         this.materialDescriptionInSelectedLanguage=''
@@ -299,7 +297,7 @@ public setPartialOrderName(): string{
   getLocalizedNameFromAllLanguage(dimensnionCodes: DimensionCode[]): LocalizedDimensionCode[] {
     const localizedDimensionCodes: LocalizedDimensionCode[] = [];
     dimensnionCodes.forEach((dimensionCOde) => {
-      dimensionCOde.localizedDimensionNames.forEach((localizedName) => {
+      dimensionCOde.vocabulary.localizedNames.forEach((localizedName) => {
         if (localizedName.language.languageCode === this.authenticationService.selectedLanguageCode) {
           const localizedCode: LocalizedDimensionCode = {
             ...dimensionCOde,

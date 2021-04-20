@@ -1,22 +1,18 @@
 import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, NgModel, Validators} from '@angular/forms';
 import {MaterialBackendService} from '../MaterialServices/material-backend.service';
-import {Material} from '../MaterialsMainComponent/material';
 import {ActivatedRoute, Router} from '@angular/router';
-import {MaterialTableService} from '../MaterialServices/material-table.service';
 import {ValidateMaterialCodeUniqueService} from '../MaterialServices/validate-material-code-unique.service';
-import BackendErrorResponse from '../../helpers/ErrorHandling/backendErrorResponse';
-import {HttpErrorResponse} from '@angular/common/http';
 import {AuthenticationService} from '../../LoginandLogOut/AuthenticationServices/authentication.service';
 import {
   generalNamesInSelectedLanguage,
   materialNamesInSelectedLanguage
 } from "../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
-import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
 import {BackendMessageService} from "../../helpers/ErrorHandling/backend-message.service";
 import {navigateToUrlAfterTimout} from "../../helpers/otherGeneralUseFunction/navigateToUrlAfterTimeOut";
 import LocalizedName from "../../DimensionCodes/DimensionCodesTypesAnClasses/localizedName";
 import {LanguageFormService} from "../../LanguageForm/language-form.service";
+import {MaterialDto} from "../MaterialsMainComponent/materialDto";
 
 @Component({
   selector: 'app-create-new-material',
@@ -63,10 +59,11 @@ export class CreateNewMaterialComponent implements OnInit{
       };
       localizedNames.push(localizedDimensionName);
     });
-    const material: Material = {
+    const material: MaterialDto = {
       localizedNames,
       materialCode: this.materialCode.value,
       materialName: this.materialName.value
+
     };
     this.materialbackendService.addRecords(material).subscribe((material) => {
       this.showoperationStatusMessage = this.backendMessageService.returnSuccessMessageToUserForSuccessBackendResponseForCreateNew();

@@ -1,19 +1,10 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {ProductTopBackendService} from '../../ProductTop/ProductTopServices/product-top-backend.service';
-import {ValidateProductTopService} from '../../ProductTop/ProductTopServices/validate-product-top.service';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
+
 import {ProductBottomBackendService} from '../ProductBottomServices/product-bottom-backend.service';
 import {ProductBottomValidatorService} from '../ProductBottomServices/product-bottom-validator.service';
 import ProductBottom from '../../ProductTypesAndClasses/productBottom.entity';
-import ProductTop from '../../ProductTypesAndClasses/productTop.entity';
-import DimensionRoleEnum from '../../../DimensionCodes/DimensionCodesTypesAnClasses/dimensionRoleEnum';
-import CreateDimensionCodeDto from '../../../DimensionCodes/DimensionCodesTypesAnClasses/createDimensionCode.dto';
 import LocalizedName from '../../../DimensionCodes/DimensionCodesTypesAnClasses/localizedName';
 import DimensionCode from '../../../DimensionCodes/DimensionCodesTypesAnClasses/diemensionCode.entity';
 import Language from '../../../Languages/LanguageTypesAndClasses/languageEntity';
-import {DimensionCodeBackendService} from '../../../DimensionCodes/DimensionCodeServices/dimension-code-backend.service';
-import {ValidateDiemensionCodeService} from '../../../DimensionCodes/DimensionCodeServices/validate-diemension-code.service';
 import {LanguageBackendService} from '../../../Languages/languageServices/language-backend.service';
 import {BackendMessageService} from '../../../helpers/ErrorHandling/backend-message.service';
 import {LanguageFormService} from '../../../LanguageForm/language-form.service';
@@ -29,6 +20,10 @@ import {ProductTypeBackendService} from "../../ProductType/ProductTypeServices/p
 import ProductType from "../../ProductTypesAndClasses/productType.entity";
 import {navigateToUrlAfterTimout} from "../../../helpers/otherGeneralUseFunction/navigateToUrlAfterTimeOut";
 import CreateProductTypeDto from "../../ProductTypesAndClasses/createProductType.dto";
+import {Component, EventEmitter, OnInit, Output} from "@angular/core";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+
 
 @Component({
   selector: 'app-create-product-bottom',
@@ -108,7 +103,7 @@ export class CreateProductBottomComponent implements OnInit {
     if (this.operatiomMode === OperationModeEnum.UPDATE) {
       const foundRecord =  await this.backendService.findRecordById(this.selectedRecordToupdateId).toPromise();
       this.recordToUpdate = foundRecord.body;
-      this.languageFormService.namesInAllLanguages = this.recordToUpdate.localizedNames;
+      this.languageFormService.namesInAllLanguages = this.recordToUpdate.vocabulary.localizedNames;
       this.code.setValue(this.recordToUpdate.code);
       this.addOrUpdateTitle = this.orderNamesInSelectedLanguage.updateProductBottom;
     }

@@ -2,7 +2,7 @@ import Order from './orderEntity';
 
 class OrderVersionRegister{
   id?: number;
-  ordersInthisRegister: Order [];
+  orders: Order [];
 
 }
 export default OrderVersionRegister;

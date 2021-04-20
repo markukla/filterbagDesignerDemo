@@ -72,7 +72,7 @@
         <select class="form-control" formControlName="top" id="top" (change)="setBottomToSelectAfterTopSelected(this.type.value, this.top.value )">
           <option [ngValue]="null" disabled>{{generalNamesInSelectedLanguage.select +' '+orderNames.productTop}}</option>
           <option *ngFor="let top of allTopsToSelect" [ngValue]="top">
-            {{ top.code + ' - ' + getNameInSelectedLanguage(top.localizedNames) }}
+            {{ top.code + ' - ' + getNameInSelectedLanguage(top.vocabulary.localizedNames) }}
           </option>
         </select>
         <div *ngIf="this.type.value && this.top.value">
@@ -80,7 +80,7 @@
         <select class="form-control" formControlName="bottom" id="bottom">
           <option [ngValue]="null" disabled>{{generalNamesInSelectedLanguage.select +' '+orderNames.productBottom}}</option>
           <option *ngFor="let bottom of allBotomsToselect" [ngValue]="bottom">
-            {{ bottom.code + ' - ' + getNameInSelectedLanguage(bottom.localizedNames) }}
+            {{ bottom.code + ' - ' + getNameInSelectedLanguage(bottom.vocabulary.localizedNames) }}
           </option>
         </select>
       </div>
@@ -100,7 +100,7 @@
       {{generalNamesInSelectedLanguage.code + ': ' + selectedMaterial.materialCode}} <br>
       {{generalNamesInSelectedLanguage.name + ': ' + selectedMaterial.materialName}} <br>
       <div>
-        {{generalNamesInSelectedLanguage.materialDescription + ': ' + getNameInSelectedLanguage(selectedMaterial.localizedNames)}}<br>
+        {{generalNamesInSelectedLanguage.materialDescription + ': ' + getNameInSelectedLanguage(selectedMaterial.vocabulary.localizedNames)}}<br>
         <label for="addMaterialDescriptionCheckboc">{{this.generalNamesInSelectedLanguage.addMaterialDescriptionToDrawingTabel}}</label>
         <input id="addMaterialDescriptionCheckboc" type="checkbox" formControlName="addMaterialDescriptiontoDrawingTabel" >
       </div>
@@ -112,7 +112,7 @@
       <select class="form-control" formControlName="productMaterial" id="productMaterial">
         <option [ngValue]="null" disabled> -</option>
         <option *ngFor="let material of allMaterialsToSelect" [ngValue]="material">
-          {{ material.materialCode + ' - ' + material.materialName+ ' - ' + getNameInSelectedLanguage(material.localizedNames) }}
+          {{ material.materialCode + ' - ' + material.materialName+ ' - ' + getNameInSelectedLanguage(material.vocabulary.localizedNames) }}
         </option>
       </select>
       <div *ngIf="bottom.invalid && (bottom.dirty || bottom.touched)"

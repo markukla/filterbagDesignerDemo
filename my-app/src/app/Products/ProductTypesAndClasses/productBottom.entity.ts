@@ -1,14 +1,14 @@
 import Product from './product.entity';
 import ProductType from './productType.entity';
-import LocalizedName from '../../DimensionCodes/DimensionCodesTypesAnClasses/localizedName';
+import {Vocabulary} from "../../Vocablulaty/VocabularyTypesAndClasses/VocabularyEntity";
 
 
 class ProductBottom {
     public id?: number;
-    localizedNames: LocalizedName [];
+    vocabulary: Vocabulary;
     code: string;
-    productsWithThisBottom?: Product[];
-    productTypesWithThisBottom?: ProductType[];
+    products?: Product[];
+    productTypes?: ProductType[];
     softDeleteDate?: Date;
 }
 

@@ -2,15 +2,10 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Material} from '../MaterialsMainComponent/material';
 import {MaterialBackendService} from '../MaterialServices/material-backend.service';
-import {MaterialTableService} from '../MaterialServices/material-table.service';
-import {HttpErrorResponse} from '@angular/common/http';
-import HttpException from '../../helpers/ErrorHandling/httpException';
-import {getBackendErrrorMesage} from '../../helpers/errorHandlingFucntion/handleBackendError';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthenticationService} from '../../LoginandLogOut/AuthenticationServices/authentication.service';
 import {ValidateMaterialCodeUniqueService} from '../MaterialServices/validate-material-code-unique.service';
 import {GeneralTableService} from '../../util/GeneralTableService/general-table.service';
-import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
 import {
   generalNamesInSelectedLanguage,
   materialNamesInSelectedLanguage
@@ -19,6 +14,7 @@ import {BackendMessageService} from "../../helpers/ErrorHandling/backend-message
 import {navigateToUrlAfterTimout} from "../../helpers/otherGeneralUseFunction/navigateToUrlAfterTimeOut";
 import LocalizedName from "../../DimensionCodes/DimensionCodesTypesAnClasses/localizedName";
 import {LanguageFormService} from "../../LanguageForm/language-form.service";
+import {MaterialDto} from "../MaterialsMainComponent/materialDto";
 
 @Component({
   selector: 'app-update-material',
@@ -65,7 +61,7 @@ export class UpdateMaterialComponent implements OnInit {
         this.materialToUpdate = material.body;
         this.materialForm.controls.materialCode.setValue(this.materialToUpdate.materialCode);
         this.materialForm.controls.materialName.setValue(this.materialToUpdate.materialName);
-        this.languageFormService.namesInAllLanguages = this.materialToUpdate.localizedNames;
+        this.languageFormService.namesInAllLanguages = this.materialToUpdate.vocabulary.localizedNames;
       },
       error => {
         console.log(`This error occured: ${error.error}`);
@@ -97,7 +93,7 @@ export class UpdateMaterialComponent implements OnInit {
       };
       localizedNames.push(localizedDimensionName);
     });
-    const material: Material = {
+    const material: MaterialDto = {
       localizedNames,
       materialCode: this.materialCode.value,
       materialName: this.materialName.value

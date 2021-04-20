@@ -1,16 +1,9 @@
 import {
   AfterContentChecked,
-  AfterViewChecked,
-  AfterViewInit,
   Component,
-  ElementRef,
-  OnChanges,
   OnInit,
-  SimpleChanges, ViewChild,
-  ViewChildren
 } from '@angular/core';
 import {ProductTopBackendService} from '../../ProductTop/ProductTopServices/product-top-backend.service';
-import {ValidateProductTopService} from '../../ProductTop/ProductTopServices/validate-product-top.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ProductTypeBackendService} from '../ProductTypeServices/product-type-backend.service';
@@ -18,11 +11,8 @@ import {ValidateProductTypeService} from '../ProductTypeServices/validate-produc
 import ProductBottom from '../../ProductTypesAndClasses/productBottom.entity';
 import ProductTop from '../../ProductTypesAndClasses/productTop.entity';
 import {ProductBottomBackendService} from '../../ProductBottom/ProductBottomServices/product-bottom-backend.service';
-import {ProductBottomTableService} from '../../ProductBottom/ProductBottomServices/product-bottom-table.service';
-import {ProductTopTableService} from '../../ProductTop/ProductTopServices/product-top-table.service';
 import OperationModeEnum from '../../../util/OperationModeEnum';
 import LocalizedName from '../../../DimensionCodes/DimensionCodesTypesAnClasses/localizedName';
-import CreateProductTopDto from '../../ProductTypesAndClasses/createProductTop.dto';
 import Language from '../../../Languages/LanguageTypesAndClasses/languageEntity';
 import CreateProductTypeDto from '../../ProductTypesAndClasses/createProductType.dto';
 import ProductType from '../../ProductTypesAndClasses/productType.entity';

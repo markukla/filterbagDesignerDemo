@@ -1,10 +1,10 @@
 import Product from './product.entity';
 import ProductType from './productType.entity';
-import LocalizedName from '../../DimensionCodes/DimensionCodesTypesAnClasses/localizedName';
+import {Vocabulary} from "../../Vocablulaty/VocabularyTypesAndClasses/VocabularyEntity";
 
 class ProductTop {
   public id?: number;
-  localizedNames: LocalizedName [];
+  vocabulary: Vocabulary;
   code: string;
   products?: Product[];
   productTypes?: ProductType[];

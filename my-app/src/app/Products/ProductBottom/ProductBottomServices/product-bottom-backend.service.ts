@@ -1,11 +1,4 @@
-import { Injectable } from '@angular/core';
-import {HttpClient, HttpResponse} from '@angular/common/http';
-import {ProductTopTableService} from '../../ProductTop/ProductTopServices/product-top-table.service';
-import {Observable} from 'rxjs';
-import ProductTop from '../../ProductTypesAndClasses/productTop.entity';
-import {tap} from 'rxjs/operators';
-import {Material} from '../../../materials/MaterialsMainComponent/material';
-import {ProductBottomTableService} from './product-bottom-table.service';
+
 import ProductBottom from '../../ProductTypesAndClasses/productBottom.entity';
 import {API_URL} from '../../../Config/apiUrl';
 import {ProductTopForTableCell} from '../../ProductTypesAndClasses/productTopForTableCell';
@@ -14,6 +7,10 @@ import {ProductBottomForTableCell} from '../../ProductTypesAndClasses/productBot
 import {AuthenticationService} from '../../../LoginandLogOut/AuthenticationServices/authentication.service';
 import {GeneralTableService} from '../../../util/GeneralTableService/general-table.service';
 import CreateProductBottomDto from '../../ProductTypesAndClasses/createProductBottom.dto';
+import {Injectable} from "@angular/core";
+import {HttpClient, HttpResponse} from "@angular/common/http";
+import {Observable} from "rxjs";
+import {tap} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -83,7 +80,7 @@ export class ProductBottomBackendService {
 
   createProductBottomForTableCellFromProductTop(productBottom: ProductBottom): ProductBottomForTableCell {
     // tslint:disable-next-line:max-line-length
-    const localizedNameInSelectedLanguage = getSelectedLanguageFromNamesInAllLanguages(productBottom.localizedNames, this.authenticationService.selectedLanguageCode);
+    const localizedNameInSelectedLanguage = getSelectedLanguageFromNamesInAllLanguages(productBottom.vocabulary.localizedNames, this.authenticationService.selectedLanguageCode);
     const productTopForTableCell: ProductTopForTableCell = {
       ...productBottom,
       localizedNameInSelectedLanguage,

@@ -1,6 +1,5 @@
 import {AfterContentChecked, Component, Input, OnInit} from '@angular/core';
 import OrderforTableCell from '../../OrdersTypesAndClasses/orderforTableCell';
-import {OrderTableService} from '../OrderServices/order-table.service';
 import {OrderBackendService} from '../OrderServices/order-backend.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import OrderOperationMode from '../../OrdersTypesAndClasses/orderOperationMode';
@@ -14,7 +13,6 @@ import {
   generalUserNames,
   orderNames
 } from "../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
-import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
 import {AuthenticationService} from "../../../LoginandLogOut/AuthenticationServices/authentication.service";
 
 @Component({
@@ -82,7 +80,7 @@ export class OrderVersionRegisterComponent implements OnInit, AfterContentChecke
     this.backendService.findRecordById(this.selectedOrderId).subscribe((order) => {
       this.backendService.findOrderVersionRegisterById(String(order.body.register.id)).subscribe((register) => {
           this.orderVersionRegister = register.body;
-          this.ordersInRegister = this.orderVersionRegister.ordersInthisRegister;
+          this.ordersInRegister = this.orderVersionRegister.orders;
           this.ordersInRegister.forEach((order) => {
               this.records.push(this.backendService.createOrderTableCellFromOrderEntity(order));
               const sort = new Sort();

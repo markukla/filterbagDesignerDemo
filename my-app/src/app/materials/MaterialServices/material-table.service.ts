@@ -1,8 +1,5 @@
 import {Injectable} from '@angular/core';
-import {MaterialBackendService} from './material-backend.service';
 import {Material} from '../MaterialsMainComponent/material';
-import {Observable, of} from 'rxjs';
-import BackendErrorResponse from '../../helpers/ErrorHandling/backendErrorResponse';
 import {SearchService} from '../../helpers/directive/SearchDirective/search.service';
 
 @Injectable({

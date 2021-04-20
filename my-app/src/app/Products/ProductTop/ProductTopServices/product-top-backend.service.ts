@@ -1,18 +1,19 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpResponse} from '@angular/common/http';
-import {MaterialTableService} from '../../../materials/MaterialServices/material-table.service';
+
 import {Observable} from 'rxjs';
-import {Material} from '../../../materials/MaterialsMainComponent/material';
+
 import {tap} from 'rxjs/operators';
-import ProductTop from '../../ProductTypesAndClasses/productTop.entity';
-import {ProductTopTableService} from './product-top-table.service';
+
+
 import {API_URL} from '../../../Config/apiUrl';
 import {GeneralTableService} from '../../../util/GeneralTableService/general-table.service';
-import {ProductForTableCell} from '../../ProductTypesAndClasses/productForTableCell';
+
 import {ProductTopForTableCell} from '../../ProductTypesAndClasses/productTopForTableCell';
 import {AuthenticationService} from '../../../LoginandLogOut/AuthenticationServices/authentication.service';
 import {getSelectedLanguageFromNamesInAllLanguages} from '../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage';
 import CreateProductTopDto from '../../ProductTypesAndClasses/createProductTop.dto';
+import ProductTop from "../../ProductTypesAndClasses/productTop.entity";
 
 @Injectable({
   providedIn: 'root'
@@ -85,7 +86,7 @@ export class ProductTopBackendService {
 
   createProductTopForTableCellFromProductTop(productTop: ProductTop): ProductTopForTableCell {
     // tslint:disable-next-line:max-line-length
-    const localizedNameInSelectedLanguage = getSelectedLanguageFromNamesInAllLanguages(productTop.localizedNames, this.authenticationService.selectedLanguageCode);
+    const localizedNameInSelectedLanguage = getSelectedLanguageFromNamesInAllLanguages(productTop.vocabulary.localizedNames, this.authenticationService.selectedLanguageCode);
     const productTopForTableCell: ProductTopForTableCell = {
       ...productTop,
       localizedNameInSelectedLanguage,

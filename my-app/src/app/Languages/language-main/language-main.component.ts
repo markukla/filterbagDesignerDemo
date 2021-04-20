@@ -1,7 +1,5 @@
 import {AfterContentChecked, Component, Input, OnInit} from '@angular/core';
-import DimensionCode from '../../DimensionCodes/DimensionCodesTypesAnClasses/diemensionCode.entity';
-import {DimensionCodeTableService} from '../../DimensionCodes/DimensionCodeServices/dimension-code-table.service';
-import {DimensionCodeBackendService} from '../../DimensionCodes/DimensionCodeServices/dimension-code-backend.service';
+
 import {ActivatedRoute, Router} from '@angular/router';
 import LocalizedName from '../../DimensionCodes/DimensionCodesTypesAnClasses/localizedName';
 import {SearchService} from '../../helpers/directive/SearchDirective/search.service';
@@ -10,7 +8,7 @@ import {LanguageBackendService} from '../languageServices/language-backend.servi
 import Language from '../LanguageTypesAndClasses/languageEntity';
 import {API_URL} from '../../Config/apiUrl';
 import {OperationStatusServiceService} from '../../OperationStatusComponent/operation-status/operation-status-service.service';
-import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
+
 import {
   generalNamesInSelectedLanguage, generalUserNames,
   languageNames

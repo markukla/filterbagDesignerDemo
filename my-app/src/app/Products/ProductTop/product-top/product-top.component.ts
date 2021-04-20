@@ -1,9 +1,6 @@
 import {AfterContentChecked, Component, Input, OnInit, SimpleChanges} from '@angular/core';
 import {Material} from '../../../materials/MaterialsMainComponent/material';
-import {MaterialTableService} from '../../../materials/MaterialServices/material-table.service';
-import {MaterialBackendService} from '../../../materials/MaterialServices/material-backend.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ProductTopTableService} from '../ProductTopServices/product-top-table.service';
 import {ProductTopBackendService} from '../ProductTopServices/product-top-backend.service';
 import ProductTop from '../../ProductTypesAndClasses/productTop.entity';
 import {GeneralTableService} from '../../../util/GeneralTableService/general-table.service';
@@ -15,7 +12,6 @@ import {
   generalNamesInSelectedLanguage,
   orderNames
 } from "../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
-import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
 import {AuthenticationService} from "../../../LoginandLogOut/AuthenticationServices/authentication.service";
 import {ProductTypeBackendService} from "../../ProductType/ProductTypeServices/product-type-backend.service";
 import ProductType from "../../ProductTypesAndClasses/productType.entity";

@@ -1,17 +1,11 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {MaterialBackendService} from '../../../materials/MaterialServices/material-backend.service';
-import {ValidateMaterialCodeUniqueService} from '../../../materials/MaterialServices/validate-material-code-unique.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ProductTopBackendService} from '../ProductTopServices/product-top-backend.service';
 import {ValidateProductTopService} from '../ProductTopServices/validate-product-top.service';
 import ProductBottom from '../../ProductTypesAndClasses/productBottom.entity';
-import CreateProductBottomDto from '../../ProductTypesAndClasses/createProductBottom.dto';
 import LocalizedName from '../../../DimensionCodes/DimensionCodesTypesAnClasses/localizedName';
-import DimensionCode from '../../../DimensionCodes/DimensionCodesTypesAnClasses/diemensionCode.entity';
 import Language from '../../../Languages/LanguageTypesAndClasses/languageEntity';
-import {ProductBottomBackendService} from '../../ProductBottom/ProductBottomServices/product-bottom-backend.service';
-import {ProductBottomValidatorService} from '../../ProductBottom/ProductBottomServices/product-bottom-validator.service';
 import {LanguageBackendService} from '../../../Languages/languageServices/language-backend.service';
 import {BackendMessageService} from '../../../helpers/ErrorHandling/backend-message.service';
 import {LanguageFormService} from '../../../LanguageForm/language-form.service';
@@ -22,7 +16,6 @@ import {
   generalNamesInSelectedLanguage,
   orderNames
 } from "../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
-import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
 import ProductType from "../../ProductTypesAndClasses/productType.entity";
 import {ProductTypeBackendService} from "../../ProductType/ProductTypeServices/product-type-backend.service";
 import {navigateToUrlAfterTimout} from "../../../helpers/otherGeneralUseFunction/navigateToUrlAfterTimeOut";
@@ -100,7 +93,7 @@ export class CreateProductTopComponent implements OnInit {
     if (this.operatiomMode === OperationModeEnum.UPDATE) {
       const foundRecord =  await this.backendService.findRecordById(this.selectedRecordToupdateId).toPromise();
       this.recordToUpdate = foundRecord.body;
-      this.languageFormService.namesInAllLanguages = this.recordToUpdate.localizedNames;
+      this.languageFormService.namesInAllLanguages = this.recordToUpdate.vocabulary.localizedNames;
       this.formTitleAddOrUpdate = this.orderNamesInSelectedLanguage.updateProductTop;
       this.code.setValue(this.recordToUpdate.code);
     }

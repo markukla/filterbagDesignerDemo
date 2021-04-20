@@ -63,7 +63,7 @@
         <label class="label" for="top">{{this.generalNamesInSelectedLanguage.select + ' '+ this.orderNamesInSelectedLanguage.productTop}}</label>
         <select class="form-control" formControlName="top" id="top" #selectTop (click)="selectTopClicked = true">
           <option class="selectTopValues" [id]="'top'+top.id" *ngFor="let top of allTopsToSelect" [ngValue]="top">
-            {{ top.code + ' - ' + getNameInSelectedLanguage(top.localizedNames) }}
+            {{ top.code + ' - ' + getNameInSelectedLanguage(top.vocabulary.localizedNames) }}
           </option>
         </select>
         <div *ngIf="top.invalid && (top.dirty || top.touched)"
@@ -78,7 +78,7 @@
         <label class="label" for="bottom">{{this.generalNamesInSelectedLanguage.select + ' '+ this.orderNamesInSelectedLanguage.productBottom}}</label>
         <select class="form-control" formControlName="bottom" id="bottom" #selectBottom (click)="this.selectBottomClicked = true;">
           <option class="selectBottomValues" [id]="'bottom'+bottom.id" *ngFor="let bottom of allBotomsToselect" [ngValue]="bottom">
-            {{ bottom.code + ' - ' + getNameInSelectedLanguage(bottom.localizedNames) }}
+            {{ bottom.code + ' - ' + getNameInSelectedLanguage(bottom.vocabulary.localizedNames) }}
           </option>
         </select>
         <div *ngIf="bottom.invalid && (bottom.dirty || bottom.touched)"

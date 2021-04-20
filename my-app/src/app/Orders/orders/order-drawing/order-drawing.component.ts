@@ -826,7 +826,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     if (this.orderOperationMode === OrderOperationMode.CREATENEWPRODUCT && this.validateCreateProductDtoBeforeSavingInDatab(createProductDto) === true) {
       this.productBackendService.addRecords(createProductDto).subscribe((product) => {
         const productFromBackend = product.body;
-        console.log(productFromBackend.productTop.localizedNames.length);
+        console.log(productFromBackend.productTop.vocabulary.localizedNames.length);
         console.log('dodano nowy Product');
         this.statusService.operationSuccessStatusMessage = this.messageService.returnSuccessMessageToUserForSuccessBackendResponseForCreateNew();
 
@@ -970,7 +970,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   getLocalizedNameFromAllLanguage(dimensnionCodes: DimensionCode[]): LocalizedDimensionCode[] {
     const localizedDimensionCodes: LocalizedDimensionCode[] = [];
     dimensnionCodes.forEach((dimensionCOde) => {
-      dimensionCOde.localizedDimensionNames.forEach((localizedName) => {
+      dimensionCOde.vocabulary.localizedNames.forEach((localizedName) => {
         if (localizedName.language.languageCode === this.authenticationService.selectedLanguageCode) {
           const localizedCode: LocalizedDimensionCode = {
             ...dimensionCOde,
@@ -983,25 +983,6 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     return localizedDimensionCodes;
   }
 
-  getLocalizedDimensionFromDimension(dimension: DimensionCode): LocalizedDimensionCode {
-    let localizedDimensionCode: LocalizedDimensionCode;
-    dimension.localizedDimensionNames.forEach((localizedName) => {
-      if (localizedName.language === this.authenticationService.selectedLanguageCode) {
-        localizedDimensionCode = {
-          ...dimension,
-          localizedDimensionName: localizedName
-        };
-      }
-    });
-    return localizedDimensionCode;
-  }
-
-  onNewProductCreated(event: DimensionCode): void {
-    console.log('in on product created');
-    this.newDimension = event;
-    this.addNewClicked = false;
-
-  }
 
 
   createOrUpdateProductMode(): boolean {

@@ -1,9 +1,5 @@
 import {AfterContentChecked, Component, Input, OnInit} from '@angular/core';
-import ProductType from '../../ProductTypesAndClasses/productType.entity';
-import {ProductTypeBackendService} from '../../ProductType/ProductTypeServices/product-type-backend.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import Product from '../../ProductTypesAndClasses/product.entity';
-import {ProductTableService} from './ProductServices/product-table.service';
 import {ProductBackendService} from './ProductServices/product-backend.service';
 import OrderOperationMode from '../../../Orders/OrdersTypesAndClasses/orderOperationMode';
 import ProductModeEnum from '../../ProductTypesAndClasses/productMode';
@@ -15,7 +11,6 @@ import {
   generalNamesInSelectedLanguage,
   orderNames
 } from "../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
-import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
 import {AuthenticationService} from "../../../LoginandLogOut/AuthenticationServices/authentication.service";
 
 @Component({

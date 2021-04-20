@@ -3,14 +3,12 @@ import {HttpClient, HttpErrorResponse, HttpResponse} from '@angular/common/http'
 import {Observable, throwError} from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
 import {Material} from '../MaterialsMainComponent/material';
-import {MaterialTableService} from './material-table.service';
 import {API_URL} from '../../Config/apiUrl';
 import {GeneralTableService} from '../../util/GeneralTableService/general-table.service';
-import ProductTop from "../../Products/ProductTypesAndClasses/productTop.entity";
-import {ProductTopForTableCell} from "../../Products/ProductTypesAndClasses/productTopForTableCell";
 import {getSelectedLanguageFromNamesInAllLanguages} from "../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
 import {MaterialForTabelCell} from "../MaterialsMainComponent/materialForTabelCell";
 import {AuthenticationService} from "../../LoginandLogOut/AuthenticationServices/authentication.service";
+import {MaterialDto} from "../MaterialsMainComponent/materialDto";
 
 
 @Injectable({
@@ -29,7 +27,7 @@ export class MaterialBackendService {
   }
 
   // tslint:disable-next-line:typedef
-  addRecords(material: Material): Observable<HttpResponse<Material>> {
+  addRecords(material: MaterialDto): Observable<HttpResponse<Material>> {
     // tslint:disable-next-line:max-line-length
     return this.http.post<Material>(this.rootURL + this.endpointUrl, material, {observe: 'response'}).pipe(
       // tslint:disable-next-line:no-shadowed-variable
@@ -47,7 +45,7 @@ export class MaterialBackendService {
       }));
   }
 
-  updateRecordById(id: string, material: Material): Observable<HttpResponse<Material>> {
+  updateRecordById(id: string, material: MaterialDto): Observable<HttpResponse<Material>> {
     const updateUrl = `${this.rootURL + this.endpointUrl}/${id}`;
     return this.http.patch<Material>(updateUrl, material, {observe: 'response'}).pipe(
       // tslint:disable-next-line:no-shadowed-variable
@@ -82,7 +80,7 @@ export class MaterialBackendService {
   }
   createMaterialForTableCellFromMaterial(material: Material): MaterialForTabelCell {
     // tslint:disable-next-line:max-line-length
-    const descriptionInSelectedLanguage = getSelectedLanguageFromNamesInAllLanguages(material.localizedNames, this.authenticationService.selectedLanguageCode);
+    const descriptionInSelectedLanguage = getSelectedLanguageFromNamesInAllLanguages(material.vocabulary.localizedNames, this.authenticationService.selectedLanguageCode);
     const materialForTabelCell: MaterialForTabelCell = {
       ...material,
       descriptionInSelectedLanguage: descriptionInSelectedLanguage,

@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
-import {ProductTypeBackendService} from '../../Products/ProductType/ProductTypeServices/product-type-backend.service';
-import {AbstractControl, AsyncValidatorFn, ValidationErrors} from '@angular/forms';
-import {Observable, of} from 'rxjs';
-import {catchError, map} from 'rxjs/operators';
+import {ProductTypeBackendService} from "../../Products/ProductType/ProductTypeServices/product-type-backend.service";
+import {Injectable} from "@angular/core";
+import {AbstractControl, AsyncValidatorFn, ValidationErrors} from "@angular/forms";
+import {Observable, of} from "rxjs";
+import {catchError, map} from "rxjs/operators";
+
 
 @Injectable({
   providedIn: 'root'
