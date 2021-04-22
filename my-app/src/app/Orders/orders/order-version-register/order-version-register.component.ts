@@ -83,8 +83,11 @@ export class OrderVersionRegisterComponent implements OnInit, AfterContentChecke
           this.ordersInRegister = this.orderVersionRegister.orders;
           this.ordersInRegister.forEach((order) => {
               this.records.push(this.backendService.createOrderTableCellFromOrderEntity(order));
-              const sort = new Sort();
-              this.records.sort(sort.startSort('date', 'desc', 'date'));
+             /*
+             not nedded sorted in backend
+             const sort = new Sort();
+             this.records.sort(sort.startSort('date', 'desc', 'date'));*/
+
             }
           );
         }, error => {

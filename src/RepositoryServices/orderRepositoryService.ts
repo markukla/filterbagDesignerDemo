@@ -18,6 +18,7 @@ import OrderDetails from "../Models/OrderDetail/orderDetails.entity";
 import OrderNotFoundException from "../Exceptions/OrderNotFoundException";
 import User from "../Models/Users/user.entity";
 import NewestOrderNumber from "../Models/Order/newestOrderNumber";
+import {register} from "ts-node";
 
 
 class OrderService implements RepositoryService {
@@ -65,8 +66,21 @@ const orderVersionRegister = new OrderVersionRegister(createOrderDto.orderNumber
 
     }
     public async findOrderVersionRegisterById(id:string):Promise<OrderVersionRegister>{
-      const foundRegister=  await this.manager.findOne(OrderVersionRegister,id,{relations:["orders"]});
-      return foundRegister
+        /*const foundRegister=  await this.manager.findOne(OrderVersionRegister,id,{relations:["orders"]});*/
+        const orderRegisterByQueryBuilder= await getConnection().createQueryBuilder(OrderVersionRegister,'register')
+            .leftJoinAndSelect("register.orders","orders")
+            .leftJoinAndSelect('orders.creator','creators')
+            .leftJoinAndSelect('orders.businessPartner','partners')
+            .leftJoinAndSelect("orders.product",'products')
+            .leftJoinAndSelect("products.productType",'types')
+            .leftJoinAndSelect('types.vocabulary','v')
+            .leftJoinAndSelect('v.localizedNames','names')
+            .leftJoinAndSelect('names.language','l')
+            .where("register.id = :id", {id:Number(id)})
+            .orderBy("orders.date","DESC")
+            .getOne();
+
+      return orderRegisterByQueryBuilder;
     }
     public async findAllOrdersVersionsRegisters():Promise<OrderVersionRegister[]>{
         /*
@@ -76,7 +90,18 @@ const orderVersionRegister = new OrderVersionRegister(createOrderDto.orderNumber
 
 
         /*good way to resolve tabel name is specyfied more than once problem is using query builder, and leftJojn with short alias*/
-        const orderRegisterByQueryBuilder= await getConnection().createQueryBuilder(OrderVersionRegister,'register').leftJoinAndSelect("register.orders","orders").leftJoinAndSelect('orders.creator','creators').leftJoinAndSelect('orders.businessPartner','partners').leftJoinAndSelect("orders.product",'products').leftJoinAndSelect("products.productType",'types').leftJoinAndSelect('types.vocabulary','v').leftJoinAndSelect('v.localizedNames','names').leftJoinAndSelect('names.language','l').printSql().getMany();
+        const orderRegisterByQueryBuilder= await getConnection().createQueryBuilder(OrderVersionRegister,'register')
+            .leftJoinAndSelect("register.orders","orders")
+            .leftJoinAndSelect('orders.creator','creators')
+            .leftJoinAndSelect('orders.businessPartner','partners')
+            .leftJoinAndSelect("orders.product",'products')
+            .leftJoinAndSelect("products.productType",'types')
+            .leftJoinAndSelect('types.vocabulary','v')
+            .leftJoinAndSelect('v.localizedNames','names')
+            .leftJoinAndSelect('names.language','l')
+            .orderBy("orders.date","DESC")
+            .printSql()
+            .getMany();
         console.log(orderRegisterByQueryBuilder);
         return orderRegisterByQueryBuilder;
     }

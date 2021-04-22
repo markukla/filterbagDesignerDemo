@@ -129,7 +129,7 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
           this.ordersOfBusinessPartner.forEach((record) => {
               if(record.product) {
                 this.tableService.records.push(this.backendService.createOrderTableCellFromOrderEntity(record));
-                this.sortOrder(this.tableService.records);
+               // this.sortOrder(this.tableService.records);
                 this.records = this.tableService.getRecords();
                 this.searChService.orginalArrayCopy = [...this.tableService.getRecords()];
                 this.recordsForCurrentPage = this.paginator.paginateRecords(this.records, this.numberOfRecordsForPage)
@@ -148,7 +148,7 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
 
               if(record.product) {
                 this.tableService.records.push(this.backendService.createOrderTableCellFromOrderEntity(record));
-                this.sortOrder(this.tableService.records);
+                //this.sortOrder(this.tableService.records);
                 this.records = this.tableService.getRecords();
                 this.searChService.orginalArrayCopy = [...this.tableService.getRecords()];
                 this.recordsForCurrentPage = this.paginator.paginateRecords(this.records, this.numberOfRecordsForPage);
@@ -166,7 +166,7 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
 
             if(record.product) {
               this.tableService.records.push(this.backendService.createOrderTableCellFromOrderEntity(record));
-              this.sortOrder(this.tableService.records);
+              //this.sortOrder(this.tableService.records);
               this.records = this.tableService.getRecords();
               this.searChService.orginalArrayCopy = [...this.tableService.getRecords()];
               this.recordsForCurrentPage = this.paginator.paginateRecords(this.records, this.numberOfRecordsForPage);
