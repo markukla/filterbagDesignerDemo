@@ -87,10 +87,7 @@ class ProductTypeController implements Controller {
         try {
             const updatedProductType = await this.service.updateProductTypeById(id, productData);
             if (updatedProductType) {
-                response.send({
-                    message: "Product Type updated",
-                    updatedProductType: updatedProductType
-                });
+                response.send(updatedProductType);
             }
             else {
                 throw new ProductTypeNotFoundException(id);

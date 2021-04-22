@@ -21,10 +21,10 @@ class ProductType {
     code:string;
     @OneToMany(()=>Product,(productsWithThisType:Product)=>productsWithThisType.productType)
     products?:Product[];
-    @ManyToMany(()=>ProductTop, (topsForThisProductType: ProductTop)=> topsForThisProductType.productTypes, {cascade:true, onUpdate:"CASCADE"})
+    @ManyToMany(()=>ProductTop, (topsForThisProductType: ProductTop)=> topsForThisProductType.productTypes, {cascade:true, onUpdate:"CASCADE", eager:true})
     @JoinTable({name:"productType_productTop_id_pairs"})
     tops?:ProductTop[];
-    @ManyToMany(()=>ProductBottom, (bottomsForThisProductType:ProductBottom) => bottomsForThisProductType.productTypes, {cascade:true, onUpdate:"CASCADE"})
+    @ManyToMany(()=>ProductBottom, (bottomsForThisProductType:ProductBottom) => bottomsForThisProductType.productTypes, {cascade:true, onUpdate:"CASCADE", eager:true})
     @JoinTable({name:"productType_productBottom_id_pairs"})
     bottoms?:ProductBottom[];
     @Column({nullable: true})

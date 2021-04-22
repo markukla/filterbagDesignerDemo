@@ -23,7 +23,7 @@ class ProductTypeService implements RepositoryService {
     private vocabularyRepositoryService= new VocabularyService();
 
     public async findOneProductTypeById(id: string): Promise<ProductType> {
-        const foundProductType: ProductType = await this.repository.findOne(id,{relations:["tops","bottoms"]}); // table name not entity name
+        const foundProductType: ProductType = await this.repository.findOne(id); // table name not entity name
         if (!foundProductType) {
             throw new ProductTypeNotFoundException(id);
         }
@@ -36,7 +36,7 @@ class ProductTypeService implements RepositoryService {
         const foundProduct: ProductType = await this.repository.findOne({
             code: createProductTypeDto.code,
             softDeleteDate: null
-        },{relations:["tops","bottoms"]});
+        },/*{relations:["tops","bottoms"]}*/);
 
         return foundProduct;
 
@@ -53,7 +53,7 @@ class ProductTypeService implements RepositoryService {
 
 
     public async findAllProductsTypes(): Promise<ProductType[]> {
-        const foundProductTypes: ProductType[] = await this.repository.find({relations:["tops","bottoms"]});
+        const foundProductTypes: ProductType[] = await this.repository.find(/*{relations:["tops","bottoms"]} */);
         const foundNotDeletedProductTypes: ProductType[] = foundProductTypes.filter(productType => productType.softDeleteDate === null);
         return foundNotDeletedProductTypes;
 
@@ -99,7 +99,7 @@ class ProductTypeService implements RepositoryService {
                 }
             }
 
-            const localizedNamesWithIds= recordInDatabase.localizedNames;
+            const localizedNamesWithIds= recordInDatabase.vocabulary.localizedNames;
             const vocabulary: Vocabulary= recordInDatabase.vocabulary;
             vocabulary.localizedNames=addIdsForCascadeUpdateLocalizedNames(createProductTypeDto.localizedNames, localizedNamesWithIds);
 

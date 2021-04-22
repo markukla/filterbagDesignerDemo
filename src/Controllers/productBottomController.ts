@@ -86,10 +86,7 @@ class ProductBottomController implements Controller {
         try {
             const updatedProductBottom = await this.service.updateProductBottomById(id, productBottom);
 
-            response.send({
-                message:"Product Bottom updated",
-                updatedProductBottom:updatedProductBottom
-            });
+            response.send(updatedProductBottom);
         } catch (error) {
             next(error);
         }
