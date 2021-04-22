@@ -64,11 +64,11 @@ export class ProductBottomComponent implements OnInit, AfterContentChecked {
               private productTypeBackendService: ProductTypeBackendService,
               private productBackendService: ProductBackendService) {
   }
-  ngOnInit(): void {
-    this.route.queryParamMap.subscribe(params=> {
+ async ngOnInit(): Promise<void> {
+    this.route.queryParamMap.subscribe(async params=> {
       this.productTypeId = params.get('productTypeId')
       this.initColumnNamesInSelectedLanguage();
-        this.getRecords();
+        await this.getRecords();
     });
     this.materialId = this.tableService.selectedId;
     this.deleteButtonInfo = this.generalNamesInSelectedLanguage.deleteButtonInfo;
@@ -85,13 +85,13 @@ export class ProductBottomComponent implements OnInit, AfterContentChecked {
       this.recordNumbers = this.records.length;
     }
   }
-  getRecords(): void {
-    this.productTypeBackendService.getRecords().subscribe((productTypes)=>{
-      this.allProductTypes = productTypes.body;
-    });
-    this.productBackendService.getRecords().subscribe((products)=>{
-      this.allProducts = products.body;
-    });
+ async getRecords(): Promise<void> {
+    const allProductTypes= await this.productTypeBackendService.getRecords().toPromise();
+      this.allProductTypes = allProductTypes.body;
+
+   const allProducts= await this.productBackendService.getRecords().toPromise();
+      this.allProducts = allProducts.body;
+
     if(this.productTypeId) {
       console.log('in if for productTypeId')
       this.productTypeBackendService.findRecordById(this.productTypeId).subscribe((productType)=>{
@@ -135,7 +135,9 @@ export class ProductBottomComponent implements OnInit, AfterContentChecked {
     this.tableService.selectedId = recordToDeleteId;
   }
   deleteSelectedRecordFromDatabase(recordTodeleteId: number, deleteConfirmed: boolean): void {
-    if (deleteConfirmed === true) {
+    /*
+    option with updating relations and not deleting do not nedded any more
+
       if(this.productTypeId && this.selectedproductType) {
         //delete only for this selected productType(remove from list), not from all productTops
         const bottomsOfSelectedProductType: ProductBottom[]= this.selectedproductType.bottoms;
@@ -170,10 +172,15 @@ export class ProductBottomComponent implements OnInit, AfterContentChecked {
         });
 
       }
-      else {
+
+
+     */
+    if (deleteConfirmed === true) {
         this.backendService.deleteRecordById(String(recordTodeleteId)).subscribe((response) => {
           this.operationSuccessStatusMessage = this.generalNamesInSelectedLanguage.operationDeleteSuccessStatusMessage;
-          this.allProductTypes.forEach((pt, typeIndex)=>{
+          /*
+          updating bottoms of productType is not required any more since objects are soft delted not deleted, this relations are still valid
+              this.allProductTypes.forEach((pt, typeIndex)=>{
             pt.bottoms.forEach((bottom, index, self)=>{
               if(bottom.id === recordTodeleteId) {
                 self.splice(index, 1);
@@ -181,14 +188,18 @@ export class ProductBottomComponent implements OnInit, AfterContentChecked {
 
 
             });
-            /*bottoms tabel is updated in above loop, update ProductType - productBottoms relation required*/
-            const updatedProductType: CreateProductTypeDto = {
-              ...this.allProductTypes.filter(pt=> pt.id=== pt.id)[0],
-              localizedNames: this.selectedproductType.vocabulary.localizedNames
-            };
+            bottoms tabel is updated in above loop, update ProductType - productBottoms relation required
+             const updatedProductType: CreateProductTypeDto = {
+            ...this.allProductTypes.filter(pt=> pt.id=== pt.id)[0],
 
-            this.productTypeBackendService.updateRecordById(String(pt.id), updatedProductType).subscribe();
-          });
+          };
+
+
+          this.productTypeBackendService.updateRecordById(String(pt.id), updatedProductType).subscribe();
+        });
+
+        */
+
           if(this.deleteProductConfirmed){
             const productsWithThisTopToDelete = this.allProducts.filter(product=> product.productBottom.id === recordTodeleteId);
             productsWithThisTopToDelete.forEach((productToDelete)=>{
@@ -211,7 +222,7 @@ export class ProductBottomComponent implements OnInit, AfterContentChecked {
           this.statusService.makeOperationStatusVisable();
           this.statusService.resetOperationStatusAfterTimeout([this.operationFailerStatusMessage, this.operationSuccessStatusMessage]);
         });
-      }
+
     }
     else {
       this.showConfirmDeleteWindow = false;

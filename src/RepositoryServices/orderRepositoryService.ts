@@ -76,8 +76,8 @@ const orderVersionRegister = new OrderVersionRegister(createOrderDto.orderNumber
 
 
         /*good way to resolve tabel name is specyfied more than once problem is using query builder, and leftJojn with short alias*/
-        const orderRegisterByQueryBuilder= await getConnection().createQueryBuilder(OrderVersionRegister,'register').leftJoinAndSelect("register.orders","orders").leftJoinAndSelect('orders.creator','creators').leftJoinAndSelect('orders.businessPartner','partners').leftJoinAndSelect("orders.product",'products').leftJoinAndSelect("products.productType",'types').leftJoinAndSelect('types.vocabulary','v').leftJoinAndSelect('v.localizedNames','names').leftJoinAndSelect('names.language','l').getMany();
-
+        const orderRegisterByQueryBuilder= await getConnection().createQueryBuilder(OrderVersionRegister,'register').leftJoinAndSelect("register.orders","orders").leftJoinAndSelect('orders.creator','creators').leftJoinAndSelect('orders.businessPartner','partners').leftJoinAndSelect("orders.product",'products').leftJoinAndSelect("products.productType",'types').leftJoinAndSelect('types.vocabulary','v').leftJoinAndSelect('v.localizedNames','names').leftJoinAndSelect('names.language','l').printSql().getMany();
+        console.log(orderRegisterByQueryBuilder);
         return orderRegisterByQueryBuilder;
     }
 

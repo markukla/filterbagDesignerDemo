@@ -12,10 +12,13 @@ import CreateDimensionCodeDto from "../Models/DimesnionCodes/createDimensionCode
 import DimensionCodeAlreadyExistException from "../Exceptions/dimensionAlreadyExistException";
 import {addIdsForCascadeUpdateLocalizedNames} from "../Models/LocalizedName/localizedNamesHelperFunction";
 import Vocabulary from "../Models/Vocabulary/vocabulary.entity";
+import {createAndReturnVocabularyWithSetVariabelName} from "../Models/Vocabulary/vocabulatyHelper";
+import VocabularyService from "./vocabularyRepositoryService";
 
 class DimensionCodeService implements RepositoryService{
 
     public repository=getRepository(DimensionCode);
+    private vocabularyRepositoryService= new VocabularyService();
 
     public async findOneById(id:string):Promise<DimensionCode>{
         const foundRecord:DimensionCode=await this.repository.findOne(id);
@@ -82,8 +85,8 @@ return foundDimension;
         }
 
 
-        const vocabularyVariableName= `dimension_${createDimensionDto.dimensionCode}`
-        const vocabularyInNewRecord= new Vocabulary(vocabularyVariableName, createDimensionDto.localizedNames);
+        const vocabularyInNewRecord= await createAndReturnVocabularyWithSetVariabelName("dimension",createDimensionDto);
+
 
         const recordToSave: DimensionCode = {
             ...createDimensionDto,
@@ -134,6 +137,7 @@ return foundDimension;
     }
     public async deleteOneById(id:string):Promise<boolean>{
         let softDeletedRecord:DimensionCode;
+        let vocabularySuccesFullySoftDeleted: boolean;
         const recordToDelte = await this.findOneById(id);
         const idOfExistingRecord:boolean=recordToDelte!==null;
         if(idOfExistingRecord){
@@ -142,11 +146,12 @@ return foundDimension;
                 softDeleteDate: new Date()
             };
              softDeletedRecord= await this.repository.save(recordTosoftDelete);
+            vocabularySuccesFullySoftDeleted= await this.vocabularyRepositoryService.deleteOneRecordById(String(recordTosoftDelete.vocabulary.id));
         }
         else {
             throw new DimensionCodeNotFoundException(id);
         }
-        if(softDeletedRecord&&softDeletedRecord.softDeleteDate) {
+        if(softDeletedRecord&&softDeletedRecord.softDeleteDate && vocabularySuccesFullySoftDeleted) {
             return true;
         }
         else {

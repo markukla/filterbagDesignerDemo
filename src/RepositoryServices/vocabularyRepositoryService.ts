@@ -36,6 +36,18 @@ class VocabularyService implements RepositoryService{
         return records;
 
     }
+     public async getNumberEqualIdPlus1():Promise<number> {
+
+       const vocabularies: Vocabulary[]= await getRepository(Vocabulary)
+           .createQueryBuilder("v")
+
+           .orderBy('v.id',"ASC")
+           .getMany();
+       const numberPlus1= vocabularies[vocabularies.length -1].id+1;
+       console.log(numberPlus1);
+       return numberPlus1;
+
+    }
 
 
     public async addOneRecord(createVocabularyDto:CreateVocabularyDto):Promise<Vocabulary>{
@@ -111,5 +123,6 @@ class VocabularyService implements RepositoryService{
             return false;
         }
     }
+
 }
 export default VocabularyService;

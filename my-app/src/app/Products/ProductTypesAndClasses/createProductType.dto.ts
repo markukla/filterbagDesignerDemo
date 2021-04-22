@@ -5,7 +5,7 @@ import {Vocabulary} from "../../Vocablulaty/VocabularyTypesAndClasses/Vocabulary
 
 class CreateProductTypeDto {
   vocabulary?: Vocabulary;
-  localizedNames: LocalizedName [];
+  localizedNames?: LocalizedName [];
   code: string;
   tops?: ProductTop[]| any[];  // insteed of using whole objects we nan use id of each product type eg [{"id"=1},{"id=2"}]
   bottoms?: ProductBottom[]| any[];

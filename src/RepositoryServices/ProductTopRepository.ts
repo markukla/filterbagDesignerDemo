@@ -19,11 +19,15 @@ import DimensionCodeNotFoundException from "../Exceptions/DimensionCodeNotFoundE
 import {addIdsForCascadeUpdateLocalizedNames} from "../Models/LocalizedName/localizedNamesHelperFunction";
 import Vocabulary from "../Models/Vocabulary/vocabulary.entity";
 import ProductType from "../Models/Products/productType.entity";
+import vocabularyRepositoryService from "./vocabularyRepositoryService";
+import {createAndReturnVocabularyWithSetVariabelName} from "../Models/Vocabulary/vocabulatyHelper";
+import VocabularyService from "./vocabularyRepositoryService";
 
 
 class ProductTopService implements RepositoryService {
 
     public repository = getRepository(ProductTop);
+    private vocabularyRepositoryService= new VocabularyService();
 
     public async findOneProductTopById(id: string): Promise<ProductTop> {
         const foundProductTop: ProductTop = await this.repository.findOne(id);
@@ -68,9 +72,11 @@ class ProductTopService implements RepositoryService {
         if (productTopWithThisCodeInDatabase && productTopWithThisCodeInDatabase.softDeleteDate === null) {
             throw new ProductTopAlreadyExistsException();
         }
+        /* const newestId= await this.vocabularyRepository.getNumberEqualIdPlus1();
 
-        const vocabularyVariableName= `top_${createProductTopDto.code}`
-        const vocabularyInNewRecord= new Vocabulary(vocabularyVariableName, createProductTopDto.localizedNames);
+        const vocabularyVariableName= `top_${createProductTopDto.code}_id:${newestId}`*/
+
+        const vocabularyInNewRecord= await createAndReturnVocabularyWithSetVariabelName("top",createProductTopDto);
 
         const recordToSave: ProductTop = {
             ...createProductTopDto,
@@ -123,6 +129,7 @@ class ProductTopService implements RepositoryService {
 
     public async deleteProductTopById(id:string):Promise<boolean>{
         let softDeletedRecord:ProductTop;
+        let vocabularySuccesFullySoftDeleted: boolean;
         const recordToDelte = await this.findOneProductTopById(id);
         const idOfExistingRecord:boolean=recordToDelte!==null;
         if(idOfExistingRecord){
@@ -131,11 +138,12 @@ class ProductTopService implements RepositoryService {
                 softDeleteDate: new Date()
             };
             softDeletedRecord= await this.repository.save(recordTosoftDelete);
+            vocabularySuccesFullySoftDeleted= await this.vocabularyRepositoryService.deleteOneRecordById(String(recordTosoftDelete.vocabulary.id))
         }
         else {
             throw new ProductTopNotFoundException(id);
         }
-        if(softDeletedRecord&&softDeletedRecord.softDeleteDate) {
+        if(softDeletedRecord&&softDeletedRecord.softDeleteDate&& vocabularySuccesFullySoftDeleted) {
             return true;
         }
         else {

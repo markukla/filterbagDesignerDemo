@@ -10,11 +10,14 @@ import DimensionCodeNotFoundException from "../Exceptions/DimensionCodeNotFoundE
 import {addIdsForCascadeUpdateLocalizedNames} from "../Models/LocalizedName/localizedNamesHelperFunction";
 import Vocabulary from "../Models/Vocabulary/vocabulary.entity";
 import ProductTop from "../Models/Products/productTop.entity";
+import {createAndReturnVocabularyWithSetVariabelName} from "../Models/Vocabulary/vocabulatyHelper";
+import VocabularyService from "./vocabularyRepositoryService";
 
 
 class MaterialService implements RepositoryService {
 
     public repository = getRepository(Material);
+    private vocabularyRepositoryService= new VocabularyService();
 
     public async findOneMaterialById(id: string): Promise<Material> {
         const foundMaterial: Material = await this.repository.findOne(id);
@@ -66,8 +69,8 @@ class MaterialService implements RepositoryService {
             throw new MaterialAlreadyExistsException(null, createMaterialDto.materialName);
         }
 
-        const vocabularyVariableName= `material_${createMaterialDto.materialCode}`
-        const vocabularyInNewRecord= new Vocabulary(vocabularyVariableName, createMaterialDto.localizedNames);
+
+        const vocabularyInNewRecord= await createAndReturnVocabularyWithSetVariabelName("material",createMaterialDto);
 
         const recordToSave: Material = {
             ...createMaterialDto,
@@ -129,6 +132,7 @@ class MaterialService implements RepositoryService {
 
     public async deleteMaterialById(id: string): Promise<boolean> {
         let softDeletedRecord: Material;
+        let vocabularySuccesFullySoftDeleted: boolean;
         const recordToDelte = await this.findOneMaterialById(id);
         const idOfExistingRecord: boolean = recordToDelte !== null;
         if (idOfExistingRecord) {
@@ -137,10 +141,11 @@ class MaterialService implements RepositoryService {
                 softDeleteDate: new Date()
             };
             softDeletedRecord = await this.repository.save(recordTosoftDelete);
+            vocabularySuccesFullySoftDeleted= await this.vocabularyRepositoryService.deleteOneRecordById(String(recordTosoftDelete.vocabulary.id));
         } else {
             throw new MaterialNotFoundExceptionn(id);
         }
-        if (softDeletedRecord && softDeletedRecord.softDeleteDate) {
+        if (softDeletedRecord && softDeletedRecord.softDeleteDate && vocabularySuccesFullySoftDeleted) {
             return true;
         } else {
             return false;

@@ -28,7 +28,8 @@ import Material from "../Materials/material.entity";
     @ManyToOne(() => DimensionCode, (dimensionCode: DimensionCode) => dimensionCode.localizedDimensionNames)
     material: Material;
 */
-
+  @Column({nullable: true})
+  softDeleteDate?:Date;
     constructor(language: Language | any, nameInThisLanguage: string) {
         this.language = language;
         this.nameInThisLanguage = nameInThisLanguage;

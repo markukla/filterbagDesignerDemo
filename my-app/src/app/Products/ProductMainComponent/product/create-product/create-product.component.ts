@@ -354,7 +354,7 @@ export class CreateProductComponent implements OnInit, AfterContentChecked, Afte
   returnProductTypeWithTopsOfProductTypeAndBottomOfProductTypeSet(): ProductType {
     let topsOfProductType: ProductTop[];
     if (this.type.value.tops.length > 0) {
-      topsOfProductType = this.type.value.topsForThisProductType;
+      topsOfProductType = this.type.value.tops;
     } else {
       topsOfProductType = [];
     }
@@ -362,7 +362,7 @@ export class CreateProductComponent implements OnInit, AfterContentChecked, Afte
 
     let bottomsOfProductTYpe: ProductBottom[];
     if (this.type.value.bottoms.length > 0) {
-      bottomsOfProductTYpe = this.type.value.bottomsForThisProductType;
+      bottomsOfProductTYpe = this.type.value.bottoms;
     } else {
       bottomsOfProductTYpe = [];
 
