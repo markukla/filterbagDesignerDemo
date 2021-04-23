@@ -30,15 +30,15 @@ export class SortDirective {
 
     if (order === 'desc') {
       this.appSort.sort(sort.startSort(property, order, type));
-      this.appSort.forEach((el) => {
-        console.log(el);
-      });
+      elem.classList.add('sortedDescending');
+      elem.classList.remove('sortedAscending');
+
       elem.setAttribute('data-order', 'asc');
     } else {
       this.appSort.sort(sort.startSort(property, order, type));
-      this.appSort.forEach((el) => {
-        console.log(el);
-      });
+      elem.classList.add('sortedAscending');
+      elem.classList.remove('sortedDescending');
+
       elem.setAttribute('data-order', 'desc');
     }
 
