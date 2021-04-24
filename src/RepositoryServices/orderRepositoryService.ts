@@ -157,6 +157,7 @@ const orderVersionRegister = new OrderVersionRegister(createOrderDto.orderNumber
            throw new OrderNotFoundException(currentOrderId);
        }
        const orderRegisterToDeleteId=currentOrder.register.id;
+       console.log(`currentOrder.register.id=${currentOrder.register.id}`);
        // other query is required to obtain orders in this OrderRegister, it cannot be done by currentOrder.orderVersionRegister.orders due to eager limitations
        const orderRegisterToDeleteObtainedWithDiffrentQuery=await this.manager.findOne(OrderVersionRegister,orderRegisterToDeleteId,{relations:["orders"]})
        const ordersOfOrderRegsterTODelete=orderRegisterToDeleteObtainedWithDiffrentQuery.orders;

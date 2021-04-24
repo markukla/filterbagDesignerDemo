@@ -48,7 +48,7 @@ class Order {
     @ManyToOne(() => User, (creator: User) => creator.orderCreatedByUser, {eager: true})
     creator: User
 
-@ManyToOne(()=>OrderVersionRegister,(orderVersionRegister:OrderVersionRegister)=>orderVersionRegister.orders,{cascade:true})
+@ManyToOne(()=>OrderVersionRegister,(orderVersionRegister:OrderVersionRegister)=>orderVersionRegister.orders,{cascade:true, eager:true})
     register:OrderVersionRegister;
 
 

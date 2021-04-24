@@ -16,6 +16,7 @@ export class SortDirective {
   @HostListener('click')
   // tslint:disable-next-line:typedef
   sortData() {
+    this.removeSortedAscendingDescendingFromAllTabelThElements();
     console.log('in sort directive');
 
     const sort = new Sort();
@@ -43,5 +44,11 @@ export class SortDirective {
     }
 
   }
+  removeSortedAscendingDescendingFromAllTabelThElements() {
+    document.querySelectorAll('th').forEach((thElement)=>{
+      thElement.classList.remove('sortedAscending', 'sortedDescending');
+    });
+  }
+
 
 }
