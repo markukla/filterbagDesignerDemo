@@ -8,7 +8,7 @@ class MaterialNotFoundExceptionn extends HttpException{
             super(404,`Material with id ${id} not found`);
         }
        else if(materialCode){
-            super(404,`Material with materialCode= ${materialCode} not found`);
+            super(404,`Material with code= ${materialCode} not found`);
         }
         else if(materialName){
             super(404,`Material with materialName= ${materialName} not found`);

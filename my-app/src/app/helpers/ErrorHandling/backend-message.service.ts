@@ -33,7 +33,13 @@ export class BackendMessageService {
     }
 
     const errorToExpect = 'already exist'.toUpperCase();
-    if (errorMessage&&errorMessage.includes(errorToExpect)) {
+    if(errorMessage&&errorMessage.includes('code'.toUpperCase())){
+      return this.generalErrorMessageForCreate + ' ' + this.otherRecordWithThisCodeAlreadyExist;
+    }
+    else if(errorMessage&&errorMessage.includes('name'.toUpperCase())){
+      return this.generalErrorMessageForCreate + ' ' + this.otherRecordWithThisNameAlreadyExist;
+    }
+   else if (errorMessage&&errorMessage.includes(errorToExpect)) {
       console.log(errorMessage);
       return this.generalErrorMessageForCreate + ' ' + this.otherRecordAlreadyExist;
     } else {
@@ -47,8 +53,15 @@ export class BackendMessageService {
        errorMessage = error.error.message.toUpperCase();
     }
 
+
     const errorToExpect = 'already exist'.toUpperCase();
-    if (errorMessage&&errorMessage.includes(errorToExpect)) {
+    if(errorMessage&&errorMessage.includes('code'.toUpperCase())){
+      return this.generalErrorMessageForUpdate+ ' ' + this.otherRecordWithThisCodeAlreadyExist;
+    }
+    else if(errorMessage&&errorMessage.includes('name'.toUpperCase())){
+      return this.generalErrorMessageForUpdate + ' ' + this.otherRecordWithThisNameAlreadyExist;
+    }
+    else if (errorMessage&&errorMessage.includes(errorToExpect)) {
       console.log(`error.error.message = ${error.error.message}`);
       return this.generalErrorMessageForUpdate + ' '+ this.otherRecordAlreadyExist;
     } else {
@@ -80,7 +93,8 @@ export class BackendMessageService {
     this.generalSuccessMessageForCreate = this.generalNamesInSelectedLanguage.operationAddSuccessStatusMessage;
     this.generalSuccessMessageForUpdate = this.generalNamesInSelectedLanguage.operationUpdateSuccessStatusMessage;
     this.generalErrorMessageForUpdate = this.generalNamesInSelectedLanguage.operationUpdateFailerStatusMessage;
-
+    this.otherRecordWithThisCodeAlreadyExist = this.generalNamesInSelectedLanguage.otherRecordWithThisCodeAlreadyExist;
+    this.otherRecordWithThisNameAlreadyExist= this.generalNamesInSelectedLanguage.otherRecordWithThisNameAlreadyExist;
   }
 
 }

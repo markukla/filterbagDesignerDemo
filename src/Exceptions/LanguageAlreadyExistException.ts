@@ -4,7 +4,7 @@ class LanguageAlreadyExistException extends HttpException {
     constructor(languageCode: string) {
 
         if(languageCode){
-            super(400, `Language with LanguageCOde= ${languageCode} already exists`);
+            super(400, `Language with code= ${languageCode} already exists`);
         }
 
 

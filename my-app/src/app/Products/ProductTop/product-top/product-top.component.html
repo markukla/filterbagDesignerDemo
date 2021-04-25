@@ -1,7 +1,7 @@
 
 <!--sss-->
 
-<div>
+<div *ngIf="!productTypeId">
 
 
   <a  (click)="createNewRecord()">
@@ -36,13 +36,10 @@
     <tr *ngFor="let record of records">
       <td>{{record.code}}</td>
       <td>{{record.localizedNameInSelectedLanguage}}</td>
-      <td>
-        <text *ngIf="deleTedMaterialMessage">{{deleTedMaterialMessage}}</text>
-        <br>
+      <td *ngIf="!productTypeId">
         <button (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(record.id)" [title]="generalNamesInSelectedLanguage.deleteButtonInfo" >x</button>
         <button (click)="updateSelectedRecord(record.id);" [title]="generalNamesInSelectedLanguage.updateButtonInfo">u</button>
       </td>
-
     </tr>
     </tbody>
   </table>

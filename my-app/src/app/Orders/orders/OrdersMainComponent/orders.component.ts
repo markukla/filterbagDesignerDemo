@@ -1,28 +1,23 @@
-import {AfterContentChecked, Component, HostListener, Input, OnInit} from '@angular/core';
+import {AfterContentChecked, Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthenticationService} from '../../../LoginandLogOut/AuthenticationServices/authentication.service';
 import RoleEnum from '../../../Users/users/userTypes/roleEnum';
 import {OrderBackendService} from '../OrderServices/order-backend.service';
-import {OrderTableService} from '../OrderServices/order-table.service';
 import OrderforTableCell from '../../OrdersTypesAndClasses/orderforTableCell';
 import OrderOperationMode from '../../OrdersTypesAndClasses/orderOperationMode';
-import {BusinessPartnerTableService} from '../../../BusinessPartners/business-partners/BusinessPartnerServices/business-partner-table.service';
 import Order from '../../OrdersTypesAndClasses/orderEntity';
 import {BusinesPartnerBackendService} from '../../../BusinessPartners/business-partners/BusinessPartnerServices/busines-partner-backend.service';
 import {GeneralTableService} from '../../../util/GeneralTableService/general-table.service';
 import {SearchService} from '../../../helpers/directive/SearchDirective/search.service';
 import {ProductMiniatureService} from '../productMiniature/productMiniatureService/product-miniature.service';
 import {OperationStatusServiceService} from '../../../OperationStatusComponent/operation-status/operation-status-service.service';
-import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
 import {
-  generalNamesInSelectedLanguage, generalUserNames,
+  generalNamesInSelectedLanguage,
+  generalUserNames,
   orderNames
 } from '../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription';
-import User from "../../../Users/users/userTypes/user";
 import {Pagninator} from "../../../helpers/Paginator/paginator";
 import {ProductBackendService} from "../../../Products/ProductMainComponent/product/ProductServices/product-backend.service";
-import {Observable} from "rxjs";
-import {HttpResponse} from "@angular/common/http";
 import {Sort} from "../../../util/sort";
 
 @Component({
@@ -229,5 +224,14 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
   sortOrder(notSorted: OrderforTableCell[]):void {
     const sort = new Sort();
     notSorted.sort(sort.startSort('date', 'desc', 'date'));
+  }
+
+  checkIfAdminRole():boolean {
+    if(this.authenticationService.userRole === RoleEnum.ADMIN) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 }

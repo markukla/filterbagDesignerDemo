@@ -33,7 +33,7 @@ class BusinessPartnerController implements Controller{
         this.router.delete(`${this.path}/:id`,authMiddleware,editorAuthorizationMiddleware, this.deleteOnePartnerById);
         this.router.patch(`${this.path}/:id/changePassword`,authMiddleware,editorAuthorizationMiddleware, validationMiddleware(CHangePasswordByAdminDto, true), this.changePasswordByEditor);
         this.router.patch(`${this.path}/:id/blockOrUnblock`,authMiddleware,editorAuthorizationMiddleware, validationMiddleware(CHangePasswordByAdminDto, true), this.blockOrUnblockUser)
-        this.router.post(this.path,validationMiddleware(CreateBusinessPartnerDto), this.registration);
+        this.router.post(this.path,authMiddleware, editorAuthorizationMiddleware, validationMiddleware(CreateBusinessPartnerDto), this.registration);
         this.router.get(`${this.path}/emails/:email`,authMiddleware,editorAuthorizationMiddleware, this.isEmailTaken)
         this.router.get(`${this.path}/:id/emails/:email`,authMiddleware,editorAuthorizationMiddleware, this.isEmailTakenByOtherUser)
     }

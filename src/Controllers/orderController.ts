@@ -44,15 +44,15 @@ class OrderController implements Controller {
         this.router.get(`${this.path}/currents`, authMiddleware, this.getAllCurentVersionOfOrders);
         this.router.post(this.path, authMiddleware, validationMiddleware(CreateOrderDto), this.addNewOrder)
         this.router.post(`${this.path}/currents/:id/newVersion`, authMiddleware, this.addNewVersionOfOrder);
-        this.router.delete(`${this.path}/currents/:id`, this.removeCurrentOrderAndVersionRegister); // auth middleware removed to make puppeter work
+        this.router.delete(`${this.path}/currents/:id`, authMiddleware, adminAuthorizationMiddleware, this.removeCurrentOrderAndVersionRegister);
         this.router.get(`${this.path}/currents/businessPartner/:partnerCode`, authMiddleware, this.findAllCurentVerionsOfOrderForGivenPartnerCode);
         this.router.get(`${this.path}/currents/businessPartner/:id`, authMiddleware, this.findAllCurentVerionsOfOrderForGivenPartneId);
-        this.router.get(`${this.path}/:id`, /*authMiddleware,*/ this.getOneOrderById);
+        this.router.get(`${this.path}/:id`, authMiddleware, this.getOneOrderById);
         this.router.get(`${this.path}/orderVersionRegister/:id`, authMiddleware, this.findOrderVersionRegisterById);
         this.router.get(`${this.path}/orderNumber/newest`, authMiddleware, this.getOrderNumberForNewOrder);
         this.router.post(`/api/drawing/save/pdf`, authMiddleware, this.usePuppetearToObtainDrawingPdf)
 
-        //remeber to add authentication admin authorization middleware after tests
+
 
 
     }

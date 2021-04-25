@@ -7,7 +7,7 @@ class MaterialAlreadyExistsException extends HttpException {
             super(400,`Material with materialName=${materialName} and material code=${materialCode} already exists`);
         }
         else if(materialCode){
-            super(400, `Material with materialCode= ${materialCode} already exists`);
+            super(400, `Material with code= ${materialCode} already exists`);
         }
         else if(materialName){
             super(400, `Material with materialName=${materialName} already exists`);

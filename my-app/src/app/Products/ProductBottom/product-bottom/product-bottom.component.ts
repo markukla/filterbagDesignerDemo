@@ -35,7 +35,6 @@ export class ProductBottomComponent implements OnInit, AfterContentChecked {
   records: ProductBottomForTableCell[];
   createNewMaterialDescription = 'Dodaj Nowy';
   // tslint:disable-next-line:ban-types
-  deleTedMaterialMessage: any;
   operationStatusMessage: string;
   deleteButtonInfo: string;
   updateButtonInfo;
