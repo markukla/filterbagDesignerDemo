@@ -125,13 +125,13 @@ export class TableFormServiceService {
 
   public setOrderName(): void {
     if (this.Dvalue && this.Lvalue) {
-      this.orderName = `${this.productTypeName}  ${this.Dvalue}  x  ${this.Lvalue} mm ${this.materialCode}`;
+      this.orderName = `${this.productTypeName}  ${this.Dvalue}x${this.Lvalue}mm ${this.materialCode}`;
     } else if (this.Dvalue && !this.Lvalue) {
-      this.orderName = `${this.productTypeName}  ${this.Dvalue}  x  0 mm ${this.materialCode}`;
+      this.orderName = `${this.productTypeName}  ${this.Dvalue}x0mm ${this.materialCode}`;
     } else if (!this.Dvalue && this.Lvalue) {
-      this.orderName = `${this.productTypeName}  0  x  ${this.Lvalue} mm ${this.materialCode}`;
+      this.orderName = `${this.productTypeName} 0x${this.Lvalue}mm ${this.materialCode}`;
     } else {
-      this.orderName = `${this.productTypeName}  0  x  0 mm ${this.materialCode}`;
+      this.orderName = `${this.productTypeName}  0x0mm ${this.materialCode}`;
     }
   }
 public setPartialOrderName(): string{
@@ -272,7 +272,7 @@ public setPartialOrderName(): string{
   }
 
   setMaterialInformation():string{
-    return this.materialName+' '+ this.materialCode+' '+ this.materialDescriptionInSelectedLanguage;
+    return this.materialName+' '+this.materialDescriptionInSelectedLanguage;
   }
   setDimensionCodesFromSessionStorage():void{
     this.allSecondIndexDimnesions= JSON.parse(sessionStorage.getItem('allSecondIndexDimnesions'));
