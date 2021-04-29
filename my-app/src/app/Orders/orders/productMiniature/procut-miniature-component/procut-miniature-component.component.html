@@ -5,9 +5,9 @@
 <div id="drawingAndDescriptionContainer" *ngFor="let product of products" (click)="selectProductAndNavigateBack(product)">
 
 
-  <p> {{ this.orderNames.productType+ ': '+product.productType.code + ' - '+ getNameInSelectedLanguage(product.productType.localizedNames)}}</p>
-  <p>{{ this.orderNames.productTop+ ': '+  product.productTop.code +' - '+ getNameInSelectedLanguage(product.productTop.localizedNames)}}</p>
-  <p>{{this.orderNames.productBottom+ ': '+product.productBottom.code + ' - '+ getNameInSelectedLanguage(product.productBottom.localizedNames)}}</p>
+  <p> {{ this.orderNames.productType+ ': '+product.productType.code + ' - '+ getNameInSelectedLanguage(product.productType.vocabulary.localizedNames)}}</p>
+  <p>{{ this.orderNames.productTop+ ': '+  product.productTop.code +' - '+ getNameInSelectedLanguage(product.productTop.vocabulary.localizedNames)}}</p>
+  <p>{{this.orderNames.productBottom+ ': '+product.productBottom.code + ' - '+ getNameInSelectedLanguage(product.productBottom.vocabulary.localizedNames)}}</p>
 
   <img id="productMiniature" [src]="getDrawingUrl(product)" >
 </div>
