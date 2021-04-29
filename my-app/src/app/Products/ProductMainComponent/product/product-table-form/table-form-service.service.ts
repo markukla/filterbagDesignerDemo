@@ -137,13 +137,13 @@ export class TableFormServiceService {
 public setPartialOrderName(): string{
     let partialOrderName: string;
   if (this.Dvalue && this.Lvalue) {
-    partialOrderName= `${this.Dvalue}  x  ${this.Lvalue} mm ${this.materialCode}`;
+    partialOrderName= `${this.Dvalue}x${this.Lvalue}mm ${this.materialCode}`;
   } else if (this.Dvalue && !this.Lvalue) {
-    partialOrderName = `${this.Dvalue}  x  0 mm ${this.materialCode}`;
+    partialOrderName = `${this.Dvalue}x0mm ${this.materialCode}`;
   } else if (!this.Dvalue && this.Lvalue) {
-    partialOrderName = `0  x  ${this.Lvalue} mm ${this.materialCode}`;
+    partialOrderName = `0x${this.Lvalue}mm ${this.materialCode}`;
   } else {
-    partialOrderName = `0  x  0 mm ${this.materialCode}`;
+    partialOrderName = `0x0mm ${this.materialCode}`;
   }
   return partialOrderName;
 
