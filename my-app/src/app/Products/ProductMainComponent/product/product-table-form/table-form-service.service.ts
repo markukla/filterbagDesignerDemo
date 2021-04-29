@@ -35,6 +35,7 @@ export class TableFormServiceService {
   allSecondIndexDimnesions: string[];
   allIndexDimenssions: LocalizedDimensionCode[];
   commentToOrder: string;
+  indexVersionLetter: string;
 
 
 
@@ -70,25 +71,23 @@ export class TableFormServiceService {
     this.setMaterialPartialCodeForIndex();
     this.setFirstIndexDimension();
     this.setSecondIndexDimension();
-    this.index = `W${this.productTypeCode + this.productTopCode + this.productBottomCode + this.materialPartialCodeForIndex + this.firstIndexDimension + this.secondIndexDimension}`;
+    this.index = `W${this.productTypeCode + this.productTopCode + this.productBottomCode + this.materialPartialCodeForIndex +this.indexVersionLetter+ this.firstIndexDimension + this.secondIndexDimension}`;
   }
 
   private setFirstIndexDimension(): void {
     if (this.Dvalue) {
-      if (this.Dvalue.length === 4) {
-        this.firstIndexDimension = `0${this.Dvalue}`;
-      }
+
       if (this.Dvalue.length === 3) {
-        this.firstIndexDimension = `00${this.Dvalue}`;
+        this.firstIndexDimension = `${this.Dvalue}`;
       }
       if (this.Dvalue.length === 2) {
-        this.firstIndexDimension = `000${this.Dvalue}`;
+        this.firstIndexDimension = `0${this.Dvalue}`;
       }
       if (this.Dvalue.length === 1) {
-        this.firstIndexDimension = `0000${this.Dvalue}`;
+        this.firstIndexDimension = `00${this.Dvalue}`;
       }
     } else {
-      this.firstIndexDimension = `00000`;
+      this.firstIndexDimension = `000`;
     }
   }
 
@@ -203,6 +202,7 @@ public setPartialOrderName(): string{
       this.productTypeCode = createProductDto.productType.code;
       this.productBottomCode = createProductDto.productBottom.code;
       this.productTopCode = createProductDto.productTop.code;
+      this.indexVersionLetter = 'A';
     }
       else {
       this.productTypeName = '';
@@ -233,6 +233,12 @@ public setPartialOrderName(): string{
       this.index = createOrderDto.index;
     } else {
       this.buildIndex();
+    }
+    if(createOrderDto && createOrderDto.indexVersionLetter){
+      this.indexVersionLetter= createOrderDto.indexVersionLetter;
+    }
+    else {
+      this.indexVersionLetter='A';
     }
 
     this.setOrderName();

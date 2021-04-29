@@ -240,8 +240,42 @@ const registerToUpdate:OrderVersionRegister= currentOrder.register;
 
     }
 
+    public async setNewIndexWithNewVersionLetterForDubledOrdersWithDiffrentOrderNumber(createOrderDto: CreateOrderDto): Promise<string> {
+
+        const partOfIndexBeforeVersionLetter= createOrderDto.index.substring(0,10);
+        const partOfIndexAfterVersionLetter= createOrderDto.index.substring(12);
+        let updatedIndexToReturn: string;
+
+        const orders: Order[]= await getConnection().createQueryBuilder(Order,'order')
 
 
+            .orderBy("orders.index","ASC")
+            .where("order.index like :partBefore and order.index like: partAfter", {partBefore:partOfIndexBeforeVersionLetter, partAfter:partOfIndexAfterVersionLetter})
+            .getMany();
+        if(orders.length>0){
+            // more than one same index, so VersionLetterNeedToBeIncremented if differs by order Number
+
+            const lastElementOfOrdersWithSameIndexSortedByIndex=orders[orders.length-1];
+            if(createOrderDto.orderNumber!==lastElementOfOrdersWithSameIndexSortedByIndex.orderNumber){
+                const incrementedSpecialLetter =this.nextChar(lastElementOfOrdersWithSameIndexSortedByIndex.index[11]);
+                updatedIndexToReturn = partOfIndexBeforeVersionLetter+incrementedSpecialLetter+partOfIndexAfterVersionLetter;
+            }
+            else {
+                updatedIndexToReturn= createOrderDto.index;
+            }
+        }
+        else {
+            updatedIndexToReturn= createOrderDto.index
+        }
+
+        return updatedIndexToReturn
+
+    }
+
+
+    public nextChar(c: string) {
+        return String.fromCharCode(c.charCodeAt(0) + 1);
+    }
 
 
 }

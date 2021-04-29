@@ -43,6 +43,7 @@ class OrderController implements Controller {
         this.router.get(this.path, authMiddleware, this.getAllOrders);
         this.router.get(`${this.path}/currents`, authMiddleware, this.getAllCurentVersionOfOrders);
         this.router.post(this.path, authMiddleware, validationMiddleware(CreateOrderDto), this.addNewOrder)
+        this.router.post(`${this.path}/indexValidation`,authMiddleware, this.validateIndexVersionAndReturnCorrectedIndex)
         this.router.post(`${this.path}/currents/:id/newVersion`, authMiddleware, this.addNewVersionOfOrder);
         this.router.delete(`${this.path}/currents/:id`, authMiddleware, adminAuthorizationMiddleware, this.removeCurrentOrderAndVersionRegister);
         this.router.get(`${this.path}/currents/businessPartner/:partnerCode`, authMiddleware, this.findAllCurentVerionsOfOrderForGivenPartnerCode);
@@ -280,6 +281,18 @@ class OrderController implements Controller {
 
         await browser.close();
         return pdf
+
+    }
+
+    private validateIndexVersionAndReturnCorrectedIndex = async (request: express.Request, response: express.Response, next: express.NextFunction)=>{
+        let newVersionOfIndex: string;
+        try{
+            newVersionOfIndex = await this.service.setNewIndexWithNewVersionLetterForDubledOrdersWithDiffrentOrderNumber(request.body);
+       response.send(newVersionOfIndex);
+        }
+        catch (error){
+            next(error);
+        }
 
     }
 }

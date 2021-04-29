@@ -87,6 +87,11 @@ export class OrderBackendService {
     const getUrl = `${this.rootURL + this.endpointUrl}/orderVersionRegister/${id}`;
     return this.http.get<OrderVersionRegister>(getUrl, {observe: 'response'} );
   }
+  validateIndexVersion(createOrderDto: CreateOrderDto): Observable<HttpResponse<string>> {
+    const postUrl = `${this.rootURL + this.endpointUrl}/indexValidation`;
+    return this.http.post<string>(postUrl,createOrderDto, {observe: 'response'} );
+  }
+
   getDrawingPdf(selectedDrawingUrl: string): Observable<any> {
     const getUrl =`${this.rootURL}/api/drawing/save/pdf`;
     console.log(`getUrl = ${getUrl} `);
@@ -107,6 +112,7 @@ export class OrderBackendService {
       index: order.index,
       productMaterial: order.productMaterial,
       addMaterialDescription: order.addMaterialDescription,
+      indexVersionLetter: order.index[11],
 
     };
     return createOrderDto;
