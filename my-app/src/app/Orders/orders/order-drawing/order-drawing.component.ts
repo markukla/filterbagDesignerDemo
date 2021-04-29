@@ -524,7 +524,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
           this.tableFormService.setOrderName();
         }
         if (this.firstIndexDimensions.includes(valueOfEventTargetId)) {
-          const maxLength = 4;
+          const maxLength = 3;
           if (event.target.innerHTML.length > maxLength) {
             event.target.innerHTML = event.target.innerHTML.slice(0, maxLength);
           }

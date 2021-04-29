@@ -17,5 +17,5 @@ export class CreateOrderDto {
   orderVersionNumber: string;
   orderTotalNumber: string; // newOrderNumber and version number with some separator
   addMaterialDescription: boolean;
-  indexVersionLetter: string;
+  indexVersionLetter?: string;
 }

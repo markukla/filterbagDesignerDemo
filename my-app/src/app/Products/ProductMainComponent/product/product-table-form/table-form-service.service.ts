@@ -229,17 +229,20 @@ public setPartialOrderName(): string{
         });
       }
     }
-    if (createOrderDto && createOrderDto.index) {
-      this.index = createOrderDto.index;
-    } else {
-      this.buildIndex();
-    }
-    if(createOrderDto && createOrderDto.indexVersionLetter){
+    if(createOrderDto&& createOrderDto.indexVersionLetter){
       this.indexVersionLetter= createOrderDto.indexVersionLetter;
     }
     else {
       this.indexVersionLetter='A';
     }
+    if (createOrderDto && createOrderDto.index) {
+      this.index = createOrderDto.index;
+
+    } else {
+
+      this.buildIndex();
+    }
+
 
     this.setOrderName();
   }

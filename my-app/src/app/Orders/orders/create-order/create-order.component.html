@@ -2,7 +2,7 @@
   <button id="close button" class="closeButton" (click)="closeAndGoBack() " [title]='generalNamesInSelectedLanguage.closeButtonDescription'>x</button>
   <h2>{{createOrUpdateFormTitle}}</h2>
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <form [formGroup]="form" (ngSubmit)=" onSubmit()">
     <div *ngIf="!updateModeOrPartnerLogged">
       <div *ngIf="partnerConfirmed">
         <p>

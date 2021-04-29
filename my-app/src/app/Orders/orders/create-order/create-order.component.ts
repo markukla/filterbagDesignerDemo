@@ -457,7 +457,7 @@ get productMaterial() {
 
   }
 
-onSubmit(): void {
+  onSubmit():void {
     // tslint:disable-next-line:max-line-length
     if (this.orderOperationMode === OrderOperationMode.CREATENEW) {
       let partnerToCreateOrderDto: User;
@@ -503,9 +503,17 @@ onSubmit(): void {
       // tslint:disable-next-line:max-line-length
     } else if (this.orderOperationMode === OrderOperationMode.CONFIRMNEW) {
       if (this.productHasBeenChanged === false) {
-
-        this.createOrderDto = this.updateCreateOrderDto(this.createOrderDto);
+        /*
+        *  this.createOrderDto = this.updateCreateOrderDto(this.createOrderDto);
+        const validatedIndex= await this.validateIndex(this.createOrderDto);
+        if(validatedIndex){
+          console.log('Validated Index is differ than null;')
+          this.createOrderDto.index=validatedIndex;
+          this.createOrderDto.indexVersionLetter=validatedIndex[10];
+          this.updateCreateOrderDto(this.createOrderDto);
+        }
         this.backendService.createOrderDtoForConfirmUpdateShowDrawing = this.createOrderDto;
+
         this.backendService.addRecords(this.createOrderDto).subscribe((order) => {
             this.operationSuccessStatusMessage = orderNames.orderAddSuccess;
             navigateToUrlAfterTimout('/orders?pageNumber=1', this.router);
@@ -513,11 +521,14 @@ onSubmit(): void {
           error => {
             this.operationFailerStatusMessage = orderNames.orderAddFailer;
 
-          });
+          });*/
+        this.validateIndexAndSaveNewOrderInDatabase();
+
       }
     } else if (this.orderOperationMode === OrderOperationMode.UPDATE || this.orderOperationMode === OrderOperationMode.CONFIRMUPDATE) {
 
       if (this.productHasBeenChanged === false) {
+        /*
         const updatedCreateOrderDto = this.updateCreateOrderDto(this.createOrderDto);
         this.createOrderDto = updatedCreateOrderDto;
         this.backendService.updateRecordById(String(this.selctedOrderId), this.createOrderDto).subscribe((order) => {
@@ -528,6 +539,8 @@ onSubmit(): void {
           console.log(error);
           this.operationFailerStatusMessage = orderNames.orderUpdateFailer;
           });
+        * */
+        this.validateIndexAndUpdateOrderInDatabase();
       }
       // tslint:disable-next-line:max-line-length
     } else if (this.orderOperationMode === OrderOperationMode.UPDATEWITHCHANGEDPRODUCT) {
@@ -854,5 +867,60 @@ listenToChangeProductEvent(event: any): void {
     }
   }
 
+async validateIndex(createOrderDto: CreateOrderDto):Promise<string> {
+   const response= await this.backendService.validateIndexVersion(createOrderDto).toPromise();
+   const newIndexOrNull= response.body.newVersionOfIndex;
+   return newIndexOrNull;
+}
 
+validateIndexAndSaveNewOrderInDatabase(): void{
+  this.createOrderDto = this.updateCreateOrderDto(this.createOrderDto);
+  this.backendService.validateIndexVersion(this.createOrderDto).subscribe((response)=>{
+    const newIndexOrNull= response.body.newVersionOfIndex;
+    console.log(`newIndexOrNull=${newIndexOrNull}`);
+    const validatedIndex= newIndexOrNull;
+    if(validatedIndex){
+      console.log('Validated Index is differ than null;')
+      this.createOrderDto.index=validatedIndex;
+      this.createOrderDto.indexVersionLetter=validatedIndex[10];
+      this.updateCreateOrderDto(this.createOrderDto);
+    }
+    this.backendService.createOrderDtoForConfirmUpdateShowDrawing = this.createOrderDto;
+
+    this.backendService.addRecords(this.createOrderDto).subscribe((order) => {
+        this.operationSuccessStatusMessage = orderNames.orderAddSuccess;
+        navigateToUrlAfterTimout('/orders?pageNumber=1', this.router);
+      },
+      error => {
+        this.operationFailerStatusMessage = orderNames.orderAddFailer;
+
+      });
+  });
+
+}
+validateIndexAndUpdateOrderInDatabase():void{
+
+  const updatedCreateOrderDto = this.updateCreateOrderDto(this.createOrderDto);
+  this.createOrderDto = updatedCreateOrderDto;
+  this.backendService.validateIndexVersion(this.createOrderDto).subscribe((response)=>{
+    const newIndexOrNull= response.body.newVersionOfIndex;
+    const validatedIndex= newIndexOrNull;
+    if(validatedIndex){
+      console.log('Validated Index is differ than null;')
+      this.createOrderDto.index=validatedIndex;
+      this.createOrderDto.indexVersionLetter=validatedIndex[10];
+      this.updateCreateOrderDto(this.createOrderDto);
+    }
+
+  this.backendService.updateRecordById(String(this.selctedOrderId), this.createOrderDto).subscribe((order) => {
+      this.operationSuccessStatusMessage = orderNames.orderUpdateSuccess;
+      navigateToUrlAfterTimout('/orders?pageNumber=1', this.router);
+    },
+    error => {
+      console.log(error);
+      this.operationFailerStatusMessage = orderNames.orderUpdateFailer;
+    });
+  });
+
+}
 }

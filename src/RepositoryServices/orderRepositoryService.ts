@@ -242,33 +242,40 @@ const registerToUpdate:OrderVersionRegister= currentOrder.register;
 
     public async setNewIndexWithNewVersionLetterForDubledOrdersWithDiffrentOrderNumber(createOrderDto: CreateOrderDto): Promise<string> {
 
-        const partOfIndexBeforeVersionLetter= createOrderDto.index.substring(0,10);
-        const partOfIndexAfterVersionLetter= createOrderDto.index.substring(12);
+        const partOfIndexBeforeVersionLetter= createOrderDto.index.substring(0,10); //10 is not included
+        const partOfIndexAfterVersionLetter= createOrderDto.index.substring(11);
         let updatedIndexToReturn: string;
 
-        const orders: Order[]= await getConnection().createQueryBuilder(Order,'order')
+        const allorders: Order[]= await getConnection().createQueryBuilder(Order,'order')
 
 
-            .orderBy("orders.index","ASC")
-            .where("order.index like :partBefore and order.index like: partAfter", {partBefore:partOfIndexBeforeVersionLetter, partAfter:partOfIndexAfterVersionLetter})
+            .orderBy("order.index","ASC")
             .getMany();
-        if(orders.length>0){
+        //.where("order.index like :partBefore and order.index like: partAfter", {partBefore:partOfIndexBeforeVersionLetter, partAfter:partOfIndexAfterVersionLetter})
+        console.log(`allorders.length= ${allorders.length}`);
+
+        const ordersWithSameIndex = allorders.filter(x=> x.index.includes(partOfIndexBeforeVersionLetter) && x.index.includes(partOfIndexAfterVersionLetter));
+        console.log(`ordersWithSameIndex.length= ${ordersWithSameIndex.length}`);
+        if(ordersWithSameIndex.length>0){
             // more than one same index, so VersionLetterNeedToBeIncremented if differs by order Number
 
-            const lastElementOfOrdersWithSameIndexSortedByIndex=orders[orders.length-1];
-            if(createOrderDto.orderNumber!==lastElementOfOrdersWithSameIndexSortedByIndex.orderNumber){
-                const incrementedSpecialLetter =this.nextChar(lastElementOfOrdersWithSameIndexSortedByIndex.index[11]);
+            const lastElementOfOrdersWithSameIndexSortedByIndex=ordersWithSameIndex[ordersWithSameIndex.length-1];
+            const changeCondition= ordersWithSameIndex.filter(x=>String(x.orderNumber).includes(String(createOrderDto.orderNumber))).length===0; //no same index and same number in Database
+            if(changeCondition){
+                console.log(`charAt10=${lastElementOfOrdersWithSameIndexSortedByIndex.index.charAt(10)}`);
+                const incrementedSpecialLetter: string =this.nextChar(lastElementOfOrdersWithSameIndexSortedByIndex.index.charAt(10));
+                console.log(`incrementedSpecialLetter=${incrementedSpecialLetter}`);
                 updatedIndexToReturn = partOfIndexBeforeVersionLetter+incrementedSpecialLetter+partOfIndexAfterVersionLetter;
             }
             else {
-                updatedIndexToReturn= createOrderDto.index;
+                updatedIndexToReturn=null;
             }
         }
         else {
-            updatedIndexToReturn= createOrderDto.index
+            updatedIndexToReturn= null;
         }
 
-        return updatedIndexToReturn
+        return updatedIndexToReturn;
 
     }
 

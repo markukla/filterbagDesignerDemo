@@ -285,10 +285,11 @@ class OrderController implements Controller {
     }
 
     private validateIndexVersionAndReturnCorrectedIndex = async (request: express.Request, response: express.Response, next: express.NextFunction)=>{
-        let newVersionOfIndex: string;
+
+       const createOrderDto: CreateOrderDto=request.body;
         try{
-            newVersionOfIndex = await this.service.setNewIndexWithNewVersionLetterForDubledOrdersWithDiffrentOrderNumber(request.body);
-       response.send(newVersionOfIndex);
+            const newVersionOfIndex: string = await this.service.setNewIndexWithNewVersionLetterForDubledOrdersWithDiffrentOrderNumber(createOrderDto);
+       response.send({newVersionOfIndex: newVersionOfIndex});
         }
         catch (error){
             next(error);
