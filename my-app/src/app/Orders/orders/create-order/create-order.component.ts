@@ -4,7 +4,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  HostListener, Input,
+  HostListener,
   OnInit,
   Renderer2,
   ViewChild
@@ -33,10 +33,7 @@ import Product from '../../../Products/ProductTypesAndClasses/product.entity';
 import {TableFormServiceService} from '../../../Products/ProductMainComponent/product/product-table-form/table-form-service.service';
 import OrderDetails from '../../OrdersTypesAndClasses/orderDetail';
 import LocalizedName from '../../../DimensionCodes/DimensionCodesTypesAnClasses/localizedName';
-import {
-  getSelectedLanguageFromNamesInAllLanguages,
-  setTabelColumnAndOtherNamesForSelectedLanguage
-} from '../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage';
+import {getSelectedLanguageFromNamesInAllLanguages} from '../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage';
 import {ProductMiniatureService} from '../productMiniature/productMiniatureService/product-miniature.service';
 import {navigateToUrlAfterTimout} from '../../../helpers/otherGeneralUseFunction/navigateToUrlAfterTimeOut';
 import {
@@ -101,11 +98,12 @@ export class CreateOrderComponent implements OnInit, AfterContentChecked, AfterV
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
   formTitleCreateNewOrUpdate: string;
   createOrUpdateFormTitle: string;
-
-
+  showUserInputErrorWindow: boolean;
+  indexDubledMessages: string[]= [];
 
   // @ViewChild('commentToOrder', {read: ElementRef}) commentToOrder: ElementRef;
   @ViewChild('businessPartner', {read: ElementRef}) htmlselectBusinessPartner: ElementRef<HTMLSelectElement>;
+
   constructor(
     private backendService: OrderBackendService,
     private productMiniatureService: ProductMiniatureService,
@@ -361,6 +359,7 @@ get productMaterial() {
   }
   //addMaterialDescriptiontoDrawingTabel
 
+
   get addMaterialDescriptiontoDrawingTabel() {
     return this.form.get('addMaterialDescriptiontoDrawingTabel');
   }
@@ -503,43 +502,14 @@ get productMaterial() {
       // tslint:disable-next-line:max-line-length
     } else if (this.orderOperationMode === OrderOperationMode.CONFIRMNEW) {
       if (this.productHasBeenChanged === false) {
-        /*
-        *  this.createOrderDto = this.updateCreateOrderDto(this.createOrderDto);
-        const validatedIndex= await this.validateIndex(this.createOrderDto);
-        if(validatedIndex){
-          console.log('Validated Index is differ than null;')
-          this.createOrderDto.index=validatedIndex;
-          this.createOrderDto.indexVersionLetter=validatedIndex[10];
-          this.updateCreateOrderDto(this.createOrderDto);
-        }
-        this.backendService.createOrderDtoForConfirmUpdateShowDrawing = this.createOrderDto;
 
-        this.backendService.addRecords(this.createOrderDto).subscribe((order) => {
-            this.operationSuccessStatusMessage = orderNames.orderAddSuccess;
-            navigateToUrlAfterTimout('/orders?pageNumber=1', this.router);
-          },
-          error => {
-            this.operationFailerStatusMessage = orderNames.orderAddFailer;
-
-          });*/
         this.validateIndexAndSaveNewOrderInDatabase();
 
       }
     } else if (this.orderOperationMode === OrderOperationMode.UPDATE || this.orderOperationMode === OrderOperationMode.CONFIRMUPDATE) {
 
       if (this.productHasBeenChanged === false) {
-        /*
-        const updatedCreateOrderDto = this.updateCreateOrderDto(this.createOrderDto);
-        this.createOrderDto = updatedCreateOrderDto;
-        this.backendService.updateRecordById(String(this.selctedOrderId), this.createOrderDto).subscribe((order) => {
-            this.operationSuccessStatusMessage = orderNames.orderUpdateSuccess;
-            navigateToUrlAfterTimout('/orders?pageNumber=1', this.router);
-          },
-          error => {
-          console.log(error);
-          this.operationFailerStatusMessage = orderNames.orderUpdateFailer;
-          });
-        * */
+
         this.validateIndexAndUpdateOrderInDatabase();
       }
       // tslint:disable-next-line:max-line-length
@@ -867,34 +837,37 @@ listenToChangeProductEvent(event: any): void {
     }
   }
 
-async validateIndex(createOrderDto: CreateOrderDto):Promise<string> {
-   const response= await this.backendService.validateIndexVersion(createOrderDto).toPromise();
-   const newIndexOrNull= response.body.newVersionOfIndex;
-   return newIndexOrNull;
-}
 
 validateIndexAndSaveNewOrderInDatabase(): void{
   this.createOrderDto = this.updateCreateOrderDto(this.createOrderDto);
+  const oldIndex= this.createOrderDto.index;
   this.backendService.validateIndexVersion(this.createOrderDto).subscribe((response)=>{
     const newIndexOrNull= response.body.newVersionOfIndex;
     console.log(`newIndexOrNull=${newIndexOrNull}`);
     const validatedIndex= newIndexOrNull;
     if(validatedIndex){
+
       console.log('Validated Index is differ than null;')
       this.createOrderDto.index=validatedIndex;
       this.createOrderDto.indexVersionLetter=validatedIndex[10];
-      this.updateCreateOrderDto(this.createOrderDto);
+      this.createOrderDto=this.updateCreateOrderDto(this.createOrderDto);
+      const indexDubledMessage=`Index: ${oldIndex} już istnieje dla innego numeru zamówienia`;
+      const indexWithNewVersionNumberCreated=`Zostanie utworzony indeks z kolejną literą w alfabecie jako oznaczeniem wersji ${validatedIndex}`
+      this.indexDubledMessages.push(indexDubledMessage, indexWithNewVersionNumberCreated);
+      this.showUserInputErrorWindow= true;
     }
     this.backendService.createOrderDtoForConfirmUpdateShowDrawing = this.createOrderDto;
+    if(!validatedIndex) {
+      this.backendService.addRecords(this.createOrderDto).subscribe((order) => {
+          this.operationSuccessStatusMessage = orderNames.orderAddSuccess;
+          navigateToUrlAfterTimout('/orders?pageNumber=1', this.router);
+        },
+        error => {
+          this.operationFailerStatusMessage = orderNames.orderAddFailer;
 
-    this.backendService.addRecords(this.createOrderDto).subscribe((order) => {
-        this.operationSuccessStatusMessage = orderNames.orderAddSuccess;
-        navigateToUrlAfterTimout('/orders?pageNumber=1', this.router);
-      },
-      error => {
-        this.operationFailerStatusMessage = orderNames.orderAddFailer;
+        });
+    }
 
-      });
   });
 
 }
@@ -902,6 +875,7 @@ validateIndexAndUpdateOrderInDatabase():void{
 
   const updatedCreateOrderDto = this.updateCreateOrderDto(this.createOrderDto);
   this.createOrderDto = updatedCreateOrderDto;
+  const oldIndex= this.createOrderDto.index;
   this.backendService.validateIndexVersion(this.createOrderDto).subscribe((response)=>{
     const newIndexOrNull= response.body.newVersionOfIndex;
     const validatedIndex= newIndexOrNull;
@@ -909,9 +883,13 @@ validateIndexAndUpdateOrderInDatabase():void{
       console.log('Validated Index is differ than null;')
       this.createOrderDto.index=validatedIndex;
       this.createOrderDto.indexVersionLetter=validatedIndex[10];
-      this.updateCreateOrderDto(this.createOrderDto);
+      this.createOrderDto=this.updateCreateOrderDto(this.createOrderDto);
+      const indexDubledMessage=`Index: ${oldIndex} już istnieje dla innego numeru zamówienia`;
+      const indexWithNewVersionNumberCreated=`Zostanie utworzony indeks z kolejną literą w alfabecie jako oznaczeniem wersji ${validatedIndex}`
+      this.indexDubledMessages.push(indexDubledMessage, indexWithNewVersionNumberCreated);
+      this.showUserInputErrorWindow= true;
     }
-
+if(!validatedIndex) {
   this.backendService.updateRecordById(String(this.selctedOrderId), this.createOrderDto).subscribe((order) => {
       this.operationSuccessStatusMessage = orderNames.orderUpdateSuccess;
       navigateToUrlAfterTimout('/orders?pageNumber=1', this.router);
@@ -920,7 +898,23 @@ validateIndexAndUpdateOrderInDatabase():void{
       console.log(error);
       this.operationFailerStatusMessage = orderNames.orderUpdateFailer;
     });
+}
+
   });
 
 }
+
+  confirmIndexDubledMessage(confirmed: boolean) {
+    if(confirmed) {
+      this.showUserInputErrorWindow=false;
+      this.indexDubledMessages = [];
+      if(this.orderOperationMode=== OrderOperationMode.CONFIRMNEW){
+        this.validateIndexAndSaveNewOrderInDatabase();
+      }
+    }
+    else if(this.orderOperationMode=== OrderOperationMode.UPDATE || this.orderOperationMode===OrderOperationMode.CONFIRMUPDATE) {
+      this.validateIndexAndUpdateOrderInDatabase();
+    }
+
+  }
 }

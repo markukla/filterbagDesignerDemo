@@ -1,6 +1,9 @@
 <div class="createOrUpdateOrder">
   <button id="close button" class="closeButton" (click)="closeAndGoBack() " [title]='generalNamesInSelectedLanguage.closeButtonDescription'>x</button>
   <h2>{{createOrUpdateFormTitle}}</h2>
+  <div *ngIf="this.showUserInputErrorWindow === true" id="validateUserInputsErrorsContainer">
+    <app-validation-error-message [userInputErrorsMessages]="indexDubledMessages" (confirmButtonClickedEvent)="confirmIndexDubledMessage($event)"></app-validation-error-message>
+  </div>
 
   <form [formGroup]="form" (ngSubmit)=" onSubmit()">
     <div *ngIf="!updateModeOrPartnerLogged">

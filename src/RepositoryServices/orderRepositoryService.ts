@@ -260,7 +260,7 @@ const registerToUpdate:OrderVersionRegister= currentOrder.register;
             // more than one same index, so VersionLetterNeedToBeIncremented if differs by order Number
 
             const lastElementOfOrdersWithSameIndexSortedByIndex=ordersWithSameIndex[ordersWithSameIndex.length-1];
-            const changeCondition= ordersWithSameIndex.filter(x=>String(x.orderNumber).includes(String(createOrderDto.orderNumber))).length===0; //no same index and same number in Database
+            const changeCondition= ordersWithSameIndex.filter(x=>String(x.orderNumber).includes(String(createOrderDto.orderNumber))).length===0 && ordersWithSameIndex.filter(x=>x.index.includes(createOrderDto.index)).length>0 ; //no same index and same number in Database
             if(changeCondition){
                 console.log(`charAt10=${lastElementOfOrdersWithSameIndexSortedByIndex.index.charAt(10)}`);
                 const incrementedSpecialLetter: string =this.nextChar(lastElementOfOrdersWithSameIndexSortedByIndex.index.charAt(10));
