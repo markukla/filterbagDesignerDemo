@@ -61,16 +61,6 @@
   background-repeat: no-repeat;
 }
 
-#validateUserInputsErrorsContainer {
-  position: absolute;
-  z-index: 1000;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  border: 2px solid darkred;
-  padding: 10px;
-  background-color: lightgray;
-}
 
 .dimensionInputContainer {
   position: absolute;

@@ -1126,6 +1126,26 @@ const orderName79: Vocabulary = {
 initialVocabularyForDatabase.push(orderName79);
 
 
+const orderName80: Vocabulary = {
+    variableName: 'indexAlreadyExistsForOtherOrderNumber',
+    localizedNames: [new LocalizedName({id:1}, 'Utworzony indeks już istnieje dla innego numeru zamówienia'), new LocalizedName({id:2}, '{id:2} ....')]
+}
+initialVocabularyForDatabase.push(orderName80);
+
+const orderName81: Vocabulary = {
+    variableName: 'canNotCreateOrderZLetterReached',
+    localizedNames: [new LocalizedName({id:1}, 'Nie można utworzyć nowego zapytania- nie można utworzyć nowej wersji indeksu, osiągnięto maksymalne oznaczenie wersji indeksu Z'), new LocalizedName({id:2}, '{id:2} ....')]
+}
+initialVocabularyForDatabase.push(orderName81);
+
+const orderName82: Vocabulary = {
+    variableName: 'newIndexWillBeCreatedWithNextVersionLetter',
+    localizedNames: [new LocalizedName({id:1}, 'Zostanie utworzony inny indeks z kolejną dostępną literą w alfabecie jako oznaczeniem wersji:'), new LocalizedName({id:2}, '{id:2} ....')]
+}
+initialVocabularyForDatabase.push(orderName82);
+
+
+
 
 
 

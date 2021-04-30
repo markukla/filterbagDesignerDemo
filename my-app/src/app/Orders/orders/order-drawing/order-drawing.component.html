@@ -1,6 +1,6 @@
 <div id="mainCointener" class="mainContainerClass" #mainContainer>
 
- <div *ngIf="this.showUserInputErrorWindow === true" id="validateUserInputsErrorsContainer">
+ <div class="validateUserInputsErrorsContainer" *ngIf="this.showUserInputErrorWindow === true" id="validateUserInputsErrorsContainer">
    <app-validation-error-message [userInputErrorsMessages]="userInputErrorMessages" (confirmButtonClickedEvent)="hideErrorMessagewindow($event)"></app-validation-error-message>
  </div>
 

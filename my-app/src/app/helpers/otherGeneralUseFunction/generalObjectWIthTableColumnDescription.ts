@@ -218,6 +218,10 @@ export const orderNames = {
   Form: 'Formularz',
   deleteConnectedProducts:'Zaznacz jeśli chcesz usunąc powiązane produkty',
 
+  indexAlreadyExistsForOtherOrderNumber:'Utworzony indeks już istnieje dla innego numeru zamówienia',
+  canNotCreateOrderZLetterReached:'Nie można utworzyć nowego zapytania- nie można utworzyć nowej wersji indeksu, osiągnięto maksymalne oznaczenie wersji indeksu Z',
+  newIndexWillBeCreatedWithNextVersionLetter:'Zostanie utworzony inny indeks z kolejną dostępną literą w alfabecie jako oznaczeniem wersji:'
+
 
 
 };

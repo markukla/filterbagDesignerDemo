@@ -851,8 +851,8 @@ validateIndexAndSaveNewOrderInDatabase(): void{
       this.createOrderDto.index=validatedIndex;
       this.createOrderDto.indexVersionLetter=validatedIndex[10];
       this.createOrderDto=this.updateCreateOrderDto(this.createOrderDto);
-      const indexDubledMessage=`Index: ${oldIndex} już istnieje dla innego numeru zamówienia`;
-      const indexWithNewVersionNumberCreated=`Zostanie utworzony indeks z kolejną literą w alfabecie jako oznaczeniem wersji ${validatedIndex}`
+      const indexDubledMessage=`${oldIndex} - ${this.orderNames.indexAlreadyExistsForOtherOrderNumber}`;
+      const indexWithNewVersionNumberCreated=`${this.orderNames.newIndexWillBeCreatedWithNextVersionLetter} ${validatedIndex}`;
       this.indexDubledMessages.push(indexDubledMessage, indexWithNewVersionNumberCreated);
       this.showUserInputErrorWindow= true;
     }
@@ -868,9 +868,15 @@ validateIndexAndSaveNewOrderInDatabase(): void{
         });
     }
 
+  }, error => {
+
+    this.handleIndexValidationBackendErrorMessage(error, oldIndex)
+
+
   });
 
 }
+
 validateIndexAndUpdateOrderInDatabase():void{
 
   const updatedCreateOrderDto = this.updateCreateOrderDto(this.createOrderDto);
@@ -884,8 +890,8 @@ validateIndexAndUpdateOrderInDatabase():void{
       this.createOrderDto.index=validatedIndex;
       this.createOrderDto.indexVersionLetter=validatedIndex[10];
       this.createOrderDto=this.updateCreateOrderDto(this.createOrderDto);
-      const indexDubledMessage=`Index: ${oldIndex} już istnieje dla innego numeru zamówienia`;
-      const indexWithNewVersionNumberCreated=`Zostanie utworzony indeks z kolejną literą w alfabecie jako oznaczeniem wersji ${validatedIndex}`
+      const indexDubledMessage=`${oldIndex} - ${this.orderNames.indexAlreadyExistsForOtherOrderNumber}`;
+      const indexWithNewVersionNumberCreated=`${this.orderNames.newIndexWillBeCreatedWithNextVersionLetter} ${validatedIndex}`;
       this.indexDubledMessages.push(indexDubledMessage, indexWithNewVersionNumberCreated);
       this.showUserInputErrorWindow= true;
     }
@@ -900,7 +906,28 @@ if(!validatedIndex) {
     });
 }
 
+  }, error => {
+    this.handleIndexValidationBackendErrorMessage(error, oldIndex);
   });
+
+}
+handleIndexValidationBackendErrorMessage(error:any, oldIndex:string):void {
+  let errorMessage: string;
+  if(error && error.error) {
+    errorMessage=error.error.message.toUpperCase();
+  }
+  if(errorMessage&&errorMessage.includes('Z version reached')){
+    const indexDubledMessage=`${oldIndex} - ${this.orderNames.indexAlreadyExistsForOtherOrderNumber}`;
+    const versionNumberExited=`${this.orderNames.canNotCreateOrderZLetterReached}`;
+    this.indexDubledMessages.push(indexDubledMessage,versionNumberExited);
+    this.showUserInputErrorWindow= true;
+  }
+  else {
+    const indexDubledMessage=`${oldIndex} - ${this.orderNames.indexAlreadyExistsForOtherOrderNumber}`;
+    const canotSaveOrder=orderNames.orderAddFailer;
+    this.indexDubledMessages.push(indexDubledMessage,canotSaveOrder);
+
+  }
 
 }
 
