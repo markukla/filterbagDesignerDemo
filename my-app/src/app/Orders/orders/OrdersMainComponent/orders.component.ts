@@ -70,8 +70,7 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit(): void {
-    /* window.addEventListener("keyup", this.disableF5);
-    window.addEventListener("keydown", this.disableF5); */
+
 
 
 
@@ -89,13 +88,7 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
     });
 
   }
-  disableF5(e: any) {
-    if ((e.which || e.keyCode) == 116) {
-      e.preventDefault();
-      console.log('page reload on f5 button disabled')
-      this.router.navigateByUrl(this.authenticationService._previousUrl);
-    }
-  }
+
 
 
   initColumnNamesInSelectedLanguage(): void {

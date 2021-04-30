@@ -4,13 +4,21 @@
   <table class="table table-striped border mt-1">
     <thead>
     <tr>
-      <th>{{this.orderNames.orderNumber}}<br></th>
-      <th>{{this.orderNames.index}}</th>
-      <th>{{this.generalNamesInSelectedLanguage.name}}</th>
-      <th>{{this.orderNames.yourCommentToOrder}}</th>
-      <th>{{this.orderNames.date}}</th>
+      <th [appSort]="records" data-order="asc" data-name="orderTotalNumber" scope="col">{{this.orderNames.orderNumber}}<br></th>
+      <th [appSort]="records" data-order="desc" data-name="index" scope="col">{{this.orderNames.index}}</th>
+      <th [appSort]="records" data-order="desc" data-name="orderName" scope="col">{{this.generalNamesInSelectedLanguage.name}}</th>
+      <th [appSort]="records" data-order="desc" data-name="commentToOrderString" scope="col">{{this.orderNames.yourCommentToOrder}}</th>
+      <th [appSort]="records" data-order="asc" data-name="date" data-typ="date">{{this.orderNames.date}}</th>
       <th>{{this.generalNamesInSelectedLanguage.quantity}}</th>
 
+    </tr>
+    <tr>
+      <th><input class="tableSearchInput" [appSearch]="records" serchedColumn="orderTotalNumber" id="serchInNumbers" [placeholder]="generalNamesInSelectedLanguage.search" /></th>
+      <th><input class="tableSearchInput" [appSearch]="records" serchedColumn="index" id="serchInIndex" [placeholder]="generalNamesInSelectedLanguage.search" /></th>
+      <th><input class="tableSearchInput"  [appSearch]="records" serchedColumn="orderName" id="serchInOrderNames" [placeholder]="generalNamesInSelectedLanguage.search" /></th>
+      <th><input class="tableSearchInput"  [appSearch]="records" serchedColumn="commentToOrderString" id="serchInComents" [placeholder]="generalNamesInSelectedLanguage.search" /></th>
+      <th><input class="tableSearchInput"  [appSearch]="records" serchedColumn="dateString" id="serchInDates" [placeholder]="generalNamesInSelectedLanguage.search" /></th>
+      <th>{{this.recordNumbers}}</th>
     </tr>
 
     </thead>

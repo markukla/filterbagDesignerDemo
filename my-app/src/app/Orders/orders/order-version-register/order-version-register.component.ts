@@ -14,6 +14,7 @@ import {
   orderNames
 } from "../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
 import {AuthenticationService} from "../../../LoginandLogOut/AuthenticationServices/authentication.service";
+import {SearchService} from "../../../helpers/directive/SearchDirective/search.service";
 
 @Component({
   selector: 'app-order-version-register',
@@ -42,8 +43,9 @@ export class OrderVersionRegisterComponent implements OnInit, AfterContentChecke
 
 
   constructor(
-    public orderTableService: GeneralTableService,
+    public tableService: GeneralTableService,
     public orderRegisterTableService: VersionRegisterTableService,
+    public searchService: SearchService,
     public backendService: OrderBackendService,
     private router: Router,
     private route: ActivatedRoute,
@@ -78,11 +80,15 @@ export class OrderVersionRegisterComponent implements OnInit, AfterContentChecke
 
   getRecords(): void {
     this.backendService.findRecordById(this.selectedOrderId).subscribe((order) => {
+      this.tableService.records.length = 0;
       this.backendService.findOrderVersionRegisterById(String(order.body.register.id)).subscribe((register) => {
           this.orderVersionRegister = register.body;
           this.ordersInRegister = this.orderVersionRegister.orders;
           this.ordersInRegister.forEach((order) => {
-              this.records.push(this.backendService.createOrderTableCellFromOrderEntity(order));
+            this.tableService.records.push(this.backendService.createOrderTableCellFromOrderEntity(order));
+            // this.sortOrder(this.tableService.records);
+            this.records = this.tableService.getRecords();
+            this.searchService.orginalArrayCopy = [...this.tableService.getRecords()];
              /*
              not nedded sorted in backend
              const sort = new Sort();
