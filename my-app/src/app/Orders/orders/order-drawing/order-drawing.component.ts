@@ -1104,6 +1104,9 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
       if(this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT || this.orderOperationMode === OrderOperationMode.SHOWPRODUCT) {
       this.renderer.setProperty(input, 'innerHTML', inputIdValue);
       input.contentEditable='false';
+      if(this.orderOperationMode === OrderOperationMode.SHOWPRODUCT){
+        input.style.border = 'none';
+      }
       }
 
     } else {

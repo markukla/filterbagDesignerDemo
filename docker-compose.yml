@@ -12,6 +12,7 @@ services:
       - "3080:3080"
     volumes:
       - ./src:/usr/src/app/src
+      - ./my-app/dist:/root/my-app/dist
       - ./src:/root/src
       - ./ormconfig.ts:/root/ormconfig.ts
       - ./.env:/root/.env
