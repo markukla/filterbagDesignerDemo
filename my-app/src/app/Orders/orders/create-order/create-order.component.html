@@ -46,12 +46,12 @@
 
     <div *ngIf="productConfirmed && type.value && top.value && bottom.value">
       <p>
-        {{orderNames.productType + ': ' + this.type.value.code + ' - ' + getNameInSelectedLanguage(this.type.value.localizedNames)}}
+        {{orderNames.productType + ': ' + this.type.value.code + ' - ' + getNameInSelectedLanguage(this.type.value.vocabulary.localizedNames)}}
         <br>
-        {{orderNames.productTop + ': ' + this.top.value.code + ' - ' + getNameInSelectedLanguage(this.top.value.localizedNames)}}
+        {{orderNames.productTop + ': ' + this.top.value.code + ' - ' + getNameInSelectedLanguage(this.top.value.vocabulary.localizedNames)}}
         <br>
 
-        {{orderNames.productBottom + ': ' + this.bottom.value.code + ' - ' + getNameInSelectedLanguage(this.bottom.value.localizedNames)}}
+        {{orderNames.productBottom + ': ' + this.bottom.value.code + ' - ' + getNameInSelectedLanguage(this.bottom.value.vocabulary.localizedNames)}}
         <br>
       </p>
     </div>

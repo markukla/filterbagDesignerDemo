@@ -754,9 +754,49 @@ setOrderNumbersinOrderTableForUpdateOrConfirmModes(): void {
 
   private getCurrentDateAndTimeToBecomeOrderVersionNumber(): string {
     const now = new Date();
-    const date = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
-    const time = now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
-    const dateAndTimeNow = date + '.' + time;
+
+    const partialYear: string= String(now.getFullYear()).substring(2);
+    let month: string;
+
+    if(String((now.getMonth() + 1)).length===1){
+      month=`0${(now.getMonth() + 1)}`;
+    }
+   else{
+      month= String((now.getMonth() + 1));
+    }
+   let day: string;
+    if(String(now.getDate()).length===1){
+      day=`0${now.getDate()}`;
+    }
+    else{
+      day= String(now.getDate());
+    }
+    let hour: string;
+    if(String(now.getHours()).length===1){
+      hour=`0${now.getHours()}`;
+    }
+    else {
+      hour=String(now.getHours());
+    }
+    let minute: string;
+
+    if(String(now.getMinutes()).length===1){
+      minute=`0${now.getMinutes()}`;
+    }
+    else {
+      minute=String(now.getMinutes());
+    }
+    let second: string
+    if(String(now.getSeconds()).length===1){
+      second=`0${now.getSeconds()}`;
+    }
+    else {
+      second=String(now.getSeconds());
+    }
+
+    const date = partialYear+month+day;
+    const time = hour+minute+second
+    const dateAndTimeNow = date+time;
     return dateAndTimeNow;
 
   }
