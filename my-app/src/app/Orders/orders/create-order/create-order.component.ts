@@ -916,7 +916,7 @@ handleIndexValidationBackendErrorMessage(error:any, oldIndex:string):void {
   if(error && error.error) {
     errorMessage=error.error.message.toUpperCase();
   }
-  if(errorMessage&&errorMessage.includes('Z version reached')){
+  if(errorMessage&&errorMessage.includes('Index version letters exceeded')){
     const indexDubledMessage=`${oldIndex} - ${this.orderNames.indexAlreadyExistsForOtherOrderNumber}`;
     const versionNumberExited=`${this.orderNames.canNotCreateOrderZLetterReached}`;
     this.indexDubledMessages.push(indexDubledMessage,versionNumberExited);

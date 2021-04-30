@@ -19,6 +19,7 @@ import OrderNotFoundException from "../Exceptions/OrderNotFoundException";
 import User from "../Models/Users/user.entity";
 import NewestOrderNumber from "../Models/Order/newestOrderNumber";
 import {register} from "ts-node";
+import {MaximumIndexLetterVersionReached} from "../Exceptions/maximumIndexLetterVersionReached";
 
 
 class OrderService implements RepositoryService {
@@ -281,7 +282,15 @@ const registerToUpdate:OrderVersionRegister= currentOrder.register;
 
 
     public nextChar(c: string) {
-        return String.fromCharCode(c.charCodeAt(0) + 1);
+        const charCodeForZ='Z'.charCodeAt(0);
+        console.log(`charcodeForZ= ${charCodeForZ}`);
+        const charcodeToObtain= c.charCodeAt(0) + 1;
+        console.log(`charcodeToObtain= ${charcodeToObtain}`);
+        if(charcodeToObtain>charCodeForZ){
+            throw new MaximumIndexLetterVersionReached();
+        }
+        return String.fromCharCode(charcodeToObtain);
+
     }
 
 
