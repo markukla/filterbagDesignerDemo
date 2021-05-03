@@ -241,6 +241,14 @@ const registerToUpdate:OrderVersionRegister= currentOrder.register;
 
     }
 
+    public async findOneOrderByIndex(index: string): Promise<Order> {
+        const orderWithThisIndexInDatabase: Order=await getConnection()
+            .createQueryBuilder(Order,'order')
+            .where("order.index: index", {index: index})
+            .getOne();
+        return orderWithThisIndexInDatabase;
+    }
+
     public async setNewIndexWithNewVersionLetterForDubledOrdersWithDiffrentOrderNumber(createOrderDto: CreateOrderDto): Promise<string> {
 
         const partOfIndexBeforeVersionLetter= createOrderDto.index.substring(0,10); //10 is not included
@@ -255,26 +263,40 @@ const registerToUpdate:OrderVersionRegister= currentOrder.register;
         //.where("order.index like :partBefore and order.index like: partAfter", {partBefore:partOfIndexBeforeVersionLetter, partAfter:partOfIndexAfterVersionLetter})
         console.log(`allorders.length= ${allorders.length}`);
 
-        const ordersWithSameIndex = allorders.filter(x=> x.index.includes(partOfIndexBeforeVersionLetter) && x.index.includes(partOfIndexAfterVersionLetter));
-        console.log(`ordersWithSameIndex.length= ${ordersWithSameIndex.length}`);
-        if(ordersWithSameIndex.length>0){
+        const ordersWithTheSamePartialIndex = allorders.filter(x=> x.index.includes(partOfIndexBeforeVersionLetter) && x.index.includes(partOfIndexAfterVersionLetter));
+        console.log(`ordersWithSameIndex.length= ${ordersWithTheSamePartialIndex.length}`);
+        const ordersWithPartialIndexIncludesIndexFromDtoForDifferentOrderNumber=ordersWithTheSamePartialIndex.filter(i=>i.index===createOrderDto.index &&i.orderNumber!==createOrderDto.orderNumber).length>0; //index already included in database for different order number
+       const ordersWithTheSameIndexAndDiffrentOrderNumber= ordersWithTheSamePartialIndex.filter(x=>String(x.orderNumber)!==(String(createOrderDto.orderNumber)));
+       // const changeCondition= ordersWithTheSameIndexAndDiffrentOrderNumber.length>0;
+        if(ordersWithTheSamePartialIndex.length>0&&ordersWithPartialIndexIncludesIndexFromDtoForDifferentOrderNumber===true){
             // more than one same index, so VersionLetterNeedToBeIncremented if differs by order Number
 
-            const lastElementOfOrdersWithSameIndexSortedByIndex=ordersWithSameIndex[ordersWithSameIndex.length-1];
-            const changeCondition= ordersWithSameIndex.filter(x=>String(x.orderNumber).includes(String(createOrderDto.orderNumber))).length===0 && ordersWithSameIndex.filter(x=>x.index.includes(createOrderDto.index)).length>0 ; //no same index and same number in Database
-            if(changeCondition){
-                console.log(`charAt10=${lastElementOfOrdersWithSameIndexSortedByIndex.index.charAt(10)}`);
-                const incrementedSpecialLetter: string =this.nextChar(lastElementOfOrdersWithSameIndexSortedByIndex.index.charAt(10));
+                let indexIsFree: boolean=false;
+                let incrementedSpecialLetter='A';
+                updatedIndexToReturn= partOfIndexBeforeVersionLetter+incrementedSpecialLetter+partOfIndexAfterVersionLetter
+                while (indexIsFree===false) {
+                    console.log(`updatedIndexToReturnBeforeFiltring=${updatedIndexToReturn}`);
+                   let ordersWithSameIndexInDatabaseLikeUpdatedIndexToReturn= ordersWithTheSameIndexAndDiffrentOrderNumber.filter(o=>o.index===updatedIndexToReturn);
+                   console.log(`ordersWithSameIndexAsInDto.length=${ordersWithSameIndexInDatabaseLikeUpdatedIndexToReturn.length}`);
+                    if(ordersWithSameIndexInDatabaseLikeUpdatedIndexToReturn.length>0){
+                        incrementedSpecialLetter=this.nextChar(incrementedSpecialLetter);
+                        updatedIndexToReturn= partOfIndexBeforeVersionLetter+incrementedSpecialLetter+partOfIndexAfterVersionLetter;
+                    }
+                    else{
+                        updatedIndexToReturn= partOfIndexBeforeVersionLetter+incrementedSpecialLetter+partOfIndexAfterVersionLetter;
+                        indexIsFree= true;
+
+                    }
+
+                }
+
                 console.log(`incrementedSpecialLetter=${incrementedSpecialLetter}`);
-                updatedIndexToReturn = partOfIndexBeforeVersionLetter+incrementedSpecialLetter+partOfIndexAfterVersionLetter;
+
             }
             else {
                 updatedIndexToReturn=null;
             }
-        }
-        else {
-            updatedIndexToReturn= null;
-        }
+
 
         return updatedIndexToReturn;
 
