@@ -35,7 +35,7 @@
         <br>
         <button (click)="changePaswordForUserId(admin.id)" [title]="generalUserNames.changePassword">{{generalUserNames.changePassword}}</button>
         <button (click)="updateSelectedRecord(admin.id);" [title]="updateButtonInfo">{{generalNamesInSelectedLanguage.updateButtonInfo}}</button>
-        <button [title]="setBlockButtonActionInfoMessage(admin)" (click)="blockOrUnblockUser(admin)">{{setBlockButtonStatusMessage(admin)}}</button>
+        <button #button [title]="setBlockButtonActionInfoMessage(admin)" (click)="blockOrUnblockUser(admin)">{{setBlockButtonStatusMessage(admin,button)}}</button>
         <button (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(admin.id)" [title]="deleteButtonInfo" >x</button>
 
       </td>
@@ -50,7 +50,7 @@
         <br>
         <button (click)="changePaswordForUserId(editor.id)" [title]="generalUserNames.changePassword">{{generalUserNames.changePassword}}</button>
         <button (click)="updateSelectedRecord(editor.id);" [title]="updateButtonInfo">u</button>
-        <button [title]="setBlockButtonActionInfoMessage(editor)" (click)="blockOrUnblockUser(editor)">{{setBlockButtonStatusMessage(editor)}}</button>
+        <button #button [title]="setBlockButtonActionInfoMessage(editor)" (click)="blockOrUnblockUser(editor)">{{setBlockButtonStatusMessage(editor,button)}}</button>
         <button (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(editor.id)" [title]="deleteButtonInfo" >x</button>
       </td>
     </tr>

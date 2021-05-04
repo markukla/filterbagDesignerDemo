@@ -11,8 +11,12 @@ services:
     ports:
       - "3080:3080"
     volumes:
-      - ./src:/usr/src/app/src
-      - productImages:/root/src/public/images
+        - ./src:/usr/src/app/src
+        - ./my-app/dist:/root/my-app/dist
+        - ./src:/root/src
+        - ./ormconfig.ts:/root/ormconfig.ts
+        - ./.env:/root/.env
+        - productImages:/root/src/public/images
     depends_on:
       - postgres
     networks:

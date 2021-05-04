@@ -17,6 +17,7 @@ import {
 } from '../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription';
 import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
 import {AuthenticationService} from "../../LoginandLogOut/AuthenticationServices/authentication.service";
+import {addActiveUserClass, addBlockedUserClass} from "../../helpers/otherGeneralUseFunction/addClassForBlockOrUnblockUser";
 
 @Component({
   selector: 'app-users',
@@ -78,13 +79,15 @@ export class UsersComponent implements OnInit, AfterContentChecked {
    return blockButtonActionInfoMessage;
   }
 
-  setBlockButtonStatusMessage(user: User): string {
+  setBlockButtonStatusMessage(user: User, button: HTMLButtonElement): string {
     let blockButtonStatusMessage: string;
     if (user && user.active) {
    blockButtonStatusMessage = this.generalUserNames.userStatusActive;
+      addActiveUserClass(button);
 }
 else {
     blockButtonStatusMessage = this.generalUserNames.userStatusBlocked;
+      addBlockedUserClass(button);
 }
     return blockButtonStatusMessage;
   }

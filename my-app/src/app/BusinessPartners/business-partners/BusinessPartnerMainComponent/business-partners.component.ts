@@ -20,6 +20,7 @@ import {AuthenticationService} from '../../../LoginandLogOut/AuthenticationServi
 import {GeneralTableService} from "../../../util/GeneralTableService/general-table.service";
 import {SearchService} from "../../../helpers/directive/SearchDirective/search.service";
 import {Pagninator} from "../../../helpers/Paginator/paginator";
+import {addActiveUserClass, addBlockedUserClass} from "../../../helpers/otherGeneralUseFunction/addClassForBlockOrUnblockUser";
 
 @Component({
   selector: 'app-business-partners',
@@ -92,12 +93,14 @@ export class BusinessPartnersComponent implements OnInit, AfterContentChecked {
     return blockButtonActionInfoMessage;
   }
 
-  setBlockButtonStatusMessage(user: User): string {
+  setBlockButtonStatusMessage(user: User, button: HTMLButtonElement): string {
     let blockButtonStatusMessage: string;
     if (user && user.active) {
       blockButtonStatusMessage = this.userNamesInSelectedLanguage.userStatusActive;
+      addActiveUserClass(button);
     } else {
       blockButtonStatusMessage = this.userNamesInSelectedLanguage.userStatusBlocked;
+      addBlockedUserClass(button);
     }
     return blockButtonStatusMessage;
   }
@@ -156,8 +159,10 @@ export class BusinessPartnersComponent implements OnInit, AfterContentChecked {
     if (user.active) {
       /*if uset taken as input is active method set new avtive to false and oposite*/
       updatedActiveStatus = false;
+
     } else {
       updatedActiveStatus = true;
+
     }
     const blockUserDto: BlockUserDto = {
       active: updatedActiveStatus

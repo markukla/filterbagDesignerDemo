@@ -41,7 +41,7 @@
         <br>
         <button (click)="changePaswordForUserId(partner.id)" [title]="userNamesInSelectedLanguage.changePassword">{{userNamesInSelectedLanguage.changePassword}}</button>
         <button (click)="updateSelectedRecord(partner.id);" [title]="generalNamesInSelectedLanguage.updateButtonInfo">{{generalNamesInSelectedLanguage.updateButtonInfo}}</button>
-        <button [title]="setBlockButtonActionInfoMessage(partner)" (click)="blockOrUnblockUser(partner)">{{setBlockButtonStatusMessage(partner)}}</button>
+        <button #button [title]="setBlockButtonActionInfoMessage(partner)" (click)="blockOrUnblockUser(partner)">{{setBlockButtonStatusMessage(partner, button)}}</button>
         <button (click)="showOrders(partner.id);" [title]="userNamesInSelectedLanguage.businessPartnerOrders">{{userNamesInSelectedLanguage.businessPartnerOrders}}</button>
         <button (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(partner.id)" [title]="generalNamesInSelectedLanguage.deleteButtonInfo" >x</button>
 
