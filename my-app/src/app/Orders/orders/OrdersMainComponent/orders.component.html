@@ -35,8 +35,11 @@
     </tr>
     </thead>
     <tbody>
-
-    <tr *ngFor="let record of recordsForCurrentPage">
+<!--
+for version with pagination
+<tr *ngFor="let record of recordsForCurrentPage">
+-->
+    <tr *ngFor="let record of records">
       <td>{{record.orderTotalNumber}}</td>
       <td>{{record.businessPartnerCompanyName}}</td>
       <td>{{record.businessPartnerFulname}}</td>
@@ -56,10 +59,14 @@
 
     </tr>
     </tbody>
-    <!---->
+    <!--
+    for version with pagination:
     <div *ngFor="let pageNumber of paginator.pages">
       <a [routerLink]="['/orders']" [queryParams]="{pageNumber:pageNumber}">{{pageNumber}}</a>
     </div>
+
+    -->
+
   </table>
 </div>
 

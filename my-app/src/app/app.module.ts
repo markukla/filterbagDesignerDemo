@@ -148,6 +148,7 @@ import { GeneretePasswordDirective } from './helpers/directive/GeneratePasswordD
       { path: 'users/add', component: CreateNewUserComponent},
       { path: 'users/update', component: UpdateUserComponent},
       { path: 'users/changePassword', component: ChangePasswordComponent},
+      { path: 'businessPartners', component: BusinessPartnersComponent},
       { path: 'businessPartners/:pageNumber', component: BusinessPartnersComponent},
       { path: 'addbusinessPartners', component: CreateBusinesPartnerComponent},
       { path: 'updatebusinessPartners', component: UpdateBusinessPartnerComponent},

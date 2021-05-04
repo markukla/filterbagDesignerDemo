@@ -35,7 +35,7 @@
     <tr *ngFor="let record of records">
       <td>{{record.languageCode}}</td>
       <td>{{record.languageName}}</td>
-      <td>  <input class="form-check-input" type = "checkbox" [checked]="record.active" ></td>
+      <td>  <input class="form-check-input" type = "checkbox" [checked]="record.active" [disabled]="true"></td>
       <td> <img class="flagImage" [src]="getFlagUrl(record)"> </td>
       <td>
         <text *ngIf="deleTedRecordMessage">{{deleTedRecordMessage}}</text>

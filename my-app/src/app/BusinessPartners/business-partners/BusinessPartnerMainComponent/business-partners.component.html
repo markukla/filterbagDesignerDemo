@@ -31,8 +31,11 @@
     </tr>
     </thead>
     <tbody>
-
-    <tr *ngFor="let partner of this.partnersForCurrentPage; let i=index">
+<!--
+version with pagination:
+<tr *ngFor="let partner of this.partnersForCurrentPage; let i=index">
+-->
+    <tr *ngFor="let partner of this.partners; let i=index">
       <td>{{partner.code}}</td>
       <td>{{partner.businesPartnerCompanyName}}</td>
       <td>{{partner.fulName}}</td>
@@ -49,9 +52,14 @@
 
     </tr>
     </tbody>
-    <div *ngFor="let pageNumber of paginator.pages">
+    <!--
+    version with pagination
+     <div *ngFor="let pageNumber of paginator.pages">
       <a [routerLink]="['/businessPartners',pageNumber]">{{pageNumber}}</a>
     </div>
+
+    -->
+
   </table>
 
 </div>

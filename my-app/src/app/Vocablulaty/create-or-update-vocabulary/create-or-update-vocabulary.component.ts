@@ -75,6 +75,7 @@ export class CreateOrUpdateVocabularyComponent implements OnInit {
       this.recordToUpdate = foundRecord.body;
       this.languageFormService.namesInAllLanguages = this.recordToUpdate.localizedNames;
       this.code.setValue(this.recordToUpdate.variableName);
+      this.code.disable({onlySelf:true});
     }
   }
 

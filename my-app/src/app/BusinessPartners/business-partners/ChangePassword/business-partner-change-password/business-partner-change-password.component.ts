@@ -86,7 +86,8 @@ export class BusinessPartnerChangePasswordComponent implements OnInit {
     });
   }
   closeAndGoBack(): void {
-    this.router.navigateByUrl('businessPartners/1');
+    /*this.router.navigateByUrl('businessPartners/1');*/
+    this.router.navigateByUrl('businessPartners');
   }
 
 

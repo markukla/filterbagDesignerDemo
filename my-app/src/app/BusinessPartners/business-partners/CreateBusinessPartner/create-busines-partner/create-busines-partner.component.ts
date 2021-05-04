@@ -99,7 +99,8 @@ export class CreateBusinesPartnerComponent implements OnInit {
     });
   }
   closeAndGoBack(): void {
-    this.router.navigateByUrl('businessPartners/1');
+    /*this.router.navigateByUrl('businessPartners/1');*/
+    this.router.navigateByUrl('businessPartners');
   }
 
   ngOnInit(): void {

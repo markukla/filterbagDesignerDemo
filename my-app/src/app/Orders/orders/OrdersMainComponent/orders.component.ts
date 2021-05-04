@@ -77,13 +77,20 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
     this.route.queryParamMap.subscribe(queryParams => {
       this.partnerIdForOrdersShow = queryParams.get('patnerId');
       this.initColumnNamesInSelectedLanguage();
-      const currentPageNumber = Number(queryParams.get('pageNumber'));
-      if( currentPageNumber ===1) {
+      this.getRecords();
+
+
+
+      /*
+      for version with pagination:
+       const currentPageNumber = Number(queryParams.get('pageNumber'));
+      if(currentPageNumber&& currentPageNumber ===1) {
         //data are refreshed only on first page, instead it infers with proper sorting
-        this.getRecords();
-      }
-      this.numberOfRecordsForPage = 100;
+         this.getRecords();
+        this.numberOfRecordsForPage = 100;
       this.paginator = new Pagninator(currentPageNumber);
+      }*/
+
       this.materialId = this.tableService.selectedId;
     });
 
@@ -104,7 +111,7 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
   ngAfterContentChecked(): void {
     if (this.records) {
       this.recordNumbers = this.records.length;
-      this.recordsForCurrentPage = this.paginator.paginateRecords(this.records, this.numberOfRecordsForPage);
+     // this.recordsForCurrentPage = this.paginator.paginateRecords(this.records, this.numberOfRecordsForPage);
     }
   }
 
@@ -120,7 +127,7 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
                // this.sortOrder(this.tableService.records);
                 this.records = this.tableService.getRecords();
                 this.searChService.orginalArrayCopy = [...this.tableService.getRecords()];
-                this.recordsForCurrentPage = this.paginator.paginateRecords(this.records, this.numberOfRecordsForPage)
+               // this.recordsForCurrentPage = this.paginator.paginateRecords(this.records, this.numberOfRecordsForPage)
               }
             }
           );
@@ -139,7 +146,7 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
                 //this.sortOrder(this.tableService.records);
                 this.records = this.tableService.getRecords();
                 this.searChService.orginalArrayCopy = [...this.tableService.getRecords()];
-                this.recordsForCurrentPage = this.paginator.paginateRecords(this.records, this.numberOfRecordsForPage);
+                //this.recordsForCurrentPage = this.paginator.paginateRecords(this.records, this.numberOfRecordsForPage);
               }
 
           }
@@ -157,7 +164,7 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
               //this.sortOrder(this.tableService.records);
               this.records = this.tableService.getRecords();
               this.searChService.orginalArrayCopy = [...this.tableService.getRecords()];
-              this.recordsForCurrentPage = this.paginator.paginateRecords(this.records, this.numberOfRecordsForPage);
+             // this.recordsForCurrentPage = this.paginator.paginateRecords(this.records, this.numberOfRecordsForPage);
             }
 
           });

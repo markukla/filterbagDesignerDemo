@@ -131,7 +131,8 @@ export class UpdateBusinessPartnerComponent implements OnInit, AfterContentCheck
   }
 
   closeAndGoBack(): void {
-    this.router.navigateByUrl('businessPartners/1');
+    /*for version with pagination: this.router.navigateByUrl('businessPartners/1');*/
+    this.router.navigateByUrl('businessPartners');
   }
 
   initColumnNamesInSelectedLanguage(): void {
@@ -143,7 +144,8 @@ export class UpdateBusinessPartnerComponent implements OnInit, AfterContentCheck
   cleanOperationMessageAndGoBack(): void {
     setTimeout(() => {
       this.operationStatusMessage = null;
-      this.router.navigateByUrl('businessPartners/1');
+      /*this.router.navigateByUrl('businessPartners/1')*/
+      this.router.navigateByUrl('businessPartners');
     }, 2000);
   }
 

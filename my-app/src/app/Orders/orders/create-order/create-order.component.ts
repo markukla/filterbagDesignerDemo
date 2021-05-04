@@ -540,7 +540,8 @@ get productMaterial() {
   }
 
 closeAndGoBack(): void {
-    this.router.navigateByUrl('/orders?pageNumber=1');
+    /*this.router.navigateByUrl('/orders?pageNumber=1');*/
+    this.router.navigateByUrl('/orders');
   }
 
 cleanOperationMessage(): void {
@@ -900,7 +901,8 @@ validateIndexAndSaveNewOrderInDatabase(): void{
     if(!validatedIndex) {
       this.backendService.addRecords(this.createOrderDto).subscribe((order) => {
           this.operationSuccessStatusMessage = orderNames.orderAddSuccess;
-          navigateToUrlAfterTimout('/orders?pageNumber=1', this.router);
+          /*navigateToUrlAfterTimout('/orders?pageNumber=1', this.router)*/
+          navigateToUrlAfterTimout('/orders', this.router);
         },
         error => {
           this.operationFailerStatusMessage = orderNames.orderAddFailer;
@@ -938,7 +940,8 @@ validateIndexAndUpdateOrderInDatabase():void{
 if(!validatedIndex) {
   this.backendService.updateRecordById(String(this.selctedOrderId), this.createOrderDto).subscribe((order) => {
       this.operationSuccessStatusMessage = orderNames.orderUpdateSuccess;
-      navigateToUrlAfterTimout('/orders?pageNumber=1', this.router);
+      /*for version with pagination: navigateToUrlAfterTimout('/orders?pageNumber=1', this.router); */
+      navigateToUrlAfterTimout('/orders', this.router);
     },
     error => {
       console.log(error);

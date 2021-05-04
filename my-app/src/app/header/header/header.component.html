@@ -2,8 +2,14 @@
   <div *ngIf="this.authenticationService.userRole && this.authenticationService.userRole === this.admin">
     <div>
   <span class="menuSpan">
-    <a class="menuLink"[routerLink]="['/orders']" [queryParams]="{pageNumber: 1}" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.orders}}</a>
-  <a class="menuLink" [routerLink]="['/businessPartners/1']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.partners}}</a>
+    <!--
+    for pagination:<a class="menuLink"[routerLink]="['/orders']" [queryParams]="{pageNumber: 1}" routerLinkActive="active">
+    -->
+    <a class="menuLink"[routerLink]="['/orders']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.orders}}</a>
+ <!--
+ pagination:<a class="menuLink" [routerLink]="['/businessPartners/1']" routerLinkActive="active">
+ -->
+  <a class="menuLink" [routerLink]="['/businessPartners']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.partners}}</a>
   <a class="menuLink" [routerLink]="['/materials']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.materials}}</a>
      <a class="menuLink" [routerLink]="['/users']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.users}}</a>
     <a class="menuLink" [routerLink]="['/dimensionCodes']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.dimensionCodes}}</a>
@@ -28,6 +34,9 @@
   </div>
   <div *ngIf="this.authenticationService.userRole && this.authenticationService.userRole === this.editor">
   <span class="menuSpan">
+     <!--
+    for pagination:<a class="menuLink"[routerLink]="['/orders']" [queryParams]="{pageNumber: 1}" routerLinkActive="active">
+    -->
      <a class="menuLink" [routerLink]="['/orders']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.orders}}</a>
     <a class="menuLink" [routerLink]="['/businessPartners']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.partners}}</a>
       <a class="menuButton" [routerLink]="['/changePasswordByLoggedUser']" routerLinkActive="active">{{this.authenticationService.generalUserNames.changeYourPassword}}</a>
@@ -37,6 +46,9 @@
   </div>
   <div *ngIf="this.authenticationService.userRole && this.authenticationService.userRole === this.partner">
   <span>
+     <!--
+    for pagination:<a class="menuLink"[routerLink]="['/orders']" [queryParams]="{pageNumber: 1}" routerLinkActive="active">
+    -->
      <a class="menuLink" [routerLink]="['/orders']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.orders}}</a>
       <a class="menuButton" [routerLink]="['/changePasswordByLoggedUser']" routerLinkActive="active">{{this.authenticationService.generalUserNames.changeYourPassword}}</a>
       <button class="menuButton" (click)="this.authenticationService.logOut()">{{this.generalNamesInSelectedLanguage.logout}}</button>

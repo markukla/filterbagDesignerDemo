@@ -69,9 +69,14 @@ export class BusinessPartnersComponent implements OnInit, AfterContentChecked {
       this.selectedId = this.tableService.selectedId;
       this.deleteButtonInfo = 'usuń';
       this.updateButtonInfo = 'modyfikuj dane';
-      if(currentPageNumber ===1){
+      this.getRecords();
+      /*
+      for version with pagination:
+       if(currentPageNumber ===1){
         this.getRecords();
       }
+      * */
+
     });
 
 
@@ -120,7 +125,7 @@ export class BusinessPartnersComponent implements OnInit, AfterContentChecked {
     if (this.partners) {
       this.recordNumbers = this.partners.length;
     }
-   this.partnersForCurrentPage= this.paginator.paginateRecords(this.partners, this.numberOfRecordsForPage);
+   //this.partnersForCurrentPage= this.paginator.paginateRecords(this.partners, this.numberOfRecordsForPage);
   }
 
   getRecords(): void {
@@ -129,7 +134,7 @@ export class BusinessPartnersComponent implements OnInit, AfterContentChecked {
       this.tableService.records = users.body;
       this.partners = this.tableService.getRecords();
       this.searChService.orginalArrayCopy = [...this.tableService.getRecords()];
-      this.partnersForCurrentPage = this.paginator.paginateRecords(this.partners, 2);
+     // this.partnersForCurrentPage = this.paginator.paginateRecords(this.partners, 2);
 
     });
   }
@@ -201,7 +206,8 @@ export class BusinessPartnersComponent implements OnInit, AfterContentChecked {
     //  this.tableService.ordersOfBusinessPartner = partner.body.ordersOfPartner;
 
     // });
-    this.router.navigateByUrl(`orders?patnerId=${partnerId}&pageNumber=1`);
+    /* for version with pagination: this.router.navigateByUrl(`orders?patnerId=${partnerId}&pageNumber=1`) */
+    this.router.navigateByUrl(`orders?patnerId=${partnerId}`);
   }
 
   navigateToPageNumber(pageNumber: number) {
