@@ -93,16 +93,27 @@ export class BusinessPartnersComponent implements OnInit, AfterContentChecked {
     return blockButtonActionInfoMessage;
   }
 
-  setBlockButtonStatusMessage(user: User, button: HTMLButtonElement): string {
+  setBlockButtonStatusMessage(user: User): string {
     let blockButtonStatusMessage: string;
     if (user && user.active) {
       blockButtonStatusMessage = this.userNamesInSelectedLanguage.userStatusActive;
-      addActiveUserClass(button);
+
     } else {
       blockButtonStatusMessage = this.userNamesInSelectedLanguage.userStatusBlocked;
-      addBlockedUserClass(button);
+
     }
     return blockButtonStatusMessage;
+  }
+  setClassListForBlockedOrActiveuser(user: User, button: HTMLButtonElement): void {
+
+    if (user && user.active) {
+
+      addActiveUserClass(button);
+    } else {
+
+      addBlockedUserClass(button);
+    }
+
   }
 
   ngAfterContentChecked(): void {
