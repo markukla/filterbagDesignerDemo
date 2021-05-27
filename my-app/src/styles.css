@@ -1,10 +1,412 @@
+html {
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: "sourcesanspro";
+  margin: 0;
+}
+
+hr {
+  box-sizing: content-box;
+  height: 0;
+  overflow: visible;
+}
+
+pre {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+
+a {
+  color: #000;
+}
+
+abbr[title] {
+  border-bottom: none;
+  text-decoration: underline;
+  text-decoration: underline dotted;
+}
+
+b, strong {
+  font-weight: 700;
+}
+
+code, kbd, samp {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+
+small {
+  font-size: 80%;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+img {
+  border-style: none;
+  max-width: 100%;
+}
+
+button, input, optgroup, select, textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
+}
+
+button, input {
+  overflow: visible;
+}
+
+button, select {
+  text-transform: none;
+}
+
+button, 
+[type="button"],
+[type="reset"],
+[type="submit"] {
+  -webkit-appearance: button;
+}
+
+button::-moz-focus-inner,
+[type="button"]::-moz-focus-inner,
+[type="reset"]::-moz-focus-inner,
+[type="submit"]::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+
+button:-moz-focusring,
+[type="button"]:-moz-focusring,
+[type="reset"]:-moz-focusring,
+[type="submit"]:-moz-focusring {
+  outline: 1px dotted ButtonText;
+}
+
+fieldset {
+  border: none;
+  padding: 0;
+}
+
+legend {
+  box-sizing: border-box;
+  color: inherit;
+  display: table;
+  max-width: 100%;
+  padding: 0;
+  white-space: normal;
+}
+
+progress {
+  vertical-align: baseline;
+}
+
+textarea {
+  overflow: auto;
+}
+
+[type="checkbox"], [type="radio"] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+[type="number"]::-webkit-inner-spin-button,
+[type="number"]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+[type="search"] {
+  -webkit-appearance: textfield;
+  outline-offset: -2px;
+}
+
+[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+::-webkit-file-upload-button {
+  -webkit-appearance: button;
+  font: inherit;
+}
+
+details {
+  display: block;
+}
+
+summary {
+  display: list-item;
+}
+
+template {
+  display: none;
+}
+
+[hidden] {
+  display: none;
+}
+
+/* Fonts */
+@font-face {
+  font-family: "sourcesanspro";
+  font-style: italic;
+  font-weight: 200;
+  src: url('/assets/fonts/sourcesanspro-extralightitalic.woff2') format('woff2'),
+       url('/assets/fonts/sourcesanspro-extralightitalic.woff') format('woff');
+}
 
 @font-face {
-  font-family: "IconsWoff";
-  src:  url("./assets/fonts/open-sans-v18-latin-regular.woff2") format("woff");
-  font-weight: normal;
-  font-style: normal;
-  font-display: block;
+  font-family: "sourcesanspro";
+  font-weight: 200;
+  src: url('/assets/fonts/sourcesanspro-extralight.woff2') format('woff2'),
+       url('/assets/fonts/sourcesanspro-extralight.woff') format('woff');
+}
+
+@font-face {
+  font-family: "sourcesanspro";
+  font-style: italic;
+  font-weight: 300;
+  src: url('/assets/fonts/sourcesanspro-lightitalic.woff2') format('woff2'),
+       url('/assets/fonts/sourcesanspro-lightitalic.woff') format('woff');
+}
+
+@font-face {
+  font-family: "sourcesanspro";
+  font-weight: 300;
+  src: url('/assets/fonts/sourcesanspro-light.woff2') format('woff2'),
+       url('/assets/fonts/sourcesanspro-light.woff') format('woff');
+}
+
+@font-face {
+  font-family: "sourcesanspro";
+  font-weight: 400;
+  font-style: italic;
+  src: url('/assets/fonts/sourcesanspro-italic.woff2') format('woff2'),
+       url('/assets/fonts/sourcesanspro-italic.woff') format('woff');
+}
+
+@font-face {
+  font-family: "sourcesanspro";
+  font-weight: 400;
+  src: url('/assets/fonts/sourcesanspro-regular.woff2') format('woff2'),
+       url('/assets/fonts/sourcesanspro-regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: "sourcesanspro";
+  font-weight: 600;
+  src: url('/assets/fonts/sourcesanspro-semibold.woff2') format('woff2'),
+       url('/assets/fonts/sourcesanspro-semibold.woff') format('woff');
+}
+
+@font-face {
+  font-family: "sourcesanspro";
+  font-style: italic;
+  font-weight: 600;
+  src: url('/assets/fonts/sourcesanspro-semibolditalic.woff2') format('woff2'),
+       url('/assets/fonts/sourcesanspro-semibolditalic.woff') format('woff');
+}
+
+@font-face {
+  font-family: "sourcesanspro";
+  font-weight: 700;
+  src: url('/assets/fonts/sourcesanspro-bold.woff2') format('woff2'),
+       url('/assets/fonts/sourcesanspro-bold.woff') format('woff');
+}
+
+@font-face {
+  font-family: "sourcesanspro";
+  font-style: italic;
+  font-weight: 700;
+  src: url('/assets/fonts/sourcesanspro-bolditalic.woff2') format('woff2'),
+       url('/assets/fonts/sourcesanspro-bolditalic.woff') format('woff');
+}
+
+@font-face {
+  font-family: "sourcesanspro";
+  font-weight: 900;
+  src: url('/assets/fonts/sourcesanspro-black.woff2') format('woff2'),
+       url('/assets/fonts/sourcesanspro-black.woff') format('woff');
+}
+
+@font-face {
+  font-family: "sourcesanspro";
+  font-style: italic;
+  font-weight: 900;
+  src: url('/assets/fonts/sourcesanspro-blackitalic.woff2') format('woff2'),
+       url('/assets/fonts/sourcesanspro-blackitalic.woff') format('woff');
+}
+
+/* main */
+.button {
+  border: none;
+  background: #ed5565;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  display: block;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 8px 24px;
+  text-transform: uppercase;
+  transition: opacity 0.2s linear;
+}
+
+.button:hover,
+.button:focus {
+  opacity: 0.8;
+}
+
+.button[disabled] {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.hidden {
+  border: 0 !important;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px !important; 
+  overflow: hidden;
+  position: absolute !important;
+  padding: 0 !important;
+  width: 1px !important; 
+}
+
+.heading {
+  color: #ed5565;
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 32px 0;
+}
+
+.nav ul {
+  list-style-type: none;
+  font-size: 0;
+}
+
+.nav li {
+  display: inline-block;
+}
+
+.form {
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 3px 0 #e3e4e8;
+  left: 50%;
+  padding: 32px 16px;
+  position: absolute;
+  top: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  width: 320px;
+}
+
+.fieldset {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.input {
+  border: 2px solid #e3e4e8;
+  border-radius: 5px;
+  box-sizing: border-box;
+  padding: 8px 12px;
+  width: 100%;
+}
+
+.input::placeholder {
+  opacity: 0;
+}
+
+.label {
+  color: #fff;
+  left: 12px;
+  line-height: 1;
+  position: absolute;
+  text-transform: capitalize;
+  top: 11px;
+  transform: translate(-150%, 0);
+  transition: transform 0.2s linear;
+  width: 120px;
+  z-index: 1;
+}
+
+.label:after {
+  background: #ed5565;
+  bottom: -10px;
+  border-radius: 5px;
+  content: "";
+  display: block;
+  left: -20px;
+  opacity: 1;
+  position: absolute;
+  right: -20px;
+  top: -10px;
+  transition: opacity 0.2s linear;
+  z-index: -1;
+}
+
+.label:before {
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid #ed5565;
+  content: "";
+  display: block;
+  height: 0;
+  opacity: 1;
+  position: absolute;
+  right: -29px;
+  transition: opacity 0.2s linear;
+  top: -1px;
+  width: 0;
+}
+
+.input:placeholder-shown + .label {
+  color: #abadb3;
+  transform: translate(0, 0);
+  transition: transform 0.2s linear, color 0.2s linear;
+}
+
+.input:placeholder-shown + .label:before,
+.input:placeholder-shown + .label:after {
+  opacity: 0;
+  transition: opacity 0.2s linear;
+}
+
+.form .button {
+  margin: 0 auto;
+}
+
+.validatorInfo {
+  color: #ed5565;
+  font-size: 12px;
+  margin: 8px 0 0;
+}
+
+
+.createOrUpdateOrder{
+  position: absolute;
+  top: 5%;
+  width: 50%;
+  left: 30%;
+  height: auto;
+  border: 5px solid #FFFF00;
+  font-family: 'IconsWoff';
 }
 
 
@@ -19,39 +421,11 @@
   background-color: lightgray;
 }
 
-
-
-
-
 .material-icons {
   display: inline-flex;
   vertical-align: middle;
 }/* You can add global styles to this file, and also import other style files */
-.createOrUpdateFormWindow {
-  position: absolute;
 
-  left: 50%;
-
-  top: 50%;
-
-  transform: translate(-50%, -50%);
-
-
-  border: 5px solid #FFFF00;
-
-
-  padding: 10px;
-}
-.createOrUpdateOrder{
-  position: absolute;
-  top: 5%;
-  width: 50%;
-  left: 30%;
-  height: auto;
-  border: 5px solid #FFFF00;
-  font-family: 'IconsWoff';
-
-}
 .formTitle {
   position: relative;
   left: 5%;
@@ -66,13 +440,7 @@
   top: 0%;
   z-index: 1000;
 }
-.addButon {
-  width: fit-content;
-  position: relative;
-  left: 40%;
-  bottom: 10%;
 
-}
 #materialCodeLabel {
   width: max-content;
 }
@@ -80,14 +448,7 @@
   position: relative;
   width: max-content;
 }
-.label {
-  position: relative;
-  width: max-content;
-}
-.validatorInfo {
-  position: relative;
-  width: max-content;
-}
+
 .tableSearchInput {
 
 }

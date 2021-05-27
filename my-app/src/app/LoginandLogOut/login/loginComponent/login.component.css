@@ -1,32 +1,33 @@
 .createOrUpdateFormWindow {
-  position: absolute;
-
-
-  left: 50%;
-
-
-  top: 50%;
-
-
-  transform: translate(-50%, -50%);
-
-
-  border: 5px solid #FFFF00;
-
-
-  padding: 10px;
+  background: #f0f2f5;
+  min-height: 100vh;
+  position: relative;
+  width: 100%;
 }
+
+.language-nav {
+  position: absolute;
+  right: 32px;
+  top: 32px;
+}
+
+.language-nav button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.flagImage {
+  height: 40px;
+  width: 60px;
+}
+
 .closeButton {
   position: absolute;
   left: 94%;
   top: 0%;
 }
-.addButon {
-  position: relative;
-  left: 40%;
-  bottom: 10%;
 
-}
 #materialCodeLabel {
   width: max-content;
 }
@@ -34,14 +35,7 @@
   position: relative;
   width: max-content;
 }
-.label {
-  position: relative;
-  width: max-content;
-}
-.validatorInfo {
-  position: relative;
-  width: max-content;
-}
+
 .languageFlagsSpan {
   border: 1px solid #FFFF00;
   position: absolute;
