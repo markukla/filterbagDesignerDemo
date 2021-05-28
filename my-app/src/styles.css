@@ -4,8 +4,10 @@ html {
 }
 
 body {
+  background: #f0f2f5;
   font-family: "sourcesanspro";
   margin: 0;
+  min-height: 100vh;
 }
 
 hr {
@@ -408,7 +410,6 @@ template {
   border: 5px solid #FFFF00;
   font-family: 'IconsWoff';
 }
-
 
 .validateUserInputsErrorsContainer {
   position: absolute;

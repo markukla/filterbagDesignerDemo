@@ -1,59 +1,100 @@
-<div *ngIf="showHeaderIfNoDrawing()===true">
-  <div *ngIf="this.authenticationService.userRole && this.authenticationService.userRole === this.admin">
-    <div>
-  <span class="menuSpan">
-    <!--
+<header class="header" *ngIf="showHeaderIfNoDrawing()===true">
+  <nav class="nav-menu" *ngIf="this.authenticationService.userRole && this.authenticationService.userRole === this.admin">
+    <ul class="menuSpan nav-list">
+      <!--
+      for pagination:<a class="menuLink"[routerLink]="['/orders']" [queryParams]="{pageNumber: 1}" routerLinkActive="active">
+      -->
+      <li class="nav-item">
+        <a class="menuLink" [routerLink]="['/orders']"
+          routerLinkActive="active">{{this.generalNamesInSelectedLanguage.orders}}</a>
+      </li>
+      <!--
+      pagination:<a class="menuLink" [routerLink]="['/businessPartners/1']" routerLinkActive="active">
+      -->
+      <li class="nav-item"> 
+        <a class="menuLink" [routerLink]="['/businessPartners']"
+          routerLinkActive="active">{{this.generalNamesInSelectedLanguage.partners}}</a>
+      </li>
+      <li class="nav-item">
+        <a class="menuLink" [routerLink]="['/materials']"
+          routerLinkActive="active">{{this.generalNamesInSelectedLanguage.materials}}</a>
+      </li>
+      <li class="nav-item">
+        <a class="menuLink" [routerLink]="['/users']"
+          routerLinkActive="active">{{this.generalNamesInSelectedLanguage.users}}</a>
+      </li>
+      <li class="nav-item"> 
+        <a class="menuLink" [routerLink]="['/dimensionCodes']"
+          routerLinkActive="active">{{this.generalNamesInSelectedLanguage.dimensionCodes}}</a>
+      </li>
+      <li class="nav-item">
+        <a class="menuLink" [routerLink]="['/languages']"
+          routerLinkActive="active">{{this.generalNamesInSelectedLanguage.languages}}</a>
+      </li>
+      <li class="nav-item">
+        <a class="menuLink" [routerLink]="['/vocabularies']"
+          routerLinkActive="active">{{this.generalNamesInSelectedLanguage.dictionary}}</a>
+      </li>
+      <li class="nav-item">
+        <a class="menuButton" [routerLink]="['/changePasswordByLoggedUser']"
+          routerLinkActive="active">{{this.authenticationService.generalUserNames.changeYourPassword}}</a>
+      </li>
+      <li class="nav-item">
+        <button class="menuButton"
+          (click)="this.authenticationService.logOut()">{{this.generalNamesInSelectedLanguage.logout}}</button>
+      </li>
+    </ul>
+    <ul class="nav-list">
+      <li class="nav-item">
+        <a class="menuLink" [routerLink]="['/products']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.products}}</a>
+      </li>
+      <li class="nav-item">
+        <a class="menuLink" [routerLink]="['/products/types']">{{this.orderNamesInSelectedLanguage.productTypes}}</a>
+      </li>
+      <li class="nav-item">
+        <a class="menuLink" [routerLink]="['/products/tops']"> {{this.orderNamesInSelectedLanguage.productTops}}</a>
+      </li>
+      <li class="nav-item">
+        <a class="menuLink" [routerLink]="['/products/bottoms']">{{this.orderNamesInSelectedLanguage.productBottoms}}</a>
+      </li>
+    </ul>
+  </nav>
+
+  <nav class="nav-menu" *ngIf="this.authenticationService.userRole && this.authenticationService.userRole === this.editor">
+    <ul class="menuSpan nav-list">
+      <!--
     for pagination:<a class="menuLink"[routerLink]="['/orders']" [queryParams]="{pageNumber: 1}" routerLinkActive="active">
     -->
-    <a class="menuLink"[routerLink]="['/orders']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.orders}}</a>
- <!--
- pagination:<a class="menuLink" [routerLink]="['/businessPartners/1']" routerLinkActive="active">
- -->
-  <a class="menuLink" [routerLink]="['/businessPartners']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.partners}}</a>
-  <a class="menuLink" [routerLink]="['/materials']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.materials}}</a>
-     <a class="menuLink" [routerLink]="['/users']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.users}}</a>
-    <a class="menuLink" [routerLink]="['/dimensionCodes']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.dimensionCodes}}</a>
-    <a class="menuLink" [routerLink]="['/languages']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.languages}}</a>
-     <a class="menuLink" [routerLink]="['/vocabularies']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.dictionary}}</a>
-     <a class="menuButton" [routerLink]="['/changePasswordByLoggedUser']" routerLinkActive="active">{{this.authenticationService.generalUserNames.changeYourPassword}}</a>
-    <button class="menuButton"(click)="this.authenticationService.logOut()">{{this.generalNamesInSelectedLanguage.logout}}</button>
-  </span>
-    </div>
-    <div>
-    <span>
+      <li class="nav-item">
+        <a class="menuLink" [routerLink]="['/orders']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.orders}}</a>
+      </li>
+      <li class="nav-item">
+        <a class="menuLink" [routerLink]="['/businessPartners']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.partners}}</a>
+      </li>
+      <li class="nav-item">
+        <a class="menuButton" [routerLink]="['/changePasswordByLoggedUser']" routerLinkActive="active">{{this.authenticationService.generalUserNames.changeYourPassword}}</a>
+      </li>
+      <li class="nav-item">
+        <button class="menuButton"
+        (click)="this.authenticationService.logOut()">{{this.generalNamesInSelectedLanguage.logout}}</button>
+      </li>
+    </ul>
+  </nav>
 
-    <a class="menuLink" [routerLink]="['/products']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.products}}</a>
-    <a class="menuLink" [routerLink]="['/products/types']" >{{this.orderNamesInSelectedLanguage.productTypes}}</a>
-      <a class="menuLink" [routerLink]="['/products/tops']" > {{this.orderNamesInSelectedLanguage.productTops}}</a>
-<a class="menuLink"[routerLink]="['/products/bottoms']">{{this.orderNamesInSelectedLanguage.productBottoms}}</a>
-
-
-  </span>
-    </div>
-
-  </div>
-  <div *ngIf="this.authenticationService.userRole && this.authenticationService.userRole === this.editor">
-  <span class="menuSpan">
-     <!--
+  <nav class="nav-menu" *ngIf="this.authenticationService.userRole && this.authenticationService.userRole === this.partner">
+    <ul class="nav-list">
+      <!--
     for pagination:<a class="menuLink"[routerLink]="['/orders']" [queryParams]="{pageNumber: 1}" routerLinkActive="active">
     -->
-     <a class="menuLink" [routerLink]="['/orders']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.orders}}</a>
-    <a class="menuLink" [routerLink]="['/businessPartners']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.partners}}</a>
-      <a class="menuButton" [routerLink]="['/changePasswordByLoggedUser']" routerLinkActive="active">{{this.authenticationService.generalUserNames.changeYourPassword}}</a>
-      <button class="menuButton" (click)="this.authenticationService.logOut()">{{this.generalNamesInSelectedLanguage.logout}}</button>
-  </span>
-
-  </div>
-  <div *ngIf="this.authenticationService.userRole && this.authenticationService.userRole === this.partner">
-  <span>
-     <!--
-    for pagination:<a class="menuLink"[routerLink]="['/orders']" [queryParams]="{pageNumber: 1}" routerLinkActive="active">
-    -->
-     <a class="menuLink" [routerLink]="['/orders']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.orders}}</a>
-      <a class="menuButton" [routerLink]="['/changePasswordByLoggedUser']" routerLinkActive="active">{{this.authenticationService.generalUserNames.changeYourPassword}}</a>
-      <button class="menuButton" (click)="this.authenticationService.logOut()">{{this.generalNamesInSelectedLanguage.logout}}</button>
-  </span>
-
-
-  </div>
-</div>
+      <li class="nav-item">
+        <a class="menuLink" [routerLink]="['/orders']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.orders}}</a>
+      </li>
+      <li class="nav-item">
+        <a class="menuButton" [routerLink]="['/changePasswordByLoggedUser']" routerLinkActive="active">{{this.authenticationService.generalUserNames.changeYourPassword}}</a>
+      </li>
+      <li class="nav-item">
+        <button class="menuButton" (click)="this.authenticationService.logOut()">{{this.generalNamesInSelectedLanguage.logout}}</button>
+      </li>  
+    </ul>
+  </nav>
+</header>

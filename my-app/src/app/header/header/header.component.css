@@ -1,10 +1,56 @@
-.menuSpan{
-
+.nav-menu {
+  background: #ed5565;
+  width: 100%;
 }
-.menuLink {
-  padding: 5px;
-}
-.menuButton {
-  padding: 7px;
 
+.nav-list {
+  border-bottom: 3px solid #da4453;
+  display: flex;
+  font-size: 0;
+  padding: 0;
+  margin-top: 0;
+}
+
+.nav-item {
+  flex-grow: 1;
+}
+
+.nav-item .menuLink,
+.nav-item .menuButton {
+  background: none;
+  border: none;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 16px 8px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.2s linear;
+}
+
+.nav-item .menuButton {
+  width: 100%;
+}
+
+.nav-item .menuLink.active, 
+.nav-list .menuLink:hover,
+.nav-item .menuLink:focus,
+.nav-item .menuButton:hover,
+.nav-item .menuButton:focus {
+  background: #da4453;
+}
+
+.nav-item:not(:last-child) .menuButton:after,
+.nav-item:not(:last-child) .menuLink:after {
+  background: #da4453;
+  bottom: 0;
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 3px;
 }
