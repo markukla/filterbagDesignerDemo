@@ -296,6 +296,7 @@ template {
   background: none;
   border: none;
   cursor: pointer;
+  color: #ed5565;
   padding: 8px;
   position: absolute;
   right: 32px;
@@ -386,6 +387,23 @@ template {
 
 .edit-button:after {
   content: "\e905";
+}
+
+.password-button {
+  background: #8cc152;
+}
+
+.password-button:after {
+  content: "\e98f";
+  left: 56%;
+}
+
+.ask-button {
+  background: #5dc9e6;
+}
+
+.ask-button:after {
+  content: "\f128";
 }
 
 .nav ul {
@@ -557,6 +575,27 @@ template {
   padding: 20px 0;
 }
 
+.popup-window {
+  background: #fff;
+  border-radius: 5px;
+  border: solid 3px #ed5565;
+  color: #565759;
+  font-size: 20px;
+  left: 50%;
+  padding: 32px;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 320px;
+}
+
+.button-popup {
+  display: inline-block;
+  font-size: 13px;
+  margin: 0 4px;
+}
+
 
 
 
@@ -638,27 +677,7 @@ template {
   width: 40px;
   height: 30px;
 }
-.confirmOrWarnWindow {
-  position: absolute;
-  z-index: 100;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  border: 2px solid darkred;
-  padding: 10px;
-  background-color: lightgray;
 
-}
-#confirmDeleteButton {
-  position: absolute;
-  left: 30%;
-  bottom: 2%;
-}
-#resignFromDeletingButton {
-  position: absolute;
-  right: 30%;
-  bottom: 2%;
-}
 .operationStatusMessage {
   position: absolute;
   z-index: 1000;

@@ -1,51 +1,50 @@
 <div class="createOrUpdateFormWindow">
-  <button id="close button" class="closeButton" (click)="closeAndGoBack() " [title]='this.generalNamesInSelectedLanguage.closeButtonDescription'>x</button>
-  <h2 class="formTitle">{{this.materialNamesInSelectedLanguage.addNewMaterial}}</h2>
-  <form [formGroup]="materialForm" (ngSubmit)="onSubmit()">
-    <div class="row">
-      <div class="form-group col-md-6">
-        <label class="label" for="materialCode" id="materialCodeLabel">{{this.materialNamesInSelectedLanguage.materialCode}}</label>
-        <input type="text" class="form-control" formControlName="materialCode" id="materialCode">
-        <div  *ngIf="materialCode.invalid && (materialCode.dirty || materialCode.touched)"
-             class="alert alert-danger">
+  <form class="form form-second" [formGroup]="materialForm" (ngSubmit)="onSubmit()">
+    <button id="close button" class="closeButton icon" (click)="closeAndGoBack() " [title]='this.generalNamesInSelectedLanguage.closeButtonDescription'>
+      <span class="hidden">Zamknij</span>
+    </button>
+    <h2 class="heading">{{this.materialNamesInSelectedLanguage.addNewMaterial}}</h2>
+    <fieldset class="fieldset">
+      <input type="text" class="input" formControlName="materialCode" id="materialCode" placeholder="this.materialNamesInSelectedLanguage.materialCode">
+      <label class="label" for="materialCode" id="materialCodeLabel">{{this.materialNamesInSelectedLanguage.materialCode}}</label>
+      <div  *ngIf="materialCode.invalid && (materialCode.dirty || materialCode.touched)"
+            class="alert alert-danger">
 
-          <div class="validatorInfo" *ngIf="materialCode.errors.required">
-          {{this.generalNamesInSelectedLanguage.thisFieldIsRequired}}
-          </div>
-          <div class="validatorInfo" *ngIf="materialCode.errors.minlength">
-            {{this.materialNamesInSelectedLanguage.materialCodeMustContain6CHaracters}}
-          </div>
-          <div class="validatorInfo" *ngIf="materialCode.errors.maxlength">
-           {{this.materialNamesInSelectedLanguage.materialCodeMustContain6CHaracters}}
-          </div>
-          <div class="has-text-danger" *ngIf="materialCode.errors?.taken">  <!--error name is name of error in async validatod:ValidateMaterialCodeUniqueService-->
-            {{this.generalNamesInSelectedLanguage.thisCodeIstaken}}
-          </div>
+        <div class="validatorInfo" *ngIf="materialCode.errors.required">
+        {{this.generalNamesInSelectedLanguage.thisFieldIsRequired}}
+        </div>
+        <div class="validatorInfo" *ngIf="materialCode.errors.minlength">
+          {{this.materialNamesInSelectedLanguage.materialCodeMustContain6CHaracters}}
+        </div>
+        <div class="validatorInfo" *ngIf="materialCode.errors.maxlength">
+          {{this.materialNamesInSelectedLanguage.materialCodeMustContain6CHaracters}}
+        </div>
+        <div class="has-text-danger" *ngIf="materialCode.errors?.taken">  <!--error name is name of error in async validatod:ValidateMaterialCodeUniqueService-->
+          {{this.generalNamesInSelectedLanguage.thisCodeIstaken}}
         </div>
       </div>
-        <div class="form-group col-md-6">
-          <label class="label" for="materialName">{{this.materialNamesInSelectedLanguage.materialName}}</label>
-          <input type="text" class="form-control" formControlName="materialName" id="materialName">
-          <div *ngIf="materialName.invalid && (materialName.dirty || materialName.touched)"
-               class="alert alert-danger">
+    </fieldset>
+    <fieldset class="fieldset">
+      <input type="text" class="input" formControlName="materialName" id="materialName" placeholder="this.materialNamesInSelectedLanguage.materialName">
+      <label class="label" for="materialName">{{this.materialNamesInSelectedLanguage.materialName}}</label>
+      <div *ngIf="materialName.invalid && (materialName.dirty || materialName.touched)"
+            class="alert alert-danger">
 
-            <div class="validatorInfo" *ngIf="materialName.errors.required">
-              {{generalNamesInSelectedLanguage.thisFieldIsRequired}}
-            </div>
-            <div class="validatorInfo" *ngIf="materialName.errors?.taken">
-             {{this.generalNamesInSelectedLanguage.thisNameIsTaken}}
-            </div>
-          </div>
-
+        <div class="validatorInfo" *ngIf="materialName.errors.required">
+          {{generalNamesInSelectedLanguage.thisFieldIsRequired}}
         </div>
+        <div class="validatorInfo" *ngIf="materialName.errors?.taken">
+          {{this.generalNamesInSelectedLanguage.thisNameIsTaken}}
+        </div>
+      </div>
+    </fieldset>
 
-      <div  class="col">
+    <div  class="col">
         <app-langage-form-component></app-langage-form-component>
 
       </div>
-    </div>
     <div class="addButon">
-      <button type="submit" [disabled]="!materialForm.valid" class="btn btn-danger">{{this.generalNamesInSelectedLanguage.saveButtonDescription}}</button>
+      <button type="submit" [disabled]="!materialForm.valid" class="button">{{this.generalNamesInSelectedLanguage.saveButtonDescription}}</button>
     </div>
   </form>
 

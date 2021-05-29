@@ -1,32 +1,29 @@
 
 <!--sss-->
+<div class="container">
+  <div class="add-button-container">
+    <a class="button button-link" [routerLink]="['/addbusinessPartners']" routerLinkActive="active">
+      {{userNamesInSelectedLanguage.addNewBusinessPartner}}
+    </a>
+  </div>
 
-<div>
-
-  <a  [routerLink]="['/addbusinessPartners']" routerLinkActive="active">
-    {{userNamesInSelectedLanguage.addNewBusinessPartner}}
-  </a>
-</div>
-
-<div class="materialComponent">
   <app-operation-status [operationFailerStatusMessage]="operationFailerStatusMessage" [operationSuccessStatusMessage]="operationSuccessStatusMessage"> </app-operation-status>
   <app-confirm-delete [showConfirmDeleteWindow]="showConfirmDeleteWindow"  *ngIf="showConfirmDeleteWindow === true" (deleteConfirmedEvent)="deleteSelectedRecordFromDatabase(this.tableService.selectedId, $event )"> </app-confirm-delete>
 
-  <table class="table table-striped border mt-1">
+  <table class="table">
     <thead>
-    <tr>
+    <tr class="table-top">
       <th [appSort]="partners" data-order="desc" data-name="code" scope="col"> {{userNamesInSelectedLanguage.partnerCode}} <br></th>
       <th [appSort]="partners" data-order="desc" data-name="businesPartnerCompanyName" scope="col"> {{orderNames.businessPartnerName}}</th>
       <th [appSort]="partners" data-order="desc" data-name="fulName" scope="col">{{userNamesInSelectedLanguage.fullName}}</th>
       <th [appSort]="partners" data-order="desc" data-name="email" scope="col">{{userNamesInSelectedLanguage.email}}</th>
       <th>Ilość</th>
-
     </tr>
-    <tr>
-      <th><input class="tableSearchInput" [appSearch]="partners" serchedColumn="code"  [placeholder]="generalNamesInSelectedLanguage.search"/> </th>
-      <th><input class="tableSearchInput" [appSearch]="partners" serchedColumn="businesPartnerCompanyName"  [placeholder]="generalNamesInSelectedLanguage.search"/>  </th>
-      <th><input class="tableSearchInput" [appSearch]="partners" serchedColumn="fulName"  [placeholder]="generalNamesInSelectedLanguage.search"/></th>
-      <th><input class="tableSearchInput" [appSearch]="partners" serchedColumn="email"  [placeholder]="generalNamesInSelectedLanguage.search"/></th>
+    <tr class="table-search">
+      <th><input class="input tableSearchInput" [appSearch]="partners" serchedColumn="code"  [placeholder]="generalNamesInSelectedLanguage.search"/> </th>
+      <th><input class="input tableSearchInput" [appSearch]="partners" serchedColumn="businesPartnerCompanyName"  [placeholder]="generalNamesInSelectedLanguage.search"/>  </th>
+      <th><input class="input tableSearchInput" [appSearch]="partners" serchedColumn="fulName"  [placeholder]="generalNamesInSelectedLanguage.search"/></th>
+      <th><input class="input tableSearchInput" [appSearch]="partners" serchedColumn="email"  [placeholder]="generalNamesInSelectedLanguage.search"/></th>
       <th>{{recordNumbers}}</th>
     </tr>
     </thead>
@@ -41,15 +38,32 @@ version with pagination:
       <td>{{partner.fulName}}</td>
       <td>{{partner.email}}</td>
       <td>
-        <br>
-        <button (click)="changePaswordForUserId(partner.id)" [title]="userNamesInSelectedLanguage.changePassword">{{userNamesInSelectedLanguage.changePassword}}</button>
-        <button (click)="updateSelectedRecord(partner.id);" [title]="generalNamesInSelectedLanguage.updateButtonInfo">{{generalNamesInSelectedLanguage.updateButtonInfo}}</button>
-        <button #button [classList]="setClassListForBlockedOrActiveuser(partner,button)"   [title]="setBlockButtonActionInfoMessage(partner)" (click)="blockOrUnblockUser(partner)">{{setBlockButtonStatusMessage(partner)}}</button>
-        <button (click)="showOrders(partner.id);" [title]="userNamesInSelectedLanguage.businessPartnerOrders">{{userNamesInSelectedLanguage.businessPartnerOrders}}</button>
-        <button  (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(partner.id)" [title]="generalNamesInSelectedLanguage.deleteButtonInfo" >x</button>
-
+        <button class="icon action-button password-button" (click)="changePaswordForUserId(partner.id)" [title]="userNamesInSelectedLanguage.changePassword">
+          <span class="hidden">
+            {{userNamesInSelectedLanguage.changePassword}}
+          </span>
+        </button>
+        <button class="icon action-button edit-button" (click)="updateSelectedRecord(partner.id);" [title]="generalNamesInSelectedLanguage.updateButtonInfo">
+          <span class="hidden">
+            {{generalNamesInSelectedLanguage.updateButtonInfo}}
+          </span>
+        </button>
+        <button [classList]="setClassListForBlockedOrActiveuser(partner,button)"  [title]="setBlockButtonActionInfoMessage(partner)" (click)="blockOrUnblockUser(partner)" #button>
+          <span class="hidden">
+            {{setBlockButtonStatusMessage(partner)}}
+          </span>
+        </button>
+        <button class="icon action-button ask-button" (click)="showOrders(partner.id);" [title]="userNamesInSelectedLanguage.businessPartnerOrders">
+          <span class="hidden">
+            {{userNamesInSelectedLanguage.businessPartnerOrders}}
+          </span>
+        </button>
+        <button class="icon action-button delete-button"  (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(partner.id)" [title]="generalNamesInSelectedLanguage.deleteButtonInfo">
+          <span class="hidden">
+            {{generalNamesInSelectedLanguage.deleteButtonInfo}}
+          </span>
+        </button>
       </td>
-
     </tr>
     </tbody>
     <!--
@@ -61,7 +75,6 @@ version with pagination:
     -->
 
   </table>
-
 </div>
 
 

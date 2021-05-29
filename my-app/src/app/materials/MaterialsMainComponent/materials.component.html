@@ -8,49 +8,47 @@
     </a>
   </div>
 
-  <div class="materialComponent">
-    <app-operation-status [operationFailerStatusMessage]="operationFailerStatusMessage" [operationSuccessStatusMessage]="operationSuccessStatusMessage"> </app-operation-status>
-    <app-confirm-delete [showConfirmDeleteWindow]="showConfirmDeleteWindow"  *ngIf="showConfirmDeleteWindow === true" (deleteConfirmedEvent)="deleteSelectedRecordFromDatabase(this.tableService.selectedId, $event )"> </app-confirm-delete>
+  <app-operation-status [operationFailerStatusMessage]="operationFailerStatusMessage" [operationSuccessStatusMessage]="operationSuccessStatusMessage"> </app-operation-status>
+  <app-confirm-delete [showConfirmDeleteWindow]="showConfirmDeleteWindow"  *ngIf="showConfirmDeleteWindow === true" (deleteConfirmedEvent)="deleteSelectedRecordFromDatabase(this.tableService.selectedId, $event )"> </app-confirm-delete>
 
-    <table class="table">
-      <thead>
-        <tr class="table-top">
-          <th [appSort]="materials" data-order="desc" data-name="materialCode" scope="col">{{materialNamesInSelectedLanguage.materialCode}} <br></th>
-          <th [appSort]="materials" data-order="desc" data-name="materialName" scope="col">{{materialNamesInSelectedLanguage.materialName}}</th>
-          <th [appSort]="materials" data-order="desc" data-name="descriptionInSelectedLanguage" scope="col">{{generalNamesInSelectedLanguage.materialDescription}}</th>
-          <th>{{materialNamesInSelectedLanguage.quantity}}</th>
-        </tr>
-        <tr class="table-search">
-          <td>
-            <input class="input tableSearchInput"[appSearch]="materials" serchedColumn="materialCode" id="serchInCodes" [placeholder]="generalNamesInSelectedLanguage.search" />
-          </td>
-          <td>
-            <input class="input tableSearchInput" [appSearch]="materials" serchedColumn="materialName" id="serchInNames" [placeholder]="generalNamesInSelectedLanguage.search" />
-          </td>
-          <td>
-            <input class="input tableSearchInput" [appSearch]="materials" serchedColumn="descriptionInSelectedLanguage" id="serchInDescriptions" [placeholder]="generalNamesInSelectedLanguage.search" />
-          </td>
-          <td>{{this.recordNumbers}}</td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let material of materials">
-          <td>{{material.materialCode}}</td>
-          <td>{{material.materialName}}</td>
-          <td>{{material.descriptionInSelectedLanguage}}</td>
-          <td>
-            <text *ngIf="deleTedMaterialMessage">{{deleTedMaterialMessage}}</text>
-            <button class="action-button icon delete-button" (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(material.id)" [title]="generalNamesInSelectedLanguage.deleteButtonInfo" >
-              <span class="hidden">{{generalNamesInSelectedLanguage.deleteButtonInfo}}</span>
-            </button>
-            <button class="action-button icon edit-button" (click)="updateSelectedRecord(material.id);" [title]="generalNamesInSelectedLanguage.updateButtonInfo">
-              <span class="hidden">{{generalNamesInSelectedLanguage.updateButtonInfo}}</span>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <table class="table">
+    <thead>
+      <tr class="table-top">
+        <th [appSort]="materials" data-order="desc" data-name="materialCode" scope="col">{{materialNamesInSelectedLanguage.materialCode}} <br></th>
+        <th [appSort]="materials" data-order="desc" data-name="materialName" scope="col">{{materialNamesInSelectedLanguage.materialName}}</th>
+        <th [appSort]="materials" data-order="desc" data-name="descriptionInSelectedLanguage" scope="col">{{generalNamesInSelectedLanguage.materialDescription}}</th>
+        <th>{{materialNamesInSelectedLanguage.quantity}}</th>
+      </tr>
+      <tr class="table-search">
+        <td>
+          <input class="input tableSearchInput"[appSearch]="materials" serchedColumn="materialCode" id="serchInCodes" [placeholder]="generalNamesInSelectedLanguage.search" />
+        </td>
+        <td>
+          <input class="input tableSearchInput" [appSearch]="materials" serchedColumn="materialName" id="serchInNames" [placeholder]="generalNamesInSelectedLanguage.search" />
+        </td>
+        <td>
+          <input class="input tableSearchInput" [appSearch]="materials" serchedColumn="descriptionInSelectedLanguage" id="serchInDescriptions" [placeholder]="generalNamesInSelectedLanguage.search" />
+        </td>
+        <td>{{this.recordNumbers}}</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let material of materials">
+        <td>{{material.materialCode}}</td>
+        <td>{{material.materialName}}</td>
+        <td>{{material.descriptionInSelectedLanguage}}</td>
+        <td>
+          <text *ngIf="deleTedMaterialMessage">{{deleTedMaterialMessage}}</text>
+          <button class="action-button icon delete-button" (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(material.id)" [title]="generalNamesInSelectedLanguage.deleteButtonInfo" >
+            <span class="hidden">{{generalNamesInSelectedLanguage.deleteButtonInfo}}</span>
+          </button>
+          <button class="action-button icon edit-button" (click)="updateSelectedRecord(material.id);" [title]="generalNamesInSelectedLanguage.updateButtonInfo">
+            <span class="hidden">{{generalNamesInSelectedLanguage.updateButtonInfo}}</span>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 
