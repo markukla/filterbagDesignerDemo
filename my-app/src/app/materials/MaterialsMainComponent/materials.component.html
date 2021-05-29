@@ -40,9 +40,12 @@
           <td>{{material.descriptionInSelectedLanguage}}</td>
           <td>
             <text *ngIf="deleTedMaterialMessage">{{deleTedMaterialMessage}}</text>
-            <br>
-            <button (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(material.id)" [title]="generalNamesInSelectedLanguage.deleteButtonInfo" >x</button>
-            <button (click)="updateSelectedRecord(material.id);" [title]="generalNamesInSelectedLanguage.updateButtonInfo">u</button>
+            <button class="action-button icon delete-button" (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(material.id)" [title]="generalNamesInSelectedLanguage.deleteButtonInfo" >
+              <span class="hidden">{{generalNamesInSelectedLanguage.deleteButtonInfo}}</span>
+            </button>
+            <button class="action-button icon edit-button" (click)="updateSelectedRecord(material.id);" [title]="generalNamesInSelectedLanguage.updateButtonInfo">
+              <span class="hidden">{{generalNamesInSelectedLanguage.updateButtonInfo}}</span>
+            </button>
           </td>
         </tr>
       </tbody>

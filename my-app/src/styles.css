@@ -254,6 +254,14 @@ template {
        url('/assets/fonts/sourcesanspro-blackitalic.woff') format('woff');
 }
 
+@font-face {
+  font-family: "icon";
+  font-display: display;
+  font-style: normal;
+  font-weight: normal;
+  src: url('/assets/fonts/icon.woff') format('woff');
+}
+
 /* main */
 .button {
   border: none;
@@ -284,6 +292,16 @@ template {
   text-decoration: none;
 }
 
+.closeButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  position: absolute;
+  right: 32px;
+  top: 32px;
+}
+
 .container {
   box-sizing: border-box;
   margin: 0 auto;
@@ -304,9 +322,70 @@ template {
 
 .heading {
   color: #ed5565;
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 700;
   margin: 0 0 32px 0;
+}
+
+.heading-second {
+  font-size: 18px;
+}
+
+.icon:before,
+.icon:after {
+  font-weight: normal;
+  font-family: "icon" !important;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; 
+}
+
+.closeButton:after {
+  content: "\ea0f";
+}
+
+.action-button:after,
+.action-button:before {
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.action-button {
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  margin: 0 4px;
+  padding: 16px;
+  position: relative;
+}
+
+.action-button:hover,
+.action-button:focus {
+  opacity: 0.8;
+}
+
+.delete-button {
+  background: #ed5565;
+}
+
+.delete-button:after {
+  content: "\e9ac";
+}
+
+.edit-button {
+  background: #ffcc00;
+}
+
+.edit-button:after {
+  content: "\e905";
 }
 
 .nav ul {
@@ -328,6 +407,14 @@ template {
   top: 50%;
   transform: translate3d(-50%, -50%, 0);
   width: 320px;
+}
+
+.form-second {
+  margin: 64px auto 0;
+  padding: 32px;
+  position: static;
+  transform:translate(0, 0);
+  width: 420px;
 }
 
 .fieldset {
@@ -402,6 +489,17 @@ template {
   transition: opacity 0.2s linear;
 }
 
+.input-flag {
+  width: 80%;
+}
+
+.flag-form {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
 .form .button {
   margin: 0 auto;
 }
@@ -456,6 +554,7 @@ template {
 
 .table td {
   color: #565759;
+  padding: 20px 0;
 }
 
 
@@ -511,12 +610,6 @@ template {
 .showOperationStatusContainer {
   width: 100%;
 }
-.closeButton {
-  position: absolute;
-  right: 0%;
-  top: 0%;
-  z-index: 1000;
-}
 
 #materialCodeLabel {
   width: max-content;
@@ -540,9 +633,10 @@ template {
 .confirmOrChangeButton {
 
 }
+
 .flagImage {
   width: 40px;
-  height: 40px;
+  height: 30px;
 }
 .confirmOrWarnWindow {
   position: absolute;

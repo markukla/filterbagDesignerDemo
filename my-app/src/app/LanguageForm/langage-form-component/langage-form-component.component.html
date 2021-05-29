@@ -1,11 +1,12 @@
 
 <div>
-  {{this.languageFormTitle}}
+  <h2 class="heading heading-second">{{this.languageFormTitle}}</h2>
   <div class="languageVersionNames" *ngFor="let language of languages">
-
-    <img class="flagImage" [src]="getImageUrl(language)"> <label [for]="language.id">{{language.languageCode}}</label>
-    <input type="text" class="form-control" [id]="language.id" [value]="setValueForLanguageInputInUpdateMode(language.languageCode,this.namesInAllLanguages)" #nameInput>
-
+    <fieldset class="fieldset">
+      <label class= "label" [for]="language.id">{{language.languageCode}}</label>
+      <input type="text" class="input input-flag" [id]="language.id" [value]="setValueForLanguageInputInUpdateMode(language.languageCode,this.namesInAllLanguages)" #nameInput>
+      <img class="flagImage flag-form" [src]="getImageUrl(language)"> 
+    </fieldset>
   </div>
 </div>
 
