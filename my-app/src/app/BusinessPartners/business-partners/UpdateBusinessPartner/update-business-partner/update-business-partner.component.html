@@ -1,101 +1,59 @@
 <div class="createOrUpdateFormWindow">
-  <button id="close button" class="closeButton" (click)="closeAndGoBack() " [title]='generalNamesInSelectedLanguage.closeButtonDescription'>x</button>
-  <h2>{{userNamesInSelectedLanguage.updateBusinessPartner}}</h2>
-  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-    <div class="row">
-      <div class="form-group col-md-6">
-        <label class="label" for="partnercode" >{{generalNamesInSelectedLanguage.code}}</label>
-        <input type="text" class="form-control" formControlName="code" id="partnercode">
-        <div  *ngIf="code.invalid && (code.dirty || code.touched)"
-              class="alert alert-danger">
-
-          <div class="validatorInfo" *ngIf="code.errors.required">
-            <label
-              class="text-danger">
-              {{generalNamesInSelectedLanguage.thisFieldIsRequired}}
-            </label>
-
-          </div>
-
-
+  <form class="form form-second" [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <button id="close button" class="closeButton icon" (click)="closeAndGoBack() " [title]='generalNamesInSelectedLanguage.closeButtonDescription'>
+      <span class="hidden">Zamknij</span>  
+    </button>
+    <h2 class="heading">{{userNamesInSelectedLanguage.updateBusinessPartner}}</h2>
+    <fieldset class="fieldset">
+      <input type="text" class="input" formControlName="code" id="partnercode" placeholder="generalNamesInSelectedLanguage.code">
+      <label class="label" for="partnercode" >{{generalNamesInSelectedLanguage.code}}</label>
+      <div  *ngIf="code.invalid && (code.dirty || code.touched)" class="alert alert-danger">
+        <div class="validatorInfo" *ngIf="code.errors.required">
+            {{generalNamesInSelectedLanguage.thisFieldIsRequired}}
         </div>
       </div>
-        <div class="form-group col-md-6">
-          <label class="label" for="businesPartnerCompanyName" >{{orderNames.businessPartnerName}}</label>
-          <input type="text" class="form-control" formControlName="businesPartnerCompanyName" id="businesPartnerCompanyName">
-          <div  *ngIf="businesPartnerCompanyName.invalid && (businesPartnerCompanyName.dirty || businesPartnerCompanyName.touched)"
-                class="alert alert-danger">
-
-            <div class="validatorInfo" *ngIf="businesPartnerCompanyName.errors.required">
-              <label
-                class="text-danger">
-                {{generalNamesInSelectedLanguage.thisFieldIsRequired}}
-              </label>
-
-            </div>
-
-
-          </div>
-        </div>
-      <div class="form-group col-md-6">
-        <label class="label" for="fullName" id="materialCodeLabel">{{userNamesInSelectedLanguage.fullName}}</label>
-        <input type="text" class="form-control" formControlName="fulName" id="fullName">
-        <div  *ngIf="fulName.invalid && (fulName.dirty || fulName.touched)"
-              class="alert alert-danger">
-
-          <div class="validatorInfo" *ngIf="fulName.errors.required">
-            <label
-              class="text-danger">
-              {{generalNamesInSelectedLanguage.thisFieldIsRequired}}
-            </label>
-
-          </div>
-
-
+    </fieldset>
+    <fieldset class="fieldset">
+      <input type="text" class="input" formControlName="businesPartnerCompanyName" id="businesPartnerCompanyName" placeholder="orderNames.businessPartnerName">
+      <label class="label label-second" for="businesPartnerCompanyName" >{{orderNames.businessPartnerName}}</label>
+      <div  *ngIf="businesPartnerCompanyName.invalid && (businesPartnerCompanyName.dirty || businesPartnerCompanyName.touched)" class="alert alert-danger">
+        <div class="validatorInfo" *ngIf="businesPartnerCompanyName.errors.required">
+          {{generalNamesInSelectedLanguage.thisFieldIsRequired}}
         </div>
       </div>
-        <div class="form-group col-md-6">
-          <label class="label" for="email">{{userNamesInSelectedLanguage.email}}</label>
-          <input type="text" class="form-control" formControlName="email" id="email">
-          <div *ngIf="email.invalid && (email.dirty || email.touched)"
-               class="alert alert-danger">
-
-            <div class="validatorInfo" *ngIf="email.errors.required">
-              <label
-                class="text-danger">
-                {{generalNamesInSelectedLanguage.thisFieldIsRequired}}
-              </label>
-
-            </div>
-            <div class="validatorInfo" *ngIf="email.errors?.taken">
-              <label
-                class="text-danger">
-                {{userNamesInSelectedLanguage.emailIsAlreadyTaken}}
-              </label>
-
-
-            </div>
-            <div class="validatorInfo" *ngIf="email.errors.email">
-              <label
-                class="text-danger">
-               {{userNamesInSelectedLanguage.emailMustBeValid}}
-              </label>
-
-
-            </div>
-          </div>
-
+    </fieldset>
+    <fieldset class="fieldset">
+      <input type="text" class="input" formControlName="fulName" id="fullName" placeholder="userNamesInSelectedLanguage.fullName"> 
+      <label class="label" for="fullName" id="materialCodeLabel">{{userNamesInSelectedLanguage.fullName}}</label>
+      <div  *ngIf="fulName.invalid && (fulName.dirty || fulName.touched)" class="alert alert-danger">
+        <div class="validatorInfo" *ngIf="fulName.errors.required">
+          {{generalNamesInSelectedLanguage.thisFieldIsRequired}}
         </div>
-        <div class="form-group col-md-6">
-          <Span>
-            <label for="active" class="label">{{userNamesInSelectedLanguage.active}}</label><input type="checkbox" class="form-control" formControlName="active" id="active">
-          </Span>
-
+      </div>
+    </fieldset>
+    <fieldset class="fieldset">
+      <input type="text" class="input" formControlName="email" id="email" placeholder="{{userNamesInSelectedLanguage.email}}">
+      <label class="label" for="email">{{userNamesInSelectedLanguage.email}}</label>
+      <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
+        <div class="validatorInfo" *ngIf="email.errors.required">
+          {{generalNamesInSelectedLanguage.thisFieldIsRequired}}
         </div>
-
-    </div>
+        <div class="validatorInfo" *ngIf="email.errors?.taken">
+          {{userNamesInSelectedLanguage.emailIsAlreadyTaken}}
+        </div>
+        <div class="validatorInfo" *ngIf="email.errors.email">
+          {{userNamesInSelectedLanguage.emailMustBeValid}}
+        </div>
+      </div>
+    </fieldset>
+      <fieldset class="fieldset">
+        <input type="checkbox" class="input-checkbox" formControlName="active" id="active">
+        <label for="active" class="input-checkbox-label icon">
+          <span class="hidden">{{userNamesInSelectedLanguage.active}}</span>
+        </label>
+      </fieldset>
     <div class="addButon">
-      <button type="submit" [disabled]="!userForm.valid" class="btn btn-danger">{{generalNamesInSelectedLanguage.saveButtonDescription}}</button>
+      <button type="submit" [disabled]="!userForm.valid" class="button">{{generalNamesInSelectedLanguage.saveButtonDescription}}</button>
     </div>
   </form>
 

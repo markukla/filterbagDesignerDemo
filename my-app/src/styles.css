@@ -292,6 +292,10 @@ template {
   text-decoration: none;
 }
 
+.form .button.button-second {
+  margin-bottom: 24px;
+}
+
 .closeButton {
   background: none;
   border: none;
@@ -406,6 +410,22 @@ template {
   content: "\f128";
 }
 
+.userActivetedButton {
+  background: #8cc152;
+}
+
+.userActivetedButton:after {
+  content: "\ea10";
+}
+
+.userBlockedButton {
+  background: #ed5565;
+}
+
+.userBlockedButton:after {
+  content: "\ea0f";
+}
+
 .nav ul {
   list-style-type: none;
   font-size: 0;
@@ -459,10 +479,15 @@ template {
   position: absolute;
   text-transform: capitalize;
   top: 11px;
-  transform: translate(-150%, 0);
+  transform: translate(-180px, 0);
   transition: transform 0.2s linear;
   width: 120px;
   z-index: 1;
+}
+
+.label-second {
+  width: 200px;
+  transform: translate(-260px, 0);
 }
 
 .label:after {
@@ -505,6 +530,49 @@ template {
 .input:placeholder-shown + .label:after {
   opacity: 0;
   transition: opacity 0.2s linear;
+}
+
+.input-checkbox {
+  opacity: 0;
+  position: absolute;
+}
+
+.input-checkbox:checked + .input-checkbox-label:after,
+.input-checkbox:checked + .input-checkbox-label:before {
+  opacity: 1;
+}
+
+.input-checkbox-label {
+  border: 1px solid #abadb3;
+  border-radius: 5px;
+  background: #fff;
+  display: block;
+  height: 20px;
+  position: relative;
+  width: 20px;
+}
+
+.input-checkbox-label:after {
+  content: "Aktywny";
+  color: #ed5565;
+  font-size: 18px;
+  font-family: "sourcesanspro" !important;
+  left: 40px;
+  opacity: 0;
+  position: absolute;
+  transition: 0.2s linear;
+  top: 3px;
+}
+
+.input-checkbox-label:before {
+  color: #565759;
+  content: "\ea10";
+  left: 50%;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: 0.2s linear;
 }
 
 .input-flag {
@@ -596,6 +664,19 @@ template {
   margin: 0 4px;
 }
 
+.content-row {
+  color: #565759;
+  margin-bottom: 12px; 
+}
+
+.content-row:nth-of-type(4) {
+  margin-bottom: 32px;
+}
+
+.content-row-first {
+  margin-right: 8px;
+  text-transform: capitalize;
+}
 
 
 
@@ -650,9 +731,6 @@ template {
   width: 100%;
 }
 
-#materialCodeLabel {
-  width: max-content;
-}
 .form-control {
   position: relative;
   width: max-content;
