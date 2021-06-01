@@ -1,27 +1,20 @@
 <div class="createOrUpdateFormWindow">
-  <button id="close button" class="closeButton" (click)="closeAndGoBack() " [title]='generalNamesInSelectedLanguage.closeButtonDescription'>x</button>
-  <h2>{{this.generalNamesInSelectedLanguage.addNewButtonDescription}}</h2>
-  <form  enctype="multipart/form-data" [formGroup]="upladDrawingForm" (ngSubmit)="onUpload()">
-
-    <div class="col">
-      <div class="form-group col-md-6">
-        <label class="label" for="uploadDrawing">{{this.generalNamesInSelectedLanguage.selectDrawingToUpload}}</label>
-        <input type="file" name="file" id="uploadDrawing" formControlName="file" (change)="onFileChange($event)">
-
-        <div *ngIf="file.invalid"
-             class="alert alert-danger">
-
-          <div class="validatorInfo" *ngIf="file.errors.required">
-            {{generalNamesInSelectedLanguage.selectingDrawingIsRequired}}
-          </div>
+  <form class="form form-second" enctype="multipart/form-data" [formGroup]="upladDrawingForm" (ngSubmit)="onUpload()">
+    <button id="close button" class="closeButton icon" (click)="closeAndGoBack() " [title]='generalNamesInSelectedLanguage.closeButtonDescription'>
+      <span class="hidden">Zamknij</span>
+    </button>
+    <h2 class="heading">{{this.generalNamesInSelectedLanguage.addNewButtonDescription}}</h2>
+    <fieldset class="fieldset">
+      <label class="heading heading-second label-filepick" for="uploadDrawing">{{this.generalNamesInSelectedLanguage.selectDrawingToUpload}}</label>
+      <input class="input-filepick" type="file" name="file" id="uploadDrawing" formControlName="file" (change)="onFileChange($event)">
+      <div *ngIf="file.invalid" class="alert alert-danger">
+        <div class="validatorInfo" *ngIf="file.errors.required">
+          {{generalNamesInSelectedLanguage.selectingDrawingIsRequired}}
         </div>
       </div>
-
-    </div>
-
-
+    </fieldset>
     <div class="uploadDrawingButton">
-      <button type="submit" [disabled]="!upladDrawingForm.valid" class="btn btn-danger">{{generalNamesInSelectedLanguage.upload}}</button>
+      <button type="submit" [disabled]="!upladDrawingForm.valid" class="button">{{generalNamesInSelectedLanguage.upload}}</button>
     </div>
     <div class="alert-danger" *ngIf="!uploadSuccessStatus">
       <p>{{generalNamesInSelectedLanguage.uploadingDrawingIsRequired}}</p>
@@ -33,44 +26,36 @@
       <p>{{uploadOperationMessage}}</p>
     </div>
   </form>
-
-    <form [formGroup]="languageForm" (ngSubmit)="onSubmit()" >
-      <div class="row">
-        <div class="form-group col-md-6">
-          <label class="label" for="languageCode:">{{this.languageNamesInSelectedLanguage.languageCode}}</label>
-          <input type="text" class="form-control" formControlName="languageCode" id="languageCode:"
-                 placeholder="Kod Wymiaru">
-          <div *ngIf="lamguageCode.invalid && (lamguageCode.dirty || lamguageCode.touched)"
-               class="alert alert-danger">
-
-            <div class="validatorInfo" *ngIf="lamguageCode.errors.required">
-              {{this.generalNamesInSelectedLanguage.thisFieldIsRequired}}
-            </div>
-          </div>
-
-        </div>
-        <div class="form-group col-md-6">
-          <label class="label" for="languageName">{{this.languageNamesInSelectedLanguage.languageName}}</label>
-          <input type="text" class="form-control" formControlName="languageName" id="languageName">
-          <div *ngIf="languageName.invalid && (languageName.dirty || languageName.touched)"
-               class="alert alert-danger">
-
-            <div class="validatorInfo" *ngIf="languageName.errors.required">
-              {{this.generalNamesInSelectedLanguage.thisFieldIsRequired}}
-            </div>
-          </div>
-
-        </div>
-        <div class="form-group col-md-6">
-          <label class="label" for="active">{{this.userNames.active}}</label>
-          <input type="checkbox" class="form-control" formControlName="active" id="active">
+  <form class="form form-second margin-backward" [formGroup]="languageForm" (ngSubmit)="onSubmit()" >
+    <fieldset class="fieldset">
+      <input type="text" class="input" formControlName="languageCode" id="languageCode:" placeholder="this.languageNamesInSelectedLanguage.languageCode">
+      <label class="label" for="languageCode:">{{this.languageNamesInSelectedLanguage.languageCode}}</label>
+      <div *ngIf="lamguageCode.invalid && (lamguageCode.dirty || lamguageCode.touched)" class="alert alert-danger">
+        <div class="validatorInfo" *ngIf="lamguageCode.errors.required">
+          {{this.generalNamesInSelectedLanguage.thisFieldIsRequired}}
         </div>
       </div>
-
-      <div class="addButon">
-        <button type="submit" [disabled]="!languageForm.valid || uploadSuccessStatus === false" class="btn btn-danger">{{this.generalNamesInSelectedLanguage.saveButtonDescription}}</button>
+    </fieldset>
+    <fieldset class="fieldset">
+      <input type="text" class="input" formControlName="languageName" id="languageName" placeholder="this.languageNamesInSelectedLanguage.languageName">
+      <label class="label" for="languageName">{{this.languageNamesInSelectedLanguage.languageName}}</label>
+      <div *ngIf="languageName.invalid && (languageName.dirty || languageName.touched)" class="alert alert-danger">
+        <div class="validatorInfo" *ngIf="languageName.errors.required">
+          {{this.generalNamesInSelectedLanguage.thisFieldIsRequired}}
+        </div>
       </div>
-    </form>
+    </fieldset>
+    <fieldset class="fieldset">
+      <input type="checkbox" class="input-checkbox" formControlName="active" id="active">
+      <label class="input-checkbox-label icon" for="active">
+        <span class="hidden">{{this.userNames.active}}</span>
+      </label>
+    </fieldset>
+
+    <div class="addButon">
+      <button type="submit" [disabled]="!languageForm.valid || uploadSuccessStatus === false" class="button">{{this.generalNamesInSelectedLanguage.saveButtonDescription}}</button>
+    </div>
+  </form>
 
 
 

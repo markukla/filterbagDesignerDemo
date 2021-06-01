@@ -575,6 +575,14 @@ template {
   transition: 0.2s linear;
 }
 
+.input-checkbox-label-second {
+  margin: 0 auto;
+}
+
+.input-checkbox-label-second:after {
+  display: none;
+}
+
 .select-input {
   background: none;
   border: 2px solid #e3e4e8;
@@ -595,6 +603,20 @@ template {
 
 .form .button {
   margin: 0 auto;
+}
+
+.label-filepick {
+  display: block;
+  margin-bottom: 24px;
+}
+
+.input-filepick {
+  color:  #565759;
+  font-size: 18px;
+}
+
+.margin-backward {
+  margin-top: -12px;
 }
 
 .validatorInfo {

@@ -1,54 +1,60 @@
 
 <!--sss-->
+<div class="container">
+  <div class="add-button-container">
+    <a class="button button-link" (click)="createNewRecord()" routerLinkActive="active">
+      {{ this.generalNamesInSelectedLanguage.addNewButtonDescription }}
+    </a>
+  </div>
 
-<div>
-
-  <a  (click)="createNewRecord()" routerLinkActive="active">
-    {{ this.generalNamesInSelectedLanguage.addNewButtonDescription }}
-  </a>
-</div>
-
-<div class="materialComponent">
   <app-operation-status [operationFailerStatusMessage]="operationFailerStatusMessage" [operationSuccessStatusMessage]="operationSuccessStatusMessage"> </app-operation-status>
   <app-confirm-delete [showConfirmDeleteWindow]="showConfirmDeleteWindow"  *ngIf="showConfirmDeleteWindow === true" (deleteConfirmedEvent)="deleteSelectedRecordFromDatabase(this.tableService.selectedId, $event )"> </app-confirm-delete>
 
-  <table class="table table-striped border mt-1">
+  <table class="table">
     <thead>
-    <tr>
+    <tr class="table-top">
       <th [appSort]="records" data-order="desc" data-name="languageCode" scope="col">{{this.languageCodeDescription}} <br></th>
       <th [appSort]="records" data-order="desc" data-name="languageName" scope="col">{{this.languageNameDescription}}<br></th>
       <th>{{this.languageActiveDescription}}<br></th>
       <th>{{this.languageNames.flag}}</th>
       <th>{{this.generalNamesInSelectedLanguage.quantity}}</th>
-
     </tr>
-    <tr>
+    <tr class="table-search">
       <th>
-        <input class="tableSearchInput" [appSearch]="records" serchedColumn="languageCode" id="serchInCodes" [placeholder]="this.generalNamesInSelectedLanguage.search" />
+        <input class="input tableSearchInput" [appSearch]="records" serchedColumn="languageCode" id="serchInCodes" [placeholder]="this.generalNamesInSelectedLanguage.search" />
       </th>
-      <th><input class="tableSearchInput" [appSearch]="records" serchedColumn="languageName" id="serchInNames" [placeholder]="this.generalNamesInSelectedLanguage.search" /></th>
+      <th><input class="input tableSearchInput" [appSearch]="records" serchedColumn="languageName" id="serchInNames" [placeholder]="this.generalNamesInSelectedLanguage.search" /></th>
     </tr>
 
     </thead>
     <tbody>
-
-    <tr *ngFor="let record of records">
-      <td>{{record.languageCode}}</td>
-      <td>{{record.languageName}}</td>
-      <td>  <input class="form-check-input" type = "checkbox" [checked]="record.active" [disabled]="true"></td>
-      <td> <img class="flagImage" [src]="getFlagUrl(record)"> </td>
-      <td>
-        <text *ngIf="deleTedRecordMessage">{{deleTedRecordMessage}}</text>
-        <br>
-        <button (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(record.id)" [title]="deleteButtonInfo" >x</button>
-        <button (click)="updateSelectedRecord(record.id);" [title]="updateButtonInfo">u</button>
-      </td>
-
-    </tr>
+      <tr *ngFor="let record of records">
+        <td>{{record.languageCode}}</td>
+        <td>{{record.languageName}}</td>
+        <td>
+          <input class="input-checkbox" type="checkbox" [checked]="record.active" [disabled]="true">
+          <label for="active" class="input-checkbox-label input-checkbox-label-second icon">
+            <span class="hidden">
+              {{record.active}}
+            </span>
+          </label>
+        </td>
+        <td> 
+          <img class="flagImage" [src]="getFlagUrl(record)"> 
+        </td>
+        <td>
+          <text *ngIf="deleTedRecordMessage">{{deleTedRecordMessage}}</text>
+          <button class="icon action-button delete-button" (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(record.id)" [title]="deleteButtonInfo">
+            <span class="hidden">Usuń</span>
+          </button>
+          <button class="icon action-button edit-button" (click)="updateSelectedRecord(record.id);" [title]="updateButtonInfo">
+            <span class="hidden">Modyfikuj</span>
+          </button>
+        </td>
+      </tr>
     </tbody>
   </table>
 </div>
-
 
 
 
