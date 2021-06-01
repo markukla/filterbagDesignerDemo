@@ -1,61 +1,47 @@
 <div class="createOrUpdateFormWindow">
-  <button id="close button" class="closeButton" (click)="closeAndGoBack() " [title]='closeButtonDescription'>x</button>
-  <h2> {{generalNamesInSelectedLanguage.addNewButtonDescription + dimensionCodeNames.dimensionCode}} </h2>
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="row">
-
-      <div class="form-group col-md-6">
-        <label class="label" for="code">{{dimensionCodeNames.dimensionCode}}</label>
-        <input type="text" class="form-control" formControlName="code" id="code">
-        <div *ngIf="code.invalid && (code.dirty || code.touched)"
-             class="alert alert-danger">
-
-          <div class="validatorInfo" *ngIf="code.errors.required">
-            {{generalNamesInSelectedLanguage.thisFieldIsRequired}}
-          </div>
-
+  <form class="form form-second" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <button id="close button" class="closeButton icon" (click)="closeAndGoBack() " [title]='closeButtonDescription'>
+      <span class="hidden">Zamknij</span>
+    </button>
+    <h2 class="heading">{{generalNamesInSelectedLanguage.addNewButtonDescription + dimensionCodeNames.dimensionCode}}</h2>
+    <fieldset class="fieldset">
+      <input type="text" class="input" formControlName="code" id="code" placeholder="{{dimensionCodeNames.dimensionCode}}">
+      <label class="label" for="code">{{dimensionCodeNames.dimensionCode}}</label>
+      <div *ngIf="code.invalid && (code.dirty || code.touched)" class="alert alert-danger">
+        <div class="validatorInfo" *ngIf="code.errors.required">
+          {{generalNamesInSelectedLanguage.thisFieldIsRequired}}
         </div>
-
       </div>
-      <div *ngIf="this.operatiomMode!=='update'" class="form-group col-md-6">
-        <label class="label" for="role">{{dimensionCodeNames.selectDimensionRole}}</label>
-        <select class="form-control" formControlName="role" id="role">
-          <option [ngValue]="this.allDimensionRolesToSelect[0]">
-            {{dimensionCodeNames.dimensionRoleFirstIndex}}
-          </option>
-          <option [ngValue]="this.allDimensionRolesToSelect[1]">
-            {{dimensionCodeNames.dimensionRoleSecondIndex}}
-          </option>
-          <option [ngValue]="this.allDimensionRolesToSelect[2]">
-            {{dimensionCodeNames.dimensionRoleNoIndex}}
-          </option>
-        </select>
-        <div *ngIf="role.invalid && (role.dirty || role.touched)"
-             class="alert alert-danger">
-
-          <div class="validatorInfo" *ngIf="role.errors.required">
-           {{thisFiledIsRequiredDescription}}
-          </div>
+    </fieldset>
+    <fieldset *ngIf="this.operatiomMode!=='update'" class="fieldset">
+      <label class="label label-second" for="role">{{dimensionCodeNames.selectDimensionRole}}</label>
+      <select class="select-input" formControlName="role" id="role">
+        <option [ngValue]="this.allDimensionRolesToSelect[0]">
+          {{dimensionCodeNames.dimensionRoleFirstIndex}}
+        </option>
+        <option [ngValue]="this.allDimensionRolesToSelect[1]">
+          {{dimensionCodeNames.dimensionRoleSecondIndex}}
+        </option>
+        <option [ngValue]="this.allDimensionRolesToSelect[2]">
+          {{dimensionCodeNames.dimensionRoleNoIndex}}
+        </option>
+      </select>
+      <div *ngIf="role.invalid && (role.dirty || role.touched)" class="alert alert-danger">
+        <div class="validatorInfo" *ngIf="role.errors.required">
+          {{thisFiledIsRequiredDescription}}
         </div>
-
       </div>
-    </div>
 
-      <div  class="col">
-        <p>{{generalNamesInSelectedLanguage.addNamesInAllLanguages}}</p> <br>
-<app-langage-form-component></app-langage-form-component>
+    </fieldset>
+    <app-langage-form-component></app-langage-form-component>
 
-      </div>
     <div class="addButon">
-      <button type="submit" [disabled]="!form.valid" class="btn btn-danger"> {{generalNamesInSelectedLanguage.saveButtonDescription}} </button>
+      <button type="submit" [disabled]="!form.valid" class="button"> {{generalNamesInSelectedLanguage.saveButtonDescription}} </button>
     </div>
-
-
-</form>
-
-<div *ngIf="showoperationStatusMessage">
-  <textarea>{{showoperationStatusMessage}}</textarea>
-</div>
+  </form>
+  <div *ngIf="showoperationStatusMessage">
+    <textarea>{{showoperationStatusMessage}}</textarea>
+  </div>
 </div>
 
 

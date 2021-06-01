@@ -1,53 +1,50 @@
 
 <!--sss-->
+<div class="container">
+  <div class="add-button-container">
+    <a class="button button-link" (click)="createNewRecord();" routerLinkActive="active">
+      {{this.generalNamesInSelectedLanguage.addNewButtonDescription}}
+    </a>
+  </div>
 
-<div>
-
-  <a  (click)="createNewRecord();" routerLinkActive="active">
-    {{this.generalNamesInSelectedLanguage.addNewButtonDescription}}
-  </a>
-</div>
-
-<div class="materialComponent">
   <app-operation-status [operationFailerStatusMessage]="operationFailerStatusMessage" [operationSuccessStatusMessage]="operationSuccessStatusMessage"> </app-operation-status>
   <app-confirm-delete [showConfirmDeleteWindow]="showConfirmDeleteWindow"  *ngIf="showConfirmDeleteWindow === true" (deleteConfirmedEvent)="deleteSelectedRecordFromDatabase(this.tableService.selectedId, $event )"> </app-confirm-delete>
 
-  <table class="table table-striped border mt-1">
+  <table class="table">
     <thead>
-    <tr>
+    <tr class="table-top">
       <th [appSort]="records" data-order="desc" data-name="dimensionCode" scope="col">{{dimensionNames.dimensionCode}} <br></th>
       <th [appSort]="records" data-order="desc" data-name="dimensionCode" scope="col">{{dimensionNames.dimensionRole}} <br></th>
       <th> {{dimensionNames.dimensionName}} </th>
       <th>{{generalNamesInSelectedLanguage.quantity}}</th>
-
     </tr>
-    <tr>
+    <tr class="table-search">
       <th>
-
-        <input class="tableSearchInput" [appSearch]="records" serchedColumn="dimensionCode" id="serchInCodes" [placeholder]="generalNamesInSelectedLanguage.search" />
+        <input class="input tableSearchInput" [appSearch]="records" serchedColumn="dimensionCode" id="serchInCodes" [placeholder]="generalNamesInSelectedLanguage.search" />
       </th>
-      <th><input class="tableSearchInput" [appSearch]="records" serchedColumn="dimensionRole" id="serchInNames" [placeholder]="generalNamesInSelectedLanguage.search" /></th>
+      <th>
+        <input class="input tableSearchInput" [appSearch]="records" serchedColumn="dimensionRole" id="serchInNames" [placeholder]="generalNamesInSelectedLanguage.search" />
+      </th>
     </tr>
-
     </thead>
     <tbody>
-
     <tr *ngFor="let record of records">
       <td>{{record.dimensionCode}}</td>
       <td>{{record.dimensionRole}}</td>
-     <td>  {{record.localizedDimensionName}}</td>
+    <td>  {{record.localizedDimensionName}}</td>
       <td>
         <text *ngIf="deleTedRecordMessage">{{deleTedRecordMessage}}</text>
-        <br>
-        <button (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(record.id)" [title]="deleteButtonInfo" >x</button>
-        <button (click)="updateSelectedRecord(record.id);" [title]="updateButtonInfo">u</button>
+        <button class="icon action-button delete-button" (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(record.id)" [title]="deleteButtonInfo" >
+          <span class="hidden">Usuń</span>
+        </button>
+        <button class="icon action-button edit-button" (click)="updateSelectedRecord(record.id);" [title]="updateButtonInfo">
+          <span class="hidden">Modyfikuj</span>
+        </button>
       </td>
-
     </tr>
     </tbody>
   </table>
 </div>
-
 
 
 

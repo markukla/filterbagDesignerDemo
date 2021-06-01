@@ -543,7 +543,7 @@ template {
 }
 
 .input-checkbox-label {
-  border: 1px solid #abadb3;
+  border: 2px solid #e3e4e8;
   border-radius: 5px;
   background: #fff;
   display: block;
@@ -573,6 +573,13 @@ template {
   top: 50%;
   transform: translate(-50%, -50%);
   transition: 0.2s linear;
+}
+
+.select-input {
+  background: none;
+  border: 2px solid #e3e4e8;
+  color:  #565759;
+  padding: 8px 12px;
 }
 
 .input-flag {
