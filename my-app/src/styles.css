@@ -619,10 +619,24 @@ template {
   margin-top: -12px;
 }
 
+.heading-users {
+  margin-top: 24px;
+  text-align: left;
+}
+
 .validatorInfo {
   color: #ed5565;
   font-size: 12px;
   margin: 8px 0 0;
+}
+
+.validator-info-second {
+  font-size: 18px;
+  margin-top: 0;
+}
+
+.validator-info-second * {
+  margin-top: 0;
 }
 
 .add-button-container {

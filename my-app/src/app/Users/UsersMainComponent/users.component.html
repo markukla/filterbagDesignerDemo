@@ -1,63 +1,86 @@
 
-<!--sss-->
+<div class="container">
+  <div class="add-button-container">
+    <a class="button button-link" [routerLink]="['/users/add']" routerLinkActive="active">
+    {{generalUserNames.addNewUser}}
+    </a>
+  </div>
 
-<div>
-
-  <a  [routerLink]="['/users/add']" routerLinkActive="active">
-  {{generalUserNames.addNewUser}}
-  </a>
-</div>
-
-<div class="materialComponent">
   <app-operation-status [operationFailerStatusMessage]="operationFailerStatusMessage" [operationSuccessStatusMessage]="operationSuccessStatusMessage"> </app-operation-status>
   <app-confirm-delete [showConfirmDeleteWindow]="showConfirmDeleteWindow"  *ngIf="showConfirmDeleteWindow === true" (deleteConfirmedEvent)="deleteSelectedRecordFromDatabase(this.tableService.selectedId, $event )"> </app-confirm-delete>
 
-  <table class="table table-striped border mt-1">
+  <table class="table">
     <thead>
-    <tr>
+    <tr class="table-top">
       <th> L.p <br></th>
       <th [appSort]="allPriviligedUsers" data-order="desc" data-name="fulName" scope="col">{{generalUserNames.fullName}} </th>
       <th [appSort]="allPriviligedUsers" data-order="desc" data-name="email" scope="col">{{generalUserNames.email}}</th>
-    </tr>
-    <tr>
       <th></th>
-      <th><input class="tableSearchInput" [appSearch]="allPriviligedUsers" serchedColumn="fulName" id="serchInCodes" [placeholder]="generalNamesInSelectedLanguage.search" /></th>
-      <th><input class="tableSearchInput" [appSearch]="allPriviligedUsers" serchedColumn="email" id="serchInNames" [placeholder]="generalNamesInSelectedLanguage.search" /></th>
+    </tr>
+    <tr class="table-search"> 
+      <th></th>
+      <th><input class="input tableSearchInput" [appSearch]="allPriviligedUsers" serchedColumn="fulName" id="serchInCodes" [placeholder]="generalNamesInSelectedLanguage.search" /></th>
+      <th><input class="input tableSearchInput" [appSearch]="allPriviligedUsers" serchedColumn="email" id="serchInNames" [placeholder]="generalNamesInSelectedLanguage.search" /></th>
     </tr>
     </thead>
     <tbody>
-    <p>{{generalUserNames.admins}}</p>
+    <h3 class="heading heading-second heading-users">{{generalUserNames.admins}}</h3>
     <tr *ngFor="let admin of admins; let i=index">
       <td>{{i+1}}</td>
       <td>{{admin.fulName}}</td>
       <td>{{admin.email}}</td>
       <td>
-        <br>
-        <button (click)="changePaswordForUserId(admin.id)" [title]="generalUserNames.changePassword">{{generalUserNames.changePassword}}</button>
-        <button (click)="updateSelectedRecord(admin.id);" [title]="updateButtonInfo">{{generalNamesInSelectedLanguage.updateButtonInfo}}</button>
-        <button #button [title]="setBlockButtonActionInfoMessage(admin)" [classList]="setClassListForBlockedOrActiveuser(admin,button)" (click)="blockOrUnblockUser(admin)">{{setBlockButtonStatusMessage(admin)}}</button>
-        <button (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(admin.id)" [title]="deleteButtonInfo" >x</button>
+        <button class="icon action-button password-button" (click)="changePaswordForUserId(admin.id)" [title]="generalUserNames.changePassword">
+          <span class="hidden">{{generalUserNames.changePassword}}s</span>
+        </button>
+        <button class="icon action-button edit-button" (click)="updateSelectedRecord(admin.id);" [title]="updateButtonInfo">
+          <span class="hidden">
+            {{generalNamesInSelectedLanguage.updateButtonInfo}}
+          </span>
+        </button>
+        <button #button [title]="setBlockButtonActionInfoMessage(admin)" [classList]="setClassListForBlockedOrActiveuser(admin,button)" (click)="blockOrUnblockUser(admin)">
+          <span class="hidden">
+            {{setBlockButtonStatusMessage(admin)}}
+          </span>
+        </button>
+        <button class="icon action-button delete-button" (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(admin.id)" [title]="deleteButtonInfo" >
+          <span class="hidden">Usuń</span>
+        </button>
 
       </td>
 
     </tr>
-    <p>{{generalUserNames.editors}}</p>
+    <h3 class="heading heading-second heading-users">{{generalUserNames.editors}}</h3>
     <tr *ngFor="let editor of editors;let i=index">
       <td>{{i+1}}</td>
       <td>{{editor.fulName}}</td>
       <td>{{editor.email}}</td>
       <td>
-        <br>
-        <button (click)="changePaswordForUserId(editor.id)" [title]="generalUserNames.changePassword">{{generalUserNames.changePassword}}</button>
-        <button (click)="updateSelectedRecord(editor.id);" [title]="updateButtonInfo">u</button>
-        <button #button [title]="setBlockButtonActionInfoMessage(editor)" [classList]="setClassListForBlockedOrActiveuser(editor,button)" (click)="blockOrUnblockUser(editor)">{{setBlockButtonStatusMessage(editor)}}</button>
-        <button (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(editor.id)" [title]="deleteButtonInfo" >x</button>
+        <button class="icon action-button password-button" (click)="changePaswordForUserId(editor.id)" [title]="generalUserNames.changePassword">
+          <span class="hidden">
+            {{generalUserNames.changePassword}}
+          </span>
+        </button>
+        <button class="icon action-button edit-button" (click)="updateSelectedRecord(editor.id);" [title]="updateButtonInfo">
+          <span class="hidden">
+            {{generalNamesInSelectedLanguage.updateButtonInfo}}
+          </span>
+        </button>
+        <button #button [title]="setBlockButtonActionInfoMessage(editor)" [classList]="setClassListForBlockedOrActiveuser(editor,button)" (click)="blockOrUnblockUser(editor)">
+          <span class="hidden">
+            {{setBlockButtonStatusMessage(editor)}}
+          </span>
+        </button>
+        <button class="icon action-button delete-button" (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(editor.id)" [title]="deleteButtonInfo" >
+          <span class="hidden">
+            Usuń
+          </span>
+        </button>
       </td>
     </tr>
     </tbody>
   </table>
 </div>
-
 
 
 

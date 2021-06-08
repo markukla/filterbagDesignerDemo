@@ -15,6 +15,9 @@
   </div>
 
   <form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div *ngIf="this.showoperationMessage" class="validatorInfo validator-info-second">
+      <p>{{operationMessage}}</p>
+    </div>
     <h2 class="heading">Login</h2>
     <fieldset class="fieldset">
       <input type="text" class="input" formControlName="email" id="email" [placeholder]="this.userNames.email">
@@ -46,10 +49,6 @@
       <button type="submit" [disabled]="!loginForm.valid || !this.loginService.selectedLanguageCode" class="button">{{this.generalNamesInSelectedLanguage.logInButtonDescription}}</button>
     </div>
   </form>
-
-  <div *ngIf="this.showoperationMessage">
-    <p>{{operationMessage}}</p>
-  </div>
 </div>
 
 
