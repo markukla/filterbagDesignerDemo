@@ -1,31 +1,25 @@
+<div class="container">
+  <div class="add-button-container">
+    <a class="button button-link" (click)="createNewRecord()">
+      {{this.generalNamesInSelectedLanguage.addNewButtonDescription}}
+    </a>
+  </div>
 
-<!--sss-->
 
-<div>
-
-  <a  (click)="createNewRecord()">
-    {{this.generalNamesInSelectedLanguage.addNewButtonDescription}}
-  </a>
-</div>
-
-<div class="materialComponent">
   <app-operation-status [operationFailerStatusMessage]="operationFailerStatusMessage" [operationSuccessStatusMessage]="operationSuccessStatusMessage"> </app-operation-status>
   <app-confirm-delete [showConfirmDeleteWindow]="showConfirmDeleteWindow" *ngIf="showConfirmDeleteWindow === true" (deleteConfirmedEvent)="deleteSelectedRecordFromDatabase(this.tableService.selectedId, $event )" [showconsiderDeletingProducts]="this.productsWithTypeSelectedToDeleteExists" (deleteProductConfirmedEvent)="deleteProductIfConfirmed($event)"> </app-confirm-delete>
 
-  <table class="table table-striped border mt-1">
+  <table class="table">
     <thead>
-    <tr>
+    <tr class="table-top">
       <th [appSort]="records" data-order="desc" data-name="code" scope="col">{{this.orderNamesInSelectedLanguage.productTypeCode}} <br></th>
       <th [appSort]="records" data-order="desc" data-name="localizedNameInSelectedLanguage" scope="col">{{this.orderNamesInSelectedLanguage.productTypeName}}u</th>
       <th>{{this.generalNamesInSelectedLanguage.quantity}}</th>
 
     </tr>
-    <tr>
-      <th>
-
-        <input class="tableSearchInput" [appSearch]="records" serchedColumn="code" id="serchInCodes" [placeholder]="this.generalNamesInSelectedLanguage.search" />
-      </th>
-      <th><input class="tableSearchInput" [appSearch]="records" serchedColumn="localizedNameInSelectedLanguage" id="serchInNames" [placeholder]="this.generalNamesInSelectedLanguage.search" /></th>
+    <tr class="table-search">
+      <th><input class="tableSearchInput input" [appSearch]="records" serchedColumn="code" id="serchInCodes" [placeholder]="this.generalNamesInSelectedLanguage.search" /></th>
+      <th><input class="tableSearchInput input" [appSearch]="records" serchedColumn="localizedNameInSelectedLanguage" id="serchInNames" [placeholder]="this.generalNamesInSelectedLanguage.search" /></th>
       <th>{{this.recordNumbers}}</th>
     </tr>
 
@@ -37,11 +31,18 @@
       <td>{{record.localizedNameInSelectedLanguage}}</td>
       <td>
         <text *ngIf="deleTedMaterialMessage">{{deleTedMaterialMessage}}</text>
-        <br>
-        <button (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(record.id)" [title]="this.generalNamesInSelectedLanguage.deleteButtonInfo" >x</button>
-        <button (click)="updateSelectedRecord(record.id);" [title]="this.generalNamesInSelectedLanguage.updateButtonInfo">u</button>
-        <button (click)="showProductTops(record.id)">{{this.orderNamesInSelectedLanguage.productTops}}</button>
-        <button (click)="showProductBottoms(record.id)">{{this.orderNamesInSelectedLanguage.productBottoms}}</button>
+        <button class="icon action-button delete-button" (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(record.id)" [title]="this.generalNamesInSelectedLanguage.deleteButtonInfo" >
+          <span class="hidden">Usuń</span>
+        </button>
+        <button class="icon action-button edit-button" (click)="updateSelectedRecord(record.id);" [title]="this.generalNamesInSelectedLanguage.updateButtonInfo">
+          <span class="hidden">Edytuj</span>
+        </button>
+        <button class="icon action-button top-button" (click)="showProductTops(record.id)" [title]="this.orderNamesInSelectedLanguage.productTops">
+          <span class="hidden">{{this.orderNamesInSelectedLanguage.productTops}}</span>
+        </button>
+        <button class="icon action-button bottom-button" (click)="showProductBottoms(record.id)" [title]="this.orderNamesInSelectedLanguage.productBottoms">
+          <span class="hidden">{{this.orderNamesInSelectedLanguage.productBottoms}}</span>
+        </button>
       </td>
 
     </tr>

@@ -16,6 +16,20 @@
           routerLinkActive="active">{{this.generalNamesInSelectedLanguage.partners}}</a>
       </li>
       <li class="nav-item">
+        <a class="menuLink" [routerLink]="['/products']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.products}}</a>
+        <ul class="dropdown">
+          <li class="nav-item">
+            <a class="menuLink" [routerLink]="['/products/types']">{{this.orderNamesInSelectedLanguage.productTypes}}</a>
+          </li>
+          <li class="nav-item">
+            <a class="menuLink" [routerLink]="['/products/tops']"> {{this.orderNamesInSelectedLanguage.productTops}}</a>
+          </li>
+          <li class="nav-item">
+            <a class="menuLink" [routerLink]="['/products/bottoms']">{{this.orderNamesInSelectedLanguage.productBottoms}}</a>
+          </li>
+        </ul>
+      </li>
+      <li class="nav-item">
         <a class="menuLink" [routerLink]="['/materials']"
           routerLinkActive="active">{{this.generalNamesInSelectedLanguage.materials}}</a>
       </li>
@@ -42,20 +56,6 @@
       <li class="nav-item">
         <button class="menuButton"
           (click)="this.authenticationService.logOut()">{{this.generalNamesInSelectedLanguage.logout}}</button>
-      </li>
-    </ul>
-    <ul class="nav-list">
-      <li class="nav-item">
-        <a class="menuLink" [routerLink]="['/products']" routerLinkActive="active">{{this.generalNamesInSelectedLanguage.products}}</a>
-      </li>
-      <li class="nav-item">
-        <a class="menuLink" [routerLink]="['/products/types']">{{this.orderNamesInSelectedLanguage.productTypes}}</a>
-      </li>
-      <li class="nav-item">
-        <a class="menuLink" [routerLink]="['/products/tops']"> {{this.orderNamesInSelectedLanguage.productTops}}</a>
-      </li>
-      <li class="nav-item">
-        <a class="menuLink" [routerLink]="['/products/bottoms']">{{this.orderNamesInSelectedLanguage.productBottoms}}</a>
       </li>
     </ul>
   </nav>

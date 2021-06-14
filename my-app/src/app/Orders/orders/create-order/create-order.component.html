@@ -1,37 +1,40 @@
 <div class="createOrUpdateOrder">
-  <button id="close button" class="closeButton" (click)="closeAndGoBack() " [title]='generalNamesInSelectedLanguage.closeButtonDescription'>x</button>
-  <h2>{{createOrUpdateFormTitle}}</h2>
   <div class="validateUserInputsErrorsContainer" *ngIf="this.showUserInputErrorWindow === true" id="validateUserInputsErrorsContainer">
     <app-validation-error-message [userInputErrorsMessages]="indexDubledMessages" (confirmButtonClickedEvent)="confirmIndexDubledMessage($event)"></app-validation-error-message>
   </div>
 
-  <form [formGroup]="form" (ngSubmit)=" onSubmit()">
+  <form class="form form-second" [formGroup]="form" (ngSubmit)=" onSubmit()">
+    <button id="close button" class="closeButton icon" (click)="closeAndGoBack() " [title]='generalNamesInSelectedLanguage.closeButtonDescription'>
+      <span class="hidden">Zamknij</span>
+    </button>
+    <h2 class="heading">{{createOrUpdateFormTitle}}</h2>
     <div *ngIf="!updateModeOrPartnerLogged">
       <div *ngIf="partnerConfirmed">
-        <p>
-          {{generalNamesInSelectedLanguage.code + ': ' + this.selectedPartner.code}} <br>
-          {{ orderNames.businessPartnerName + ':' + this.selectedPartner.fulName + ' - ' + this.selectedPartner.businesPartnerCompanyName}}
-        </p>
+        <div class="content-row">
+          <span class="content-row-first">{{generalNamesInSelectedLanguage.code + ': '}}</span>
+          <span>{{this.selectedPartner.code}}</span>
+        </div>
+        <div class="content-row">
+          <span class="content-row-first">{{orderNames.businessPartnerName + ': '}}</span>
+          <span>{{this.selectedPartner.fulName + ' - ' + this.selectedPartner.businesPartnerCompanyName}}</span>
+        </div>    
       </div>
-      <div *ngIf="!partnerConfirmed">
-
-        <input  [placeholder]="generalNamesInSelectedLanguage.search" [appSearch]="allParntersToSelect" serchedColumn="codeAndName" />
-        <label class="label" for="businessPartner">{{orderNames.businessPartner}}</label>
-        <select class="form-control" formControlName="businessPartner" id="businessPartner"  size="1" autofocus  #businessPartner>
+      <input class="input create-search" [placeholder]="generalNamesInSelectedLanguage.search" [appSearch]="allParntersToSelect" serchedColumn="codeAndName" />
+      <fieldset class="fieldset" *ngIf="!partnerConfirmed">
+        <label class="label label-second" for="businessPartner">{{orderNames.businessPartner}}</label>
+        <select class="select-input" formControlName="businessPartner" id="businessPartner"  size="1" autofocus  #businessPartner>
           <option [ngValue]="null" disabled>-</option>
           <option *ngFor="let partner of allParntersToSelect" [ngValue]="partner.user">
             {{partner.codeAndName}}
           </option>
         </select>
-        <div *ngIf="type.invalid && (type.dirty || type.touched)"
-             class="alert alert-danger">
-
+        <div *ngIf="type.invalid && (type.dirty || type.touched)" class="alert alert-danger">
           <div class="validatorInfo" *ngIf="type.errors.required">
             {{orderNames.choosingOptionFromListIsRequires}}
           </div>
         </div>
-      </div>
-      <button type="button" class="confirmOrChangeButton"
+      </fieldset>
+      <button type="button" class="button button-second"
               (click)="changeOrConfirmPartnerButtonAction();"> {{confirmOrCHangePartnerButtonInfo}}  </button>
 
       <div *ngIf="!this.partnerConfirmed"
@@ -45,51 +48,56 @@
     <div *ngIf="this.partnerConfirmed || this.isPartner">
 
     <div *ngIf="productConfirmed && type.value && top.value && bottom.value">
-      <p>
-        {{orderNames.productType + ': ' + this.type.value.code + ' - ' + getNameInSelectedLanguage(this.type.value.vocabulary.localizedNames)}}
-        <br>
-        {{orderNames.productTop + ': ' + this.top.value.code + ' - ' + getNameInSelectedLanguage(this.top.value.vocabulary.localizedNames)}}
-        <br>
-
-        {{orderNames.productBottom + ': ' + this.bottom.value.code + ' - ' + getNameInSelectedLanguage(this.bottom.value.vocabulary.localizedNames)}}
-        <br>
-      </p>
+        <div class="content-row">
+          <span class="content-row-first">{{orderNames.productType + ': '}}</span>
+          <span>{{this.type.value.code + ' - ' + getNameInSelectedLanguage(this.type.value.vocabulary.localizedNames)}}</span>
+        </div>
+        <div class="content-row">
+          <span class="content-row-first">{{orderNames.productTop + ': '}}</span>
+          <span>{{this.top.value.code + ' - ' + getNameInSelectedLanguage(this.top.value.vocabulary.localizedNames)}}</span>
+        </div>
+        <div class="content-row">
+          <span class="content-row-first">{{orderNames.productBottom + ': '}}</span>
+          <span>{{this.bottom.value.code + ' - ' + getNameInSelectedLanguage(this.bottom.value.vocabulary.localizedNames)}}</span>
+        </div>
     </div>
     <div *ngIf="!productConfirmed">
       <p>{{orderNames.pressButtonToChooseProductByDrawing}} </p>
-      <button type="button"
-              (click)="chooseProductByMiniatureButtonAction();"> {{orderNames.chooseProductByDrawingButtonDescription}}</button>
-      <p> Lub <br>
-        {{orderNames.chooseProductByParameters}}
-      </p>
-      <label class="label" for="type">{{orderNames.productType}}</label>
-      <select class="form-control" formControlName="type" id="type"
-              (change)="setTopsToSelectAfterTypeSelected(this.type.value)">
-        <option [ngValue]="null" disabled> -</option>
-        <option *ngFor="let type of allTypesToSelect" [ngValue]="type">
-          {{ type.code + ' - ' + getNameInSelectedLanguage(type.vocabulary.localizedNames) }}
-        </option>
-      </select>
+      <button class="button button-second" type="button" (click)="chooseProductByMiniatureButtonAction();"> {{orderNames.chooseProductByDrawingButtonDescription}}</button>
+      <p>Lub</p>
+      <p>{{orderNames.chooseProductByParameters}}</p>
+      <fieldset class="fieldset">
+        <label class="label" for="type">{{orderNames.productType}}</label>
+        <select class="select-input select-input-second" formControlName="type" id="type"
+                  (change)="setTopsToSelectAfterTypeSelected(this.type.value)">
+          <option [ngValue]="null" disabled> -</option>
+          <option *ngFor="let type of allTypesToSelect" [ngValue]="type">
+            {{ type.code + ' - ' + getNameInSelectedLanguage(type.vocabulary.localizedNames) }}
+          </option>
+        </select>
+      </fieldset>
       <div *ngIf="type.value">
-        <label class="label" for="top"> {{orderNames.productTop}}</label>
-        <select class="form-control" formControlName="top" id="top" (change)="setBottomToSelectAfterTopSelected(this.type.value, this.top.value )">
-          <option [ngValue]="null" disabled>{{generalNamesInSelectedLanguage.select +' '+orderNames.productTop}}</option>
-          <option *ngFor="let top of allTopsToSelect" [ngValue]="top">
-            {{ top.code + ' - ' + getNameInSelectedLanguage(top.vocabulary.localizedNames) }}
-          </option>
-        </select>
-        <div *ngIf="this.type.value && this.top.value">
-        <label class="label" for="bottom"> {{orderNames.productBottom}}</label>
-        <select class="form-control" formControlName="bottom" id="bottom">
-          <option [ngValue]="null" disabled>{{generalNamesInSelectedLanguage.select +' '+orderNames.productBottom}}</option>
-          <option *ngFor="let bottom of allBotomsToselect" [ngValue]="bottom">
-            {{ bottom.code + ' - ' + getNameInSelectedLanguage(bottom.vocabulary.localizedNames) }}
-          </option>
-        </select>
-      </div>
+        <fieldset class="fieldset">
+          <label class="label" for="top"> {{orderNames.productTop}}</label>
+          <select class="select-input select-input-second" formControlName="top" id="top" (change)="setBottomToSelectAfterTopSelected(this.type.value, this.top.value )">
+            <option [ngValue]="null" disabled>{{generalNamesInSelectedLanguage.select +' '+orderNames.productTop}}</option>
+            <option *ngFor="let top of allTopsToSelect" [ngValue]="top">
+              {{ top.code + ' - ' + getNameInSelectedLanguage(top.vocabulary.localizedNames) }}
+            </option>
+          </select>
+        </fieldset>
+        <fieldset class="fieldset" *ngIf="this.type.value && this.top.value">
+          <label class="label" for="bottom"> {{orderNames.productBottom}}</label>
+          <select class="select-input select-input-second" formControlName="bottom" id="bottom">
+            <option [ngValue]="null" disabled>{{generalNamesInSelectedLanguage.select +' '+orderNames.productBottom}}</option>
+            <option *ngFor="let bottom of allBotomsToselect" [ngValue]="bottom">
+              {{ bottom.code + ' - ' + getNameInSelectedLanguage(bottom.vocabulary.localizedNames) }}
+            </option>
+          </select>
+        </fieldset>
       </div>
     </div>
-    <button type="button" class="confirmOrChangeButton" id="confirmOrchangeProduct"
+    <button type="button" class="button button-second" id="confirmOrchangeProduct"
             (click)="confirmOrchangeProductButtonAction();"> {{confirmOrCHangeProductParmatersButtonInfo}}  </button>
     <div *ngIf="!this.productConfirmed"
          class="alert alert-danger">
@@ -99,20 +107,35 @@
       </div>
     </div>
     <div *ngIf="materialConfirmed && selectedMaterial">
-      {{orderNames.productMaterial}}: <br>
-      {{generalNamesInSelectedLanguage.code + ': ' + selectedMaterial.materialCode}} <br>
-      {{generalNamesInSelectedLanguage.name + ': ' + selectedMaterial.materialName}} <br>
-      <div>
-        {{generalNamesInSelectedLanguage.materialDescription + ': ' + getNameInSelectedLanguage(selectedMaterial.vocabulary.localizedNames)}}<br>
-        <label for="addMaterialDescriptionCheckboc">{{this.generalNamesInSelectedLanguage.addMaterialDescriptionToDrawingTabel}}</label>
-        <input id="addMaterialDescriptionCheckboc" type="checkbox" formControlName="addMaterialDescriptiontoDrawingTabel" >
+      <div class="content-row">
+        <span class="content-row-first">{{orderNames.productMaterial + ': '}}</span>
       </div>
+      <div class="content-row">
+        <span class="content-row-first">{{generalNamesInSelectedLanguage.code + ': '}}</span>
+        <span>{{selectedMaterial.materialCode}}</span>
+      </div>
+      <div class="content-row">
+        <span class="content-row-first">{{generalNamesInSelectedLanguage.name + ': '}}</span>
+        <span>{{selectedMaterial.materialName}}</span>
+      </div>
+      <div class="content-row">
+        <span class="content-row-first">{{generalNamesInSelectedLanguage.materialDescription + ': '}}</span>
+        <span>{{getNameInSelectedLanguage(selectedMaterial.vocabulary.localizedNames)}}</span>
+      </div>
+      <fieldset class="fieldset">
+        <h2 class="heading heading-second">{{this.generalNamesInSelectedLanguage.addMaterialDescriptionToDrawingTabel}}</h2>
+        <input class="input-checkbox" id="addMaterialDescriptionCheckboc" type="checkbox" formControlName="addMaterialDescriptiontoDrawingTabel" >
+        <label class="input-checkbox-label icon" for="addMaterialDescriptionCheckboc">
+          <span class="hidden">{{this.generalNamesInSelectedLanguage.addMaterialDescriptionToDrawingTabel}}</span>
+        </label>
+      </fieldset>
+
 
 
     </div>
-    <div *ngIf="!materialConfirmed">
-      <label class="label" for="productMaterial">{{generalNamesInSelectedLanguage.select +' '+orderNames.productMaterial}}</label>
-      <select class="form-control" formControlName="productMaterial" id="productMaterial">
+    <fieldset class="fieldset" *ngIf="!materialConfirmed">
+      <label class="label label-second" for="productMaterial">{{generalNamesInSelectedLanguage.select +' '+orderNames.productMaterial}}</label>
+      <select class="select-input" formControlName="productMaterial" id="productMaterial">
         <option [ngValue]="null" disabled> -</option>
         <option *ngFor="let material of allMaterialsToSelect" [ngValue]="material">
           {{ material.materialCode + ' - ' + material.materialName+ ' - ' + getNameInSelectedLanguage(material.vocabulary.localizedNames) }}
@@ -125,9 +148,8 @@
           {{orderNames.choosingOptionFromListIsRequires}}
         </div>
       </div>
-    </div>
-    <button type="button" class="confirmOrChangeButton"
-            (click)="confirmOrChangeMaterialButtonAction();"> {{confirmOrCHangeMaterialButtonInfo}}  </button>
+    </fieldset>
+    <button type="button" class="button button-second" (click)="confirmOrChangeMaterialButtonAction();"> {{confirmOrCHangeMaterialButtonInfo}}  </button>
     <div *ngIf="!this.materialConfirmed"
          class="alert alert-danger">
 
@@ -137,17 +159,16 @@
     </div>
     <div class="addButon">
       <div *ngIf="operationModeEqualConfirmNewOrUpdate">
-        <button type="button" class="confirmOrChangeButton" (click)="seeDrawing();"> {{generalNamesInSelectedLanguage.seeDrawing}}</button>
-        <button type="button" class="confirmOrChangeButton" (click)="updateDrawing();"> {{orderNames.changeDrawingParameters}}
+        <button type="button" class="button button-second" (click)="seeDrawing();"> {{generalNamesInSelectedLanguage.seeDrawing}}</button>
+        <button type="button" class="button button-second" (click)="updateDrawing();"> {{orderNames.changeDrawingParameters}}
         </button>
-        <label for="commentToOrder">{{orderNames.yourCommentToOrder}} </label> <br>
-        <textarea id="commentToOrder" #commentToOrder formControlName="commentToOrder"> </textarea>
-
+        <label class="heading heading-second" for="commentToOrder">{{orderNames.yourCommentToOrder}} </label> 
+        <textarea class="input input-textarea" id="commentToOrder" #commentToOrder formControlName="commentToOrder"> </textarea>
       </div>
     </div>
 
     <div class="addButon">
-      <button type="submit" [disabled]="this.allowSubmit === false" class="btn btn-danger">{{submitButtonDescription}}
+      <button type="submit" [disabled]="this.allowSubmit === false" class="button">{{submitButtonDescription}}
       </button>
     </div>
     </div>

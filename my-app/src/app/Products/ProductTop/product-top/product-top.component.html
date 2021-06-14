@@ -1,32 +1,24 @@
+<div class="container">
 
-<!--sss-->
-
-<div *ngIf="!productTypeId">
-
-
-  <a  (click)="createNewRecord()">
+<div class="add-button-container" *ngIf="!productTypeId">
+  <a class="button button-link" (click)="createNewRecord()">
     {{ this.generalNamesInSelectedLanguage.addNewButtonDescription }}
   </a>
 </div>
-
-<div class="materialComponent">
   <app-operation-status [operationFailerStatusMessage]="operationFailerStatusMessage" [operationSuccessStatusMessage]="operationSuccessStatusMessage"> </app-operation-status>
   <app-confirm-delete [showConfirmDeleteWindow]="showConfirmDeleteWindow"  *ngIf="showConfirmDeleteWindow === true" (deleteConfirmedEvent)="deleteSelectedRecordFromDatabase(this.tableService.selectedId, $event )" [showconsiderDeletingProducts]="this.productsWithTopsSelectedToDeleteExists" (deleteProductConfirmedEvent)="deleteProductIfConfirmed($event)"> </app-confirm-delete>
 
-  <table class="table table-striped border mt-1">
+  <table class="table">
     <thead>
-    <tr>
+    <tr class="table-top"> 
       <th [appSort]="records" data-order="desc" data-name="code" scope="col">{{orderNamesInSelectedLanguage.productTopsCode}} <br></th>
       <th [appSort]="records" data-order="desc" data-name="localizedNameInSelectedLanguage" scope="col">{{orderNamesInSelectedLanguage.productTopsName}}</th>
       <th>{{generalNamesInSelectedLanguage.quantity}}</th>
-
     </tr>
-    <tr>
-      <th>
-
-        <input class="tableSearchInput" [appSearch]="records" serchedColumn="code" id="serchInCodes" [placeholder]="generalNamesInSelectedLanguage.search" />
+    <tr class="table-search">
+      <th><input class="tableSearchInput input" [appSearch]="records" serchedColumn="code" id="serchInCodes" [placeholder]="generalNamesInSelectedLanguage.search" />
       </th>
-      <th><input class="tableSearchInput" [appSearch]="records" serchedColumn="localizedNameInSelectedLanguage" id="serchInNames" [placeholder]="generalNamesInSelectedLanguage.search" /></th>
+      <th><input class="tableSearchInput input" [appSearch]="records" serchedColumn="localizedNameInSelectedLanguage" id="serchInNames" [placeholder]="generalNamesInSelectedLanguage.search" /></th>
       <th>{{this.recordNumbers}}</th>
     </tr>
 
@@ -37,8 +29,12 @@
       <td>{{record.code}}</td>
       <td>{{record.localizedNameInSelectedLanguage}}</td>
       <td *ngIf="!productTypeId">
-        <button (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(record.id)" [title]="generalNamesInSelectedLanguage.deleteButtonInfo" >x</button>
-        <button (click)="updateSelectedRecord(record.id);" [title]="generalNamesInSelectedLanguage.updateButtonInfo">u</button>
+        <button class="action-button icon delete-button" (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(record.id)" [title]="generalNamesInSelectedLanguage.deleteButtonInfo" >
+          <span class="hidden">Usuń</span>
+        </button>
+        <button class="icon action-button edit-button" (click)="updateSelectedRecord(record.id);" [title]="generalNamesInSelectedLanguage.updateButtonInfo">
+          <span class="hidden">Edytuj</span>
+        </button>
       </td>
     </tr>
     </tbody>
