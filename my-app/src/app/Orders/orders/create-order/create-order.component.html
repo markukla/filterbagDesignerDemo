@@ -66,6 +66,13 @@
       <button class="button button-second" type="button" (click)="chooseProductByMiniatureButtonAction();"> {{orderNames.chooseProductByDrawingButtonDescription}}</button>
       <p>Lub</p>
       <p>{{orderNames.chooseProductByParameters}}</p>
+      <div *ngIf="!this.productConfirmed"
+         class="alert alert-danger">
+
+        <div class="validatorInfo">
+          {{orderNames.choosingAndConfirmProductIsRequired}}
+        </div>
+      </div>
       <fieldset class="fieldset">
         <label class="label" for="type">{{orderNames.productType}}</label>
         <select class="select-input select-input-second" formControlName="type" id="type"
@@ -78,7 +85,7 @@
       </fieldset>
       <div *ngIf="type.value">
         <fieldset class="fieldset">
-          <label class="label" for="top"> {{orderNames.productTop}}</label>
+          <label class="label label-second" for="top"> {{orderNames.productTop}}</label>
           <select class="select-input select-input-second" formControlName="top" id="top" (change)="setBottomToSelectAfterTopSelected(this.type.value, this.top.value )">
             <option [ngValue]="null" disabled>{{generalNamesInSelectedLanguage.select +' '+orderNames.productTop}}</option>
             <option *ngFor="let top of allTopsToSelect" [ngValue]="top">
@@ -99,13 +106,6 @@
     </div>
     <button type="button" class="button button-second" id="confirmOrchangeProduct"
             (click)="confirmOrchangeProductButtonAction();"> {{confirmOrCHangeProductParmatersButtonInfo}}  </button>
-    <div *ngIf="!this.productConfirmed"
-         class="alert alert-danger">
-
-      <div class="validatorInfo">
-        {{orderNames.choosingAndConfirmProductIsRequired}}
-      </div>
-    </div>
     <div *ngIf="materialConfirmed && selectedMaterial">
       <div class="content-row">
         <span class="content-row-first">{{orderNames.productMaterial + ': '}}</span>
@@ -129,9 +129,13 @@
           <span class="hidden">{{this.generalNamesInSelectedLanguage.addMaterialDescriptionToDrawingTabel}}</span>
         </label>
       </fieldset>
+    </div>
+    <div *ngIf="!this.materialConfirmed"
+         class="alert alert-danger">
 
-
-
+      <div class="validatorInfo">
+        {{orderNames.choosingAndConfirmMaterialIsRequired}}
+      </div>
     </div>
     <fieldset class="fieldset" *ngIf="!materialConfirmed">
       <label class="label label-second" for="productMaterial">{{generalNamesInSelectedLanguage.select +' '+orderNames.productMaterial}}</label>
@@ -150,13 +154,6 @@
       </div>
     </fieldset>
     <button type="button" class="button button-second" (click)="confirmOrChangeMaterialButtonAction();"> {{confirmOrCHangeMaterialButtonInfo}}  </button>
-    <div *ngIf="!this.materialConfirmed"
-         class="alert alert-danger">
-
-      <div class="validatorInfo">
-        {{orderNames.choosingAndConfirmMaterialIsRequired}}
-      </div>
-    </div>
     <div class="addButon">
       <div *ngIf="operationModeEqualConfirmNewOrUpdate">
         <button type="button" class="button button-second" (click)="seeDrawing();"> {{generalNamesInSelectedLanguage.seeDrawing}}</button>

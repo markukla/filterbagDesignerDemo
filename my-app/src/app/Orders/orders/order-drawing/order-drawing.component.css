@@ -14,7 +14,7 @@
 }
 
 .drawingAndTableContainer:before {
-  border: 0.1vw solid black;
+  border: 0.1vw solid #565759;
   content: "";
   position: absolute;
   top: 0;
@@ -24,7 +24,6 @@
   pointer-events: none;
   z-index: 100;
 }
-
 
 .drawingMain {
   position: relative;
@@ -40,14 +39,13 @@
   display: inline-block;
   margin: 0 auto;
   max-height: 100%;
-
-
 }
 
 #drawingImage {
   display: block;
   max-height: 100%;
   max-width: 100%;
+  width: 100%;
 }
 
 .createInputFormContainer {
@@ -83,7 +81,7 @@
   /*overflow: hidden*/ /*no overflow if we do not want to have active corners for resize*/;
   /*resize: none;*/
   text-align: center;
-  border: 1px solid black;
+  border: 1px solid #565759;
   min-width: 1.4vw;
 }
 .drawingContainerPlaceHolders .dimensionInput:before {
@@ -196,11 +194,18 @@
 }
 
 .saveButtons {
-  position: sticky;
-  z-index: 950;
-  bottom: 1%;
-  left: 5%;
+  padding: 12px 0;
 }
+
+.saveButtons div {
+  float: right;
+}
+
+.saveButtons .action-button {
+  font-size: 24px;
+  padding: 24px;
+}
+
 @media print {
   @page {
     size: landscape

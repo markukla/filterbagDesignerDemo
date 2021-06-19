@@ -21,18 +21,18 @@
           <label for="workingTemperature">{{drawingTableFormNames.workingTemperature}} [oC]</label>
           <input type="text"  formControlName="workingTemperature" id="workingTemperature">
         </fieldset>
-        <fieldset>
+        <fieldset class="table-fieldset">
           <label  for="antiElectrostatic">{{drawingTableFormNames.antielectrostatic}}</label>
           <input type="checkbox"  formControlName="antiEelectrostatic" id="antiElectrostatic">
         </fieldset>
 
         <div>{{drawingTableFormNames.workingSide}}:</div>
-        <fieldset>
+        <fieldset class="table-fieldset">
           <input type="radio"  formControlName="workingSide" name="workingSide" id="workingSideInternal" [value]="workingSideInternal"
           >
           <label  for="workingSideInternal">{{drawingTableFormNames.workingSideInternal}}</label>
         </fieldset>
-        <fieldset>
+        <fieldset class="table-fieldset">
           <input type="radio"  formControlName="workingSide" name="workingSide" id="workingSideExternal" [value]="workingSideExterinal"
           >
           <label  for="workingSideExternal">{{drawingTableFormNames.workingSideExternal}}</label>

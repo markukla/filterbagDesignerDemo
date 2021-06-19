@@ -426,6 +426,48 @@ template {
   content: "\f0aa";
 }
 
+.return-button {
+  background: #ed5565;
+}
+
+.return-button:after {
+  content: "\f0aa";
+  transform: rotate(270deg) translate(50%, -45%);
+  transform-origin: center center;
+}
+
+.print-button {
+  background: #5dc9e6;
+}
+
+.print-button:after {
+  content: "\e954";
+}
+
+.turn-button {
+  background: #5dc9e6;
+}
+
+.turn-button:after {
+  content: "\f01e";
+}
+
+.pdf-button {
+  background: #d68720;
+}
+
+.pdf-button:after {
+  content: "\f1c1";
+}
+
+.add-button {
+  background: #8cc152;
+}
+
+.add-button:after {
+  content: "\f055";
+}
+
 .bottom-button {
   background: #5dc9e6;
 }
@@ -436,11 +478,11 @@ template {
   transform-origin: center center;
 }
 
-.userActivetedButton {
+.userActivetedButton, .submit-button {
   background: #8cc152;
 }
 
-.userActivetedButton:after {
+.userActivetedButton:after, .submit-button:after {
   content: "\ea10";
 }
 
@@ -450,6 +492,15 @@ template {
 
 .userBlockedButton:after {
   content: "\ea0f";
+}
+
+.flex-center {
+  align-items: center;
+  display: flex;
+}
+
+.label-range, .range-input {
+  margin-right: 12px;
 }
 
 .nav ul {
@@ -479,6 +530,13 @@ template {
   position: static;
   transform:translate(0, 0);
   width: 420px;
+}
+
+.form-third {
+  line-height: 1.3;
+  padding: 32px 32px;
+  width: 460px;
+  z-index: 999;
 }
 
 .fieldset {
@@ -684,6 +742,10 @@ template {
   margin: 64px 0 0;
 }
 
+.button-container-second {
+  margin-bottom: 76px;
+}
+
 .table {
   border-collapse: collapse;
   margin-top: 64px;
@@ -766,4 +828,12 @@ template {
 .input-textarea {
   margin: 16px 0 32px;
   min-height: 200px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group input{
+  margin-right: 4px;
 }

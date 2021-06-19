@@ -18,8 +18,8 @@
       </form>
     </div>
   </div>
-  <div *ngIf="createDimensionClicked=== true" id="createInputFormContainer" class="createInputFormContainer">
-    <p> {{this.orderNames.fillFormToCreateDimension}}</p>
+  <div *ngIf="createDimensionClicked=== true" id="createInputFormContainer" class="form form-third">
+    <h3 class="heading heading-second"> {{this.orderNames.fillFormToCreateDimension}}</h3>
     <p> {{this.orderNames.pressAndHoldLeftMouseButtonToDrag}} <br>
     {{this.orderNames.toRotateOrChangeSize}} <br>
       1) {{this.orderNames.rightClickOnDrawing}} <br>
@@ -53,45 +53,43 @@
       </div>
     </form>
     <form [formGroup]="createDimensionsForm" (ngSubmit)="onSubmitForInputCreating()">
-      <div class="row">
-        <div *ngIf="dimensionRole.value === dimensionRoleFirstIndex" class="form-group col-md-6">
-          <label class="label" for="firstIndexDimension">{{this.generalNamesInSelectedLanguage.select+ ' '+ this.dimensionNames.dimensionRoleFirstIndex}}</label>
-          <select class="form-control" formControlName="dimensionCodeControll" id="firstIndexDimension"
-                  #dimensionIdSelect>
-            <option [ngValue]="null" disabled>{{this.generalNamesInSelectedLanguage.select + ' '+ this.dimensionNames.dimensionCode}}</option>
-            <option *ngFor="let code of allNotDeletedFirstIndexDimensions" [ngValue]="code.id">
-              {{ code.dimensionCode + '-' + code.localizedDimensionName.nameInThisLanguage}}
-            </option>
-          </select>
+      <fieldset *ngIf="dimensionRole.value === dimensionRoleFirstIndex" class="fieldset">
+        <label class="label label-second" for="firstIndexDimension">{{this.generalNamesInSelectedLanguage.select+ ' '+ this.dimensionNames.dimensionRoleFirstIndex}}</label>
+        <select class="select-input" formControlName="dimensionCodeControll" id="firstIndexDimension"
+                #dimensionIdSelect>
+          <option [ngValue]="null" disabled>{{this.generalNamesInSelectedLanguage.select + ' '+ this.dimensionNames.dimensionCode}}</option>
+          <option *ngFor="let code of allNotDeletedFirstIndexDimensions" [ngValue]="code.id">
+            {{ code.dimensionCode + '-' + code.localizedDimensionName.nameInThisLanguage}}
+          </option>
+        </select>
 
-        </div>
+      </fieldset>
 
-        <div *ngIf="dimensionRole.value === dimensionRoleSecondIndex">
-          <label class="label" for="secondIndex">{{this.generalNamesInSelectedLanguage.select+ ' '+ this.dimensionNames.dimensionRoleSecondIndex}}</label>
-          <select class="form-control" formControlName="dimensionCodeControll" id="secondIndex" #dimensionIdSelect>
-            <option [ngValue]="null" disabled>{{this.generalNamesInSelectedLanguage.select + ' '+ this.dimensionNames.dimensionCode}}</option>
-            <option *ngFor="let code of allNotDeletedSecondIndexDimensions" [ngValue]="code.id">
-              {{ code.dimensionCode + '-' + code.localizedDimensionName.nameInThisLanguage}}
-            </option>
-          </select>
-        </div>
-        <div *ngIf="dimensionRole.value === dimensionRoleNoIndex">
-          <label class="label" for="noIndex">{{this.generalNamesInSelectedLanguage.select + ' '+ this.dimensionNames.dimensionRoleNoIndex}}</label>
-          <select class="form-control" formControlName="dimensionCodeControll" id="noIndex" #dimensionIdSelect>
-            <option [ngValue]="null" disabled>{{this.generalNamesInSelectedLanguage.select + ' '+ this.dimensionNames.dimensionCode}}</option>
-            <option *ngFor="let code of allNotDeletedNoIndexDimensions" [ngValue]="code.id">
-              {{ code.dimensionCode + '-' + code.localizedDimensionName.nameInThisLanguage}}
-            </option>
-          </select>
-        </div>
-
-
-      </div>
+      <fieldset *ngIf="dimensionRole.value === dimensionRoleSecondIndex" class="fieldset">
+        <label class="label label-second" for="secondIndex">{{this.generalNamesInSelectedLanguage.select+ ' '+ this.dimensionNames.dimensionRoleSecondIndex}}</label>
+        <select class="select-input" formControlName="dimensionCodeControll" id="secondIndex" #dimensionIdSelect>
+          <option [ngValue]="null" disabled>{{this.generalNamesInSelectedLanguage.select + ' '+ this.dimensionNames.dimensionCode}}</option>
+          <option *ngFor="let code of allNotDeletedSecondIndexDimensions" [ngValue]="code.id">
+            {{ code.dimensionCode + '-' + code.localizedDimensionName.nameInThisLanguage}}
+          </option>
+        </select>
+      </fieldset>
+      <fieldset *ngIf="dimensionRole.value === dimensionRoleNoIndex" class="fieldset">
+        <label class="label label-second" for="noIndex">{{this.generalNamesInSelectedLanguage.select + ' '+ this.dimensionNames.dimensionRoleNoIndex}}</label>
+        <select class="select-input" formControlName="dimensionCodeControll" id="noIndex" #dimensionIdSelect>
+          <option [ngValue]="null" disabled>{{this.generalNamesInSelectedLanguage.select + ' '+ this.dimensionNames.dimensionCode}}</option>
+          <option *ngFor="let code of allNotDeletedNoIndexDimensions" [ngValue]="code.id">
+            {{ code.dimensionCode + '-' + code.localizedDimensionName.nameInThisLanguage}}
+          </option>
+        </select>
+      </fieldset>
       <div class="addButon">
-        <button type="submit" [disabled]="!createDimensionsForm.valid" class="btn btn-danger">{{this.orderNames.create}}</button>
+        <button type="submit" [disabled]="!createDimensionsForm.valid" class="button">{{this.orderNames.create}}</button>
       </div>
     </form>
-    <button class="closeButton" type="button" [title]="this.generalNamesInSelectedLanguage.closeButtonDescription" (click)="this.createDimensionClicked = false">x</button>
+    <button class="closeButton icon" type="button" [title]="this.generalNamesInSelectedLanguage.closeButtonDescription" (click)="this.createDimensionClicked = false">
+      <span class="hidden">Zamknij</span>
+    </button>
   </div>
 
   <div *ngIf="operationFailerStatusMessage" class="alert-danger">
@@ -103,21 +101,47 @@
 
 
   <div class="saveButtons">
-
-    <button (click)="navigateBack()">{{this.orderNames.backButtonDescription}}</button>
-
-    <button (click)="printDrawing();">{{this.orderNames.printButtonDescription}}</button>
-    <button *ngIf="createOrUpdateProductMode() === false && checkIfShowDrawingMode()=== false;" class="saveButton" (click)="onSubmit()">{{this.orderNames.confirmButtonDescription}}</button>
-    <div *ngIf="createOrUpdateProductMode() === true;">
-      <button  class="saveButton" (click)="saveProductInDatabas()">{{this.orderNames.addProduct}}</button>
-      <button type="button"  (click)="this.createDimensionClicked = true;" >{{this.orderNames.create + ' '+ this.orderNames.dimension}}</button>
-      <label for="changeDrawingSize">{{this.orderNames.changeDrawingSize}}</label>
-      <input  id=changeDrawingSize [(ngModel)]="drawingRangeValue"  (change)="this.setDrawingPercentWidth();" type="range" id="volume" name="volume"
-             min="0" max="100" #drawingRangeInput>
-      <button (click)="changeTabelOrientation()" type="button">{{this.orderNames.rotateTable}}</button>
+    <button class="action-button icon return-button" (click)="navigateBack()" title="{{this.orderNames.backButtonDescription}}">
+      <span class="hidden">
+        {{this.orderNames.backButtonDescription}}
+      </span>
+    </button>
+    <button class="icon action-button print-button" (click)="printDrawing();" title="{{this.orderNames.printButtonDescription}}">
+      <span class="hidden">
+        {{this.orderNames.printButtonDescription}}
+      </span>
+    </button>
+    <button *ngIf="createOrUpdateProductMode() === false && checkIfShowDrawingMode()=== false;" class="icon action-button submit-button" (click)="onSubmit()" title="{{this.orderNames.confirmButtonDescription}}">
+      <span class="hidden">
+        {{this.orderNames.confirmButtonDescription}}
+      </span>
+    </button>
+    <div class="flex-center" *ngIf="createOrUpdateProductMode() === true;">
+      <label for="changeDrawingSize" class="label-range">{{this.orderNames.changeDrawingSize}}</label>
+      <input class="range-input" id=changeDrawingSize [(ngModel)]="drawingRangeValue"  (change)="this.setDrawingPercentWidth();" type="range" id="volume" name="volume"
+             min="20" max="100" #drawingRangeInput>
+      <button  class="icon action-button add-button" (click)="saveProductInDatabas()" title="{{this.orderNames.addProduct}}">
+        <span class="hidden">
+          {{this.orderNames.addProduct}}
+        </span>
+      </button>
+      <button class="icon action-button edit-button" type="button" (click)="this.createDimensionClicked = true;" title="{{this.orderNames.create + ' '+ this.orderNames.dimension}}">
+        <span class="hidden">
+          {{this.orderNames.create + ' '+ this.orderNames.dimension}}
+        </span>
+      </button>
+      <button class="icon action-button turn-button" (click)="changeTabelOrientation()" type="button" title="{{this.orderNames.rotateTable}}">
+        <span class="hidden">
+          {{this.orderNames.rotateTable}}
+        </span>
+      </button>
     </div>
     <div *ngIf=" checkIfShowDrawingMode();">
-      <button class="saveButton" (click)="getDrawingPdf();">{{this.orderNames.saveToPdfButtonDescription}}</button>
+      <button class="icon action-button pdf-button" (click)="getDrawingPdf();" title="{{this.orderNames.saveToPdfButtonDescription}}">
+        <span class="hidden">
+          {{this.orderNames.saveToPdfButtonDescription}}
+        </span>
+      </button>
     </div>
   </div>
 </div>
