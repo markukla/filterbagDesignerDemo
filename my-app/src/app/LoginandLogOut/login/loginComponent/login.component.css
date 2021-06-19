@@ -17,6 +17,15 @@
   cursor: pointer;
 }
 
+.language-info {
+  font-size: 18px;
+  left: 50%;
+  position: absolute;
+  text-align: center;
+  top: 32px;
+  transform: translate(-50%, 0);
+}
+
 .flagImage {
   height: 40px;
   width: 60px;

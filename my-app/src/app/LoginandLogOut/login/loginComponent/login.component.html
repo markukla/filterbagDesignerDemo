@@ -8,7 +8,7 @@
       </li>
     </ul>
   </nav>
-  <div class="validatorInfo" *ngIf="!this.loginService.selectedLanguageCode">
+  <div class="validatorInfo language-info" *ngIf="!this.loginService.selectedLanguageCode">
     <p *ngFor="let name of this.chooseLanguageVersionInAllLanguages">
       {{name}}
     </p>
