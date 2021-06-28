@@ -1,4 +1,6 @@
 
+<div class="validation-error-container">
   <p *ngFor="let message of userInputErrorsMessages">{{message}}</p>
-  <button (click)="confirmButtonAction()">{{this.confirmButtonDescription}}</button>
-
+  <button class="button validation-button" (click)="confirmButtonAction()">{{this.confirmButtonDescription}}</button>
+</div>  
+  
