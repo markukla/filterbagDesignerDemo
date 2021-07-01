@@ -1,64 +1,73 @@
 <div id="DrawingDetailTableContainer" #DrawingDetailTableContainer>
-
   <div class="drawingDetailTable">
-    <div class="drawingDetailTableRow drawingDetailTableCreator">
-      <div class="drawingDetailTableCol">{{orderNames.creator}}</div>
-      <div class="drawingDetailTableCol">{{orderCreator}}</div>
-    </div>
-    <div class="drawingDetailTableRow drawingDetailTableDate">
-      <div class="drawingDetailTableCol">{{orderNames.date}} </div>
-      <div class="drawingDetailTableCol">{{date}}</div>
-    </div>
-    <div class="drawingDetailTableRow drawingDetailTableNumber">
-      <div class="drawingDetailTableCol">{{orderNames.orderNumber}}</div>
-      <div class="drawingDetailTableCol">{{orderTotalNumber}}</div>
-    </div>
-    <div class="drawingDetailTableRow drawingDetailTableForm">
-      <div class="drawingDetailTableCol">{{this.orderNames.Form}}</div>
-      <div class="drawingDetailTableCol">
-        <form [formGroup]="tableForm">
-        <fieldset>
-          <label for="workingTemperature">{{drawingTableFormNames.workingTemperature}} [oC]</label>
-          <input type="text"  formControlName="workingTemperature" id="workingTemperature">
-        </fieldset>
-        <fieldset class="table-fieldset">
-          <label  for="antiElectrostatic">{{drawingTableFormNames.antielectrostatic}}</label>
-          <input type="checkbox"  formControlName="antiEelectrostatic" id="antiElectrostatic">
-        </fieldset>
-
-        <div>{{drawingTableFormNames.workingSide}}:</div>
-        <fieldset class="table-fieldset">
-          <input type="radio"  formControlName="workingSide" name="workingSide" id="workingSideInternal" [value]="workingSideInternal"
-          >
-          <label  for="workingSideInternal">{{drawingTableFormNames.workingSideInternal}}</label>
-        </fieldset>
-        <fieldset class="table-fieldset">
-          <input type="radio"  formControlName="workingSide" name="workingSide" id="workingSideExternal" [value]="workingSideExterinal"
-          >
-          <label  for="workingSideExternal">{{drawingTableFormNames.workingSideExternal}}</label>
-        </fieldset>
-      </form>
+    <div class="horizontal-row">
+    <div class="horizontal-col">
+      <div class="drawingDetailTableRow drawingDetailTableCreator">
+        <div class="drawingDetailTableCol">{{orderNames.creator}}</div>
+        <div class="drawingDetailTableCol">{{orderCreator}}</div>
+      </div>
+      <div class="drawingDetailTableRow drawingDetailTableDate">
+        <div class="drawingDetailTableCol">{{orderNames.date}} </div>
+        <div class="drawingDetailTableCol">{{date}}</div>
+      </div>
+      <div class="drawingDetailTableRow drawingDetailTableNumber">
+        <div class="drawingDetailTableCol">{{orderNames.orderNumber}}</div>
+        <div class="drawingDetailTableCol">{{orderTotalNumber}}</div>
+      </div>
+      <div class="drawingDetailTableRow drawingDetailTableForm">
+        <div class="drawingDetailTableCol">{{this.orderNames.Form}}</div>
+        <div class="drawingDetailTableCol">
+          <form class="product-table" [formGroup]="tableForm">
+            <div class="table-fieldset-row">
+              <fieldset class="table-fieldset">
+                <label for="workingTemperature">{{drawingTableFormNames.workingTemperature}} [oC]</label>
+                <input type="text" class="temp-input"  formControlName="workingTemperature" id="workingTemperature">
+              </fieldset>
+              <fieldset class="table-fieldset">
+                <label for="antiElectrostatic">{{drawingTableFormNames.antielectrostatic}}</label>
+                <input class="table-second-input" type="checkbox"  formControlName="antiEelectrostatic" id="antiElectrostatic">
+              </fieldset>
+            </div>
+            <div class="table-fieldset-row">
+              <p class="fieldset-subheading">{{drawingTableFormNames.workingSide}}:</p>
+              <fieldset class="table-fieldset">
+                <input class="table-fieldset-input" type="radio"  formControlName="workingSide" name="workingSide" id="workingSideInternal" [value]="workingSideInternal"
+                >
+                <label  for="workingSideInternal">{{drawingTableFormNames.workingSideInternal}}</label>
+              </fieldset>
+              <fieldset class="table-fieldset">
+                <input class="table-fieldset-input"  type="radio"  formControlName="workingSide" name="workingSide" id="workingSideExternal" [value]="workingSideExterinal"
+                >
+                <label  for="workingSideExternal">{{drawingTableFormNames.workingSideExternal}}</label>
+              </fieldset>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-    <div class="drawingDetailTableRow drawingDetailTableIndex">
-      <div class="drawingDetailTableCol">{{orderNames.index}}</div>
-      <div class="drawingDetailTableCol">{{index}}</div>
+
+    <div class="horizontal-col">
+      <div class="drawingDetailTableRow drawingDetailTableIndex">
+        <div class="drawingDetailTableCol">{{orderNames.index}}</div>
+        <div class="drawingDetailTableCol">{{index}}</div>
+      </div>
+      <div class="drawingDetailTableRow drawingDetailTableOrderName">
+        <div class="drawingDetailTableCol">{{generalNamesInSelectedLanguage.name}}</div>
+        <div class="drawingDetailTableCol">{{orderName}}</div>
+      </div>
+      <div class="drawingDetailTableRow drawingDetailTableMaterialName">
+        <div class="drawingDetailTableCol">{{this.materialNames.materialName}}</div>
+        <div class="drawingDetailTableCol">{{this.materialNameCodeAndOptionalDescription}}</div>
+      </div>
+      <div class="drawingDetailTableRow drawingDetailTableCommentToOrder">
+        <div class="drawingDetailTableCol">{{this.orderNames.comments}}</div>
+        <div class="drawingDetailTableCol">{{this.commentToOrder}}</div>
+      </div>
+      <div class="drawingDetailTableRow drawingDetailTableLogo">
+        <div class="drawingDetailTableCol">Logo</div>
+        <div class="drawingDetailTableCol"><img src="assets/logo.png" alt="1filter" width="80px"></div>
+      </div>
     </div>
-    <div class="drawingDetailTableRow drawingDetailTableOrderName">
-      <div class="drawingDetailTableCol">{{generalNamesInSelectedLanguage.name}}</div>
-      <div class="drawingDetailTableCol">{{orderName}}</div>
-    </div>
-    <div class="drawingDetailTableRow drawingDetailTableMaterialName">
-      <div class="drawingDetailTableCol">{{this.materialNames.materialName}}</div>
-      <div class="drawingDetailTableCol">{{this.materialNameCodeAndOptionalDescription}}</div>
-    </div>
-    <div class="drawingDetailTableRow drawingDetailTableCommentToOrder">
-      <div class="drawingDetailTableCol">{{this.orderNames.comments}}</div>
-      <div class="drawingDetailTableCol">{{this.commentToOrder}}</div>
-    </div>
-    <div class="drawingDetailTableRow drawingDetailTableLogo">
-      <div class="drawingDetailTableCol">Logo</div>
-      <div class="drawingDetailTableCol"></div>
     </div>
   </div>
 </div>
