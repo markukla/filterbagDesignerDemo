@@ -15,8 +15,8 @@
         <span class="content-row-first">{{this.orderNames.productBottom}}</span>
         <span>{{product.productBottom.code + ' - '+ getNameInSelectedLanguage(product.productBottom.vocabulary.localizedNames)}}</span>
       </div>
-      <figure class="drawing-img" style="background-image: url({{getDrawingUrl(product)}});">
-        <img class="hidden" id="productMiniature" [src]="getDrawingUrl(product)" >
+      <figure class="drawing-img" style="background-image: url({{productImg.src}});">
+        <img #productImg class="hidden" id="productMiniature" [src]="getDrawingUrl(product)" >
       </figure>
     </div>
   </div>

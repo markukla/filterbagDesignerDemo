@@ -24,6 +24,10 @@
         <input class="input tableSearchInput" [appSearch]="records" serchedColumn="languageCode" id="serchInCodes" [placeholder]="this.generalNamesInSelectedLanguage.search" />
       </th>
       <th><input class="input tableSearchInput" [appSearch]="records" serchedColumn="languageName" id="serchInNames" [placeholder]="this.generalNamesInSelectedLanguage.search" /></th>
+      <th></th>
+      <th></th>
+      <th>{{this.recordNumbers}}</th>
+
     </tr>
 
     </thead>
@@ -32,23 +36,23 @@
         <td>{{record.languageCode}}</td>
         <td>{{record.languageName}}</td>
         <td>
-          <input class="input-checkbox" type="checkbox" [checked]="record.active" [disabled]="true">
+          <input id="active"class="input-checkbox" type="checkbox" [checked]="record.active" [disabled]="true">
           <label for="active" class="input-checkbox-label input-checkbox-label-second icon">
             <span class="hidden">
               {{record.active}}
             </span>
           </label>
         </td>
-        <td> 
-          <img class="flagImage" [src]="getFlagUrl(record)"> 
+        <td>
+          <img class="flagImage" [src]="getFlagUrl(record)">
         </td>
         <td>
           <text *ngIf="deleTedRecordMessage">{{deleTedRecordMessage}}</text>
           <button class="icon action-button delete-button" (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(record.id)" [title]="deleteButtonInfo">
-            <span class="hidden">Usuń</span>
+            <span class="hidden">{{generalNamesInSelectedLanguage.deleteButtonInfo}}</span>
           </button>
           <button class="icon action-button edit-button" (click)="updateSelectedRecord(record.id);" [title]="updateButtonInfo">
-            <span class="hidden">Modyfikuj</span>
+            <span class="hidden">{{generalNamesInSelectedLanguage.updateButtonInfo}}</span>
           </button>
         </td>
       </tr>

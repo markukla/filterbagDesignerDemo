@@ -1,7 +1,7 @@
 <div class="createOrUpdateFormWindow">
   <form class="form form-second" [formGroup]="userForm" (ngSubmit)="onSubmit()">
     <button id="close button" class="closeButton icon" (click)="closeAndGoBack() " [title]="generalNamesInSelectedLanguage.closeButtonDescription">
-      <span class="hidden">Zamknij</span>
+      <span class="hidden">{{this.generalNamesInSelectedLanguage.closeButtonDescription}}</span>
     </button>
     <h2 class="heading">{{userNamesInSelectedLanguage.addNewUser}}</h2>
     <fieldset class="fieldset">

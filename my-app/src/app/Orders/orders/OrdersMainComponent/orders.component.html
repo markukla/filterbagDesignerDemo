@@ -46,7 +46,7 @@ for version with pagination
       <td>
         <text *ngIf="deleTedMaterialMessage">{{deleTedMaterialMessage}}</text>
         <button class="icon action-button edit-button" (click)="updateSelectedRecord(record.id);" [title]="updateButtonInfo">
-          <span class="hidden">Edytuj</span>
+          <span class="hidden">{{this.generalNamesInSelectedLanguage.updateButtonInfo}}</span>
         </button>
         <button class="icon action-button drawing-button" [title]="generalNamesInSelectedLanguage.seeDrawing" (click)="showDrawing(record.id)">
           <span class="hidden">{{this.generalNamesInSelectedLanguage.seeDrawing}}</span>
@@ -55,7 +55,7 @@ for version with pagination
           <span class="hidden">{{this.generalNamesInSelectedLanguage.seeHistory}}</span>
         </button>
         <button  class="icon action-button delete-button" *ngIf="checkIfAdminRole()===true" (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(record.id)" [title]="deleteButtonInfo">
-          <span class="hidden">Usuń</span>
+          <span class="hidden">{{this.generalNamesInSelectedLanguage.closeButtonDescription}}</span>
         </button>
       </td>
 

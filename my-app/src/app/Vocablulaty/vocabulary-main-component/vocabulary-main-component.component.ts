@@ -35,6 +35,7 @@ export class VocabularyMainComponentComponent implements OnInit, AfterContentChe
   showConfirmDeleteWindow: boolean;
   operationFailerStatusMessage: string;
   operationSuccessStatusMessage: string;
+  generalNamesInSelectedLanguage:any;
 
 
   constructor(public tableService: GeneralTableService,
@@ -45,10 +46,16 @@ export class VocabularyMainComponentComponent implements OnInit, AfterContentChe
               private authenticationService: AuthenticationService) {
   }
   ngOnInit(): void {
+    this.initColumnNamesInSelectedLanguage();
     this.getRecords();
     this.materialId = this.tableService.selectedId;
     this.deleteButtonInfo = 'usuń';
     this.updateButtonInfo = 'modyfikuj dane';
+  }
+  initColumnNamesInSelectedLanguage(): void {
+    // tslint:disable-next-line:max-line-length
+
+    this.generalNamesInSelectedLanguage = this.authenticationService.generalNamesInSelectedLanguage;
   }
   ngAfterContentChecked(): void {
     if (this.records) {

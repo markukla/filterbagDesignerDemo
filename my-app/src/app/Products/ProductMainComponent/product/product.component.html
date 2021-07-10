@@ -33,10 +33,10 @@
       <td>
         <text *ngIf="deleTedMaterialMessage">{{deleTedMaterialMessage}}</text>
         <button  class="icon action-button delete-button" (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(record.id)" [title]="this.generalNamesInSelectedLanguage.deleteButtonInfo" >
-          <span class="hidden">Usuń</span>
+          <span class="hidden">{{this.generalNamesInSelectedLanguage.deleteButtonInfo}}</span>
         </button>
         <button class="icon action-button edit-button" (click)="updateSelectedRecord(record.id);" [title]="this.generalNamesInSelectedLanguage.closeButtonDescription">
-          <span class="hidden">Edytuj</span>
+          <span class="hidden">{{this.generalNamesInSelectedLanguage.updateButtonInfo}}</span>
         </button>
         <button class="icon action-button drawing-button" (click)="showDrawing(record.id)">
           <span class="hidden">{{this.generalNamesInSelectedLanguage.seeDrawing}}</span>

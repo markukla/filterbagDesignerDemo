@@ -40,6 +40,7 @@ export class CreateOrUpdateVocabularyComponent implements OnInit {
   giveNameForAllLanguagesDescription: string;
   saveButtonDescription: string;
   languages: Language[];
+  generalNamesInSelectedLanguage:any;
   constructor(
     private backendService: VocabularyBackendServiceService,
     private formBuilder: FormBuilder,
@@ -53,6 +54,7 @@ export class CreateOrUpdateVocabularyComponent implements OnInit {
   }
   async ngOnInit(): Promise<void> {
     this.route.queryParamMap.subscribe((queryParams) => {
+      this.initColumnNamesInSelectedLanguage();
       this.operatiomMode = (queryParams.get('mode'));
       this.selectedRecordToupdateId = queryParams.get('recordId');
     });
@@ -62,6 +64,11 @@ export class CreateOrUpdateVocabularyComponent implements OnInit {
 
     }, {updateOn: 'change'});
     await this.getInitDataFromBackend();
+  }
+  initColumnNamesInSelectedLanguage(): void {
+    // tslint:disable-next-line:max-line-length
+
+    this.generalNamesInSelectedLanguage = this.authenticationService.generalNamesInSelectedLanguage;
   }
   // tslint:disable-next-line:typedef
   get code() {

@@ -1,22 +1,22 @@
 <div class="createOrUpdateFormWindow">
   <form class="form form-second" [formGroup]="form" (ngSubmit)="onSubmit()">
     <button id="close button" class="closeButton icon" (click)="closeAndGoBack() " [title]='"zamknij"'>
-      <span class="hidden">Zamknij</span>
+      <span class="hidden">{{this.generalNamesInSelectedLanguage.closeButtonDescription}}</span>
     </button>
-    <h2 class="heading">Dodaj Nową frazę</h2>
+    <h2 class="heading">{{this.generalNamesInSelectedLanguage.addNewButtonDescription}}</h2>
     <fieldset class="fieldset">
       <input type="text" class="input" formControlName="code" id="code" placeholder="Nazwa zmiennej w aplikacji">
       <label class="label label-second" for="code">Nazwa zmiennej w aplikacji</label>
       <div *ngIf="code.invalid && (code.dirty || code.touched)" class="alert alert-danger">
         <div class="validatorInfo" *ngIf="code.errors.required">
-          To pole jest wymagane
+          {{this.generalNamesInSelectedLanguage.thisFieldIsRequired}}
         </div>
       </div>
     </fieldset>
     <p>{{giveNameForAllLanguagesDescription}}</p> <br>
     <app-langage-form-component></app-langage-form-component>
     <div class="addButon">
-      <button type="submit" [disabled]="!form.valid" class="button">Zapisz</button>
+      <button type="submit" [disabled]="!form.valid" class="button">{{this.generalNamesInSelectedLanguage.saveButtonDescription}}</button>
     </div>
   </form>
 

@@ -4,7 +4,7 @@
       <p>{{showoperationStatusMessage}}</p>
     </div>
     <button id="close button" class="closeButton icon" (click)="closeAndGoBack() " [title]='this.generalNamesInSelectedLanguage.closeButtonDescription'>
-      <span class="hidden">Zamknij</span>
+      <span class="hidden">{{this.generalNamesInSelectedLanguage.closeButtonDescription}}</span>
     </button>
     <h2 class="heading">{{this.addOrUpdateTitle}}</h2>
     <fieldset class="fieldset">

@@ -17,7 +17,7 @@
       <th [appSort]="allPriviligedUsers" data-order="desc" data-name="email" scope="col">{{generalUserNames.email}}</th>
       <th></th>
     </tr>
-    <tr class="table-search"> 
+    <tr class="table-search">
       <th></th>
       <th><input class="input tableSearchInput" [appSearch]="allPriviligedUsers" serchedColumn="fulName" id="serchInCodes" [placeholder]="generalNamesInSelectedLanguage.search" /></th>
       <th><input class="input tableSearchInput" [appSearch]="allPriviligedUsers" serchedColumn="email" id="serchInNames" [placeholder]="generalNamesInSelectedLanguage.search" /></th>
@@ -44,7 +44,7 @@
           </span>
         </button>
         <button class="icon action-button delete-button" (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(admin.id)" [title]="deleteButtonInfo" >
-          <span class="hidden">Usuń</span>
+          <span class="hidden">{{this.generalNamesInSelectedLanguage.deleteButtonInfo}}</span>
         </button>
 
       </td>
@@ -73,7 +73,7 @@
         </button>
         <button class="icon action-button delete-button" (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(editor.id)" [title]="deleteButtonInfo" >
           <span class="hidden">
-            Usuń
+            {{this.generalNamesInSelectedLanguage.deleteButtonInfo}}
           </span>
         </button>
       </td>

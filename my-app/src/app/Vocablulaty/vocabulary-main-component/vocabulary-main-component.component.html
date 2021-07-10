@@ -2,7 +2,7 @@
 
 <div class="add-button-container">
   <a class="button button-link" (click)="createNewRecord()">
-    {{ createNewMaterialDescription }}
+    {{ this.generalNamesInSelectedLanguage.addNewButtonDescription }}
   </a>
 </div>
 
@@ -11,7 +11,7 @@
     <tr class="table-top">
       <th [appSort]="records" data-order="desc" data-name="variableName" scope="col">Nazwa zmiennej w aplikacji <br></th>
       <th [appSort]="records" data-order="desc" data-name="localizedNameInSelectedLanguage" scope="col">Nazwa w wybranym języku</th>
-      <th>ilość</th>
+      <th>{{this.generalNamesInSelectedLanguage.quantity}}</th>
     </tr>
     <tr class="table-search">
       <th>

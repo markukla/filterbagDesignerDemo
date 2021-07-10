@@ -1,7 +1,7 @@
 <div class="createOrUpdateFormWindow">
   <form class="form form-second" [formGroup]="userForm" (ngSubmit)="onSubmit()">
     <button id="close button" class="closeButton icon" (click)="closeAndGoBack() " [title]='generalNamesInSelectedLanguage.closeButtonDescription'>
-      <span class="hidden">Zamknij</span>  
+      <span class="hidden">{{generalNamesInSelectedLanguage.closeButtonDescription}}</span>
     </button>
     <h2 class="heading">{{userNamesInSelectedLanguage.updateBusinessPartner}}</h2>
     <fieldset class="fieldset">
@@ -23,7 +23,7 @@
       </div>
     </fieldset>
     <fieldset class="fieldset">
-      <input type="text" class="input" formControlName="fulName" id="fullName" placeholder="userNamesInSelectedLanguage.fullName"> 
+      <input type="text" class="input" formControlName="fulName" id="fullName" placeholder="userNamesInSelectedLanguage.fullName">
       <label class="label" for="fullName" id="materialCodeLabel">{{userNamesInSelectedLanguage.fullName}}</label>
       <div  *ngIf="fulName.invalid && (fulName.dirty || fulName.touched)" class="alert alert-danger">
         <div class="validatorInfo" *ngIf="fulName.errors.required">

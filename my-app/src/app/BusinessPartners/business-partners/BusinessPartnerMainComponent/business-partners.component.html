@@ -17,7 +17,7 @@
       <th [appSort]="partners" data-order="desc" data-name="businesPartnerCompanyName" scope="col"> {{orderNames.businessPartnerName}}</th>
       <th [appSort]="partners" data-order="desc" data-name="fulName" scope="col">{{userNamesInSelectedLanguage.fullName}}</th>
       <th [appSort]="partners" data-order="desc" data-name="email" scope="col">{{userNamesInSelectedLanguage.email}}</th>
-      <th>Ilość</th>
+      <th>{{generalNamesInSelectedLanguage.quantity}}</th>
     </tr>
     <tr class="table-search">
       <th><input class="input tableSearchInput" [appSearch]="partners" serchedColumn="code"  [placeholder]="generalNamesInSelectedLanguage.search"/> </th>

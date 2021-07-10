@@ -5,7 +5,7 @@
 
   <form class="form form-second" [formGroup]="form" (ngSubmit)=" onSubmit()">
     <button id="close button" class="closeButton icon" (click)="closeAndGoBack() " [title]='generalNamesInSelectedLanguage.closeButtonDescription'>
-      <span class="hidden">Zamknij</span>
+      <span class="hidden">{{generalNamesInSelectedLanguage.closeButtonDescription}}</span>
     </button>
     <h2 class="heading">{{createOrUpdateFormTitle}}</h2>
     <div *ngIf="!updateModeOrPartnerLogged">
@@ -17,7 +17,7 @@
         <div class="content-row">
           <span class="content-row-first">{{orderNames.businessPartnerName + ': '}}</span>
           <span>{{this.selectedPartner.fulName + ' - ' + this.selectedPartner.businesPartnerCompanyName}}</span>
-        </div>    
+        </div>
       </div>
       <input class="input create-search" [placeholder]="generalNamesInSelectedLanguage.search" [appSearch]="allParntersToSelect" serchedColumn="codeAndName" />
       <fieldset class="fieldset" *ngIf="!partnerConfirmed">
@@ -159,7 +159,7 @@
         <button type="button" class="button button-second" (click)="seeDrawing();"> {{generalNamesInSelectedLanguage.seeDrawing}}</button>
         <button type="button" class="button button-second" (click)="updateDrawing();"> {{orderNames.changeDrawingParameters}}
         </button>
-        <label class="heading heading-second" for="commentToOrder">{{orderNames.yourCommentToOrder}} </label> 
+        <label class="heading heading-second" for="commentToOrder">{{orderNames.yourCommentToOrder}} </label>
         <textarea class="input input-textarea" id="commentToOrder" #commentToOrder formControlName="commentToOrder"> </textarea>
       </div>
     </div>

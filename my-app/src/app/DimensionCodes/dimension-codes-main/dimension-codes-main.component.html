@@ -25,6 +25,8 @@
       <th>
         <input class="input tableSearchInput" [appSearch]="records" serchedColumn="dimensionRole" id="serchInNames" [placeholder]="generalNamesInSelectedLanguage.search" />
       </th>
+      <th></th>
+      <th>{{this.recordNumbers}}</th>
     </tr>
     </thead>
     <tbody>
@@ -35,10 +37,10 @@
       <td>
         <text *ngIf="deleTedRecordMessage">{{deleTedRecordMessage}}</text>
         <button class="icon action-button delete-button" (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(record.id)" [title]="deleteButtonInfo" >
-          <span class="hidden">Usuń</span>
+          <span class="hidden">{{this.generalNamesInSelectedLanguage.deleteButtonInfo}}</span>
         </button>
         <button class="icon action-button edit-button" (click)="updateSelectedRecord(record.id);" [title]="updateButtonInfo">
-          <span class="hidden">Modyfikuj</span>
+          <span class="hidden">{{this.generalNamesInSelectedLanguage.updateButtonInfo}}</span>
         </button>
       </td>
     </tr>
