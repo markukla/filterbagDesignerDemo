@@ -355,6 +355,18 @@ const generalTable57: Vocabulary = {
 }
 initialVocabularyForDatabase.push(generalTable57);
 
+const generalTable58: Vocabulary = {
+    variableName: 'or',
+    localizedNames: [new LocalizedName({id:1}, 'Lub'), new LocalizedName({id:2}, '{id:2} ....')]
+}
+initialVocabularyForDatabase.push(generalTable58);
+
+const generalTable59: Vocabulary = {
+    variableName: 'nameOfVariableInAplication',
+    localizedNames: [new LocalizedName({id:1}, 'Nazwa zmiennej w aplikacji'), new LocalizedName({id:2}, '{id:2} ....')]
+}
+initialVocabularyForDatabase.push(generalTable59);
+
 
 
 

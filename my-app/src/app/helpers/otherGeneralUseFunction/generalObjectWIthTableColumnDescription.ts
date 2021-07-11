@@ -54,7 +54,9 @@ export const generalNamesInSelectedLanguage = {
   giveMaterialDescriptionInAllLanguages: 'Podaj opis Materiału we wszystkich językach',
   materialDescription:'Opis Materiału',
   addMaterialDescriptionToDrawingTabel: 'Zaznacz aby dodać opis materiału do informacji na rysunku',
-  or:'Lub'
+  or:'Lub',
+  nameOfVariableInAplication: 'Nazwa Zmiennej w aplikacji',
+
 
 /*  <a [routerLink]="['/orders']" routerLinkActive="active"> Zamówienia</a>
   <a [routerLink]="['/businessPartners']" routerLinkActive="active"> Partnerzy</a>

@@ -9,16 +9,16 @@
   <table class="table">
     <thead>
     <tr class="table-top">
-      <th [appSort]="records" data-order="desc" data-name="variableName" scope="col">Nazwa zmiennej w aplikacji <br></th>
-      <th [appSort]="records" data-order="desc" data-name="localizedNameInSelectedLanguage" scope="col">Nazwa w wybranym języku</th>
+      <th [appSort]="records" data-order="desc" data-name="variableName" scope="col">{{this.generalNamesInSelectedLanguage.nameOfVariableInAplication}} <br></th>
+      <th [appSort]="records" data-order="desc" data-name="localizedNameInSelectedLanguage" scope="col">{{this.generalNamesInSelectedLanguage.name}}</th>
       <th>{{this.generalNamesInSelectedLanguage.quantity}}</th>
     </tr>
     <tr class="table-search">
       <th>
-        <input class="input tableSearchInput" [appSearch]="records" serchedColumn="variableName" id="serchInCodes" placeholder="Wyszukaj" />
+        <input class="input tableSearchInput" [appSearch]="records" serchedColumn="variableName" id="serchInCodes" placeholder="{{this.generalNamesInSelectedLanguage.search}}" />
       </th>
       <th>
-        <input class="input tableSearchInput" [appSearch]="records" serchedColumn="localizedNameInSelectedLanguage" id="serchInNames" placeholder="Wyszukaj" />
+        <input class="input tableSearchInput" [appSearch]="records" serchedColumn="localizedNameInSelectedLanguage" id="serchInNames" placeholder="{{this.generalNamesInSelectedLanguage.search}}" />
       </th>
       <th>{{this.recordNumbers}}</th>
     </tr>
@@ -32,7 +32,7 @@
         <text *ngIf="deleTedMaterialMessage">{{deleTedMaterialMessage}}</text>
        <!-- <button (click)="this.deleteSelectedRecord(record.id)" [title]="deleteButtonInfo" >x</button> -->
         <button class="icon action-button edit-button" (click)="updateSelectedRecord(record.id);" [title]="updateButtonInfo">
-          <span class="hidden">Edytuj</span>
+          <span class="hidden">{{this.generalNamesInSelectedLanguage.updateButtonInfo}}</span>
         </button>
       </td>
 

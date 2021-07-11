@@ -64,7 +64,7 @@
     <div *ngIf="!productConfirmed">
       <p>{{orderNames.pressButtonToChooseProductByDrawing}} </p>
       <button class="button button-second" type="button" (click)="chooseProductByMiniatureButtonAction();"> {{orderNames.chooseProductByDrawingButtonDescription}}</button>
-      <p>Lub</p>
+      <p>{{this.generalNamesInSelectedLanguage.or}}</p>
       <p>{{orderNames.chooseProductByParameters}}</p>
       <div *ngIf="!this.productConfirmed"
          class="alert alert-danger">
