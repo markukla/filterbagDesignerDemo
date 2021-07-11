@@ -31,7 +31,7 @@
       <td>
         <text *ngIf="deleTedMaterialMessage">{{deleTedMaterialMessage}}</text>
        <!-- <button (click)="this.deleteSelectedRecord(record.id)" [title]="deleteButtonInfo" >x</button> -->
-        <button class="icon action-button edit-button" (click)="updateSelectedRecord(record.id);" [title]="updateButtonInfo">
+        <button class="icon action-button edit-button" (click)="updateSelectedRecord(record.id);" [title]=this.generalNamesInSelectedLanguage.updateButtonInfo>
           <span class="hidden">{{this.generalNamesInSelectedLanguage.updateButtonInfo}}</span>
         </button>
       </td>

@@ -20,9 +20,10 @@ import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../helpers/othe
 import {AuthenticationService} from "../../LoginandLogOut/AuthenticationServices/authentication.service";
 import {
   generalNamesInSelectedLanguage, generalUserNames,
-  languageNames
+  languageNames, orderNames
 } from "../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
 import {navigateToUrlAfterTimout} from "../../helpers/otherGeneralUseFunction/navigateToUrlAfterTimeOut";
+import ProductModeEnum from "../../Products/ProductTypesAndClasses/productMode";
 
 @Component({
   selector: 'app-create-or-update-language',
@@ -46,7 +47,9 @@ export class CreateOrUpdateLanguageComponent implements OnInit {
   upladDrawingForm: FormGroup;
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
   languageNamesInSelectedLanguage = languageNames;
+  orderNames= orderNames;
   userNames = generalUserNames;
+  changeDrawingClicked= false;
 
   constructor(
     private backendService: LanguageBackendService,
@@ -80,6 +83,7 @@ export class CreateOrUpdateLanguageComponent implements OnInit {
   }
   initColumnNamesInSelectedLanguage(): void {
     this.userNames = this.authenticationService.generalUserNames;
+    this.orderNames= this.authenticationService.orderNamesInSelectedLanguage;
     this.generalNamesInSelectedLanguage = this.authenticationService.generalNamesInSelectedLanguage;
     this.languageNamesInSelectedLanguage = this.authenticationService.languageNamesInselectedLanguage;
 
@@ -186,5 +190,45 @@ export class CreateOrUpdateLanguageComponent implements OnInit {
       this.showoperationStatusMessage = null;
     }, 2000);
   }
+  showChangeDrawingButton(): boolean {
+    if (this.languageOperationMode === 'update' && !this.file.value) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  onDrawingCHangeForUpdate(): void {
+    this.changeDrawingClicked = true;
+  }
+  createNewOrChangeDrawingClicked(): boolean {
+    if (this.languageOperationMode === 'createNew' || this.changeDrawingClicked) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  allowSubmit(): boolean {
+    if (this.languageOperationMode === 'createNew') {
+      if (this.languageForm.valid && this.uploadSuccessStatus === true) {
+        return true;
+      } else {
+        return false;
+      }
+    } else if (this.languageOperationMode === 'update' && this.changeDrawingClicked === false) {
+      if (this.languageForm.valid) {
+        return true;
+      } else {
+        return false;
+      }
+    } else if (this.languageOperationMode === 'update' && this.changeDrawingClicked === true) {
+      if (this.languageForm.valid && this.uploadSuccessStatus === true) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
 
 }

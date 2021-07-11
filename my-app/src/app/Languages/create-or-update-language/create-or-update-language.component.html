@@ -1,5 +1,8 @@
 <div class="createOrUpdateFormWindow">
-  <form class="form form-second" enctype="multipart/form-data" [formGroup]="upladDrawingForm" (ngSubmit)="onUpload()">
+  <div class="add-button-container button-container-second">
+    <button class="button button-link" *ngIf="showChangeDrawingButton() === true;" type="button" (click)="onDrawingCHangeForUpdate();">{{this.orderNames.changeDrawing}}</button>
+  </div>
+  <form class="form form-second" *ngIf="createNewOrChangeDrawingClicked()" enctype="multipart/form-data" [formGroup]="upladDrawingForm" (ngSubmit)="onUpload()">
     <button id="close button" class="closeButton icon" (click)="closeAndGoBack() " [title]='generalNamesInSelectedLanguage.closeButtonDescription'>
       <span class="hidden">{{this.generalNamesInSelectedLanguage.closeButtonDescription}}</span>
     </button>
@@ -53,7 +56,7 @@
     </fieldset>
 
     <div class="addButon">
-      <button type="submit" [disabled]="!languageForm.valid || uploadSuccessStatus === false" class="button">{{this.generalNamesInSelectedLanguage.saveButtonDescription}}</button>
+      <button type="submit" [disabled]="allowSubmit() === false" class="button">{{this.generalNamesInSelectedLanguage.saveButtonDescription}}</button>
     </div>
   </form>
 

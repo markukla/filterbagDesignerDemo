@@ -4,13 +4,13 @@ const PL: Language = {
     active: true,
     languageCode: 'PL',
     languageName: 'polski',
-    flagUrl: '\\images\\1612045171756polska_flaga.jpg'
+    flagUrl: '\\images\\flaga_polski.png'
 }
 const CZE: Language = {
     active: true,
     languageCode: 'CS',
     languageName: 'czeski',
-    flagUrl: '\\images\\1612045202729czeska_flaga.png'
+    flagUrl: '\\images\\flaga_czech.png'
 }
 const Languages: Language[] = [PL, CZE];
 export {Languages};
