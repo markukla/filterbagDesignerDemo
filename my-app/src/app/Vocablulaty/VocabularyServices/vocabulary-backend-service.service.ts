@@ -35,7 +35,10 @@ export class VocabularyBackendServiceService {
     return this.http.post<Vocabulary>(this.rootURL + this.endpointUrl, record, {observe: 'response'}).pipe(
       // tslint:disable-next-line:no-shadowed-variable
       tap((record) => {
+
         this.tableService.addRecordToTable(this.createVocabularryForTableCellFromVocabulary(record.body, selectedLanguageCode));
+
+
       }));
   }
 

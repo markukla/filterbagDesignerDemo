@@ -31,9 +31,9 @@ class VocabularyController implements Controller{
     private addOneVocabulary = async (request: express.Request, response: express.Response, next: express.NextFunction) => {
         const vocabulary: CreateVocabularyDto = request.body;
         try {
-            const languageCode:Vocabulary = await this.service.addOneRecord(vocabulary);
+            const savedVocabulary:Vocabulary = await this.service.addOneRecord(vocabulary);
             response.send(
-                vocabulary);
+                savedVocabulary);
         } catch (error) {
             next(error);
         }
