@@ -79,7 +79,7 @@ button, select {
   text-transform: none;
 }
 
-button, 
+button,
 [type="button"],
 [type="reset"],
 [type="submit"] {
@@ -318,11 +318,11 @@ template {
   border: 0 !important;
   clip: rect(1px 1px 1px 1px);
   clip: rect(1px, 1px, 1px, 1px);
-  height: 1px !important; 
+  height: 1px !important;
   overflow: hidden;
   position: absolute !important;
   padding: 0 !important;
-  width: 1px !important; 
+  width: 1px !important;
 }
 
 .heading {
@@ -347,7 +347,7 @@ template {
   speak: none;
   line-height: 1;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; 
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .closeButton:after {
@@ -610,7 +610,20 @@ template {
   transition: transform 0.2s linear, color 0.2s linear;
 }
 
-.input:placeholder-shown + .label:before,
+.input:-webkit-autofill + .label {
+  color: #fff;
+  transform: translate(-180px, 0);
+}
+
+.input:-webkit-autofill + .label-second {
+  color: #fff;
+  transform: translate(-260px, 0);
+}
+
+.input:-webkit-autofill + .label:after,
+.input:-webkit-autofill + .label:before {
+  opacity: 1;
+}.input:placeholder-shown + .label:before,
 .input:placeholder-shown + .label:after {
   opacity: 0;
   transition: opacity 0.2s linear;
@@ -813,7 +826,7 @@ template {
 
 .content-row {
   color: #565759;
-  margin-bottom: 12px; 
+  margin-bottom: 12px;
 }
 
 .content-row:nth-of-type(4) {
