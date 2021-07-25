@@ -42,11 +42,11 @@
         </div>
       </div>
     </fieldset>
-    
-    
+
+
 
     <div class="addButon">
-      <button type="submit" [disabled]="!loginForm.valid || !this.loginService.selectedLanguageCode" class="button">{{this.generalNamesInSelectedLanguage.logInButtonDescription}}</button>
+      <button type="submit" [disabled]="!this.loginService.selectedLanguageCode" class="button">{{this.generalNamesInSelectedLanguage.logInButtonDescription}}</button>
     </div>
   </form>
 </div>
