@@ -8,7 +8,7 @@
   <app-operation-status [operationFailerStatusMessage]="operationFailerStatusMessage" [operationSuccessStatusMessage]="operationSuccessStatusMessage"> </app-operation-status>
   <app-confirm-delete [showConfirmDeleteWindow]="showConfirmDeleteWindow" *ngIf="showConfirmDeleteWindow === true" [showconsiderDeletingProducts]="this.productsWithBottomSelectedToDeleteExists" (deleteConfirmedEvent)="deleteSelectedRecordFromDatabase(this.tableService.selectedId, $event )" (deleteProductConfirmedEvent)="deleteProductIfConfirmed($event)"> </app-confirm-delete>
 
-  <table class="table">
+  <table class="table table-second">
     <thead>
     <tr class="table-top">
       <th [appSort]="records" data-order="desc" data-name="code" scope="col">{{this.orderNamesInSelectedLanguage.productBottomCode}} <br></th>

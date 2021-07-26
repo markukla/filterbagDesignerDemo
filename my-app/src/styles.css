@@ -769,6 +769,10 @@ template {
   width: 100%;
 }
 
+.table-second {
+  margin-top: 68px;
+}
+
 .table th {
   background: #f0f2f5;
   color :#565759;
