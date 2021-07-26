@@ -1,6 +1,9 @@
 .nav-menu {
   background: #ed5565;
+  position: fixed;
+  top: 0;
   width: 100%;
+  z-index: 3;
 }
 
 .nav-list {
@@ -23,9 +26,9 @@
   color: #fff;
   cursor: pointer;
   display: block;
-  font-size: 17px;
+  font-size: 14px;
   font-weight: 600;
-  padding: 16px 8px;
+  padding: 8px 8px;
   position: relative;
   text-align: center;
   text-decoration: none;
@@ -36,7 +39,7 @@
   width: 100%;
 }
 
-.nav-item .menuLink.active, 
+.nav-item .menuLink.active,
 .nav-list .menuLink:hover,
 .nav-item .menuLink:focus,
 .nav-item .menuButton:hover,
@@ -65,7 +68,6 @@
   transform: translate(0, 75px);
   transition: opacity 0.2s linear, transform 0.2s linear;
   min-width: 230px;
-  z-index: 2;
 }
 
 .nav-item:hover .dropdown,
@@ -100,7 +102,7 @@
   padding: 24px 8px;
 }
 
-.dropdown .menuLink:hover, 
+.dropdown .menuLink:hover,
 .dropdown .menuLink:focus {
   background: #393f48;
 }
