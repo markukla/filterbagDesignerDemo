@@ -2,6 +2,9 @@
   <div class="drawingDetailTable">
     <div class="horizontal-row">
     <div class="horizontal-col">
+      <div class="drawingDetailTableRow drawingDetailTableLogo">
+        <div class="drawingDetailTableCol"><img src="assets/logo.png" alt="1filter" width="80px"></div>
+      </div>
       <div class="drawingDetailTableRow drawingDetailTableCreator">
         <div class="drawingDetailTableCol">{{orderNames.creator}}</div>
         <div class="drawingDetailTableCol">{{orderCreator}}</div>
@@ -20,7 +23,7 @@
           <form class="product-table" [formGroup]="tableForm">
             <div class="table-fieldset-row">
               <fieldset class="table-fieldset">
-                <label for="workingTemperature">{{drawingTableFormNames.workingTemperature}} [oC]</label>
+                <label for="workingTemperature">{{drawingTableFormNames.workingTemperature}} [&#8451;]</label>
                 <input type="text" class="temp-input"  formControlName="workingTemperature" id="workingTemperature">
               </fieldset>
               <fieldset class="table-fieldset">
@@ -63,9 +66,8 @@
         <div class="drawingDetailTableCol">{{this.orderNames.comments}}</div>
         <div class="drawingDetailTableCol">{{this.commentToOrder}}</div>
       </div>
-      <div class="drawingDetailTableRow drawingDetailTableLogo">
-       <!--tu było logo jako tekst, do usunięcia ?--> <div class="drawingDetailTableCol"></div>
-        <div class="drawingDetailTableCol"><img src="assets/logo.png" alt="1filter" width="80px"></div>
+      <div class="drawingDetailTableRow">
+        <div class="drawingDetailTableCol drawingDetailTableInfo">Wszystkie wymiary w [mm]</div>
       </div>
     </div>
     </div>
