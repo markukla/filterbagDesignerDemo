@@ -57,6 +57,15 @@ export const generalNamesInSelectedLanguage = {
   or:'Lub',
   nameOfVariableInAplication: 'Nazwa Zmiennej w aplikacji',
 
+  // added in production database but not in initialVocabularryToDatabase.ts
+  addNewProductBlueprint: 'Dodaj nowy projekt produktu',
+  numberOfDrawing: 'Nr rysunku',
+  filtratingMaterial: 'Materiał Filtracyjny',
+  allDimensionsInMilimeters: 'Wszystkie wymiary w milimetrach',
+  addNewFraze: 'Dodaj Nową Frazę',
+  language: 'Język',
+
+
 
 /*  <a [routerLink]="['/orders']" routerLinkActive="active"> Zamówienia</a>
   <a [routerLink]="['/businessPartners']" routerLinkActive="active"> Partnerzy</a>
@@ -173,9 +182,9 @@ export const orderNames = {
   chooseProductByDrawingButtonDescription: 'Wybierz Product klikając na rysunek',
   chooseProductByParameters: ' Wybierz produkt określając parametry produktu',
   productMaterial: 'Materiał Produktu',
-  addNewProductBottom: '',
-  addNewProductTop: '',
-  addNewProductType: '',
+  addNewProductBottom: 'Dodaj nowe wykończenie dołu',
+  addNewProductTop: 'Dodaj nowe wykończenie góry',
+  addNewProductType: 'Dodaj nowy typ produktu',
   addNewProduct: '',
   updateProductBottom: '',
   updateProductTop: '',
@@ -236,6 +245,7 @@ export const drawingTableFormNames = {
   workingSideExternal: '',
   workingSideInternal: '',
   material: '',
+
 };
 export const dimensionNames = {
   dimensionCode: 'Kod wymiaru',

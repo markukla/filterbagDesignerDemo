@@ -3,7 +3,7 @@
 <div class="container">
   <div class="add-button-container">
     <a class="button button-link" (click)="createNewRecord();" routerLinkActive="active">
-      {{this.generalNamesInSelectedLanguage.addNewButtonDescription}}
+      {{generalNamesInSelectedLanguage.addNewButtonDescription +' '+ this.dimensionNames.dimensionCode}}
     </a>
   </div>
 

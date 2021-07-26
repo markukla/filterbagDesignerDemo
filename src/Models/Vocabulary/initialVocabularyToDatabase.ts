@@ -367,6 +367,18 @@ const generalTable59: Vocabulary = {
 }
 initialVocabularyForDatabase.push(generalTable59);
 
+const generalTable60: Vocabulary = {
+    variableName: 'addNewProductBlueprint',
+    localizedNames: [new LocalizedName({id:1}, 'Dodaj nowy projekt produktu'), new LocalizedName({id:2}, '{id:2} ....')]
+}
+initialVocabularyForDatabase.push(generalTable60);
+
+const generalTable61: Vocabulary = {
+    variableName: 'addNewProductBlueprint',
+    localizedNames: [new LocalizedName({id:1}, 'Dodaj nowy projekt produktu'), new LocalizedName({id:2}, '{id:2} ....')]
+}
+initialVocabularyForDatabase.push(generalTable61);
+
 
 
 

@@ -3,7 +3,7 @@
     <button id="close button" class="closeButton icon" (click)="closeAndGoBack() " [title]='closeButtonDescription'>
       <span class="hidden">{{this.generalNamesInSelectedLanguage.closeButtonDescription}}</span>
     </button>
-    <h2 class="heading">{{generalNamesInSelectedLanguage.addNewButtonDescription + dimensionCodeNames.dimensionCode}}</h2>
+    <h2 class="heading">{{generalNamesInSelectedLanguage.addNewButtonDescription +' '+ dimensionCodeNames.dimensionCode}}</h2>
     <fieldset class="fieldset">
       <input type="text" class="input" formControlName="code" id="code" placeholder="{{dimensionCodeNames.dimensionCode}}">
       <label class="label" for="code">{{dimensionCodeNames.dimensionCode}}</label>
