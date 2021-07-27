@@ -13,9 +13,9 @@
   <table class="table">
     <thead>
     <tr class="table-top">
-      <th [appSort]="records" data-order="desc" data-name="dimensionCode" scope="col">{{dimensionNames.dimensionCode}} <br></th>
-      <th [appSort]="records" data-order="desc" data-name="dimensionRole" scope="col">{{dimensionNames.dimensionRole}} <br></th>
-      <th [appSort]="records" data-order="desc" data-name="localizedDimensionName" scope="col"> {{dimensionNames.dimensionName}} </th>
+      <th [appSort]="records" data-order="desc" data-name="dimensionCode" scope="col"><span>{{dimensionNames.dimensionCode}}</span></th>
+      <th [appSort]="records" data-order="desc" data-name="dimensionRole" scope="col"><span>{{dimensionNames.dimensionRole}}</span></th>
+      <th [appSort]="records" data-order="desc" data-name="localizedDimensionName" scope="col"><span>{{dimensionNames.dimensionName}}</span></th>
       <th>{{generalNamesInSelectedLanguage.quantity}}</th>
     </tr>
     <tr class="table-search">

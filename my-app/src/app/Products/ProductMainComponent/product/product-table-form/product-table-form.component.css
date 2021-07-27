@@ -35,11 +35,6 @@
   padding: 0.3420vw 0.6840vw;
 }
 
-.drawingDetailTableInfo {
-  flex-basis: 100% !important;
-  max-width: 100% !important;
-}
-
 #DrawingDetailTableContainer .drawingDetailTableCol {
   flex-basis: 75%;
   max-width: 75%;
@@ -81,8 +76,8 @@
 }
 
 .temp-input {
-  margin-left: 0.6840vw;
-  width: 40px;
+  margin-left: 0.5840vw;
+  width: 20px;
 }
 
 .drawingDetailTableHorizontal .drawingDetailTable {

@@ -10,13 +10,13 @@
   <table class="table">
     <thead>
     <tr class="table-top">
-      <th [appSort]="records" data-order="asc" data-name="orderTotalNumber" scope="col">{{orderNames.orderNumber}} </th>
-      <th [appSort]="records" data-order="desc" data-name="businessPartnerCompanyName" scope="col">{{orderNames.businessPartner}}</th>
-      <th [appSort]="records" data-order="desc" data-name="businessPartnerFulname">{{orderNames.creator}}</th>
-      <th [appSort]="records" data-order="desc" data-name="businessPartnerEmail">{{generalUserNames.email}}</th>
-      <th [appSort]="records" data-order="desc" data-name="index">{{orderNames.index}}</th>
-      <th [appSort]="records" data-order="desc" data-name="orderName">{{generalNamesInSelectedLanguage.name}}</th>
-      <th [appSort]="records" data-order="asc" data-name="date" data-typ="date">{{orderNames.date}}</th>
+      <th [appSort]="records" data-order="asc" data-name="orderTotalNumber" scope="col"><span>{{orderNames.orderNumber}}</span></th>
+      <th [appSort]="records" data-order="desc" data-name="businessPartnerCompanyName" scope="col"><span>{{orderNames.businessPartner}}</span></th>
+      <th [appSort]="records" data-order="desc" data-name="businessPartnerFulname"><span>{{orderNames.creator}}</span></th>
+      <th [appSort]="records" data-order="desc" data-name="businessPartnerEmail"><span>{{generalUserNames.email}}</span></th>
+      <th [appSort]="records" data-order="desc" data-name="index"><span>{{orderNames.index}}</span></th>
+      <th [appSort]="records" data-order="desc" data-name="orderName"><span>{{generalNamesInSelectedLanguage.name}}</span></th>
+      <th [appSort]="records" data-order="asc" data-name="date" data-typ="date"><span>{{orderNames.date}}</span></th>
       <th>Ilość</th>
     </tr>
     <tr class="table-search">
@@ -43,7 +43,7 @@ for version with pagination
       <td>{{record.index}}</td>
       <td>{{record.orderName}}</td>
       <td>{{record.dateString}}</td>
-      <td>
+      <td class="table-buttons">
         <text *ngIf="deleTedMaterialMessage">{{deleTedMaterialMessage}}</text>
         <button class="icon action-button edit-button" (click)="updateSelectedRecord(record.id);" [title]="updateButtonInfo">
           <span class="hidden">{{this.generalNamesInSelectedLanguage.updateButtonInfo}}</span>

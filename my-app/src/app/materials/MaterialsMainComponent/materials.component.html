@@ -14,9 +14,9 @@
   <table class="table">
     <thead>
       <tr class="table-top">
-        <th [appSort]="materials" data-order="desc" data-name="materialCode" scope="col">{{materialNamesInSelectedLanguage.materialCode}} <br></th>
-        <th [appSort]="materials" data-order="desc" data-name="materialName" scope="col">{{materialNamesInSelectedLanguage.materialName}}</th>
-        <th [appSort]="materials" data-order="desc" data-name="descriptionInSelectedLanguage" scope="col">{{generalNamesInSelectedLanguage.materialDescription}}</th>
+        <th [appSort]="materials" data-order="desc" data-name="materialCode" scope="col"><span>{{materialNamesInSelectedLanguage.materialCode}}</span></th>
+        <th [appSort]="materials" data-order="desc" data-name="materialName" scope="col"><span>{{materialNamesInSelectedLanguage.materialName}}</span></th>
+        <th [appSort]="materials" data-order="desc" data-name="descriptionInSelectedLanguage" scope="col"><span>{{generalNamesInSelectedLanguage.materialDescription}}</span></th>
         <th>{{materialNamesInSelectedLanguage.quantity}}</th>
       </tr>
       <tr class="table-search">

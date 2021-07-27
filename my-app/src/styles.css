@@ -333,7 +333,8 @@ template {
 }
 
 .heading-second {
-  font-size: 18px;
+  font-size: 16px;
+  margin-bottom: 16px;
 }
 
 .icon:before,
@@ -758,13 +759,17 @@ template {
   padding: 48px 0 0;
 }
 
+.add-button-container + .table-second {
+  margin-top: 8px;
+}
+
 .button-container-second {
   margin-bottom: 76px;
 }
 
 .table {
   border-collapse: collapse;
-  margin-top: 16px;
+  margin-top: 8px;
   text-align: center;
   width: 100%;
 }
@@ -777,15 +782,19 @@ template {
   background: #f0f2f5;
   color :#565759;
   border-top: none;
-  padding: 14px 8px;
+  padding: 8px 8px;
   position: sticky;
-  top: 83px;
+  top: 64px;
   z-index: 2;
+}
+
+.table-buttons {
+  width: 160px;
 }
 
 .table .table-top th {
   box-shadow: 0px 3px 0px #abadb350;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 400;
   top: 35px;
 }
@@ -961,24 +970,29 @@ template {
   transform: translate(-50%, -50%);
 }
 
-.sortedDescending, .sortedAscending {
+[data-order= "desc"] span, [data-order= "asc"] span {
   position: relative;
 }
 
-.sortedDescending:after, .sortedAscending:after {
+[data-order= "desc"] span:after, [data-order= "asc"] span:after {
   border-top: 6px solid #565759;
   border-left: 4px solid transparent;
   border-right: 4px solid transparent;
   content: "";
   height: 0;
   position: absolute;
-  right: 0;
+  right: -12px;
   top: 50%;
   transform: translate(0, -50%);
   width: 0;
 }
 
-.sortedAscending:after {
+.sortedAscending span:after {
   border-bottom: 6px solid #565759;
   border-top: none;
+}
+
+.sortedDescending span:after {
+  border-top: 6px solid #565759;
+  border-bottom: none;
 }

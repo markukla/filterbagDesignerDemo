@@ -1,18 +1,18 @@
 <div class="container">
 
-<div class="add-button-container" *ngIf="!productTypeId">
-  <a class="button button-link" (click)="createNewRecord()">
-    {{ this.orderNamesInSelectedLanguage.addNewProductTop}}
-  </a>
-</div>
+
   <app-operation-status [operationFailerStatusMessage]="operationFailerStatusMessage" [operationSuccessStatusMessage]="operationSuccessStatusMessage"> </app-operation-status>
   <app-confirm-delete [showConfirmDeleteWindow]="showConfirmDeleteWindow"  *ngIf="showConfirmDeleteWindow === true" (deleteConfirmedEvent)="deleteSelectedRecordFromDatabase(this.tableService.selectedId, $event )" [showconsiderDeletingProducts]="this.productsWithTopsSelectedToDeleteExists" (deleteProductConfirmedEvent)="deleteProductIfConfirmed($event)"> </app-confirm-delete>
-
+  <div class="add-button-container" *ngIf="!productTypeId">
+    <a class="button button-link" (click)="createNewRecord()">
+      {{ this.orderNamesInSelectedLanguage.addNewProductTop}}
+    </a>
+  </div>
   <table class="table table-second">
     <thead>
     <tr class="table-top">
-      <th [appSort]="records" data-order="desc" data-name="code" scope="col">{{orderNamesInSelectedLanguage.productTopsCode}} <br></th>
-      <th [appSort]="records" data-order="desc" data-name="localizedNameInSelectedLanguage" scope="col">{{orderNamesInSelectedLanguage.productTopsName}}</th>
+      <th [appSort]="records" data-order="desc" data-name="code" scope="col"><span>{{orderNamesInSelectedLanguage.productTopsCode}}</span></th>
+      <th [appSort]="records" data-order="desc" data-name="localizedNameInSelectedLanguage" scope="col"><span>{{orderNamesInSelectedLanguage.productTopsName}}</span></th>
       <th>{{generalNamesInSelectedLanguage.quantity}}</th>
     </tr>
     <tr class="table-search">

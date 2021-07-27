@@ -1,14 +1,19 @@
 
 <div class="container">
+  <div class="add-button-container">
+    <a class="button button-link" [routerLink]="['/orders']" routerLinkActive="active">
+      Powrót
+    </a>
+  </div>
 
   <table class="table">
     <thead>
     <tr class="table-top">
-      <th [appSort]="records" data-order="asc" data-name="orderTotalNumber" scope="col">{{this.orderNames.orderNumber}}<br></th>
-      <th [appSort]="records" data-order="desc" data-name="index" scope="col">{{this.orderNames.index}}</th>
-      <th [appSort]="records" data-order="desc" data-name="orderName" scope="col">{{this.generalNamesInSelectedLanguage.name}}</th>
-      <th [appSort]="records" data-order="desc" data-name="commentToOrderString" scope="col">{{this.orderNames.yourCommentToOrder}}</th>
-      <th [appSort]="records" data-order="asc" data-name="date" data-typ="date">{{this.orderNames.date}}</th>
+      <th [appSort]="records" data-order="asc" data-name="orderTotalNumber" scope="col"><span>{{this.orderNames.orderNumber}}</span></th>
+      <th [appSort]="records" data-order="desc" data-name="index" scope="col"><span>{{this.orderNames.index}}</span></th>
+      <th [appSort]="records" data-order="desc" data-name="orderName" scope="col"><span>{{this.generalNamesInSelectedLanguage.name}}</span></th>
+      <th [appSort]="records" data-order="desc" data-name="commentToOrderString" scope="col"><span>{{this.orderNames.yourCommentToOrder}}</span></th>
+      <th [appSort]="records" data-order="asc" data-name="date" data-typ="date"><span>{{this.orderNames.date}}</span></th>
       <th>{{this.generalNamesInSelectedLanguage.quantity}}</th>
 
     </tr>

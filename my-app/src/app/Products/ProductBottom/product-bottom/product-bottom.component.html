@@ -1,18 +1,18 @@
 <div class="container">
+
+
+  <app-operation-status [operationFailerStatusMessage]="operationFailerStatusMessage" [operationSuccessStatusMessage]="operationSuccessStatusMessage"> </app-operation-status>
+  <app-confirm-delete [showConfirmDeleteWindow]="showConfirmDeleteWindow" *ngIf="showConfirmDeleteWindow === true" [showconsiderDeletingProducts]="this.productsWithBottomSelectedToDeleteExists" (deleteConfirmedEvent)="deleteSelectedRecordFromDatabase(this.tableService.selectedId, $event )" (deleteProductConfirmedEvent)="deleteProductIfConfirmed($event)"> </app-confirm-delete>
   <div class="add-button-container" *ngIf="!productTypeId">
     <a class="button button-link" (click)="createNewRecord()">
       {{ this.orderNamesInSelectedLanguage.addNewProductBottom }}
     </a>
   </div>
-
-  <app-operation-status [operationFailerStatusMessage]="operationFailerStatusMessage" [operationSuccessStatusMessage]="operationSuccessStatusMessage"> </app-operation-status>
-  <app-confirm-delete [showConfirmDeleteWindow]="showConfirmDeleteWindow" *ngIf="showConfirmDeleteWindow === true" [showconsiderDeletingProducts]="this.productsWithBottomSelectedToDeleteExists" (deleteConfirmedEvent)="deleteSelectedRecordFromDatabase(this.tableService.selectedId, $event )" (deleteProductConfirmedEvent)="deleteProductIfConfirmed($event)"> </app-confirm-delete>
-
   <table class="table table-second">
     <thead>
     <tr class="table-top">
-      <th [appSort]="records" data-order="desc" data-name="code" scope="col">{{this.orderNamesInSelectedLanguage.productBottomCode}} <br></th>
-      <th [appSort]="records" data-order="desc" data-name="localizedNameInSelectedLanguage" scope="col">{{orderNamesInSelectedLanguage.productBottomName}}</th>
+      <th [appSort]="records" data-order="desc" data-name="code" scope="col"><span>{{this.orderNamesInSelectedLanguage.productBottomCode}}</span></th>
+      <th [appSort]="records" data-order="desc" data-name="localizedNameInSelectedLanguage" scope="col"><span>{{orderNamesInSelectedLanguage.productBottomName}}</span></th>
       <th>{{this.generalNamesInSelectedLanguage.quantity}}</th>
 
     </tr>
