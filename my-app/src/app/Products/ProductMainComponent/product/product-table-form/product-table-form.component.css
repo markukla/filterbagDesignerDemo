@@ -28,6 +28,8 @@
 
 .drawingDetailTableCol {
   border: 1px solid #999;
+  border-right: none;
+  border-bottom: none;
   box-sizing: border-box;
   -webkit-box-flex: 0;
   -ms-flex: 0 0 auto;
@@ -80,11 +82,29 @@
   width: 20px;
 }
 
+.drawingDetailTableHorizontal {
+  width: 48vw;
+}
+
 .drawingDetailTableHorizontal .drawingDetailTable {
-  max-width: 44vw;
+  max-width: 48vw;
 }
 
 .drawingDetailTableHorizontal .horizontal-row {
   display: flex;
   justify-content: space-between;
+}
+
+.drawingDetailTableHorizontal .horizontal-row .horizontal-col:first-of-type {
+  flex-basis: 60%;
+  max-width: 60%
+}
+
+.drawingDetailTableHorizontal .horizontal-row .horizontal-col:last-of-type {
+  flex-basis: 640%;
+  max-width: 40%
+}
+
+.drawingDetailTableHorizontal .drawingDetailTableCommentToOrder {
+  border-bottom: 1px solid #999;
 }
