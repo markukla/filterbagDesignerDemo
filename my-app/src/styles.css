@@ -988,11 +988,11 @@ template {
 }
 
 .sortedAscending span:after {
-  border-bottom: 6px solid #565759;
+  border-bottom: 6px solid #ed5565;
   border-top: none;
 }
 
 .sortedDescending span:after {
-  border-top: 6px solid #565759;
+  border-top: 6px solid #ed5565;
   border-bottom: none;
 }
