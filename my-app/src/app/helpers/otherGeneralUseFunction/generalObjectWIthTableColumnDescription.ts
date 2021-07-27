@@ -64,6 +64,7 @@ export const generalNamesInSelectedLanguage = {
   allDimensionsInMilimeters: 'Wszystkie wymiary w milimetrach',
   addNewFraze: 'Dodaj Nową Frazę',
   language: 'Język',
+  back: 'Powrót',
 
 
 
