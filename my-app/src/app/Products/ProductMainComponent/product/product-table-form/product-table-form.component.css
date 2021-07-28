@@ -1,7 +1,6 @@
 .drawingDetailTable {
   background: #fff;
   border-top-left-radius: 5px;
-  color: #a4a9ae;
   font-size: 0.9122vw;
   max-width: 29.19vw;
 }
@@ -27,7 +26,7 @@
 }
 
 .drawingDetailTableCol {
-  border: 1px solid #999;
+  border: 1px solid #000;
   border-right: none;
   border-bottom: none;
   box-sizing: border-box;
@@ -79,7 +78,7 @@
 
 .temp-input {
   margin-left: 0.5840vw;
-  width: 20px;
+  width: 1.5vw;
 }
 
 .drawingDetailTableHorizontal {

@@ -70,8 +70,7 @@
   min-width: 230px;
 }
 
-.nav-item:hover .dropdown,
-.nav-item:focus-within .dropdown {
+.nav-item:hover .dropdown {
   pointer-events: all;
   opacity: 1;
   transform: translate(0, 20px);

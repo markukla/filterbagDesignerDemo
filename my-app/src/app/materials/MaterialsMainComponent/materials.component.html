@@ -20,16 +20,16 @@
         <th>{{materialNamesInSelectedLanguage.quantity}}</th>
       </tr>
       <tr class="table-search">
-        <td>
+        <th>
           <input class="input tableSearchInput"[appSearch]="materials" serchedColumn="materialCode" id="serchInCodes" [placeholder]="generalNamesInSelectedLanguage.search" />
-        </td>
-        <td>
+        </th>
+        <th>
           <input class="input tableSearchInput" [appSearch]="materials" serchedColumn="materialName" id="serchInNames" [placeholder]="generalNamesInSelectedLanguage.search" />
-        </td>
-        <td>
+        </th>
+        <th>
           <input class="input tableSearchInput" [appSearch]="materials" serchedColumn="descriptionInSelectedLanguage" id="serchInDescriptions" [placeholder]="generalNamesInSelectedLanguage.search" />
-        </td>
-        <td>{{this.recordNumbers}}</td>
+        </th>
+        <th>{{this.recordNumbers}}</th>
       </tr>
     </thead>
     <tbody>
