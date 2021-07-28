@@ -57,13 +57,13 @@
 .table-fieldset-input {
   margin-right: 0.3420vw;
   display: inline-block;
-  vertical-align: top;
+  vertical-align: middle;
 }
 
 .table-second-input {
   margin-left: 0.3420vw;
   display: inline-block;
-  vertical-align: top;
+  vertical-align: middle;
 }
 
 .product-table {
