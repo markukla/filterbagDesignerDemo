@@ -26,12 +26,13 @@
 }
 
 .drawingDetailTableCol {
-  border: 1px solid #000;
+  border: 1px solid #323;
   border-right: none;
   border-bottom: none;
   box-sizing: border-box;
   -webkit-box-flex: 0;
   -ms-flex: 0 0 auto;
+  color: #323;
   flex: 0 0 auto;
   padding: 0.3420vw 0.6840vw;
 }
