@@ -51,7 +51,7 @@
 }
 
 .fieldset-subheading {
-  margin:0 0 0.6840vw;
+  margin:0 0 0.4840vw;
 }
 
 .table-fieldset-input {
@@ -76,8 +76,13 @@
   max-width: 41%;
 }
 
+.first-table-row {
+  flex-basis: 54%;
+  max-width: 54%;
+  margin-right: 1.4vw;
+}
+
 .temp-input {
-  margin-left: 0.5840vw;
   width: 1.5vw;
 }
 
@@ -100,7 +105,7 @@
 }
 
 .drawingDetailTableHorizontal .horizontal-row .horizontal-col:last-of-type {
-  flex-basis: 640%;
+  flex-basis: 40%;
   max-width: 40%
 }
 

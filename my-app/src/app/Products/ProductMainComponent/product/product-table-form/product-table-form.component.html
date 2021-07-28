@@ -22,9 +22,9 @@
         <div class="drawingDetailTableCol">{{this.orderNames.Form}}</div>
         <div class="drawingDetailTableCol">
           <form class="product-table" [formGroup]="tableForm">
-            <div class="table-fieldset-row">
+            <div class="table-fieldset-row first-table-row">
               <fieldset class="table-fieldset">
-                <label for="workingTemperature">{{drawingTableFormNames.workingTemperature}}</label>
+                <label for="workingTemperature">{{drawingTableFormNames.workingTemperature}}</label><br>
                 <input type="text" class="temp-input"  formControlName="workingTemperature" id="workingTemperature">
                 [&#8451;]
               </fieldset>
