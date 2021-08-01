@@ -35,7 +35,7 @@ class OrderService implements RepositoryService {
     });
 
     public async findOneOrderById(id: string): Promise<Order> {
-        const foundOrder: Order = await this.repository.findOne(id, {relations:["register","product","productMaterial"]});
+        const foundOrder: Order = await this.repository.findOne(id, {relations:["product","productMaterial"]});
         if (!foundOrder) {
             throw new OrderNotFoundException(id);
         }
@@ -47,7 +47,7 @@ class OrderService implements RepositoryService {
 
 
     public async findAllOrders(): Promise<Order[]> {
-        const foundOrders: Order[] = await this.repository.find({relations:["register","product","productMaterial"]});
+        const foundOrders: Order[] = await this.repository.find({relations:["product","productMaterial"]});
 
         return foundOrders;
 
