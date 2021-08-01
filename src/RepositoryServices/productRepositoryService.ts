@@ -17,7 +17,7 @@ class ProductService implements RepositoryService {
     public repository = getRepository(Product);
 
     public async findOneProductById(id: string): Promise<Product> {
-        const foundProduct: Product = await this.repository.findOne(id, {relations: ["productType"]}); // table name not entity name
+        const foundProduct: Product = await this.repository.findOne(id, ) // /*{relations: ["productType"]})*/ table name not entity name
         if (!foundProduct) {
             throw new ProductNotFoundExceptionn(id);
         }
