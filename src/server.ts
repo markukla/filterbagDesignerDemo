@@ -19,6 +19,7 @@ import ProductBottomController from "./Controllers/productBottomController";
 import DimensionCodeController from "./Controllers/dimensionCodeController";
 import LanguageController from "./Controllers/languageController";
 import VocabularyController from "./Controllers/vocabullaryController";
+import OrderForSapController from "./Controllers/orderForSapController";
 
 validateEnv();
 
@@ -46,7 +47,9 @@ validateEnv();
             new ProductBottomController(),
             new DimensionCodeController(),
             new LanguageController(),
-            new VocabularyController()
+            new VocabularyController(),
+            new OrderForSapController()
+
 
 
 
