@@ -17,16 +17,24 @@ import ProductTop from "./src/Models/Products/productTop.entity";
 import ProductType from "./src/Models/Products/productType.entity";
 import Vocabulary from "./src/Models/Vocabulary/vocabulary.entity";
 import LocalizedName from "./src/Models/LocalizedName/localizedName.entity";
+import OrderToExport from "./src/Models/Order/orderEntityExportMSSQL";
 
 const config = {
     type: 'postgres',
     host: process.env.POSTGRES_HOST,
     port: Number(process.env.POSTGRES_PORT),
     username: process.env.POSTGRES_USER,
+    driver:"postgres",
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DB,
-    entities: [Role, User, BlackListedToken, DimensionCode, Language, Material, Order, OrderDetails, OrderVersionRegister, Product, ProductBottom, ProductTop, ProductType, Vocabulary, LocalizedName],
+    entities: [Role, User, BlackListedToken, DimensionCode, Language, Material, Order, OrderDetails, OrderVersionRegister, Product, ProductBottom, ProductTop, ProductType, Vocabulary, LocalizedName, OrderToExport],
     synchronize: true,
+    migrations: [
+        "src/migration/**/*.ts"
+    ],
+    cli: {
+        "migrationsDir": "migration"
+    }
 };
 const config_test = {
 

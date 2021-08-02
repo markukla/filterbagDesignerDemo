@@ -21,6 +21,8 @@ import {getSelectedLanguageFromNamesInAllLanguages} from "../../../helpers/other
 import {AuthenticationService} from "../../../LoginandLogOut/AuthenticationServices/authentication.service";
 import {ProductBackendService} from "../../../Products/ProductMainComponent/product/ProductServices/product-backend.service";
 import {addWarning} from "@angular-devkit/build-angular/src/utils/webpack-diagnostics";
+import OrderToExportEntity from "../../OrdersTypesAndClasses/OrderToExportEntity";
+import OrderToExport from "../../OrdersTypesAndClasses/OrderToExportEntity";
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +30,7 @@ import {addWarning} from "@angular-devkit/build-angular/src/utils/webpack-diagno
 export class OrderBackendService {
   rootURL = API_URL ;
   endpointUrl = '/api/orders';
+  sapEndpointUrl='/api/SapOrders';
   selectedProduct: Product;
   selectedParnter: User;
   selectedMaterial: Material;
@@ -97,6 +100,7 @@ export class OrderBackendService {
     console.log(`getUrl = ${getUrl} `);
     return this.http.post(getUrl, {url: selectedDrawingUrl},{responseType: 'blob'});
   }
+
   getCreateOrderDtoFromOrder(order: Order): CreateOrderDto {
     const createOrderDto: CreateOrderDto = {
       product: order.product,
@@ -162,6 +166,19 @@ export class OrderBackendService {
     if(createOrderDtoFromSessionStorage){
       this.createOrderDtoForConfirmUpdateShowDrawing = createOrderDtoFromSessionStorage;
     }
+  }
+
+  findSapOrderById(id: string): Observable<HttpResponse<OrderToExport>>{
+    const getUrl = `${this.rootURL + this.sapEndpointUrl}/${id}`;
+    return this.http.get<OrderToExport>(getUrl, {observe: 'response'} );
+  }
+  findallSapOrders(): Observable<HttpResponse<OrderToExport[]>>{
+    const getUrl = `${this.rootURL + this.sapEndpointUrl}`;
+    return this.http.get<OrderToExport[]>(getUrl, {observe: 'response'} );
+  }
+  addOneSapOrder(sapOrderDto:any): Observable<HttpResponse<OrderToExport>>{
+    const getUrl = `${this.rootURL + this.sapEndpointUrl}`;
+    return this.http.post<OrderToExport>(sapOrderDto, getUrl, {observe: 'response'} );
   }
 
 
