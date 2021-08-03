@@ -369,7 +369,7 @@ template {
   color: #fff;
   cursor: pointer;
   margin: 2px 4px;
-  padding: 16px;
+  padding: 14px;
   position: relative;
 }
 
@@ -451,6 +451,14 @@ template {
 
 .turn-button:after {
   content: "\f01e";
+}
+
+.export-button {
+  background: #d68720;
+}
+
+.export-button:after {
+  content: "\e961";
 }
 
 .pdf-button {
@@ -789,7 +797,7 @@ template {
 }
 
 .table-buttons {
-  width: 160px;
+  width: 180px;
 }
 
 .table .table-top th {

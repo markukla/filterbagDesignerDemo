@@ -54,6 +54,9 @@ for version with pagination
         <button class="icon action-button ask-button" [title]="generalNamesInSelectedLanguage.seeHistory" (click)="showOrderHistory(record.id)">
           <span class="hidden">{{this.generalNamesInSelectedLanguage.seeHistory}}</span>
         </button>
+        <button  class="icon action-button export-button" *ngIf="checkIfAdminRole()===true">
+          <span class="hidden"></span>
+        </button>
         <button  class="icon action-button delete-button" *ngIf="checkIfAdminRole()===true" (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(record.id)" [title]="deleteButtonInfo">
           <span class="hidden">{{this.generalNamesInSelectedLanguage.closeButtonDescription}}</span>
         </button>
