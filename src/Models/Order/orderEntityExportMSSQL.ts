@@ -8,19 +8,19 @@ import OrderVersionRegister from "../OrderVersionRegister/orderVersionRegister.e
 @Entity("worki")
 class OrderToExport {
 
-    @PrimaryGeneratedColumn({type:"int"})
+    @PrimaryGeneratedColumn({})
     public id?: number;
-    @Column({type: "nvarchar",length:50, nullable:true})
+    @Column({length:50, nullable:true})
     Indeks:string;
-    @Column({type: "nvarchar", length:300, nullable:true})
+    @Column({ length:300, nullable:true})
     nazwa_CZ:string;
-    @Column({type: "nvarchar",length:50, nullable:true})
+    @Column({length:50, nullable:true})
     rysunek:string;
-    @Column({type:"int",nullable:true})
+    @Column({nullable:true})
     Status:number;
-    @Column({type:"datetime",nullable:true})
+    @Column({nullable:true})
     dateAdd: Date;
-    @Column({type:"datetime",nullable:true})
+    @Column({nullable:true})
     dateAddSAP: Date;
 
 }

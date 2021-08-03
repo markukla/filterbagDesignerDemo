@@ -29,12 +29,12 @@ class OrderForSapController implements Controller {
 
     private addOneRecord = async (request: express.Request, response: express.Response, next: express.NextFunction) => {
         const orderForSapData: OrderExportDto = request.body;
-        const urlForPuppeter= `${process.env.API_URL_HOST_FOR_PUPPETER + process.env.PORT}/orders/drawing?orderId=${orderForSapData.orderIdForPdf}&mode=Orderdrawing&languageCode=${orderForSapData.languageCodeForPdf}&email=${process.env.PuppeterEmail}&password=${process.env.PuppeterPassword}`   //this.router.url + `&languageCode=${this.authenticationService.selectedLanguageCode}`
+        const urlForPuppeter= `${process.env.API_URL_HOST_FOR_PUPPETER + process.env.PORT}?orderId=${orderForSapData.orderIdForPdf}&mode=Orderdrawing&languageCode=${orderForSapData.languageCodeForPdf}&email=${process.env.PuppeterEmail}&password=${process.env.PuppeterPassword}`   //this.router.url + `&languageCode=${this.authenticationService.selectedLanguageCode}`
        console.log(`urlForPuppeter=${urlForPuppeter}`);
         try {
             const orderForSAp: OrderToExport = await this.service.addOneRecord(orderForSapData);
 
-            await this.printPdf(urlForPuppeter);
+           const pdf= await this.printPdf(urlForPuppeter);
             response.send({
                 messageToUser: 'index data exported to SAP and Pdf genereted'
             });
@@ -55,8 +55,10 @@ class OrderForSapController implements Controller {
             page.waitForNavigation({waitUntil: 'networkidle0'}),
         ]);
 
-        const urlToSavePdf= 'C:\\Users\\Marcin\\Desktop\\projekt_daniel\\TestEkksportuZapisuPdf';
-        const pdf = await page.pdf({url:urlToSavePdf,format: 'A4'});
+        const urlToSavePdf= path.join(__dirname,"/page.pdf");
+        const urlTest= 'C:\\Users\\Marcin\\Desktop\\projekt_daniel\\TestEkksportuZapisuPdf\\test2.pdf';
+        const pdf = await page.pdf({format: 'A4',path:urlTest});
+
 
         await browser.close();
         return pdf

@@ -1,5 +1,5 @@
 import RepositoryService from "../interfaces/service.interface";
-import {DeleteResult, getRepository, UpdateResult} from "typeorm";
+import {DeleteResult, getConnection, getRepository, UpdateResult} from "typeorm";
 import Material from "../Models/Materials/material.entity";
 import MaterialNotFoundExceptionn from "../Exceptions/MaterialNotFoundException";
 import CreateMaterialDto from "../Models/Materials/material.dto";
@@ -17,7 +17,25 @@ class ProductService implements RepositoryService {
     public repository = getRepository(Product);
 
     public async findOneProductById(id: string): Promise<Product> {
-        const foundProduct: Product = await this.repository.findOne(id, ) // /*{relations: ["productType"]})*/ table name not entity name
+      //  const foundProduct: Product = await this.repository.findOne(id, ) // /*{relations: ["productType"]})*/ table name not entity name
+        const foundProduct= await getConnection().createQueryBuilder(Product,'product')
+
+            .leftJoinAndSelect('product.productType', 'productType')
+            .leftJoinAndSelect('productType.vocabulary','vType')
+            .leftJoinAndSelect('vType.localizedNames','vTypenames')
+            .leftJoinAndSelect('vTypenames.language','vTypelanguage')
+            .leftJoinAndSelect('product.productBottom', 'productBottom')
+            .leftJoinAndSelect('productBottom.vocabulary','vBottom')
+            .leftJoinAndSelect('vBottom.localizedNames','vBottomnames')
+            .leftJoinAndSelect('vBottomnames.language','vBottomlanguage')
+            .leftJoinAndSelect('product.productTop', 'productTop')
+            .leftJoinAndSelect('productTop.vocabulary','vTop')
+            .leftJoinAndSelect('vTop.localizedNames','vTopnames')
+            .leftJoinAndSelect('vTopnames.language','vToplanguage')
+            .where("product.id = :id", {id:id})
+            .getOne();
+
+
         if (!foundProduct) {
             throw new ProductNotFoundExceptionn(id);
         }
@@ -44,9 +62,28 @@ class ProductService implements RepositoryService {
 
 
     public async findAllProducts(): Promise<Product[]> {
-        const foundProducts: Product[] = await this.repository.find(
+       /*  const foundProducts: Product[] = await this.repository.find(
             {softDeleteDate: null}
-        );
+        );*/
+
+
+        const foundProducts= await getConnection().createQueryBuilder(Product,'product')
+
+            .leftJoinAndSelect('product.productType', 'productType')
+            .leftJoinAndSelect('productType.vocabulary','vType')
+            .leftJoinAndSelect('vType.localizedNames','vTypenames')
+            .leftJoinAndSelect('vTypenames.language','vTypelanguage')
+            .leftJoinAndSelect('product.productBottom', 'productBottom')
+            .leftJoinAndSelect('productBottom.vocabulary','vBottom')
+            .leftJoinAndSelect('vBottom.localizedNames','vBottomnames')
+            .leftJoinAndSelect('vBottomnames.language','vBottomlanguage')
+            .leftJoinAndSelect('product.productTop', 'productTop')
+            .leftJoinAndSelect('productTop.vocabulary','vTop')
+            .leftJoinAndSelect('vTop.localizedNames','vTopnames')
+            .leftJoinAndSelect('vTopnames.language','vToplanguage')
+           //.where("product.softDeleteDate = :sdD", {sdD: null})
+            .getMany();
+
 
         return foundProducts;
 

@@ -73,10 +73,10 @@ for version with pagination
     -->
 
   </table>
-  <div *ngIf="showConfirmWindow"class="confirmOrWarnWindow popup-window">
+  <div *ngIf="showConfirmSapExportWindow===true"class="confirmOrWarnWindow popup-window">
 
 
-    <p>{{confirmExportButtonDescription}}</p>
+    <p></p> // confirmExportButtonDescription
     <button id="confirmDeleteButton" class="button button-popup" (click)="confirmExportAction();">{{this.generalNamesInSelectedLanguage.yes}}</button>
     <button id="resignFromDeletingButton" class="button button-popup" (click)="resignFromExportAction();">{{this.generalNamesInSelectedLanguage.no}}</button>
 

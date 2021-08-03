@@ -52,7 +52,8 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
   numberOfRecordsForPage: number;
   ordersWithNamesInAllLanguages: Order[]=[]
   orderForSapDto: OrderExportDto;
-  languageCodeForPdf: string
+  languageCodeForPdf: string;
+  showConfirmSapExportWindow= false;
   private collator = new Intl.Collator(undefined, {
     numeric: true,
     sensitivity: 'base',
@@ -254,6 +255,7 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
   }
 
   showExportToSapForm(id: number) {
+
     const orderSelectedToExportWithAllLanguages: Order = this.ordersWithNamesInAllLanguages.filter(order=> order.id===id)[0];
      this.orderForSapDto= {
        Indeks: orderSelectedToExportWithAllLanguages.index,
@@ -266,6 +268,6 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
        Status: 1
 
      }
-
+     this.showConfirmSapExportWindow = true
   }
 }
