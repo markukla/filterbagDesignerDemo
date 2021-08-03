@@ -23,6 +23,7 @@ import {ProductBackendService} from "../../../Products/ProductMainComponent/prod
 import {addWarning} from "@angular-devkit/build-angular/src/utils/webpack-diagnostics";
 import OrderToExportEntity from "../../OrdersTypesAndClasses/OrderToExportEntity";
 import OrderToExport from "../../OrdersTypesAndClasses/OrderToExportEntity";
+import {OrderExportDto} from "../../OrdersTypesAndClasses/orderExportDto";
 
 @Injectable({
   providedIn: 'root'
@@ -176,9 +177,9 @@ export class OrderBackendService {
     const getUrl = `${this.rootURL + this.sapEndpointUrl}`;
     return this.http.get<OrderToExport[]>(getUrl, {observe: 'response'} );
   }
-  addOneSapOrder(sapOrderDto:any): Observable<HttpResponse<OrderToExport>>{
+  addOneSapOrder(sapOrderDto:OrderExportDto): Observable<HttpResponse<any>>{
     const getUrl = `${this.rootURL + this.sapEndpointUrl}`;
-    return this.http.post<OrderToExport>(sapOrderDto, getUrl, {observe: 'response'} );
+    return this.http.post<any>(getUrl,sapOrderDto, {observe: 'response'} );
   }
 
 

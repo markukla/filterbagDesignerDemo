@@ -70,6 +70,7 @@ import { GeneretePasswordDirective } from './helpers/directive/GeneratePasswordD
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -125,7 +126,8 @@ import { GeneretePasswordDirective } from './helpers/directive/GeneratePasswordD
     ConfirmDeleteComponent,
     OperationStatusComponent,
     ValidationErrorMessageComponent,
-    GeneretePasswordDirective
+    GeneretePasswordDirective,
+
     ],
   imports: [
     BrowserModule,

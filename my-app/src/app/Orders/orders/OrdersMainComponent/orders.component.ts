@@ -19,6 +19,7 @@ import {
 import {Pagninator} from "../../../helpers/Paginator/paginator";
 import {ProductBackendService} from "../../../Products/ProductMainComponent/product/ProductServices/product-backend.service";
 import {Sort} from "../../../util/sort";
+import {OrderExportDto} from "../../OrdersTypesAndClasses/orderExportDto";
 
 @Component({
   selector: 'app-orders',
@@ -49,6 +50,9 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
   recordsForCurrentPage: OrderforTableCell[];
   paginator: Pagninator;
   numberOfRecordsForPage: number;
+  ordersWithNamesInAllLanguages: Order[]=[]
+  orderForSapDto: OrderExportDto;
+  languageCodeForPdf: string
   private collator = new Intl.Collator(undefined, {
     numeric: true,
     sensitivity: 'base',
@@ -70,7 +74,7 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit(): void {
-
+  this.languageCodeForPdf= this.authenticationService.selectedLanguageCode;
 
 
 
@@ -121,7 +125,8 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
       this.businessPartnerbackendService.findRecordById(this.partnerIdForOrdersShow).subscribe((partner) => {
         this.backendService.getCurrentOrdersForPartners(partner.body.code).subscribe((orders)=>{
           this.ordersOfBusinessPartner = orders.body.filter(order=>String(order.businessPartner.id)===this.partnerIdForOrdersShow);
-          this.ordersOfBusinessPartner.forEach((record) => {
+          this.ordersWithNamesInAllLanguages= this.ordersOfBusinessPartner;
+          this.ordersWithNamesInAllLanguages.forEach((record) => {
               if(record.product) {
                 this.tableService.records.push(this.backendService.createOrderTableCellFromOrderEntity(record));
                // this.sortOrder(this.tableService.records);
@@ -139,7 +144,8 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
       const partnerCode: string = this.authenticationService.user.code;
       this.backendService.getCurrentOrdersForPartners(partnerCode).subscribe((records) => {
         this.tableService.records.length = 0;
-        records.body.forEach((record) => {
+        this.ordersWithNamesInAllLanguages= records.body;
+        this.ordersWithNamesInAllLanguages.forEach((record) => {
 
               if(record.product) {
                 this.tableService.records.push(this.backendService.createOrderTableCellFromOrderEntity(record));
@@ -157,7 +163,8 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
       console.log('in get orders for privilligedUsers ');
       this.backendService.getCurrentOrdersForPrivilligedUsers().subscribe((records) => {
         this.tableService.records.length = 0;
-        records.body.forEach((record) => {
+          this.ordersWithNamesInAllLanguages= records.body;
+          this.ordersWithNamesInAllLanguages.forEach((record) => {
 
             if(record.product) {
               this.tableService.records.push(this.backendService.createOrderTableCellFromOrderEntity(record));
@@ -233,5 +240,32 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
     else {
       return false;
     }
+  }
+
+  confirmExportAction() {
+    this.backendService.addOneSapOrder(this.orderForSapDto).subscribe((response)=>{
+      console.log(response.body.messageToUser);
+    });
+
+  }
+
+  resignFromExportAction() {
+
+  }
+
+  showExportToSapForm(id: number) {
+    const orderSelectedToExportWithAllLanguages: Order = this.ordersWithNamesInAllLanguages.filter(order=> order.id===id)[0];
+     this.orderForSapDto= {
+       Indeks: orderSelectedToExportWithAllLanguages.index,
+       languageCodeForPdf: this.languageCodeForPdf,
+       orderIdForPdf: String(id),
+       dateAdd: new Date(),
+       dateAddSAP: null,
+       nazwa_CZ: orderSelectedToExportWithAllLanguages.product.productType.vocabulary.localizedNames.filter(localizedName=>localizedName.language.languageCode==='CS')[0].nameInThisLanguage +' '+orderSelectedToExportWithAllLanguages.orderName,
+       rysunek: orderSelectedToExportWithAllLanguages.orderTotalNumber,
+       Status: 1
+
+     }
+
   }
 }

@@ -6,6 +6,7 @@ import {DeleteResult, getManager, getRepository, Repository, UpdateResult} from 
 import CreateProductTopDto from "../Models/Products/createProductTop.dto";
 
 import OrderToExport from "../Models/Order/orderEntityExportMSSQL";
+import OrderExportDto from "../Models/Order/orderExport.dto";
 
 
 class OrderForSapRepository implements RepositoryService {
@@ -33,7 +34,7 @@ class OrderForSapRepository implements RepositoryService {
 
     }
 
-    public async addOneRecord(orderForSapDto: any): Promise<OrderToExport> {
+    public async addOneRecord(orderForSapDto: OrderExportDto): Promise<OrderToExport> {
         // do not allow to add the same product twice
 
 

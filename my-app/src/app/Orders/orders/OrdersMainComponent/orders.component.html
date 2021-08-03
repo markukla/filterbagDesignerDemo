@@ -57,6 +57,9 @@ for version with pagination
         <button  class="icon action-button delete-button" *ngIf="checkIfAdminRole()===true" (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(record.id)" [title]="deleteButtonInfo">
           <span class="hidden">{{this.generalNamesInSelectedLanguage.closeButtonDescription}}</span>
         </button>
+        <button (click)="showExportToSapForm(record.id)">
+          eksport do Sap
+        </button>
       </td>
 
     </tr>
@@ -70,6 +73,14 @@ for version with pagination
     -->
 
   </table>
+  <div *ngIf="showConfirmWindow"class="confirmOrWarnWindow popup-window">
+
+
+    <p>{{confirmExportButtonDescription}}</p>
+    <button id="confirmDeleteButton" class="button button-popup" (click)="confirmExportAction();">{{this.generalNamesInSelectedLanguage.yes}}</button>
+    <button id="resignFromDeletingButton" class="button button-popup" (click)="resignFromExportAction();">{{this.generalNamesInSelectedLanguage.no}}</button>
+
+  </div>
 </div>
 
 
