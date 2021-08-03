@@ -26,7 +26,7 @@
 }
 
 .drawingDetailTableCol {
-  border: 1px solid #323;
+  border: solid 1px #000;
   border-right: none;
   border-bottom: none;
   box-sizing: border-box;
