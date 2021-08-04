@@ -20,6 +20,7 @@ import {Pagninator} from "../../../helpers/Paginator/paginator";
 import {ProductBackendService} from "../../../Products/ProductMainComponent/product/ProductServices/product-backend.service";
 import {Sort} from "../../../util/sort";
 import {OrderExportDto} from "../../OrdersTypesAndClasses/orderExportDto";
+import Language from "../../../Languages/LanguageTypesAndClasses/languageEntity";
 
 @Component({
   selector: 'app-orders',
@@ -54,10 +55,14 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
   orderForSapDto: OrderExportDto;
   languageCodeForPdf: string;
   showConfirmSapExportWindow= false;
+  languages: Language[];
+  waitForServerResponse: string;
   private collator = new Intl.Collator(undefined, {
     numeric: true,
     sensitivity: 'base',
   });
+  sapFailerMessege: string;
+  sapSuccessMessege: string;
 
 
   constructor(public tableService: GeneralTableService,
@@ -76,8 +81,7 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
 
   ngOnInit(): void {
   this.languageCodeForPdf= this.authenticationService.selectedLanguageCode;
-
-
+  this.languages= this.authenticationService.languages.filter(language=> language.active===true);
 
     this.route.queryParamMap.subscribe(queryParams => {
       this.partnerIdForOrdersShow = queryParams.get('patnerId');
@@ -242,16 +246,45 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
       return false;
     }
   }
+  checkIfAdminOrEditorRole():boolean {
+    if(this.authenticationService.userRole === RoleEnum.ADMIN ||this.authenticationService.userRole === RoleEnum.EDITOR) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
 
   confirmExportAction() {
+    this.waitForServerResponse= this.generalNamesInSelectedLanguage.waitForServerResponse;
+    this.orderForSapDto.languageCodeForPdf= this.languageCodeForPdf;
     this.backendService.addOneSapOrder(this.orderForSapDto).subscribe((response)=>{
-      console.log(response.body.messageToUser);
+      this.waitForServerResponse= undefined;
+     this.sapSuccessMessege= this.generalNamesInSelectedLanguage.exportToSapSuccessMessage;
+     setTimeout( ()=>{
+       this.sapSuccessMessege= undefined;
+       this.showConfirmSapExportWindow= false
+     }, 1000)
+    }, error => {
+      this.waitForServerResponse= undefined;
+      this.sapFailerMessege=this.generalNamesInSelectedLanguage.exportToSapFailerMessage;
     });
 
   }
 
   resignFromExportAction() {
-
+    this.orderForSapDto= null;
+    this.waitForServerResponse= undefined;
+    this.sapSuccessMessege= undefined;
+    this.sapFailerMessege=undefined;
+    this.showConfirmSapExportWindow = false;
+  }
+  closeSapExportWindow() {
+    this.waitForServerResponse= undefined;
+    this.orderForSapDto= null;
+    this.sapSuccessMessege= undefined;
+    this.sapFailerMessege=undefined;
+    this.showConfirmSapExportWindow = false;
   }
 
   showExportToSapForm(id: number) {

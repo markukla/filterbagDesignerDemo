@@ -65,8 +65,13 @@ export const generalNamesInSelectedLanguage = {
   addNewFraze: 'Dodaj Nową Frazę',
   language: 'Język',
   back: 'Powrót',
-
-
+  sapExportOperationIsIrreversible: 'Operacja eksportu danych do bazy Sap jest nieodwracalna. Czy na pewno chcesz kontynuować ?',
+  chooseLanguageForPdfGEneration: 'Wybierz język, który będzie używany w wygenerowanym rysunku technicznym w formacie pdf:',
+  exportToSapAndGeneretePdf: 'Eksport danych zapytania do bazy danych Sap i generacja pdf rysunku technicznego w lokalizaji: \\\\192.168.0.4\\SapAttachments\\Attachments',
+  createIndexInSAP: 'Utwórz indeks w SAP',
+  exportToSapSuccessMessage:'Operacja eksportu danych do Sap zakończona sukcesem, wygenerowano rysunek techniczny pdf',
+  exportToSapFailerMessage:'Wystąpił błąd nie udało się eksporotwać danych do bazy danych SAP',
+  waitForServerResponse: 'Oczekiwanie na odpowiedź serwera',
 
 /*  <a [routerLink]="['/orders']" routerLinkActive="active"> Zamówienia</a>
   <a [routerLink]="['/businessPartners']" routerLinkActive="active"> Partnerzy</a>

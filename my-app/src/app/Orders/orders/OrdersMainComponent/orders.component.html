@@ -54,15 +54,13 @@ for version with pagination
         <button class="icon action-button ask-button" [title]="generalNamesInSelectedLanguage.seeHistory" (click)="showOrderHistory(record.id)">
           <span class="hidden">{{this.generalNamesInSelectedLanguage.seeHistory}}</span>
         </button>
-        <button  class="icon action-button export-button" *ngIf="checkIfAdminRole()===true">
+        <button (click)="showExportToSapForm(record.id)" class="icon action-button export-button" [title]="this.generalNamesInSelectedLanguage.createIndexInSAP"  *ngIf="checkIfAdminOrEditorRole()">
           <span class="hidden"></span>
         </button>
         <button  class="icon action-button delete-button" *ngIf="checkIfAdminRole()===true" (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(record.id)" [title]="deleteButtonInfo">
           <span class="hidden">{{this.generalNamesInSelectedLanguage.closeButtonDescription}}</span>
         </button>
-        <button (click)="showExportToSapForm(record.id)">
-          eksport do Sap
-        </button>
+
       </td>
 
     </tr>
@@ -77,11 +75,37 @@ for version with pagination
 
   </table>
   <div *ngIf="showConfirmSapExportWindow===true"class="confirmOrWarnWindow popup-window">
+    <button [title]="this.generalNamesInSelectedLanguage.closeButtonDescription" id="close button" class="closeButton icon" (click)="this.closeSapExportWindow() ">
+
+      <span class="hidden">{{generalNamesInSelectedLanguage.closeButtonDescription}}</span>
+    </button>
 
 
-    <p></p> // confirmExportButtonDescription
+    <h4 class="heading">{{this.generalNamesInSelectedLanguage.exportToSapAndGeneretePdf}}</h4>
+    <p>{{this.generalNamesInSelectedLanguage.chooseLanguageForPdfGEneration}}</p>
+    <div *ngFor="let language of this.languages">
+
+
+    <fieldset class="table-fieldset">
+      <input class="table-fieldset-input" type="radio"  [(ngModel)]="this.languageCodeForPdf"   [id]="language.languageCode" [value]="language.languageCode"
+      >
+      <label  [for]="language.languageCode">{{language.languageCode}}</label>
+    </fieldset>
+    </div>
+    <p>{{this.generalNamesInSelectedLanguage.sapExportOperationIsIrreversible}}</p>
     <button id="confirmDeleteButton" class="button button-popup" (click)="confirmExportAction();">{{this.generalNamesInSelectedLanguage.yes}}</button>
     <button id="resignFromDeletingButton" class="button button-popup" (click)="resignFromExportAction();">{{this.generalNamesInSelectedLanguage.no}}</button>
+   <div *ngIf="this.waitForServerResponse">
+     <p>{{this.waitForServerResponse}}</p>
+
+   </div>
+
+    <div *ngIf="sapFailerMessege" class="alert-danger">
+      <p>{{sapFailerMessege}}</p>
+    </div>
+    <div *ngIf="sapSuccessMessege" class="alert-success">
+      <p>{{sapSuccessMessege}}</p>
+    </div>
 
   </div>
 </div>
