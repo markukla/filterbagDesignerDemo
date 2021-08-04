@@ -71,7 +71,7 @@ export const generalNamesInSelectedLanguage = {
   createIndexInSAP: 'Utwórz indeks w SAP',
   exportToSapSuccessMessage:'Operacja eksportu danych do Sap zakończona sukcesem, wygenerowano rysunek techniczny pdf',
   exportToSapFailerMessage:'Wystąpił błąd nie udało się eksporotwać danych do bazy danych SAP',
-  waitForServerResponse: 'Oczekiwanie na odpowiedź serwera',
+  waitForServerResponse: 'Oczekiwanie na odpowiedź serwera...',
 
 /*  <a [routerLink]="['/orders']" routerLinkActive="active"> Zamówienia</a>
   <a [routerLink]="['/businessPartners']" routerLinkActive="active"> Partnerzy</a>

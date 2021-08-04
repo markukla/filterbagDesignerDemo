@@ -81,7 +81,7 @@ class ProductService implements RepositoryService {
             .leftJoinAndSelect('productTop.vocabulary','vTop')
             .leftJoinAndSelect('vTop.localizedNames','vTopnames')
             .leftJoinAndSelect('vTopnames.language','vToplanguage')
-           //.where("product.softDeleteDate = :sdD", {sdD: null})
+           .where('product.softDeleteDate is null')
             .getMany();
 
 
