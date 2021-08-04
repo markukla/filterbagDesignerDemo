@@ -74,14 +74,14 @@ for version with pagination
     -->
 
   </table>
-  <div *ngIf="showConfirmSapExportWindow===true"class="confirmOrWarnWindow popup-window">
+  <div *ngIf="showConfirmSapExportWindow===true"class="confirmOrWarnWindow popup-window popup-sap">
     <button [title]="this.generalNamesInSelectedLanguage.closeButtonDescription" id="close button" class="closeButton icon" (click)="this.closeSapExportWindow() ">
 
       <span class="hidden">{{generalNamesInSelectedLanguage.closeButtonDescription}}</span>
     </button>
 
 
-    <h4 class="heading">{{this.generalNamesInSelectedLanguage.exportToSapAndGeneretePdf}}</h4>
+    <h3 class="heading-second">{{this.generalNamesInSelectedLanguage.exportToSapAndGeneretePdf}}</h3>
     <p>{{this.generalNamesInSelectedLanguage.chooseLanguageForPdfGEneration}}</p>
     <div *ngFor="let language of this.languages">
 

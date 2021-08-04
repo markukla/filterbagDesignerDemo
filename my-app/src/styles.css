@@ -833,6 +833,10 @@ template {
   padding: 8px 0;
 }
 
+.popup-window.popup-sap {
+  font-size: 16px;
+}
+
 .popup-window {
   background: #fff;
   border-radius: 5px;
@@ -846,6 +850,12 @@ template {
   top: 50%;
   transform: translate(-50%, -50%);
   width: 320px;
+  z-index: 2;
+}
+
+.popup-window .closeButton {
+  right: 16px;
+  top: 16px;
 }
 
 .button-popup {
