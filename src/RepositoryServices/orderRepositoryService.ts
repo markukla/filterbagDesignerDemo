@@ -63,6 +63,7 @@ class OrderService implements RepositoryService {
             .leftJoinAndSelect('productTop.vocabulary','vTop')
             .leftJoinAndSelect('vTop.localizedNames','vTopnames')
             .leftJoinAndSelect('vTopnames.language','vToplanguage')
+            .where("order.id = :id", {id:Number(id)})
 
 
 
