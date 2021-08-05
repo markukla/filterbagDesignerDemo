@@ -1,3 +1,4 @@
+
 import {DeleteResult, EntityManager, getManager, getRepository} from "typeorm";
 import RepositoryService from "../interfaces/service.interface";
 import User from "../Models/Users/user.entity";
@@ -24,6 +25,7 @@ import CHangePasswordByAdminDto from "../Models/Users/changePasswordByAdmin.dto"
 import BlockUserDto from "../Models/Users/blockUser.dto";
 import Material from "../Models/Materials/material.entity";
 import DimensionCodeNotFoundException from "../Exceptions/DimensionCodeNotFoundException";
+import BusinessPartnerWithThisCodeAlreadyExist from "../Exceptions/BusinessPartnerWithThisCodeAlreadyExist";
 
 class UserService implements RepositoryService {
 
@@ -263,12 +265,24 @@ class UserService implements RepositoryService {
 
 
     }
+    public async findBusinessPartnerByCode (code: string): Promise<User> {
+        const foundPartner= await this.repository.findOne({
+            code: code
+        });
+        return foundPartner;
+    }
 
     // business partners are app users with lowest priviliges.
     public async registerBusinessPartner(businessPartnerdata: CreateBusinessPartnerDto): Promise<User> {
         const partnerWithThisEmailInDatabae = await this.findUserByEmail(businessPartnerdata.email)
+
         if (partnerWithThisEmailInDatabae && partnerWithThisEmailInDatabae.softDeleteDate === null) {
             throw new UserWithThatEmailAlreadyExistsException(businessPartnerdata.email);
+        }
+        const partnerWithThisCodeInDatabase= await this.findBusinessPartnerByCode(businessPartnerdata.code);
+        if(partnerWithThisCodeInDatabase && partnerWithThisCodeInDatabase.softDeleteDate === null) {
+            throw new BusinessPartnerWithThisCodeAlreadyExist(businessPartnerdata.code);
+
         }
         const businesPartnerRoles: Role[] = [new Role(RoleEnum.PARTNER)];
         const validationResult: PasswordValidationResult = validatePassword(businessPartnerdata.password);
@@ -342,11 +356,22 @@ class UserService implements RepositoryService {
                 softDeleteDate: null
             },
             {relations: ['roles']});
-
-        const otherUserWithThisEmailAlreadyExist: boolean = (userWithThisEmail && userWithThisEmail.id !== id);
-        if (otherUserWithThisEmailAlreadyExist) {
-            throw new UserWithThatEmailAlreadyExistsException(businesesPartnerData.email);
+        if(userWithThisEmail) {
+            const otherUserWithThisEmailAlreadyExist: boolean = (userWithThisEmail && userWithThisEmail.id !== id);
+            if (otherUserWithThisEmailAlreadyExist) {
+                throw new UserWithThatEmailAlreadyExistsException(businesesPartnerData.email);
+            }
         }
+
+        const partnerWithThisCodeInDatabase= await this.findBusinessPartnerByCode(businesesPartnerData.code);
+        if(partnerWithThisCodeInDatabase) {
+            const otherPartnerWithThisCodeInDatabase: boolean = (partnerWithThisCodeInDatabase.id !== id);
+            if(otherPartnerWithThisCodeInDatabase && partnerWithThisCodeInDatabase.softDeleteDate === null) {
+                throw new BusinessPartnerWithThisCodeAlreadyExist(businesesPartnerData.code);
+
+            }
+        }
+
 
         const businessPartner = this.manager.create(User, {
             ...businesesPartnerData,

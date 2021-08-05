@@ -62,7 +62,10 @@
   </form>
 
     <div *ngIf="operationStatusMessage" class="operation-status-container">
-    <p>{{operationStatusMessage}}</p>
+      <button [title]="this.generalNamesInSelectedLanguage.closeButtonDescription" id="close button" class="closeButton icon" (click)="this.operationStatusMessage= undefined ">
+        <span class="hidden">{{generalNamesInSelectedLanguage.closeButtonDescription}}</span>
+      </button>
+        <p>{{operationStatusMessage}}</p>
   </div>
 </div>
 

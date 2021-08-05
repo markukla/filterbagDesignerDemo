@@ -127,7 +127,7 @@ export class UpdateBusinessPartnerComponent implements OnInit, AfterContentCheck
       navigateToUrlAfterTimout(this.authenticationService._previousUrl, this.router);
     }, error => {
       this.operationStatusMessage = this.backendMessageService.returnErrorToUserBasingOnBackendErrorStringForUpdate(error);
-      this.cleanOperationMessageAndGoBack();
+
     });
   }
 

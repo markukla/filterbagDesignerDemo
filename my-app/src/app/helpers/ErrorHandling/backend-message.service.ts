@@ -15,9 +15,10 @@ export class BackendMessageService {
   generalErrorMessageForCreate = ' Wystąpił błąd: nie udało się dodać nowego rekordu do bazy danych, spróbuj ponownie';
   generalSuccessMessageForCreate = 'Dodano nowy rekord do bazy danych';
   generalSuccessMessageForUpdate = 'Zaktualizowano wybrany  rekord w  bazie danych';
-  generalErrorMessageForUpdate = ' Wystąpił błąd: Dodawania/aktualizacja nie powiodły się, spróbuj ponownie'
+  generalErrorMessageForUpdate = ' Wystąpił błąd: Dodawania/aktualizacja nie powiodły się, spróbuj ponownie';
   otherRecordWithThisNameAlreadyExist = 'w bazie danych istnieje już inny rekord z podaną nazwą:';
-  otherRecordWithThisCodeAlreadyExist = 'inny rekord z podanym kodem już istnieje w bazie danych'
+  otherRecordWithThisCodeAlreadyExist = 'inny rekord z podanym kodem już istnieje w bazie danych';
+  otherBusinessPartnerWithThisCodeAlreadyExist= 'Kod partnera handlowego musi być unikalny.Inny Partner Handlowy z podanym kodem już istnieje w bazie danych';
 
 
 
@@ -33,7 +34,12 @@ export class BackendMessageService {
     }
 
     const errorToExpect = 'already exist'.toUpperCase();
-    if(errorMessage&&errorMessage.includes('code'.toUpperCase())){
+    if(errorMessage&&errorMessage.includes('Business Partner with this code'.toUpperCase())){
+      console.log('in if for business partner code error');
+      return  this.generalErrorMessageForCreate+ ' ' + this.otherBusinessPartnerWithThisCodeAlreadyExist;
+
+    }
+    else if(errorMessage&&errorMessage.includes('code'.toUpperCase())){
       return this.generalErrorMessageForCreate + ' ' + this.otherRecordWithThisCodeAlreadyExist;
     }
     else if(errorMessage&&errorMessage.includes('name'.toUpperCase())){
@@ -55,7 +61,10 @@ export class BackendMessageService {
 
 
     const errorToExpect = 'already exist'.toUpperCase();
-    if(errorMessage&&errorMessage.includes('code'.toUpperCase())){
+    if(errorMessage&&errorMessage.includes('Business Partner with this code'.toUpperCase())){
+       return this.generalErrorMessageForUpdate+ ' ' + this.otherBusinessPartnerWithThisCodeAlreadyExist;
+    }
+    else if(errorMessage&&errorMessage.includes('code'.toUpperCase())){
       return this.generalErrorMessageForUpdate+ ' ' + this.otherRecordWithThisCodeAlreadyExist;
     }
     else if(errorMessage&&errorMessage.includes('name'.toUpperCase())){
@@ -95,6 +104,7 @@ export class BackendMessageService {
     this.generalErrorMessageForUpdate = this.generalNamesInSelectedLanguage.operationUpdateFailerStatusMessage;
     this.otherRecordWithThisCodeAlreadyExist = this.generalNamesInSelectedLanguage.otherRecordWithThisCodeAlreadyExist;
     this.otherRecordWithThisNameAlreadyExist= this.generalNamesInSelectedLanguage.otherRecordWithThisNameAlreadyExist;
+    this.otherBusinessPartnerWithThisCodeAlreadyExist= this.generalNamesInSelectedLanguage.otherBusinessPartnerWithThisCodeAlreadyExist;
   }
 
 }

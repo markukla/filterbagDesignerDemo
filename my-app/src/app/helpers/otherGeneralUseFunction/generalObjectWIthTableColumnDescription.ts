@@ -74,7 +74,7 @@ export const generalNamesInSelectedLanguage = {
   waitForServerResponse: 'Oczekiwanie na odpowiedź serwera...',
   searchPartnerInSap: 'Wyszukaj w SAP',
   noParnterFoundInSap: 'Nie odnaleziono danych partnera handlowego w SAP',
-
+  otherBusinessPartnerWithThisCodeAlreadyExist: 'Kod partnera handlowego musi być unikalny.Inny Partner Handlowy z podanym kodem już istnieje w bazie danych'
 
 /*  <a [routerLink]="['/orders']" routerLinkActive="active"> Zamówienia</a>
   <a [routerLink]="['/businessPartners']" routerLinkActive="active"> Partnerzy</a>
