@@ -41,7 +41,8 @@ class OrderService implements RepositoryService {
         }
         return foundOrder;*/
         const foundOrder= await getConnection().createQueryBuilder(Order,'order')
-
+            .leftJoinAndSelect('order.register','oregister')
+           // .leftJoinAndSelect('register.orders','ordersInRegister')
             .leftJoinAndSelect('order.creator','creators')
             .leftJoinAndSelect('order.orderDetails', 'details')
             .leftJoinAndSelect('order.businessPartner', 'partner')
@@ -62,6 +63,10 @@ class OrderService implements RepositoryService {
             .leftJoinAndSelect('productTop.vocabulary','vTop')
             .leftJoinAndSelect('vTop.localizedNames','vTopnames')
             .leftJoinAndSelect('vTopnames.language','vToplanguage')
+
+
+
+
 
             .getOne();
         if (!foundOrder) {
