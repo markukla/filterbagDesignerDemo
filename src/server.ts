@@ -20,6 +20,7 @@ import DimensionCodeController from "./Controllers/dimensionCodeController";
 import LanguageController from "./Controllers/languageController";
 import VocabularyController from "./Controllers/vocabullaryController";
 import OrderForSapController from "./Controllers/orderForSapController";
+import BusinessPartnerFromSapController from "./Controllers/businessPartnerFromSapController";
 
 validateEnv();
 
@@ -48,10 +49,8 @@ validateEnv();
             new DimensionCodeController(),
             new LanguageController(),
             new VocabularyController(),
-            new OrderForSapController()
-
-
-
+            new OrderForSapController(),
+            new BusinessPartnerFromSapController()
 
         ],
     );

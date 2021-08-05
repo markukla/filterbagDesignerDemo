@@ -18,6 +18,7 @@ import ProductType from "./src/Models/Products/productType.entity";
 import Vocabulary from "./src/Models/Vocabulary/vocabulary.entity";
 import LocalizedName from "./src/Models/LocalizedName/localizedName.entity";
 import OrderToExport from "./src/Models/Order/orderEntityExportMSSQL";
+import BusinessPartnerFromSap from "./src/Models/Users/BusinessPartner/businessPartnerFromSap";
 
 const config = {
     type: 'postgres',
@@ -27,7 +28,7 @@ const config = {
     driver:"postgres",
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DB,
-    entities: [Role, User, BlackListedToken, DimensionCode, Language, Material, Order, OrderDetails, OrderVersionRegister, Product, ProductBottom, ProductTop, ProductType, Vocabulary, LocalizedName, OrderToExport],
+    entities: [Role, User, BlackListedToken, DimensionCode, Language, Material, Order, OrderDetails, OrderVersionRegister, Product, ProductBottom, ProductTop, ProductType, Vocabulary, LocalizedName, OrderToExport, BusinessPartnerFromSap],
     synchronize: true,
     migrations: [
         "src/migration/**/*.ts"

@@ -6,6 +6,7 @@ import adminAuthorizationMiddleware from "../middleware/adminAuthorization.middl
 import OrderForSapRepository from "../RepositoryServices/orderForSapRepository";
 import OrderToExport from "../Models/Order/orderEntityExportMSSQL";
 import OrderExportDto from "../Models/Order/orderExport.dto";
+import editorAuthorizationMiddleware from "../middleware/editorAuthorizationMiddleware";
 const path = require('path');
 const puppeteer = require('puppeteer');
 
@@ -20,9 +21,9 @@ class OrderForSapController implements Controller {
     }
 
     private initializeRoutes() {
-        this.router.get(this.path, authMiddleware, this.getAllRecords);
-        this.router.get(`${this.path}/:id`, authMiddleware, this.getOneRecordById);
-        this.router.post(this.path, authMiddleware,adminAuthorizationMiddleware, this.addOneRecord);
+        this.router.get(this.path, authMiddleware, editorAuthorizationMiddleware,  this.getAllRecords);
+        this.router.get(`${this.path}/:id`, authMiddleware, editorAuthorizationMiddleware, this.getOneRecordById);
+        this.router.post(this.path, authMiddleware,editorAuthorizationMiddleware, this.addOneRecord);
 
 
     }

@@ -13,6 +13,7 @@ import UpdateBussinessPartnerWithoutPassword from '../../BusinessPartnerTypes/up
 import {BusinessPartnerTableService} from './business-partner-table.service';
 import {API_URL} from '../../../Config/apiUrl';
 import {GeneralTableService} from "../../../util/GeneralTableService/general-table.service";
+import BusinessPartnerFromSap from "../../BusinessPartnerTypes/businessPartnerFromSapEntity";
 
 @Injectable({
   providedIn: 'root'
@@ -65,6 +66,13 @@ export class BusinesPartnerBackendService {
     return this.http.get<User>(getUrl, {observe: 'response'} );
   }
 
+  findOneBusinessPartnerFromSapByCode(code: string): Observable<HttpResponse<BusinessPartnerFromSap>> {
+    const getUrl = `${this.rootURL}/api/SapPartners/${code}`;
+    return this.http.get<BusinessPartnerFromSap>(getUrl, {observe: 'response'} );
+  }
+
+
+
   findUserByEmail(email: string): Observable<boolean> {
     const getUrl = `${this.rootURL}/api/business_partners/emails/${email}`;
     return this.http.get<boolean>(getUrl);
@@ -86,4 +94,5 @@ export class BusinesPartnerBackendService {
 
       }));
   }
+
 }

@@ -26,6 +26,7 @@ export class CreateBusinesPartnerComponent implements OnInit {
   userNamesInSelectedLanguage = generalUserNames;
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
   orderNames = orderNames;
+  noParnterFoundInfo: string;
   constructor(
     private authenticationService: AuthenticationService,
     private bakcendService: BusinesPartnerBackendService,
@@ -126,5 +127,25 @@ export class CreateBusinesPartnerComponent implements OnInit {
     this.password.setValue(generetedPassword)
     this.confirmPassword.setValue(generetedPassword);
 
+  }
+
+  searchParnterInSap() {
+    this.noParnterFoundInfo = undefined;
+
+    this.bakcendService.findOneBusinessPartnerFromSapByCode(this.code.value).subscribe((result)=>{
+      const foundPartner = result.body;
+      if(foundPartner) {
+        this.businesPartnerCompanyName.setValue(foundPartner.Cardname);
+        this.fulName.setValue(foundPartner.CntcPerson);
+        this.email.setValue(foundPartner.e_mail_CntcPerson);
+
+      }
+      else if(!foundPartner) {
+        this.noParnterFoundInfo = this.generalNamesInSelectedLanguage.noParnterFoundInSap;
+      }
+    }, error => {
+      this.noParnterFoundInfo= this.generalNamesInSelectedLanguage.noParnterFoundInSap;
+      console.error( 'error occured during importing parnter data from SAP');
+    });
   }
 }

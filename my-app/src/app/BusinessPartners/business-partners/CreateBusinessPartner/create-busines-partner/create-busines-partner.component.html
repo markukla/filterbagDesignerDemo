@@ -6,7 +6,12 @@
     </button>
     <h2 class="heading">{{userNamesInSelectedLanguage.addNewBusinessPartner}}</h2>
     <fieldset class="fieldset">
-      <input type="text" class="input" formControlName="code" id="partnercode" placeholder="generalNamesInSelectedLanguage.code">
+      <span>
+        <input type="text" class="input" formControlName="code" id="partnercode" placeholder="generalNamesInSelectedLanguage.code">
+      <button (click)="searchParnterInSap()" type="button" class="button" [disabled]="!this.code.value">{{this.generalNamesInSelectedLanguage.searchPartnerInSap}}</button>
+      <div *ngIf="noParnterFoundInfo" class="alert alert-danger">{{noParnterFoundInfo}}</div>
+      </span>
+
       <label class="label" for="partnercode" >{{generalNamesInSelectedLanguage.code}}</label>
       <div  *ngIf="code.invalid && (code.dirty || code.touched)" class="alert alert-danger">
         <div class="validatorInfo" *ngIf="code.errors.required">

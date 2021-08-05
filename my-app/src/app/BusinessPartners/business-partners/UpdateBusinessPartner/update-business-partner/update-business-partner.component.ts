@@ -32,6 +32,7 @@ export class UpdateBusinessPartnerComponent implements OnInit, AfterContentCheck
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
   orderNames = orderNames;
   userForm: FormGroup;
+  noParnterFoundInfo: string;
 
 
   constructor(
@@ -150,6 +151,25 @@ export class UpdateBusinessPartnerComponent implements OnInit, AfterContentCheck
   }
 
   ngAfterContentChecked(): void {
+  }
+  searchParnterInSap() {
+    this.noParnterFoundInfo = undefined;
+
+    this.backendService.findOneBusinessPartnerFromSapByCode(this.code.value).subscribe((result)=>{
+      const foundPartner = result.body;
+      if(foundPartner) {
+        this.businesPartnerCompanyName.setValue(foundPartner.Cardname);
+        this.fulName.setValue(foundPartner.CntcPerson);
+        this.email.setValue(foundPartner.e_mail_CntcPerson);
+
+      }
+      else if(!foundPartner) {
+        this.noParnterFoundInfo = this.generalNamesInSelectedLanguage.noParnterFoundInSap;
+      }
+    }, error => {
+      this.noParnterFoundInfo= this.generalNamesInSelectedLanguage.noParnterFoundInSap;
+      console.error( 'error occured during importing parnter data from SAP');
+    });
   }
 
 
