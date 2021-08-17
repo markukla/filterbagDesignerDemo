@@ -34,8 +34,9 @@ class OrderForSapController implements Controller {
        console.log(`urlForPuppeter=${urlForPuppeter}`);
         try {
             const orderForSAp: OrderToExport = await this.service.addOneRecord(orderForSapData);
+            const pdfName= orderForSapData.rysunek;
 
-           const pdf= await this.printPdf(urlForPuppeter, orderForSapData.Indeks);
+           const pdf= await this.printPdf(urlForPuppeter, pdfName);
             response.send({
                 messageToUser: 'index data exported to SAP and Pdf genereted'
             });

@@ -297,8 +297,8 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
        dateAdd: new Date(),
        dateAddSAP: null,
        nazwa_CZ: orderSelectedToExportWithAllLanguages.product.productType.vocabulary.localizedNames.filter(localizedName=>localizedName.language.languageCode==='CS')[0].nameInThisLanguage +' '+orderSelectedToExportWithAllLanguages.orderName,
-       rysunek: orderSelectedToExportWithAllLanguages.orderTotalNumber,
-       Status: 1
+       rysunek: `${orderSelectedToExportWithAllLanguages.index}_${orderSelectedToExportWithAllLanguages.orderTotalNumber}`,
+       Status: 0
 
      }
      this.showConfirmSapExportWindow = true
