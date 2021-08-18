@@ -1,4 +1,4 @@
-import {AfterContentChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterContentChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewChildren} from '@angular/core';
 import {ProductMiniatureService} from '../productMiniatureService/product-miniature.service';
 import Product from '../../../../Products/ProductTypesAndClasses/product.entity';
 import {API_URL} from '../../../../Config/apiUrl';
@@ -34,6 +34,7 @@ export class ProcutMiniatureComponentComponent implements OnInit, AfterContentCh
   topSearch: string;
   bottomSearch: string;
   orginallProducts: ProductForTableCell[];
+  @ViewChildren('searchInput', {read: ElementRef}) searchInputs: ElementRef[];
 
   constructor(
     private productMiniatureService: ProductMiniatureService,
@@ -92,7 +93,7 @@ export class ProcutMiniatureComponentComponent implements OnInit, AfterContentCh
   }
   changeOrginallArrayCoppyAfterContentCHange(): void {
    // this.searchService.orginalArrayCopy = [...this.products];
-    if(this.typeSearch && this.topSearch && this.bottomSearch) {
+    /*    if(this.typeSearch && this.topSearch && this.bottomSearch) {
       this.products= this.orginallProducts.filter(product=> product.productTypeCode.includes(this.typeSearch)&& product.productTopCode.includes(this.topSearch)&& product.productBottomCode.includes(this.bottomSearch));
     }
     else if(this.typeSearch && this.topSearch && !this.bottomSearch) {
@@ -116,7 +117,24 @@ export class ProcutMiniatureComponentComponent implements OnInit, AfterContentCh
     else {
       this.products= [...this.orginallProducts];
     }
+*/
+if(this.searchInputs && this.searchInputs.length>0){
+  this.products = [... this.orginallProducts];
+  const searchInputsIds= this.searchInputs.map(input=> input.nativeElement.id);
+  this.searchInputs.forEach(input=>{
+    if(input.nativeElement.value){
+      searchInputsIds.forEach(id=>{
+        if(id=== input.nativeElement.id){
+          this.products= this.products.filter(product=> product[id].includes(input.nativeElement.value));
+        }
+      });
 
+
+    }
+
+
+  });
+}
 
   }
 
