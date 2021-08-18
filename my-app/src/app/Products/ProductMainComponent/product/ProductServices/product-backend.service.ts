@@ -106,7 +106,7 @@ export class ProductBackendService {
       ...product,
       productBottomCode: product.productBottom.code,
       productBottomNameInSelectedLanguage: productBottomName,
-      productTopCode: product.productBottom.code,
+      productTopCode: product.productTop.code,
       productTopNameInSelectedLanguage: productTopName,
       productTypeCode: product.productType.code,
       productTypeNameInSelectedLanguage: productTypeName,
@@ -114,6 +114,7 @@ export class ProductBackendService {
       productTopCodePlusName: product.productTop.code + ' - ' + productTopName,
       productTypeCodePlusName: product.productType.code + ' - ' + productTypeName,
       productFullCodePlusTypeName: product.productType.code+ product.productTop.code+product.productBottom.code,
+      productUrl: product.urlOfOrginalDrawing
     };
     return productForTableCell;
   }

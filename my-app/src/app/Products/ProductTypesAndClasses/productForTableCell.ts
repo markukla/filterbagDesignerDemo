@@ -15,6 +15,7 @@ export class ProductForTableCell{
   productTopCodePlusName: string;
   productTypeCodePlusName: string;
   productFullCodePlusTypeName: string;
+  productUrl: string;
 
 
 }

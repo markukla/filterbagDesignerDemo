@@ -1,19 +1,22 @@
 <div id="productMiniatureContainer" class="container drawing-choice-container">
   <h2 class="heading drawing-choice-heading">{{this.orderNames.chooseProductByDrawingButtonDescription}}</h2>
+  <th><input  [appSearch]="products" serchedColumn="productTypeCode" id="serchInProductType" [placeholder]="generalNamesInSelectedLanguage.search + ''+ 'kod typu produktu'" /></th>
+  <th><input [appSearch]="products" serchedColumn="productTopCode" id="serchInProductTop" [placeholder]="generalNamesInSelectedLanguage.search + ''+ 'kod wykończenia góry'" /></th>
+  <th><input  [appSearch]="products" serchedColumn="productBottomCode" id="serchInProductBottom" [placeholder]="generalNamesInSelectedLanguage.search + ''+ 'kod wykończenia dołu'" /></th>
   <div class="drawing-choice-row">
     <div class="drawing-container" id="drawingAndDescriptionContainer" *ngFor="let product of products" (click)="selectProductAndNavigateBack(product)">
 
       <div class="content-row">
         <span class="content-row-first">{{this.orderNames.productType}}</span>
-        <span>{{product.productType.code + ' - '+ getNameInSelectedLanguage(product.productType.vocabulary.localizedNames)}}</span>
+        <span>{{product.productTypeCode + ' - '+ product.productTypeNameInSelectedLanguage}}</span>
       </div>
       <div class="content-row">
         <span class="content-row-first">{{this.orderNames.productTop}}</span>
-        <span>{{product.productTop.code +' - '+ getNameInSelectedLanguage(product.productTop.vocabulary.localizedNames)}}</span>
+        <span>{{product.productTopCodePlusName}}</span>
       </div>
       <div class="content-row">
         <span class="content-row-first">{{this.orderNames.productBottom}}</span>
-        <span>{{product.productBottom.code + ' - '+ getNameInSelectedLanguage(product.productBottom.vocabulary.localizedNames)}}</span>
+        <span>{{product.productBottomCodePlusNAme}}</span>
       </div>
       <figure class="drawing-img" style="background-image: url({{productImg.src}});">
         <img #productImg class="hidden" id="productMiniature" [src]="getDrawingUrl(product)" >
