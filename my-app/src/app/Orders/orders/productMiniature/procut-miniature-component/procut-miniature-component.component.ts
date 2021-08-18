@@ -30,6 +30,10 @@ export class ProcutMiniatureComponentComponent implements OnInit, AfterContentCh
   orderNames = orderNames;
   generalUserNames = generalUserNames;
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
+  typeSearch: string;
+  topSearch: string;
+  bottomSearch: string;
+  orginallProducts: ProductForTableCell[];
 
   constructor(
     private productMiniatureService: ProductMiniatureService,
@@ -51,6 +55,7 @@ export class ProcutMiniatureComponentComponent implements OnInit, AfterContentCh
       console.log('this product length= '+ this.products.length);
     });
     this.searchService.orginalArrayCopy = [...this.products];
+    this.orginallProducts =[...this.products];
   }
   initColumnNamesInSelectedLanguage(): void {
     // tslint:disable-next-line:max-line-length
@@ -87,6 +92,32 @@ export class ProcutMiniatureComponentComponent implements OnInit, AfterContentCh
   }
   changeOrginallArrayCoppyAfterContentCHange(): void {
    // this.searchService.orginalArrayCopy = [...this.products];
+    if(this.typeSearch && this.topSearch && this.bottomSearch) {
+      this.products= this.orginallProducts.filter(product=> product.productTypeCode.includes(this.typeSearch)&& product.productTopCode.includes(this.topSearch)&& product.productBottomCode.includes(this.bottomSearch));
+    }
+    else if(this.typeSearch && this.topSearch && !this.bottomSearch) {
+      this.products= this.orginallProducts.filter(product=> product.productTypeCode.includes(this.typeSearch)&& product.productTopCode.includes(this.topSearch));
+    }
+    else if(this.typeSearch && this.bottomSearch && ! this.topSearch) {
+      this.products= this.orginallProducts.filter(product=> product.productTypeCode.includes(this.typeSearch)&& product.productBottomCode.includes(this.bottomSearch));
+    }
+    else if(!this.typeSearch && this.bottomSearch &&  this.topSearch) {
+      this.products= this.orginallProducts.filter(product=> product.productTopCode.includes(this.topSearch)&& product.productBottomCode.includes(this.bottomSearch));
+    }
+    else if(this.typeSearch && !this.bottomSearch &&  !this.topSearch) {
+      this.products= this.orginallProducts.filter(product=> product.productTypeCode.includes(this.typeSearch));
+    }
+    else if(!this.typeSearch && this.bottomSearch &&  !this.topSearch) {
+      this.products= this.orginallProducts.filter(product=> product.productBottomCode.includes(this.bottomSearch));
+    }
+    else if(!this.typeSearch && !this.bottomSearch &&  this.topSearch) {
+      this.products= this.orginallProducts.filter(product=> product.productTopCode.includes(this.topSearch));
+    }
+    else {
+      this.products= [...this.orginallProducts];
+    }
+
+
   }
 
   ngAfterContentChecked(): void {

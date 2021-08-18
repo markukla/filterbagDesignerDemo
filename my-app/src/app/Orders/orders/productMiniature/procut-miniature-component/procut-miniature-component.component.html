@@ -1,8 +1,8 @@
 <div id="productMiniatureContainer" class="container drawing-choice-container">
   <h2 class="heading drawing-choice-heading">{{this.orderNames.chooseProductByDrawingButtonDescription}}</h2>
-  <th><input  [appSearch]="products" serchedColumn="productTypeCode" id="serchInProductType" [placeholder]="generalNamesInSelectedLanguage.search + ''+ 'kod typu produktu'" /></th>
-  <th><input [appSearch]="products" serchedColumn="productTopCode" id="serchInProductTop" [placeholder]="generalNamesInSelectedLanguage.search + ''+ 'kod wykończenia góry'" /></th>
-  <th><input  [appSearch]="products" serchedColumn="productBottomCode" id="serchInProductBottom" [placeholder]="generalNamesInSelectedLanguage.search + ''+ 'kod wykończenia dołu'" /></th>
+  <th><input   serchedColumn="productTypeCode" id="serchInProductType" [placeholder]="generalNamesInSelectedLanguage.search + ''+ 'kod typu produktu'" [(ngModel)]="typeSearch" /></th>
+  <th><input  serchedColumn="productTopCode" id="serchInProductTop" [placeholder]="generalNamesInSelectedLanguage.search + ''+ 'kod wykończenia góry'" [(ngModel)]="topSearch"/></th>
+  <th><input   serchedColumn="productBottomCode" id="serchInProductBottom" [placeholder]="generalNamesInSelectedLanguage.search + ''+ 'kod wykończenia dołu'" [(ngModel)]="bottomSearch"/></th>
   <div class="drawing-choice-row">
     <div class="drawing-container" id="drawingAndDescriptionContainer" *ngFor="let product of products" (click)="selectProductAndNavigateBack(product)">
 
