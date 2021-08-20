@@ -31,7 +31,7 @@ export class ProcutMiniatureComponentComponent implements OnInit, AfterContentCh
   generalUserNames = generalUserNames;
   generalNamesInSelectedLanguage = generalNamesInSelectedLanguage;
   typeSearch: string;
-  topSearch: string;
+ topSearch: string;
   bottomSearch: string;
   orginallProducts: ProductForTableCell[];
   @ViewChildren('searchInput', {read: ElementRef}) searchInputs: ElementRef[];
@@ -53,7 +53,7 @@ export class ProcutMiniatureComponentComponent implements OnInit, AfterContentCh
     this.productMiniatureService.allProducts.forEach(product=>{
      const productForTabelCell= this.productBackendService.createProductForTableCellFromProductTop(product);
       this.products.push(productForTabelCell);
-      console.log('this product length= '+ this.products.length);
+      console.log(`productUrlWithAPiUrl=` + productForTabelCell.productUrlAndApiUrl);
     });
     this.searchService.orginalArrayCopy = [...this.products];
     this.orginallProducts =[...this.products];
@@ -92,37 +92,19 @@ export class ProcutMiniatureComponentComponent implements OnInit, AfterContentCh
   makePictureLarger(): void {
   }
   changeOrginallArrayCoppyAfterContentCHange(): void {
-   // this.searchService.orginalArrayCopy = [...this.products];
-    /*    if(this.typeSearch && this.topSearch && this.bottomSearch) {
-      this.products= this.orginallProducts.filter(product=> product.productTypeCode.includes(this.typeSearch)&& product.productTopCode.includes(this.topSearch)&& product.productBottomCode.includes(this.bottomSearch));
+
+
+    if(this.searchInputs){
+      console.log(`this.searchInputs.length= ${this.searchInputs.length} `);
     }
-    else if(this.typeSearch && this.topSearch && !this.bottomSearch) {
-      this.products= this.orginallProducts.filter(product=> product.productTypeCode.includes(this.typeSearch)&& product.productTopCode.includes(this.topSearch));
-    }
-    else if(this.typeSearch && this.bottomSearch && ! this.topSearch) {
-      this.products= this.orginallProducts.filter(product=> product.productTypeCode.includes(this.typeSearch)&& product.productBottomCode.includes(this.bottomSearch));
-    }
-    else if(!this.typeSearch && this.bottomSearch &&  this.topSearch) {
-      this.products= this.orginallProducts.filter(product=> product.productTopCode.includes(this.topSearch)&& product.productBottomCode.includes(this.bottomSearch));
-    }
-    else if(this.typeSearch && !this.bottomSearch &&  !this.topSearch) {
-      this.products= this.orginallProducts.filter(product=> product.productTypeCode.includes(this.typeSearch));
-    }
-    else if(!this.typeSearch && this.bottomSearch &&  !this.topSearch) {
-      this.products= this.orginallProducts.filter(product=> product.productBottomCode.includes(this.bottomSearch));
-    }
-    else if(!this.typeSearch && !this.bottomSearch &&  this.topSearch) {
-      this.products= this.orginallProducts.filter(product=> product.productTopCode.includes(this.topSearch));
-    }
-    else {
-      this.products= [...this.orginallProducts];
-    }
-*/
+
 if(this.searchInputs && this.searchInputs.length>0){
+
   this.products = [... this.orginallProducts];
+  console.log()
   const searchInputsIds= this.searchInputs.map(input=> input.nativeElement.id);
   this.searchInputs.forEach(input=>{
-    if(input.nativeElement.value){
+    if(input.nativeElement.value &&input.nativeElement.value !=='' ){
       searchInputsIds.forEach(id=>{
         if(id=== input.nativeElement.id){
           this.products= this.products.filter(product=> product[id].includes(input.nativeElement.value));
@@ -130,6 +112,9 @@ if(this.searchInputs && this.searchInputs.length>0){
       });
 
 
+    }
+    else {
+     // this.products = [... this.orginallProducts];
     }
 
 
@@ -140,5 +125,17 @@ if(this.searchInputs && this.searchInputs.length>0){
 
   ngAfterContentChecked(): void {
     this.changeOrginallArrayCoppyAfterContentCHange();
+  }
+
+  navigateBack() {
+    const routeHistoryLastindex: number = this.authenticationService._routeHistory.length - 1;
+    const routeHistorySecondLastindex = this.authenticationService._routeHistory.length - 1;
+    if (this.authenticationService._routeHistory[routeHistoryLastindex].includes('orders/drawing')) {
+      this.router.navigateByUrl(this.authenticationService._routeHistory[routeHistorySecondLastindex]);
+    }
+    else {
+      this.router.navigateByUrl(this.authenticationService._previousUrl);
+    }
+
   }
 }

@@ -114,7 +114,8 @@ export class ProductBackendService {
       productTopCodePlusName: product.productTop.code + ' - ' + productTopName,
       productTypeCodePlusName: product.productType.code + ' - ' + productTypeName,
       productFullCodePlusTypeName: product.productType.code+ product.productTop.code+product.productBottom.code,
-      productUrl: product.urlOfOrginalDrawing
+      productUrl: product.urlOfOrginalDrawing,
+      productUrlAndApiUrl: API_URL+ product.urlOfOrginalDrawing
     };
     return productForTableCell;
   }
