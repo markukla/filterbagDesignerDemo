@@ -19,7 +19,9 @@
           <span>{{this.selectedPartner.fulName + ' - ' + this.selectedPartner.businesPartnerCompanyName}}</span>
         </div>
       </div>
-      <input class="input create-search" [placeholder]="generalNamesInSelectedLanguage.search" [appSearch]="allParntersToSelect" serchedColumn="codeAndName" />
+
+      <div *ngIf="!partnerConfirmed">
+        <input class="input create-search" [placeholder]="generalNamesInSelectedLanguage.search" [appSearch]="allParntersToSelect" serchedColumn="codeAndName" />
       <fieldset class="fieldset" *ngIf="!partnerConfirmed">
         <label class="label label-second" for="businessPartner">{{orderNames.businessPartner}}</label>
         <select class="select-input" formControlName="businessPartner" id="businessPartner"  size="1" autofocus  #businessPartner>
@@ -34,6 +36,7 @@
           </div>
         </div>
       </fieldset>
+      </div>
       <button type="button" class="button button-second"
               (click)="changeOrConfirmPartnerButtonAction();"> {{confirmOrCHangePartnerButtonInfo}}  </button>
 
@@ -137,9 +140,11 @@
         {{orderNames.choosingAndConfirmMaterialIsRequired}}
       </div>
     </div>
+      <div *ngIf="!materialConfirmed">
+        <input class="input create-search" [placeholder]="generalNamesInSelectedLanguage.search" type="text" formControlName="searchMaterialInput"/>
     <fieldset class="fieldset" *ngIf="!materialConfirmed">
       <label class="label label-second" for="productMaterial">{{generalNamesInSelectedLanguage.select +' '+orderNames.productMaterial}}</label>
-      <select class="select-input" formControlName="productMaterial" id="productMaterial">
+      <select class="select-input" formControlName="productMaterial" id="productMaterial" size="1" autofocus  #materialSelect>
         <option [ngValue]="null" disabled> -</option>
         <option *ngFor="let material of allMaterialsToSelect" [ngValue]="material">
           {{ material.materialCode + ' - ' + material.materialName+ ' - ' + getNameInSelectedLanguage(material.vocabulary.localizedNames) }}
@@ -153,6 +158,7 @@
         </div>
       </div>
     </fieldset>
+      </div>
     <button type="button" class="button button-second" (click)="confirmOrChangeMaterialButtonAction();"> {{confirmOrCHangeMaterialButtonInfo}}  </button>
     <div class="addButon">
       <div *ngIf="operationModeEqualConfirmNewOrUpdate">

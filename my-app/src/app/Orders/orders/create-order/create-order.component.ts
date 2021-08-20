@@ -100,9 +100,11 @@ export class CreateOrderComponent implements OnInit, AfterContentChecked, AfterV
   createOrUpdateFormTitle: string;
   showUserInputErrorWindow: boolean;
   indexDubledMessages: string[]= [];
+  orginallMaterialCoppy: Material[];
 
   // @ViewChild('commentToOrder', {read: ElementRef}) commentToOrder: ElementRef;
   @ViewChild('businessPartner', {read: ElementRef}) htmlselectBusinessPartner: ElementRef<HTMLSelectElement>;
+  @ViewChild('materialSelect', {read: ElementRef}) htmlselectMaterial: ElementRef<HTMLSelectElement>;
 
   constructor(
     private backendService: OrderBackendService,
@@ -134,6 +136,7 @@ export class CreateOrderComponent implements OnInit, AfterContentChecked, AfterV
       productMaterial: new FormControl(null, Validators.required),
       addMaterialDescriptiontoDrawingTabel: new FormControl(false),
       commentToOrder: new FormControl(''),
+      searchMaterialInput: new FormControl('')
     }, {updateOn: 'change'});
     await this.tableFormService.setDimensionCodesInDrawingTableFormService();
     this.initColumnNamesInSelectedLanguage();
@@ -363,6 +366,11 @@ get productMaterial() {
   get addMaterialDescriptiontoDrawingTabel() {
     return this.form.get('addMaterialDescriptiontoDrawingTabel');
   }
+  //searchMaterialInput
+  get searchMaterialInput() {
+    return this.form.get('searchMaterialInput');
+  }
+
 
 
   async getDataToDropdownLists(): Promise<void> {
@@ -381,6 +389,7 @@ get productMaterial() {
   }
   this.materialBackendService.getRecords().subscribe((records) => {
     this.allMaterialsToSelect = records.body;
+    this.orginallMaterialCoppy= [... records.body];
   }, error => {
     console.log('error during requesting materials from db');
   });
@@ -572,6 +581,10 @@ ngAfterContentChecked(): void {
     this.setUpdateModeOrPartnerLoggedValue();
     this.setAllowSubmit();
     this.changeModeTOUpdatedWithChangedProductOrCreateNew();
+    if(this.allMaterialsToSelect){
+      this.selectMaterialsByInput();
+    }
+
     // this.changeModeTOCreateNewIfPartnerProductOrMaterialChangedInUpdateOrCOnfirmMode();
   }
 
@@ -681,6 +694,9 @@ ngAfterViewChecked(): void {
     if(this.htmlselectBusinessPartner) {
       this.businessPartnersSelectListOnFocus(this.htmlselectBusinessPartner.nativeElement);
     }
+  if(this.htmlselectMaterial) {
+    this.businessPartnersSelectListOnFocus(this.htmlselectMaterial.nativeElement);
+  }
 
   }
 
@@ -877,6 +893,14 @@ listenToChangeProductEvent(event: any): void {
       this.renderer.setProperty(select,'size', this.allParntersToSelect.length+1);
     }
   }
+  materialSelectListOnFocus(select: HTMLSelectElement): void {
+    if(this.allMaterialsToSelect&&this.allMaterialsToSelect.length>5) {
+      this.renderer.setProperty(select,'size', 6);
+    }
+    else if(this.allMaterialsToSelect&&this.allMaterialsToSelect.length<5) {
+      this.renderer.setProperty(select,'size', this.allParntersToSelect.length+1);
+    }
+  }
 
 
 validateIndexAndSaveNewOrderInDatabase(): void{
@@ -986,5 +1010,20 @@ handleIndexValidationBackendErrorMessage(error:any, oldIndex:string):void {
       this.validateIndexAndUpdateOrderInDatabase();
     }
 
+  }
+  selectMaterialsByInput() {
+    if(this.searchMaterialInput.value) {
+      console.log('in search material event');
+      this.allMaterialsToSelect=[];
+      this.orginallMaterialCoppy.forEach(material=>{
+        const materialCodeNameAndDescription: string= material.materialCode+material.materialName+ this.getNameInSelectedLanguage(material.vocabulary.localizedNames);
+        if(materialCodeNameAndDescription.includes(this.searchMaterialInput.value)){
+          this.allMaterialsToSelect.push(material);
+        }
+      });
+    }
+    else {
+      this.allMaterialsToSelect = [... this.orginallMaterialCoppy];
+    }
   }
 }

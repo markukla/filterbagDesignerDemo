@@ -6,15 +6,18 @@
 <div id="productMiniatureContainer" class="container drawing-choice-container">
 
   <h2 class="heading drawing-choice-heading">{{this.orderNames.chooseProductByDrawingButtonDescription}}</h2>
-<span class="searchInputsAndLabels">
-   <label for="productTypeCode" >kod typu produktu:</label>
+<div class="searchInputsAndLabels">
+  <p>{{this.generalNamesInSelectedLanguage.filterByCodes}}</p>
+  <span>
+   <label for="productTypeCode" >{{this.orderNames.productTypeCode}}</label>
   <input  class="searchInput" #searchInput  id="productTypeCode" [placeholder]="generalNamesInSelectedLanguage.search" [(ngModel)]="typeSearch" />
-  <label class="searchInput" for="productTopCode" >,  kod wykończenia góry:</label>
+  <label class="searchInput" for="productTopCode" >{{','+'  '+this.orderNames.productTopsCode}}</label>
   <input class="searchInput" #searchInput  id="productTopCode" [placeholder]="generalNamesInSelectedLanguage.search" [(ngModel)]="topSearch"/>
-  <label for="productTypeCode" >,  kod wykończenia dna:</label>
+  <label for="productTypeCode" >{{','+'  '+this.orderNames.productBottomCode}}</label>
   <input  class="searchInput"  #searchInput  id="productBottomCode" [placeholder]="generalNamesInSelectedLanguage.search" [(ngModel)]="bottomSearch"/>
 
 </span>
+</div>
 
   <div class="drawing-choice-row">
     <div class="drawing-container" id="drawingAndDescriptionContainer" *ngFor="let product of products" (click)="selectProductAndNavigateBack(product)">
