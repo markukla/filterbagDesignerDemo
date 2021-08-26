@@ -694,9 +694,16 @@ ngAfterViewChecked(): void {
     if(this.htmlselectBusinessPartner) {
       this.businessPartnersSelectListOnFocus(this.htmlselectBusinessPartner.nativeElement);
     }
-  if(this.htmlselectMaterial) {
+
+/*
+
+if(this.htmlselectMaterial) {
     this.businessPartnersSelectListOnFocus(this.htmlselectMaterial.nativeElement);
   }
+*/
+
+
+
 
   }
 
@@ -1025,5 +1032,13 @@ handleIndexValidationBackendErrorMessage(error:any, oldIndex:string):void {
     else {
       this.allMaterialsToSelect = [... this.orginallMaterialCoppy];
     }
+  }
+  selectMaterialOnMouseover(materialSelect: HTMLSelectElement) {
+    const windowWith='';
+    materialSelect.style.width='auto';
+
+  }
+  selectMaterialOnMousleave(materialSelect: HTMLSelectElement) {
+    materialSelect.style.width= '100%';
   }
 }

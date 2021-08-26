@@ -25,7 +25,10 @@ import CHangePasswordByAdminDto from "../Models/Users/changePasswordByAdmin.dto"
 import BlockUserDto from "../Models/Users/blockUser.dto";
 import Material from "../Models/Materials/material.entity";
 import DimensionCodeNotFoundException from "../Exceptions/DimensionCodeNotFoundException";
-import BusinessPartnerWithThisCodeAlreadyExist from "../Exceptions/BusinessPartnerWithThisCodeAlreadyExist";
+import BusinessPartnerWithThisNameAndDiffrentCodeAlreadyExist from "../Exceptions/BusinessPartnerWithThisNameAndDiffrentCodeAlreadyExist";
+import PartnerWithThisFullNameCodeAndCompanyNameAlreadyExistException from "../Exceptions/PartnerWithThisFullNameCodeAndCompanyNameAlreadyExistException";
+import BusinessPartnerWithThisCodeAndDiffrentNameAlreadyExist
+    from "../Exceptions/BuisnessPartnerWithThisCodeAndDiffrentNameAlreadyExists";
 
 class UserService implements RepositoryService {
 
@@ -267,22 +270,63 @@ class UserService implements RepositoryService {
     }
     public async findBusinessPartnerByCode (code: string): Promise<User> {
         const foundPartner= await this.repository.findOne({
-            code: code
+            code: code,
+            softDeleteDate: null
         });
+
         return foundPartner;
     }
+    public async findBusinessPartnerByName (name: string): Promise<User> {
+        const foundPartner= await this.repository.findOne({
+            businesPartnerCompanyName: name,
+            softDeleteDate: null
+        });
+
+        return foundPartner;
+    }
+
+    public async findBusinessPartnerByPartnerFullNameCompanyNameAndCode (fullName: string, companyName: string, code: string): Promise<User> {
+        const foundPartner= await this.repository.findOne({
+            fulName: fullName,
+            businesPartnerCompanyName: companyName,
+            code: code,
+            softDeleteDate: null
+        });
+
+        return foundPartner;
+    }
+    public async findBusinessPartnerByCompanyName (companyName: string): Promise<User> {
+        const foundPartner= await this.repository.findOne({
+            businesPartnerCompanyName: companyName,
+            softDeleteDate: null
+        });
+
+        return foundPartner;
+    }
+
 
     // business partners are app users with lowest priviliges.
     public async registerBusinessPartner(businessPartnerdata: CreateBusinessPartnerDto): Promise<User> {
         const partnerWithThisEmailInDatabae = await this.findUserByEmail(businessPartnerdata.email)
 
-        if (partnerWithThisEmailInDatabae && partnerWithThisEmailInDatabae.softDeleteDate === null) {
+        if (partnerWithThisEmailInDatabae) {
             throw new UserWithThatEmailAlreadyExistsException(businessPartnerdata.email);
         }
+        const partnerWithThisFullNameCodeAndCompanyNameInDatabase= await this.findBusinessPartnerByPartnerFullNameCompanyNameAndCode(businessPartnerdata.fulName, businessPartnerdata.businesPartnerCompanyName, businessPartnerdata.code);
+        if(partnerWithThisFullNameCodeAndCompanyNameInDatabase){
+            throw new PartnerWithThisFullNameCodeAndCompanyNameAlreadyExistException(partnerWithThisFullNameCodeAndCompanyNameInDatabase.fulName, partnerWithThisFullNameCodeAndCompanyNameInDatabase.businesPartnerCompanyName, partnerWithThisFullNameCodeAndCompanyNameInDatabase.code);
+        }
         const partnerWithThisCodeInDatabase= await this.findBusinessPartnerByCode(businessPartnerdata.code);
-        if(partnerWithThisCodeInDatabase && partnerWithThisCodeInDatabase.softDeleteDate === null) {
-            throw new BusinessPartnerWithThisCodeAlreadyExist(businessPartnerdata.code);
 
+        if(partnerWithThisCodeInDatabase && partnerWithThisCodeInDatabase.businesPartnerCompanyName !== businessPartnerdata.businesPartnerCompanyName  ) {
+            console.log('in throw if for the same code');
+
+            throw new BusinessPartnerWithThisCodeAndDiffrentNameAlreadyExist(partnerWithThisCodeInDatabase.businesPartnerCompanyName);
+
+        }
+        const partnerWithThisNameInDatabase= await this.findBusinessPartnerByCompanyName(businessPartnerdata.businesPartnerCompanyName);
+        if(partnerWithThisNameInDatabase && partnerWithThisNameInDatabase.code !== businessPartnerdata.code) {
+            throw new BusinessPartnerWithThisNameAndDiffrentCodeAlreadyExist(businessPartnerdata.code);
         }
         const businesPartnerRoles: Role[] = [new Role(RoleEnum.PARTNER)];
         const validationResult: PasswordValidationResult = validatePassword(businessPartnerdata.password);
@@ -366,8 +410,8 @@ class UserService implements RepositoryService {
         const partnerWithThisCodeInDatabase= await this.findBusinessPartnerByCode(businesesPartnerData.code);
         if(partnerWithThisCodeInDatabase) {
             const otherPartnerWithThisCodeInDatabase: boolean = (partnerWithThisCodeInDatabase.id !== id);
-            if(otherPartnerWithThisCodeInDatabase && partnerWithThisCodeInDatabase.softDeleteDate === null) {
-                throw new BusinessPartnerWithThisCodeAlreadyExist(businesesPartnerData.code);
+            if(otherPartnerWithThisCodeInDatabase && partnerWithThisCodeInDatabase.softDeleteDate === null && partnerWithThisCodeInDatabase.businesPartnerCompanyName!==businesesPartnerData.businesPartnerCompanyName) {
+                throw new BusinessPartnerWithThisNameAndDiffrentCodeAlreadyExist(businesesPartnerData.code);
 
             }
         }

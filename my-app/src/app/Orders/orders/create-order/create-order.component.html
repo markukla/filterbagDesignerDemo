@@ -144,7 +144,7 @@
         <input class="input create-search" [placeholder]="generalNamesInSelectedLanguage.search" type="text" formControlName="searchMaterialInput"/>
     <fieldset class="fieldset" *ngIf="!materialConfirmed">
       <label class="label label-second" for="productMaterial">{{generalNamesInSelectedLanguage.select +' '+orderNames.productMaterial}}</label>
-      <select class="select-input" formControlName="productMaterial" id="productMaterial" size="1" autofocus  #materialSelect>
+      <select class="select-input" formControlName="productMaterial" id="productMaterial"   #materialSelect>
         <option [ngValue]="null" disabled> -</option>
         <option *ngFor="let material of allMaterialsToSelect" [ngValue]="material">
           {{ material.materialCode + ' - ' + material.materialName+ ' - ' + getNameInSelectedLanguage(material.vocabulary.localizedNames) }}

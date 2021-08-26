@@ -258,6 +258,7 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
   confirmExportAction() {
     this.waitForServerResponse= this.generalNamesInSelectedLanguage.waitForServerResponse;
     this.orderForSapDto.languageCodeForPdf= this.languageCodeForPdf;
+    this.orderForSapDto.rysunek= this.orderForSapDto.rysunek + this.languageCodeForPdf.toLowerCase();
     this.backendService.addOneSapOrder(this.orderForSapDto).subscribe((response)=>{
       this.waitForServerResponse= undefined;
      this.sapSuccessMessege= this.generalNamesInSelectedLanguage.exportToSapSuccessMessage;

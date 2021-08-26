@@ -19,7 +19,8 @@ export class BackendMessageService {
   otherRecordWithThisNameAlreadyExist = 'w bazie danych istnieje już inny rekord z podaną nazwą:';
   otherRecordWithThisCodeAlreadyExist = 'inny rekord z podanym kodem już istnieje w bazie danych';
   otherBusinessPartnerWithThisCodeAlreadyExist= 'Kod partnera handlowego musi być unikalny.Inny Partner Handlowy z podanym kodem już istnieje w bazie danych';
-
+  otherBusinessPartnerWithThisFullNameCodeAndCompanyNameAllreadyExist='Inny partner handlowy z podanym imieniem i nazwisiem, nazwą firmy i codem już istnieje';
+  otherBusinessPartnerWithThisCodeAndDiffrentNameAlreadyExist='Błędna nazwa firmy - zmień nazwę, dla podanego kodu jest już  przyporządkowana nazwa=  ';
 
 
   constructor(private authenticationService: AuthenticationService) {
@@ -30,22 +31,29 @@ export class BackendMessageService {
     this.initColumnNamesInSelectedLanguage();
     let errorMessage: string;
     if(error && error.error) {
-      errorMessage=error.error.message.toUpperCase();
+      errorMessage=error.error.message;
     }
 
     const errorToExpect = 'already exist'.toUpperCase();
-    if(errorMessage&&errorMessage.includes('Business Partner with this code'.toUpperCase())){
-      console.log('in if for business partner code error');
-      return  this.generalErrorMessageForCreate+ ' ' + this.otherBusinessPartnerWithThisCodeAlreadyExist;
+    if(errorMessage&&errorMessage.includes('For this code have been already asigned name')){
+      const nameInErrorMessage= errorMessage.split('=')[1].split(' ')[0];
+      return this.generalErrorMessageForCreate+ ' ' + this.otherBusinessPartnerWithThisCodeAlreadyExist+nameInErrorMessage;
 
     }
-    else if(errorMessage&&errorMessage.includes('code'.toUpperCase())){
+    else if(errorMessage&&errorMessage.includes('This name is already taken by code')) {
+      const codeInErrorMessage= errorMessage.split('=')[1].split(' ')[0];
+      return this.generalErrorMessageForCreate+ ' ' + this.otherBusinessPartnerWithThisCodeAndDiffrentNameAlreadyExist+codeInErrorMessage;
+    }
+    else if(  errorMessage&&errorMessage.includes('Partner with fullName')) {
+      return this.generalErrorMessageForCreate + ' ' + this.otherBusinessPartnerWithThisFullNameCodeAndCompanyNameAllreadyExist;
+    }
+    else if(errorMessage&&errorMessage.toUpperCase().includes('code'.toUpperCase())){
       return this.generalErrorMessageForCreate + ' ' + this.otherRecordWithThisCodeAlreadyExist;
     }
-    else if(errorMessage&&errorMessage.includes('name'.toUpperCase())){
+    else if(errorMessage&&errorMessage.toUpperCase().includes('name'.toUpperCase())){
       return this.generalErrorMessageForCreate + ' ' + this.otherRecordWithThisNameAlreadyExist;
     }
-   else if (errorMessage&&errorMessage.includes(errorToExpect)) {
+   else if (errorMessage&&errorMessage.toUpperCase().includes(errorToExpect)) {
       console.log(errorMessage);
       return this.generalErrorMessageForCreate + ' ' + this.otherRecordAlreadyExist;
     } else {
@@ -56,21 +64,30 @@ export class BackendMessageService {
     this.initColumnNamesInSelectedLanguage();
     let errorMessage: string;
     if(error && error.error) {
-       errorMessage = error.error.message.toUpperCase();
+       errorMessage = error.error.message;
     }
 
 
     const errorToExpect = 'already exist'.toUpperCase();
-    if(errorMessage&&errorMessage.includes('Business Partner with this code'.toUpperCase())){
-       return this.generalErrorMessageForUpdate+ ' ' + this.otherBusinessPartnerWithThisCodeAlreadyExist;
+    if(errorMessage&&errorMessage.includes('For this code have been already asigned name')){
+      const nameInErrorMessage= errorMessage.split('=')[1].split(' ')[0];
+      return this.generalErrorMessageForUpdate+ ' ' + this.otherBusinessPartnerWithThisCodeAlreadyExist+nameInErrorMessage;
+
     }
-    else if(errorMessage&&errorMessage.includes('code'.toUpperCase())){
+    else if(errorMessage&&errorMessage.includes('This name is already taken by code')) {
+      const codeInErrorMessage= errorMessage.split('=')[1].split(' ')[0];
+      return this.generalErrorMessageForUpdate+ ' ' + this.otherBusinessPartnerWithThisCodeAndDiffrentNameAlreadyExist+codeInErrorMessage;
+    }
+    else if(  errorMessage&&errorMessage.includes('Partner with fullName')) {
+      return this.generalErrorMessageForUpdate + ' ' + this.otherBusinessPartnerWithThisFullNameCodeAndCompanyNameAllreadyExist;
+    }
+    else if(errorMessage&&errorMessage.toUpperCase().includes('code'.toUpperCase())){
       return this.generalErrorMessageForUpdate+ ' ' + this.otherRecordWithThisCodeAlreadyExist;
     }
-    else if(errorMessage&&errorMessage.includes('name'.toUpperCase())){
+    else if(errorMessage&&errorMessage.toUpperCase().includes('name'.toUpperCase())){
       return this.generalErrorMessageForUpdate + ' ' + this.otherRecordWithThisNameAlreadyExist;
     }
-    else if (errorMessage&&errorMessage.includes(errorToExpect)) {
+    else if (errorMessage&&errorMessage.toUpperCase().includes(errorToExpect)) {
       console.log(`error.error.message = ${error.error.message}`);
       return this.generalErrorMessageForUpdate + ' '+ this.otherRecordAlreadyExist;
     } else {
@@ -105,6 +122,8 @@ export class BackendMessageService {
     this.otherRecordWithThisCodeAlreadyExist = this.generalNamesInSelectedLanguage.otherRecordWithThisCodeAlreadyExist;
     this.otherRecordWithThisNameAlreadyExist= this.generalNamesInSelectedLanguage.otherRecordWithThisNameAlreadyExist;
     this.otherBusinessPartnerWithThisCodeAlreadyExist= this.generalNamesInSelectedLanguage.otherBusinessPartnerWithThisCodeAlreadyExist;
+    this.otherBusinessPartnerWithThisFullNameCodeAndCompanyNameAllreadyExist= this.generalNamesInSelectedLanguage.otherBusinessPartnerWithThisFullNameCodeAndCompanyNameAllreadyExist;
+    this.otherBusinessPartnerWithThisCodeAndDiffrentNameAlreadyExist= this.generalNamesInSelectedLanguage.otherBusinessPartnerWithThisCodeAndDiffrentNameAlreadyExist;
   }
 
 }

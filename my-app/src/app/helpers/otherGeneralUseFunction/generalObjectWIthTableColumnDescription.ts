@@ -74,7 +74,9 @@ export const generalNamesInSelectedLanguage = {
   waitForServerResponse: 'Oczekiwanie na odpowiedź serwera...',
   searchPartnerInSap: 'Wyszukaj w SAP',
   noParnterFoundInSap: 'Nie odnaleziono danych partnera handlowego w SAP',
-  otherBusinessPartnerWithThisCodeAlreadyExist: 'Kod partnera handlowego musi być unikalny.Inny Partner Handlowy z podanym kodem już istnieje w bazie danych',
+  otherBusinessPartnerWithThisCodeAlreadyExist: 'Błędna nazwa firmy - zmień nazwę, ta nazwa jest już zajęta przez partnera z innym kodem=  ',
+  otherBusinessPartnerWithThisCodeAndDiffrentNameAlreadyExist: 'Błędna nazwa firmy - zmień nazwę, dla podanego kodu jest już  przyporządkowana nazwa=  ',
+  otherBusinessPartnerWithThisFullNameCodeAndCompanyNameAllreadyExist: "Inny partner handlowy z podanym imieniem i nazwisiem, nazwą firmy i kodem już istnieje w bazie danych",
   filterByCodes: 'Filtruj produkty określająć jeden lub wiele z poniższych parametrów'
 /*  <a [routerLink]="['/orders']" routerLinkActive="active"> Zamówienia</a>
   <a [routerLink]="['/businessPartners']" routerLinkActive="active"> Partnerzy</a>
