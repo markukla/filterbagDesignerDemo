@@ -1,23 +1,19 @@
 import {AfterContentChecked, Component, OnInit} from '@angular/core';
-import {UserBackendService} from '../../../../Users/UserServices/user-backend.service';
-import {UsersTableService} from '../../../../Users/UserServices/users-table.service';
-import {UserValidatorService} from '../../../../Users/UserServices/user-validator.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UserHasAdminRole} from '../../../../helpers/otherGeneralUseFunction/checkUserRolesFunction';
 import {BusinesPartnerBackendService} from '../../BusinessPartnerServices/busines-partner-backend.service';
-import {BusinessPartnerTableService} from '../../BusinessPartnerServices/business-partner-table.service';
 import {BusinessPartnerValidatorService} from '../../BusinessPartnerServices/business-partner-validator.service';
 import {AuthenticationService} from '../../../../LoginandLogOut/AuthenticationServices/authentication.service';
-import {setTabelColumnAndOtherNamesForSelectedLanguage} from '../../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage';
 import {
   generalNamesInSelectedLanguage,
-  generalUserNames, orderNames
+  generalUserNames,
+  orderNames
 } from '../../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription';
 import {GeneralTableService} from "../../../../util/GeneralTableService/general-table.service";
-import {BusinessPartnersComponent} from "../../BusinessPartnerMainComponent/business-partners.component";
 import {navigateToUrlAfterTimout} from "../../../../helpers/otherGeneralUseFunction/navigateToUrlAfterTimeOut";
 import {BackendMessageService} from "../../../../helpers/ErrorHandling/backend-message.service";
+import RoleEnum from "../../../../Users/users/userTypes/roleEnum";
 
 @Component({
   selector: 'app-update-business-partner',
@@ -116,6 +112,14 @@ export class UpdateBusinessPartnerComponent implements OnInit, AfterContentCheck
         this.isAdmin.setValue(true);
       } else {
         this.isAdmin.setValue(false);
+      }
+      if(this.authenticationService.userRole=== RoleEnum.EDITOR) {
+        this.code.disable();
+        this.businesPartnerCompanyName.disable();
+
+      }
+      else if(this.authenticationService.userRole===RoleEnum.ADMIN) {
+        this.code.disable();
       }
     });
 

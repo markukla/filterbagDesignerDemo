@@ -1,7 +1,7 @@
 import RepositoryService from "../interfaces/service.interface";
 
 
-import {DeleteResult, getRepository, UpdateResult} from "typeorm";
+import {DeleteResult, getConnection, getRepository, UpdateResult} from "typeorm";
 
 
 
@@ -22,6 +22,7 @@ import ProductType from "../Models/Products/productType.entity";
 import vocabularyRepositoryService from "./vocabularyRepositoryService";
 import {createAndReturnVocabularyWithSetVariabelName} from "../Models/Vocabulary/vocabulatyHelper";
 import VocabularyService from "./vocabularyRepositoryService";
+import Product from "../Models/Products/product.entity";
 
 
 class ProductTopService implements RepositoryService {
@@ -30,7 +31,15 @@ class ProductTopService implements RepositoryService {
     private vocabularyRepositoryService= new VocabularyService();
 
     public async findOneProductTopById(id: string): Promise<ProductTop> {
-        const foundProductTop: ProductTop = await this.repository.findOne(id);
+
+        /* const foundProductTop: ProductTop = await this.repository.findOne(id);*/
+        const foundProductTop: ProductTop =  await getConnection().createQueryBuilder(ProductTop,'productTop')
+            .leftJoinAndSelect('productTop.vocabulary','vTop')
+            .leftJoinAndSelect('vTop.localizedNames','vTopnames')
+            .leftJoinAndSelect('vTopnames.language','vToplanguage')
+            .where("productTop.id = :id", {id:Number(id)})
+            .getOne();
+
         if (!foundProductTop) {
             throw new ProductTopNotFoundException(id);
         }
@@ -59,7 +68,20 @@ class ProductTopService implements RepositoryService {
 
 
     public async findAllProductsTops(): Promise<ProductTop[]> {
-        const foundProductTops: ProductTop[] = await this.repository.find({softDeleteDate: null});
+
+        /*
+        * const foundProductTops: ProductTop[] = await this.repository.find({softDeleteDate: null});
+
+        return foundProductTops;*/
+        const foundProductTops= await getConnection().createQueryBuilder(ProductTop,'productTop')
+
+
+
+            .leftJoinAndSelect('productTop.vocabulary','vTop')
+            .leftJoinAndSelect('vTop.localizedNames','vTopnames')
+            .leftJoinAndSelect('vTopnames.language','vToplanguage')
+            .where('productTop.softDeleteDate is null')
+            .getMany();
 
         return foundProductTops;
 

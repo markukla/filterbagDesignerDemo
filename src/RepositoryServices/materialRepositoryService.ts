@@ -1,5 +1,5 @@
 import RepositoryService from "../interfaces/service.interface";
-import {DeleteResult, getRepository, UpdateResult} from "typeorm";
+import {DeleteResult, getConnection, getRepository, UpdateResult} from "typeorm";
 import Material from "../Models/Materials/material.entity";
 import MaterialNotFoundExceptionn from "../Exceptions/MaterialNotFoundException";
 import CreateMaterialDto from "../Models/Materials/material.dto";
@@ -12,6 +12,7 @@ import Vocabulary from "../Models/Vocabulary/vocabulary.entity";
 import ProductTop from "../Models/Products/productTop.entity";
 import {createAndReturnVocabularyWithSetVariabelName} from "../Models/Vocabulary/vocabulatyHelper";
 import VocabularyService from "./vocabularyRepositoryService";
+import Order from "../Models/Order/order.entity";
 
 
 class MaterialService implements RepositoryService {
@@ -20,22 +21,34 @@ class MaterialService implements RepositoryService {
     private vocabularyRepositoryService= new VocabularyService();
 
     public async findOneMaterialById(id: string): Promise<Material> {
-        const foundMaterial: Material = await this.repository.findOne(id);
+
+        /* const foundMaterial: Material = await this.repository.findOne(id);
         if (!foundMaterial) {
             throw new MaterialNotFoundExceptionn(id);
         }
+        return foundMaterial;*/
+        const foundMaterial: Material= await getConnection().createQueryBuilder(Material,'material')
+
+
+            .leftJoinAndSelect('material.vocabulary','vMaterial')
+            .leftJoinAndSelect('vMaterial.localizedNames','vMaterialnames')
+            .leftJoinAndSelect('vMaterialnames.language','vMateriallanguage')
+            .where("material.id = :id", {id:Number(id)})
+            .getOne();
         return foundMaterial;
 
 
     }
 
     public async findOneMaterialByMaterialCode(materialCode: string): Promise<Material> {
-        const foundMaterial: Material = await this.repository.findOne({
+
+
+         const foundMaterial: Material = await this.repository.findOne({
             materialCode: materialCode,
             softDeleteDate: null
         });
+         return foundMaterial;
 
-        return foundMaterial;
 
 
     }
@@ -51,8 +64,19 @@ class MaterialService implements RepositoryService {
     }
 
     public async findAllMaterials(): Promise<Material[]> {
-        const foundMaterials: Material[] = await this.repository.find({softDeleteDate: null});
 
+        /* const foundMaterials: Material[] = await this.repository.find({softDeleteDate: null});
+
+        return foundMaterials;*/
+
+        const foundMaterials: Material[]= await getConnection().createQueryBuilder(Material,'material')
+
+
+            .leftJoinAndSelect('material.vocabulary','vMaterial')
+            .leftJoinAndSelect('vMaterial.localizedNames','vMaterialnames')
+            .leftJoinAndSelect('vMaterialnames.language','vMateriallanguage')
+            .where('material.softDeleteDate is null')
+            .getMany();
         return foundMaterials;
 
     }

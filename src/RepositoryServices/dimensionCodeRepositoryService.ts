@@ -1,5 +1,5 @@
 import RepositoryService from "../interfaces/service.interface";
-import {DeleteResult, getRepository} from "typeorm";
+import {DeleteResult, getConnection, getRepository} from "typeorm";
 import Material from "../Models/Materials/material.entity";
 import MaterialNotFoundExceptionn from "../Exceptions/MaterialNotFoundException";
 import CreateMaterialDto from "../Models/Materials/material.dto";
@@ -43,13 +43,19 @@ return foundDimension;
 
     }*/
 
-
     public async findAllDimensionCodes():Promise<DimensionCode[]>{
-        const foundDiemnsionCodes:DimensionCode[] =await this.repository.find( {});
+        const foundDiemnsionCodes:DimensionCode[] =await getConnection().createQueryBuilder(DimensionCode,'dimensionCode')
+
+
+            .leftJoinAndSelect('dimensionCode.vocabulary','vdimensionCode')
+            .leftJoinAndSelect('vdimensionCode.localizedNames','vdimensionNames')
+            .leftJoinAndSelect('vdimensionNames.language','vDimensionlanguage')
+            .getMany();
 
         return foundDiemnsionCodes;
 
     }
+
     public async findallFirstIndexDimensionCodes():Promise<DimensionCode[]>{
         const foundDiemnsionCodes:DimensionCode[] =await this.repository.find(
             {

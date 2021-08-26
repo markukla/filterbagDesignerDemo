@@ -1,7 +1,7 @@
 import RepositoryService from "../interfaces/service.interface";
 
 
-import {DeleteResult, getRepository, UpdateResult} from "typeorm";
+import {DeleteResult, getConnection, getRepository, UpdateResult} from "typeorm";
 
 
 import ProductType from "../Models/Products/productType.entity";
@@ -15,6 +15,7 @@ import {addIdsForCascadeUpdateLocalizedNames} from "../Models/LocalizedName/loca
 import Vocabulary from "../Models/Vocabulary/vocabulary.entity";
 import {createAndReturnVocabularyWithSetVariabelName} from "../Models/Vocabulary/vocabulatyHelper";
 import VocabularyService from "./vocabularyRepositoryService";
+import Product from "../Models/Products/product.entity";
 
 
 class ProductTypeService implements RepositoryService {
@@ -23,7 +24,22 @@ class ProductTypeService implements RepositoryService {
     private vocabularyRepositoryService= new VocabularyService();
 
     public async findOneProductTypeById(id: string): Promise<ProductType> {
-        const foundProductType: ProductType = await this.repository.findOne(id); // table name not entity name
+        const foundProductType: ProductType = await getConnection().createQueryBuilder(ProductType,'productType')
+
+
+            .leftJoinAndSelect('productType.vocabulary','vType')
+            .leftJoinAndSelect('vType.localizedNames','vTypenames')
+            .leftJoinAndSelect('vTypenames.language','vTypelanguage')
+            .leftJoinAndSelect('productType.bottoms', 'bottoms')
+            .leftJoinAndSelect('bottoms.vocabulary','vBottom')
+            .leftJoinAndSelect('vBottom.localizedNames','vBottomnames')
+            .leftJoinAndSelect('vBottomnames.language','vBottomlanguage')
+            .leftJoinAndSelect('productType.tops', 'tops')
+            .leftJoinAndSelect('tops.vocabulary','vTop')
+            .leftJoinAndSelect('vTop.localizedNames','vTopnames')
+            .leftJoinAndSelect('vTopnames.language','vToplanguage')
+            .where("productType.id = :id", {id:Number(id)})
+            .getOne();  // table name not entity name
         if (!foundProductType) {
             throw new ProductTypeNotFoundException(id);
         }
@@ -53,9 +69,28 @@ class ProductTypeService implements RepositoryService {
 
 
     public async findAllProductsTypes(): Promise<ProductType[]> {
-        const foundProductTypes: ProductType[] = await this.repository.find(/*{relations:["tops","bottoms"]} */);
-        const foundNotDeletedProductTypes: ProductType[] = foundProductTypes.filter(productType => productType.softDeleteDate === null);
+       // const foundProductTypes: ProductType[] = await this.repository.find(/*{relations:["tops","bottoms"]} */);
+      //  const foundNotDeletedProductTypes: ProductType[] = foundProductTypes.filter(productType => productType.softDeleteDate === null);
+
+        const foundNotDeletedProductTypes: ProductType[] = await getConnection().createQueryBuilder(ProductType,'productType')
+
+
+            .leftJoinAndSelect('productType.vocabulary','vType')
+            .leftJoinAndSelect('vType.localizedNames','vTypenames')
+            .leftJoinAndSelect('vTypenames.language','vTypelanguage')
+            .leftJoinAndSelect('productType.bottoms', 'bottoms')
+            .leftJoinAndSelect('bottoms.vocabulary','vBottom')
+            .leftJoinAndSelect('vBottom.localizedNames','vBottomnames')
+            .leftJoinAndSelect('vBottomnames.language','vBottomlanguage')
+            .leftJoinAndSelect('productType.tops', 'tops')
+            .leftJoinAndSelect('tops.vocabulary','vTop')
+            .leftJoinAndSelect('vTop.localizedNames','vTopnames')
+            .leftJoinAndSelect('vTopnames.language','vToplanguage')
+            .where('productType.softDeleteDate is null')
+            .getMany();
+
         return foundNotDeletedProductTypes;
+
 
     }
 

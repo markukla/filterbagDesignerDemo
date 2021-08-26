@@ -1,5 +1,5 @@
 import RepositoryService from "../interfaces/service.interface";
-import {DeleteResult, getRepository} from "typeorm";
+import {DeleteResult, getConnection, getRepository} from "typeorm";
 import Material from "../Models/Materials/material.entity";
 import MaterialNotFoundExceptionn from "../Exceptions/MaterialNotFoundException";
 import CreateMaterialDto from "../Models/Materials/material.dto";
@@ -31,9 +31,19 @@ class VocabularyService implements RepositoryService{
 
     }
     public async findAllRecords():Promise<Vocabulary[]>{
-        const records:Vocabulary[]=await this.repository.find({softDeleteDate: null});
 
-        return records;
+        /*const records:Vocabulary[]=await this.repository.find({softDeleteDate: null});
+
+        return records;*/
+
+        const records: Vocabulary[]= await getConnection().createQueryBuilder(Vocabulary,'vocabulary')
+
+
+            .leftJoinAndSelect('vocabulary.localizedNames','vnames')
+            .leftJoinAndSelect('vnames.language','vnameslanguage')
+            .where('vocabulary.softDeleteDate is null')
+            .getMany();
+        return records
 
     }
      public async getNumberEqualIdPlus1():Promise<number> {
