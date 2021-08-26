@@ -36,13 +36,13 @@ export class BackendMessageService {
 
     const errorToExpect = 'already exist'.toUpperCase();
     if(errorMessage&&errorMessage.includes('For this code have been already asigned name')){
-      const nameInErrorMessage= errorMessage.split('=')[1].split(' ')[0];
-      return this.generalErrorMessageForCreate+ ' ' + this.otherBusinessPartnerWithThisCodeAlreadyExist+nameInErrorMessage;
+      const nameInErrorMessage= errorMessage.split('=')[1];
+      return this.generalErrorMessageForCreate+ ' ' + this.otherBusinessPartnerWithThisCodeAndDiffrentNameAlreadyExist+nameInErrorMessage;
 
     }
     else if(errorMessage&&errorMessage.includes('This name is already taken by code')) {
       const codeInErrorMessage= errorMessage.split('=')[1].split(' ')[0];
-      return this.generalErrorMessageForCreate+ ' ' + this.otherBusinessPartnerWithThisCodeAndDiffrentNameAlreadyExist+codeInErrorMessage;
+      return this.generalErrorMessageForCreate+ ' ' + this.otherBusinessPartnerWithThisCodeAlreadyExist+codeInErrorMessage;
     }
     else if(  errorMessage&&errorMessage.includes('Partner with fullName')) {
       return this.generalErrorMessageForCreate + ' ' + this.otherBusinessPartnerWithThisFullNameCodeAndCompanyNameAllreadyExist;
@@ -70,13 +70,13 @@ export class BackendMessageService {
 
     const errorToExpect = 'already exist'.toUpperCase();
     if(errorMessage&&errorMessage.includes('For this code have been already asigned name')){
-      const nameInErrorMessage= errorMessage.split('=')[1].split(' ')[0];
-      return this.generalErrorMessageForUpdate+ ' ' + this.otherBusinessPartnerWithThisCodeAlreadyExist+nameInErrorMessage;
+      const nameInErrorMessage= errorMessage.split('=')[1];
+      return this.generalErrorMessageForUpdate+ ' ' +this.otherBusinessPartnerWithThisCodeAndDiffrentNameAlreadyExist+nameInErrorMessage;
 
     }
     else if(errorMessage&&errorMessage.includes('This name is already taken by code')) {
       const codeInErrorMessage= errorMessage.split('=')[1].split(' ')[0];
-      return this.generalErrorMessageForUpdate+ ' ' + this.otherBusinessPartnerWithThisCodeAndDiffrentNameAlreadyExist+codeInErrorMessage;
+      return this.generalErrorMessageForUpdate+ ' ' + this.otherBusinessPartnerWithThisCodeAlreadyExist+codeInErrorMessage;
     }
     else if(  errorMessage&&errorMessage.includes('Partner with fullName')) {
       return this.generalErrorMessageForUpdate + ' ' + this.otherBusinessPartnerWithThisFullNameCodeAndCompanyNameAllreadyExist;

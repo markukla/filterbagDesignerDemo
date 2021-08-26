@@ -326,7 +326,7 @@ class UserService implements RepositoryService {
         }
         const partnerWithThisNameInDatabase= await this.findBusinessPartnerByCompanyName(businessPartnerdata.businesPartnerCompanyName);
         if(partnerWithThisNameInDatabase && partnerWithThisNameInDatabase.code !== businessPartnerdata.code) {
-            throw new BusinessPartnerWithThisNameAndDiffrentCodeAlreadyExist(businessPartnerdata.code);
+            throw new BusinessPartnerWithThisNameAndDiffrentCodeAlreadyExist(partnerWithThisNameInDatabase.code);
         }
         const businesPartnerRoles: Role[] = [new Role(RoleEnum.PARTNER)];
         const validationResult: PasswordValidationResult = validatePassword(businessPartnerdata.password);
@@ -381,7 +381,7 @@ class UserService implements RepositoryService {
 
     }
 
-    public updatePartnerById = async (id: number, businesesPartnerData: UpdateBussinessPartnerWithoutPassword): Promise<User> => {
+    public updatePartnerById = async (id: number, businessPartnerdata: UpdateBussinessPartnerWithoutPassword): Promise<User> => {
         let partnerToupdate: User = await this.findOnePartnerById(String(id));
         if (!partnerToupdate) {
             throw new BusinessPartnerNotFoundException(String(id));
@@ -396,29 +396,43 @@ class UserService implements RepositoryService {
         // dont allow to change email if email is asigned to other user or businessPartner, becasuse it make proper log in process imposssible
         const userWithThisEmail: User = await this.manager.findOne(User,
             {
-                email: businesesPartnerData.email,
+                email: businessPartnerdata.email,
                 softDeleteDate: null
             },
             {relations: ['roles']});
         if(userWithThisEmail) {
             const otherUserWithThisEmailAlreadyExist: boolean = (userWithThisEmail && userWithThisEmail.id !== id);
             if (otherUserWithThisEmailAlreadyExist) {
-                throw new UserWithThatEmailAlreadyExistsException(businesesPartnerData.email);
+                throw new UserWithThatEmailAlreadyExistsException(businessPartnerdata.email);
             }
         }
 
-        const partnerWithThisCodeInDatabase= await this.findBusinessPartnerByCode(businesesPartnerData.code);
-        if(partnerWithThisCodeInDatabase) {
-            const otherPartnerWithThisCodeInDatabase: boolean = (partnerWithThisCodeInDatabase.id !== id);
-            if(otherPartnerWithThisCodeInDatabase && partnerWithThisCodeInDatabase.softDeleteDate === null && partnerWithThisCodeInDatabase.businesPartnerCompanyName!==businesesPartnerData.businesPartnerCompanyName) {
-                throw new BusinessPartnerWithThisNameAndDiffrentCodeAlreadyExist(businesesPartnerData.code);
+        const partnerWithThisFullNameCodeAndCompanyNameInDatabase= await this.findBusinessPartnerByPartnerFullNameCompanyNameAndCode(businessPartnerdata.fulName, businessPartnerdata.businesPartnerCompanyName, businessPartnerdata.code);
+        if(partnerWithThisFullNameCodeAndCompanyNameInDatabase && partnerWithThisFullNameCodeAndCompanyNameInDatabase.id !== id){
+            throw new PartnerWithThisFullNameCodeAndCompanyNameAlreadyExistException(partnerWithThisFullNameCodeAndCompanyNameInDatabase.fulName, partnerWithThisFullNameCodeAndCompanyNameInDatabase.businesPartnerCompanyName, partnerWithThisFullNameCodeAndCompanyNameInDatabase.code);
+        }
+        /*
+        commneted  out to allow to change companyName by admin if there is other record with the same code
 
-            }
+const partnerWithThisCodeInDatabase= await this.findBusinessPartnerByCode(businessPartnerdata.code);
+
+        if(partnerWithThisCodeInDatabase && partnerWithThisCodeInDatabase.id !==id && partnerWithThisCodeInDatabase.businesPartnerCompanyName !== businessPartnerdata.businesPartnerCompanyName  ) {
+            console.log('in throw if for the same code');
+
+            throw new BusinessPartnerWithThisCodeAndDiffrentNameAlreadyExist(partnerWithThisCodeInDatabase.businesPartnerCompanyName);
+
+        }
+        * */
+
+
+        const partnerWithThisNameInDatabase= await this.findBusinessPartnerByCompanyName(businessPartnerdata.businesPartnerCompanyName);
+        if(partnerWithThisNameInDatabase && partnerWithThisNameInDatabase.id !==id && partnerWithThisNameInDatabase.code !== businessPartnerdata.code) {
+            throw new BusinessPartnerWithThisNameAndDiffrentCodeAlreadyExist(partnerWithThisNameInDatabase.code);
         }
 
 
         const businessPartner = this.manager.create(User, {
-            ...businesesPartnerData,
+            ...businessPartnerdata,
             id: id
 
         });
