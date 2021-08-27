@@ -1,6 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import {UserBackendService} from '../../../../Users/UserServices/user-backend.service';
-import {UserValidatorService} from '../../../../Users/UserServices/user-validator.service';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {BusinesPartnerBackendService} from '../../BusinessPartnerServices/busines-partner-backend.service';
@@ -9,11 +7,13 @@ import {AuthenticationService} from '../../../../LoginandLogOut/AuthenticationSe
 import {setTabelColumnAndOtherNamesForSelectedLanguage} from '../../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage';
 import {
   generalNamesInSelectedLanguage,
-  generalUserNames, orderNames
+  generalUserNames,
+  orderNames
 } from '../../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription';
 import {GeneratePassordAlgoritm} from "../../../../helpers/directive/GeneratePasswordDirective/generatePassordAlgoritm";
 import {navigateToUrlAfterTimout} from "../../../../helpers/otherGeneralUseFunction/navigateToUrlAfterTimeOut";
 import {BackendMessageService} from "../../../../helpers/ErrorHandling/backend-message.service";
+import RoleEnum from "../../../../Users/users/userTypes/roleEnum";
 
 @Component({
   selector: 'app-create-busines-partner',
@@ -136,6 +136,13 @@ export class CreateBusinesPartnerComponent implements OnInit {
       const foundPartner = result.body;
       if(foundPartner) {
         this.businesPartnerCompanyName.setValue(foundPartner.Cardname);
+        if(this.authenticationService.userRole=== RoleEnum.EDITOR) {
+
+          this.businesPartnerCompanyName.disable();
+          this.code.disable();
+        }
+
+
         this.fulName.setValue(foundPartner.CntcPerson);
         this.email.setValue(foundPartner.e_mail_CntcPerson);
 

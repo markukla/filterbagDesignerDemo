@@ -14,6 +14,7 @@ import BusinessPartnerNotFoundException from "../Exceptions/BusinessPartnerNotFo
 import UserService from "../RepositoryServices/userRepositoryService";
 import CHangePasswordByAdminDto from "../Models/Users/changePasswordByAdmin.dto";
 import BlockUserDto from "../Models/Users/blockUser.dto";
+import adminAuthorizationMiddleware from "../middleware/adminAuthorization.middleware";
 
 
 
@@ -30,7 +31,7 @@ class BusinessPartnerController implements Controller{
         this.router.get(this.path,authMiddleware,editorAuthorizationMiddleware, this.getAllPartners);
         this.router.get(`${this.path}/:id`,authMiddleware,editorAuthorizationMiddleware, this.getOnePartnerById);
         this.router.patch(`${this.path}/:id`,authMiddleware,editorAuthorizationMiddleware, validationMiddleware(CreateBusinessPartnerDto, true), this.modyfyPartner);
-        this.router.delete(`${this.path}/:id`,authMiddleware,editorAuthorizationMiddleware, this.deleteOnePartnerById);
+        this.router.delete(`${this.path}/:id`,authMiddleware,adminAuthorizationMiddleware, this.deleteOnePartnerById);
         this.router.patch(`${this.path}/:id/changePassword`,authMiddleware,editorAuthorizationMiddleware, validationMiddleware(CHangePasswordByAdminDto, true), this.changePasswordByEditor);
         this.router.patch(`${this.path}/:id/blockOrUnblock`,authMiddleware,editorAuthorizationMiddleware, validationMiddleware(CHangePasswordByAdminDto, true), this.blockOrUnblockUser)
         this.router.post(this.path,authMiddleware, editorAuthorizationMiddleware, validationMiddleware(CreateBusinessPartnerDto), this.registration);

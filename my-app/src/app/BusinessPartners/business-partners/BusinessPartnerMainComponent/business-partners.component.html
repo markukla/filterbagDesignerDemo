@@ -58,7 +58,7 @@ version with pagination:
             {{userNamesInSelectedLanguage.businessPartnerOrders}}
           </span>
         </button>
-        <button class="icon action-button delete-button"  (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(partner.id)" [title]="generalNamesInSelectedLanguage.deleteButtonInfo">
+        <button *ngIf="checkIfAdmin()== true" class="icon action-button delete-button"  (click)="this.selectRecordtoDeleteAndShowConfirmDeleteWindow(partner.id)" [title]="generalNamesInSelectedLanguage.deleteButtonInfo">
           <span class="hidden">
             {{generalNamesInSelectedLanguage.deleteButtonInfo}}
           </span>

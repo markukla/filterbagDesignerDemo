@@ -1,26 +1,18 @@
 import {AfterContentChecked, Component, Input, OnInit} from '@angular/core';
 import User from '../../../Users/users/userTypes/user';
-import {UsersTableService} from '../../../Users/UserServices/users-table.service';
-import {UserBackendService} from '../../../Users/UserServices/user-backend.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {
-  UserHasAdminRole,
-  UserHasEditorRoleButIsNotAdmin
-} from '../../../helpers/otherGeneralUseFunction/checkUserRolesFunction';
 import BlockUserDto from '../../../Users/users/userTypes/blockUseDto';
-import {BusinessPartnerTableService} from '../BusinessPartnerServices/business-partner-table.service';
 import {BusinesPartnerBackendService} from '../BusinessPartnerServices/busines-partner-backend.service';
 import {OperationStatusServiceService} from '../../../OperationStatusComponent/operation-status/operation-status-service.service';
-import {
-  generalNamesInSelectedLanguage,
-  generalUserNames, orderNames
-} from '../../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription';
-import {setTabelColumnAndOtherNamesForSelectedLanguage} from '../../../helpers/otherGeneralUseFunction/getNameInGivenLanguage';
 import {AuthenticationService} from '../../../LoginandLogOut/AuthenticationServices/authentication.service';
 import {GeneralTableService} from "../../../util/GeneralTableService/general-table.service";
 import {SearchService} from "../../../helpers/directive/SearchDirective/search.service";
 import {Pagninator} from "../../../helpers/Paginator/paginator";
-import {addActiveUserClass, addBlockedUserClass} from "../../../helpers/otherGeneralUseFunction/addClassForBlockOrUnblockUser";
+import {
+  addActiveUserClass,
+  addBlockedUserClass
+} from "../../../helpers/otherGeneralUseFunction/addClassForBlockOrUnblockUser";
+import RoleEnum from "../../../Users/users/userTypes/roleEnum";
 
 @Component({
   selector: 'app-business-partners',
@@ -212,5 +204,13 @@ export class BusinessPartnersComponent implements OnInit, AfterContentChecked {
 
   navigateToPageNumber(pageNumber: number) {
     this.router.navigateByUrl(`/businessPartners?pageNumber=${String(pageNumber)}`);
+  }
+  checkIfAdmin(): boolean {
+    if (this.authenticationService.userRole=== RoleEnum.ADMIN) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 }
