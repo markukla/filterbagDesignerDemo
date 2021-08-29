@@ -264,55 +264,55 @@ setFormControlValuesForUpdateOrShowDrawingMode(createOrderDto: CreateOrderDto): 
 
 setInitStateofConfirmOrCHangeButtonsAndSubmitButton(): void {
     if (this.orderOperationMode === OrderOperationMode.CREATENEW) {
-      this.submitButtonDescription = orderNames.submitButtonNext;
+      this.submitButtonDescription = this.orderNames.submitButtonNext;
       if (this.createOrderDto.productMaterial) {
         this.materialConfirmed = true;
-        this.confirmOrCHangeMaterialButtonInfo = orderNames.ChangeMaterialButtonInfo;
+        this.confirmOrCHangeMaterialButtonInfo = this.orderNames.ChangeMaterialButtonInfo;
       }
       else {
         this.materialConfirmed = false;
-        this.confirmOrCHangeMaterialButtonInfo = orderNames.ConfirmMaterial;
+        this.confirmOrCHangeMaterialButtonInfo = this.orderNames.ConfirmMaterial;
       }
       if (!this.productMiniatureService.selectedProduct) {
         this.productConfirmed = false;
-        this.confirmOrCHangeProductParmatersButtonInfo = orderNames.ConfirmProduct;
+        this.confirmOrCHangeProductParmatersButtonInfo = this.orderNames.ConfirmProduct;
       }
       else {
         this.productConfirmed = true;
-        this.confirmOrCHangeProductParmatersButtonInfo = orderNames.ChangeProduct;
+        this.confirmOrCHangeProductParmatersButtonInfo = this.orderNames.ChangeProduct;
       }
       if (this.createOrderDto.businessPartner) {
         this.partnerConfirmed = true;
-        this.confirmOrCHangePartnerButtonInfo = orderNames.ChangePartner;
+        this.confirmOrCHangePartnerButtonInfo = this.orderNames.ChangePartner;
       }
       else {
         this.partnerConfirmed = false;
-        this.confirmOrCHangePartnerButtonInfo = orderNames.ConfirmPartner;
+        this.confirmOrCHangePartnerButtonInfo = this.orderNames.ConfirmPartner;
       }
-      this.onSubmitButtonInfo = orderNames.submitButtonNext;
+      this.onSubmitButtonInfo = this.orderNames.submitButtonNext;
       this.operationModeEqualConfirmNewOrUpdate = false;
     }
     // tslint:disable-next-line:max-line-length
     else if (this.orderOperationMode === OrderOperationMode.CONFIRMNEW || OrderOperationMode.CONFIRMUPDATE) {
       this.operationModeEqualConfirmNewOrUpdate = true;
-      this.submitButtonDescription = orderNames.submitOrder;
+      this.submitButtonDescription = this.orderNames.submitOrder;
       this.materialConfirmed = true;
       this.productConfirmed = true;
       this.partnerConfirmed = true;
-      this.onSubmitButtonInfo = orderNames.submitOrder;
-      this.confirmOrCHangeProductParmatersButtonInfo = orderNames.ChangeProduct;
-      this.confirmOrCHangeMaterialButtonInfo = orderNames.ChangeMaterialButtonInfo;
-      this.confirmOrCHangePartnerButtonInfo = orderNames.ChangeMaterialButtonInfo;
+      this.onSubmitButtonInfo = this.orderNames.submitOrder;
+      this.confirmOrCHangeProductParmatersButtonInfo = this.orderNames.ChangeProduct;
+      this.confirmOrCHangeMaterialButtonInfo = this.orderNames.ChangeMaterialButtonInfo;
+      this.confirmOrCHangePartnerButtonInfo = this.orderNames.ChangePartner;
     } else if (this.orderOperationMode === OrderOperationMode.UPDATE) {
       this.operationModeEqualConfirmNewOrUpdate = true;
-      this.submitButtonDescription = orderNames.updateOrder;
+      this.submitButtonDescription = this.orderNames.updateOrder;
       this.materialConfirmed = true;
       this.productConfirmed = true;
       this.partnerConfirmed = true;
-      this.onSubmitButtonInfo = orderNames.updateOrder;
-      this.confirmOrCHangeProductParmatersButtonInfo = orderNames.ChangeProduct;
-      this.confirmOrCHangeMaterialButtonInfo =  orderNames.ChangeMaterialButtonInfo;
-      this.confirmOrCHangePartnerButtonInfo = orderNames.ChangePartner;
+      this.onSubmitButtonInfo = this.orderNames.updateOrder;
+      this.confirmOrCHangeProductParmatersButtonInfo = this.orderNames.ChangeProduct;
+      this.confirmOrCHangeMaterialButtonInfo =  this.orderNames.ChangeMaterialButtonInfo;
+      this.confirmOrCHangePartnerButtonInfo = this.orderNames.ChangePartner;;
     }
   }
 
@@ -506,7 +506,7 @@ get productMaterial() {
         this.router.navigateByUrl(`/orders/drawing?mode=${OrderOperationMode.CREATENEW}`);
       }, error => {
         console.log('nie udało się znaleźć produktu na postawie wybranych parametrów');
-        this.operationMessage = orderNames.canNotFindProductForGivenParameters;
+        this.operationMessage = this.orderNames.canNotFindProductForGivenParameters;
       });
       // tslint:disable-next-line:max-line-length
     } else if (this.orderOperationMode === OrderOperationMode.CONFIRMNEW) {
@@ -543,7 +543,7 @@ get productMaterial() {
         this.router.navigateByUrl(`/orders/drawing?orderId=${this.selctedOrderId}&mode=${OrderOperationMode.UPDATEWITHCHANGEDPRODUCT}`);
       }, error => {
         console.log('nie udało się znaleźć produktu na postawie wybranych parametrów');
-        this.operationMessage = orderNames.canNotFindProductForGivenParameters;
+        this.operationMessage = this.orderNames.canNotFindProductForGivenParameters;
       });
     }
   }
@@ -563,7 +563,7 @@ changeModeTOUpdatedWithChangedProductOrCreateNew(): void {
     if (this.productHasBeenChanged === true) {
       if (this.orderOperationMode === OrderOperationMode.UPDATE || this.orderOperationMode === OrderOperationMode.CONFIRMUPDATE) {
         this.orderOperationMode = OrderOperationMode.UPDATEWITHCHANGEDPRODUCT;
-        this.submitButtonDescription = orderNames.submitButtonNext;
+        this.submitButtonDescription = this.orderNames.submitButtonNext;
       }
       else if (this.orderOperationMode === OrderOperationMode.CONFIRMNEW) {
         this.orderOperationMode = OrderOperationMode.CREATENEW;
@@ -571,7 +571,7 @@ changeModeTOUpdatedWithChangedProductOrCreateNew(): void {
         this.newOrderVersionNumber = this.backendService.createOrderDtoForConfirmUpdateShowDrawing.orderVersionNumber;
         this.newOrderTotalNumber = this.backendService.createOrderDtoForConfirmUpdateShowDrawing.orderTotalNumber;
         this.orderOperationMode = OrderOperationMode.CREATENEW;
-        this.submitButtonDescription = orderNames.submitButtonNext;
+        this.submitButtonDescription = this.orderNames.submitButtonNext;
       }
     }
   }
@@ -589,7 +589,7 @@ ngAfterContentChecked(): void {
   }
 
 setUpdateModeOrPartnerLoggedValue(): void {
-    if (this.isPartner || this.orderOperationMode === OrderOperationMode.UPDATE) {
+    if (this.isPartner || this.orderOperationMode === OrderOperationMode.UPDATE || this.orderOperationMode === OrderOperationMode.CONFIRMUPDATE ) {
       this.updateModeOrPartnerLogged = true;
     } else {
       this.updateModeOrPartnerLogged = false;
@@ -602,14 +602,14 @@ changeOrConfirmPartnerButtonAction(): void {
     if (this.partnerConfirmed === false && this.businessPartner.value) {
       this.selectedPartner = this.businessPartner.value;
       this.businessPartner.disable({onlySelf: true});
-      this.confirmOrCHangePartnerButtonInfo = orderNames.ChangePartner;
+      this.confirmOrCHangePartnerButtonInfo = this.orderNames.ChangePartner;
       if (this.backendService.createOrderDtoForConfirmUpdateShowDrawing) {
         this.backendService.createOrderDtoForConfirmUpdateShowDrawing.businessPartner = this.selectedPartner;
       }
       this.partnerConfirmed = true;
     } else if (this.partnerConfirmed === true && this.businessPartner) {
       this.businessPartner.enable({onlySelf: true});
-      this.confirmOrCHangePartnerButtonInfo = orderNames.ConfirmPartner;
+      this.confirmOrCHangePartnerButtonInfo = this.orderNames.ConfirmPartner;
       this.partnerConfirmed = false;
     }
 
@@ -625,13 +625,13 @@ confirmOrchangeProductButtonAction(): void {
       this.top.disable({onlySelf: true});
       this.selectedBottom = this.bottom.value;
       this.bottom.disable({onlySelf: true});
-      this.confirmOrCHangeProductParmatersButtonInfo = orderNames.ChangeProduct;
+      this.confirmOrCHangeProductParmatersButtonInfo = this.orderNames.ChangeProduct;
       this.productConfirmed = true;
     } else if (this.productConfirmed === true) {
       this.type.enable({onlySelf: true});
       this.top.enable({onlySelf: true});
       this.bottom.enable({onlySelf: true});
-      this.confirmOrCHangeProductParmatersButtonInfo = orderNames.ConfirmProduct;
+      this.confirmOrCHangeProductParmatersButtonInfo = this.orderNames.ConfirmProduct;
       this.businessPartner.enable({onlySelf: true});
       this.productConfirmed = false;
     }
@@ -672,7 +672,7 @@ confirmOrchangeProductButtonAction(): void {
 confirmOrChangeMaterialButtonAction(): void {
     if (this.materialConfirmed === false) {
       this.productMaterial.disable({onlySelf: true});
-      this.confirmOrCHangeMaterialButtonInfo = orderNames.ChangeMaterialButtonInfo
+      this.confirmOrCHangeMaterialButtonInfo = this.orderNames.ChangeMaterialButtonInfo
       this.selectedMaterial = this.productMaterial.value;
       if (this.backendService.createOrderDtoForConfirmUpdateShowDrawing) {
         this.backendService.createOrderDtoForConfirmUpdateShowDrawing.productMaterial = this.selectedMaterial;
@@ -680,7 +680,7 @@ confirmOrChangeMaterialButtonAction(): void {
       this.materialConfirmed = true;
     } else if (this.materialConfirmed === true) {
       this.productMaterial.enable({onlySelf: true});
-      this.confirmOrCHangeMaterialButtonInfo = orderNames.ConfirmMaterial;
+      this.confirmOrCHangeMaterialButtonInfo = this.orderNames.ConfirmMaterial;
       this.materialConfirmed = false;
     }
 
@@ -931,12 +931,12 @@ validateIndexAndSaveNewOrderInDatabase(): void{
     this.backendService.createOrderDtoForConfirmUpdateShowDrawing = this.createOrderDto;
     if(!validatedIndex) {
       this.backendService.addRecords(this.createOrderDto).subscribe((order) => {
-          this.operationSuccessStatusMessage = orderNames.orderAddSuccess;
+          this.operationSuccessStatusMessage = this.orderNames.orderAddSuccess;
           /*navigateToUrlAfterTimout('/orders?pageNumber=1', this.router)*/
           navigateToUrlAfterTimout('/orders', this.router);
         },
         error => {
-          this.operationFailerStatusMessage = orderNames.orderAddFailer;
+          this.operationFailerStatusMessage = this.orderNames.orderAddFailer;
 
         });
     }
@@ -970,13 +970,13 @@ validateIndexAndUpdateOrderInDatabase():void{
     }
 if(!validatedIndex) {
   this.backendService.updateRecordById(String(this.selctedOrderId), this.createOrderDto).subscribe((order) => {
-      this.operationSuccessStatusMessage = orderNames.orderUpdateSuccess;
+      this.operationSuccessStatusMessage = this.orderNames.orderUpdateSuccess;
       /*for version with pagination: navigateToUrlAfterTimout('/orders?pageNumber=1', this.router); */
       navigateToUrlAfterTimout('/orders', this.router);
     },
     error => {
       console.log(error);
-      this.operationFailerStatusMessage = orderNames.orderUpdateFailer;
+      this.operationFailerStatusMessage = this.orderNames.orderUpdateFailer;
     });
 }
 
@@ -998,7 +998,7 @@ handleIndexValidationBackendErrorMessage(error:any, oldIndex:string):void {
   }
   else {
     const indexDubledMessage=`${oldIndex} - ${this.orderNames.indexAlreadyExistsForOtherOrderNumber}`;
-    const canotSaveOrder=orderNames.orderAddFailer;
+    const canotSaveOrder=this.orderNames.orderAddFailer;
     this.indexDubledMessages.push(indexDubledMessage,canotSaveOrder);
 
   }

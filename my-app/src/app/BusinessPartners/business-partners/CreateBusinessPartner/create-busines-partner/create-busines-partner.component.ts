@@ -90,6 +90,8 @@ export class CreateBusinesPartnerComponent implements OnInit {
 
 
   onSubmit(): void {
+    this.businesPartnerCompanyName.enable()
+    this.code.enable();
     this.bakcendService.addOneRecord(this.userForm.value).subscribe((user) => {
       this.operationStatusMessage = this.userNamesInSelectedLanguage.partnerAddSuccessStatusMessage;
       navigateToUrlAfterTimout(this.authenticationService._previousUrl, this.router);
@@ -138,7 +140,7 @@ export class CreateBusinesPartnerComponent implements OnInit {
         this.businesPartnerCompanyName.setValue(foundPartner.Cardname);
         if(this.authenticationService.userRole=== RoleEnum.EDITOR) {
 
-          this.businesPartnerCompanyName.disable();
+          this.businesPartnerCompanyName.disable()
           this.code.disable();
         }
 
