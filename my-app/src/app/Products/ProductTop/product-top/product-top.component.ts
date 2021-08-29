@@ -90,7 +90,16 @@ export class ProductTopComponent implements OnInit, AfterContentChecked {
       this.productTypeBackendService.findRecordById(this.productTypeId).subscribe((productType) => {
         this.tableService.records.length = 0;
         this.selectedproductType = productType.body;
-        const topsOfProductTypeAndNotSoftDeletedProducts= this.selectedproductType.tops.filter(pt=> this.allProducts.map(p=> p.productTop.id).includes(pt.id));
+       // const topsOfProductTypeAndNotSoftDeletedProducts= this.selectedproductType.tops.filter(pt=> this.allProducts.map(p=> p.productTop.id).includes(pt.id) && this.allProducts.map(p=> p.productType.id).includes(this.selectedproductType.id));
+        const topsOfProductTypeAndNotSoftDeletedProducts = [];
+        this.allProducts.forEach(product=>{
+          if(product.productType.id == this.selectedproductType.id ) {
+
+            topsOfProductTypeAndNotSoftDeletedProducts.push(product.productTop);
+          }
+        })
+
+
         topsOfProductTypeAndNotSoftDeletedProducts.forEach((record) => {
           if(record.softDeleteDate ===null){
             const recorForTableCell = this.backendService.createProductTopForTableCellFromProductTop(record);

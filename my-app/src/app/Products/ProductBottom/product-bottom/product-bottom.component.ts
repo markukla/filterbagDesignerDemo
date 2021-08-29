@@ -96,7 +96,16 @@ export class ProductBottomComponent implements OnInit, AfterContentChecked {
       this.productTypeBackendService.findRecordById(this.productTypeId).subscribe((productType)=>{
         this.tableService.records.length = 0;
         this.selectedproductType = productType.body;
-        const bottomsOfProductTypeAndNotSoftDeletedProducts= this.selectedproductType.bottoms.filter(pt=> this.allProducts.map(p=> p.productBottom.id).includes(pt.id));
+       // const bottomsOfProductTypeAndNotSoftDeletedProducts= this.selectedproductType.bottoms.filter(pt=> this.allProducts.map(p=> p.productBottom.id).includes(pt.id) && this.allProducts.map(p=> p.productType.id).includes(this.selectedproductType.id));
+        const bottomsOfProductTypeAndNotSoftDeletedProducts = [];
+        this.allProducts.forEach(product=>{
+          if(product.productType.id == this.selectedproductType.id ) {
+
+            bottomsOfProductTypeAndNotSoftDeletedProducts.push(product.productBottom);
+          }
+        });
+
+
         bottomsOfProductTypeAndNotSoftDeletedProducts.forEach((record) => {
           if(record.softDeleteDate ===null) {
 
