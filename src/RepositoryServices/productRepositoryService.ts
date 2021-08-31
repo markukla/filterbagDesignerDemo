@@ -77,9 +77,6 @@ class ProductService implements RepositoryService {
             .getOne();
 
 
-        if (!foundProduct) {
-            throw new ProductNotFoundExceptionn(null);
-        }
         return foundProduct;
 
 
@@ -111,6 +108,7 @@ class ProductService implements RepositoryService {
             .leftJoinAndSelect('vTopnames.language','vToplanguage')
            .where('product.softDeleteDate is null')
             .getMany();
+
 
 
         return foundProducts;
