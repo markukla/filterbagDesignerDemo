@@ -7,7 +7,7 @@ import ProductBottom from "../Models/Products/productBottom.entity";
 import ProductBottomNotFoundException from "../Exceptions/ProductBottomNotFoundException";
 import CreateProductBottomDto from "../Models/Products/createProductBottom.dto";
 import ProductBottomAlreadyExistsException from "../Exceptions/ProductBottomAlreadyExistsException";
-import {DeleteResult, getRepository, UpdateResult} from "typeorm";
+import {DeleteResult, getConnection, getRepository, UpdateResult} from "typeorm";
 import ProductTop from "../Models/Products/productTop.entity";
 import Material from "../Models/Materials/material.entity";
 import DimensionCodeNotFoundException from "../Exceptions/DimensionCodeNotFoundException";
@@ -22,7 +22,17 @@ class ProductBottomService implements RepositoryService {
     public repository = getRepository(ProductBottom);
     private vocabularyRepositoryService= new VocabularyService();
     public async findOneProductBottomById(id: string): Promise<ProductBottom> {
-        const foundProductBottom: ProductBottom = await this.repository.findOne(id);
+
+
+        /*
+        *  const foundProductBottom: ProductBottom = await this.repository.findOne(id);*/
+        const foundProductBottom= await getConnection().createQueryBuilder(ProductBottom,'productBottom')
+            .leftJoinAndSelect('productBottom.vocabulary','vBottom')
+            .leftJoinAndSelect('vBottom.localizedNames','vBottomnames')
+            .leftJoinAndSelect('vBottomnames.language','vBottomlanguage')
+            .where("productBottom.id = :id", {id:Number(id)})
+            .getOne();
+
         if (!foundProductBottom) {
             throw new ProductBottomNotFoundException(id);
         }
@@ -32,9 +42,12 @@ class ProductBottomService implements RepositoryService {
     }
 
     public async findOneProductBottomByBottomCode(createProductBottomDto: CreateProductBottomDto): Promise<ProductBottom> {
-        const productBottom: ProductBottom = await this.repository.findOne({
-            code:createProductBottomDto.code
-        });
+        const productBottom: ProductBottom = await getConnection().createQueryBuilder(ProductBottom,'productBottom')
+            .leftJoinAndSelect('productBottom.vocabulary','vBottom')
+            .leftJoinAndSelect('vBottom.localizedNames','vBottomnames')
+            .leftJoinAndSelect('vBottomnames.language','vBottomlanguage')
+            .where("productBottom.code = :code", {code:createProductBottomDto.code})
+            .getOne();
 
         return productBottom;
 
@@ -42,18 +55,34 @@ class ProductBottomService implements RepositoryService {
     }
 
     public async findOneProductBottomByCode(code: string): Promise<ProductTop> {
-        const productBottom: ProductBottom = await this.repository.findOne({
-            code:code
-        });
 
+        /*
+        * const productBottom: ProductBottom = await this.repository.findOne({
+            code:code
+        });*/
+
+        const productBottom: ProductBottom = await getConnection().createQueryBuilder(ProductBottom,'productBottom')
+            .leftJoinAndSelect('productBottom.vocabulary','vBottom')
+            .leftJoinAndSelect('vBottom.localizedNames','vBottomnames')
+            .leftJoinAndSelect('vBottomnames.language','vBottomlanguage')
+            .where("productBottom.code = :code", {code:code})
+            .getOne();
         return productBottom;
     }
 
 
 
     public async findAllProductsBottoms(): Promise<ProductBottom[]> {
-        const foundProductBottoms: ProductBottom[] = await this.repository.find({softDeleteDate: null});
 
+/*
+const foundProductBottoms: ProductBottom[] = await this.repository.find({softDeleteDate: null});
+* */
+        const foundProductBottoms= await getConnection().createQueryBuilder(ProductBottom,'productBottom')
+            .leftJoinAndSelect('productBottom.vocabulary','vBottom')
+            .leftJoinAndSelect('vBottom.localizedNames','vBottomnames')
+            .leftJoinAndSelect('vBottomnames.language','vBottomlanguage')
+            .where("productBottom.softDeleteDate is null")
+            .getMany();
         return foundProductBottoms;
 
     }
@@ -77,7 +106,7 @@ class ProductBottomService implements RepositoryService {
 
 
         const savedProductBottom:ProductBottom = await this.repository.save(recordToSave);
-        const recordToReturn = await this.repository.findOne(savedProductBottom.id); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave
+        const recordToReturn = await this.findOneProductBottomById(String(savedProductBottom.id)); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave
 
         return recordToReturn;
 
@@ -110,7 +139,7 @@ class ProductBottomService implements RepositoryService {
 
             const updatedRecord=await this.repository.save(recordToUpdate);
 
-            const recordToReturn = await this.repository.findOne(updatedRecord.id); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave
+            const recordToReturn = await this.findOneProductBottomById(String(updatedRecord.id)); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave
 
             return recordToReturn;
 

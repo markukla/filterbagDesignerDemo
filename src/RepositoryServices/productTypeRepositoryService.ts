@@ -49,10 +49,22 @@ class ProductTypeService implements RepositoryService {
     }
 
     public async findOneProductTypeByProductTypeCode(createProductTypeDto: CreateProductTypeDto): Promise<ProductType> {
-        const foundProduct: ProductType = await this.repository.findOne({
-            code: createProductTypeDto.code,
-            softDeleteDate: null
-        },/*{relations:["tops","bottoms"]}*/);
+        const foundProduct: ProductType = await getConnection().createQueryBuilder(ProductType,'productType')
+
+
+            .leftJoinAndSelect('productType.vocabulary','vType')
+            .leftJoinAndSelect('vType.localizedNames','vTypenames')
+            .leftJoinAndSelect('vTypenames.language','vTypelanguage')
+            .leftJoinAndSelect('productType.bottoms', 'bottoms')
+            .leftJoinAndSelect('bottoms.vocabulary','vBottom')
+            .leftJoinAndSelect('vBottom.localizedNames','vBottomnames')
+            .leftJoinAndSelect('vBottomnames.language','vBottomlanguage')
+            .leftJoinAndSelect('productType.tops', 'tops')
+            .leftJoinAndSelect('tops.vocabulary','vTop')
+            .leftJoinAndSelect('vTop.localizedNames','vTopnames')
+            .leftJoinAndSelect('vTopnames.language','vToplanguage')
+            .where("productType.code = :code", {code:createProductTypeDto.code})
+            .getOne();  // table name not entity name
 
         return foundProduct;
 
@@ -60,9 +72,22 @@ class ProductTypeService implements RepositoryService {
     }
 
     public async findOneProductTypeByCode(code: string): Promise<ProductTop> {
-        const productType: ProductType = await this.repository.findOne({
-            code:code
-        });
+        const productType: ProductType = await getConnection().createQueryBuilder(ProductType,'productType')
+
+
+            .leftJoinAndSelect('productType.vocabulary','vType')
+            .leftJoinAndSelect('vType.localizedNames','vTypenames')
+            .leftJoinAndSelect('vTypenames.language','vTypelanguage')
+            .leftJoinAndSelect('productType.bottoms', 'bottoms')
+            .leftJoinAndSelect('bottoms.vocabulary','vBottom')
+            .leftJoinAndSelect('vBottom.localizedNames','vBottomnames')
+            .leftJoinAndSelect('vBottomnames.language','vBottomlanguage')
+            .leftJoinAndSelect('productType.tops', 'tops')
+            .leftJoinAndSelect('tops.vocabulary','vTop')
+            .leftJoinAndSelect('vTop.localizedNames','vTopnames')
+            .leftJoinAndSelect('vTopnames.language','vToplanguage')
+            .where("productType.code = :code", {code:code})
+            .getOne();  // table name not entity name
 
         return productType;
     }
@@ -112,7 +137,7 @@ class ProductTypeService implements RepositoryService {
 
 
         const savedProductType: ProductType = await this.repository.save(recordToSave);
-        const recordToReturn = await this.repository.findOne(savedProductType.id); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave
+        const recordToReturn = await this.findOneProductTypeById(String(savedProductType.id)); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave
 
         return recordToReturn;
 
@@ -147,7 +172,7 @@ class ProductTypeService implements RepositoryService {
 
             const updatedRecord=await this.repository.save(recordToUpdate);
 
-            const recordToReturn = await this.repository.findOne(updatedRecord.id); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave
+            const recordToReturn = await this.findOneProductTypeById(String(updatedRecord.id)); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave
 
             return recordToReturn;
 

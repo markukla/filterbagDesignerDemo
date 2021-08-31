@@ -49,18 +49,24 @@ class ProductTopService implements RepositoryService {
     }
 
     public async findOneProductTopByTopCode(createProductTopDto: CreateProductTopDto): Promise<ProductTop> {
-        const productTop: ProductTop = await this.repository.findOne({
-    code:createProductTopDto.code
-        });
+        const productTop: ProductTop =  await getConnection().createQueryBuilder(ProductTop,'productTop')
+            .leftJoinAndSelect('productTop.vocabulary','vTop')
+            .leftJoinAndSelect('vTop.localizedNames','vTopnames')
+            .leftJoinAndSelect('vTopnames.language','vToplanguage')
+            .where("productTop.code = :code", {code:createProductTopDto.code})
+            .getOne();
 
         return productTop;
 
 
     }
     public async findOneProductTopByCode(code: string): Promise<ProductTop> {
-        const productTop: ProductTop = await this.repository.findOne({
-            code:code
-        });
+        const productTop: ProductTop = await getConnection().createQueryBuilder(ProductTop,'productTop')
+            .leftJoinAndSelect('productTop.vocabulary','vTop')
+            .leftJoinAndSelect('vTop.localizedNames','vTopnames')
+            .leftJoinAndSelect('vTopnames.language','vToplanguage')
+            .where("productTop.code = :code", {code:code})
+            .getOne();
 
         return productTop;
     }
@@ -107,7 +113,7 @@ class ProductTopService implements RepositoryService {
         };
 
         const savedProductTop:ProductTop = await this.repository.save(recordToSave);
-        const recordToReturn = await this.repository.findOne(savedProductTop.id); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave
+        const recordToReturn = await this.findOneProductTopById(String(savedProductTop.id)); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave
 
         return recordToReturn;
 
@@ -140,7 +146,7 @@ class ProductTopService implements RepositoryService {
 
             const updatedRecord=await this.repository.save(recordToUpdate);
 
-            const recordToReturn = await this.repository.findOne(updatedRecord.id); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave
+            const recordToReturn = await this.findOneProductTopById(String(updatedRecord.id)); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave
 
             return recordToReturn;
 

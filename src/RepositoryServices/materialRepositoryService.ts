@@ -144,7 +144,7 @@ class MaterialService implements RepositoryService {
 
             const updatedRecord=await this.repository.save(recordToUpdate);
 
-            const recordToReturn = await this.repository.findOne(updatedRecord.id); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave
+            const recordToReturn = await this.findOneMaterialById(String(updatedRecord.id)); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave
 
             return recordToReturn;
 

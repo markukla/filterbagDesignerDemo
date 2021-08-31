@@ -100,7 +100,7 @@ return foundDimension;
 
         };
         const savedDimensionCOde=await this.repository.save(recordToSave);
-        const recordToReturn = await this.repository.findOne(savedDimensionCOde.id); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave
+        const recordToReturn = await this.findOneById(String(savedDimensionCOde.id)); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave
 
         return recordToReturn;
 
@@ -130,7 +130,7 @@ return foundDimension;
 
             const updatedRecord=await this.repository.save(recordToUpdate);
 
-            const recordToReturn = await this.repository.findOne(updatedRecord.id); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave
+            const recordToReturn = await this.findOneById(String(updatedRecord.id)); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave
 
             return recordToReturn;
 
