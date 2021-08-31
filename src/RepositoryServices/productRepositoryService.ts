@@ -45,7 +45,9 @@ class ProductService implements RepositoryService {
     }
 
     public async findOneProductByProductTypeProductTopTypeProductBottomTypeAndAppropriateCodes(createProductDto: CreateProductDto): Promise<Product> {
-        const foundProduct: Product = await this.repository.findOne({
+
+        /*
+        * const foundProduct: Product = await this.repository.findOne({
 
             productTop: createProductDto.productTop,
             productBottom: createProductDto.productBottom,
@@ -53,9 +55,35 @@ class ProductService implements RepositoryService {
             softDeleteDate: null
 
 
-        });
+        });*/
+        const foundProduct= await getConnection().createQueryBuilder(Product,'product')
 
+            .leftJoinAndSelect('product.productType', 'productType')
+            .leftJoinAndSelect('productType.vocabulary','vType')
+            .leftJoinAndSelect('vType.localizedNames','vTypenames')
+            .leftJoinAndSelect('vTypenames.language','vTypelanguage')
+            .leftJoinAndSelect('product.productBottom', 'productBottom')
+            .leftJoinAndSelect('productBottom.vocabulary','vBottom')
+            .leftJoinAndSelect('vBottom.localizedNames','vBottomnames')
+            .leftJoinAndSelect('vBottomnames.language','vBottomlanguage')
+            .leftJoinAndSelect('product.productTop', 'productTop')
+            .leftJoinAndSelect('productTop.vocabulary','vTop')
+            .leftJoinAndSelect('vTop.localizedNames','vTopnames')
+            .leftJoinAndSelect('vTopnames.language','vToplanguage')
+            .where("product.productType.id= :productTypeValue", {productTypeValue: createProductDto.productType.id})
+            .andWhere("product.productBottom.id= :productBottomValue", {productBottomValue: createProductDto.productBottom.id})
+            .andWhere("product.productTop.id= :productTopValue", {productTopValue:createProductDto.productTop.id})
+            .andWhere("product.softDeleteDate is null")
+            .getOne();
+
+
+        if (!foundProduct) {
+            throw new ProductNotFoundExceptionn(null);
+        }
         return foundProduct;
+
+
+
 
 
     }
