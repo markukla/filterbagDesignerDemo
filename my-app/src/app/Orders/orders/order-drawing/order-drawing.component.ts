@@ -283,25 +283,53 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
       if (this.createOrderDto.product.dimensionsTextFieldInfo) {
         const dimensionsInfo = this.createOrderDto.product.dimensionsTextFieldInfo;
         const dimensions: Dimension [] = this.createOrderDto.orderDetails.dimensions;
+        const dimensionsSetInOrders: DimensionTextFIeldInfo [] =[];
         dimensionsInfo.forEach((dimensionInfo) => {
           //this.createDimensionInputOnDrawingBasingOnDimensionInfo(dimensionInfo, 'div')
-          dimensions.forEach((dimension) => {
-            if (dimensionInfo.dimensionId === dimension.dimensionId) {
-              this.createDimensionInputOnDrawingWithSetValueBasingOnDimensionInfoAndOrderData(dimensionInfo, dimension, 'div');
+         // dimensions.forEach((dimension) => {
 
-            }
+            // this.createDimensionInputOnDrawingWithSetValueBasingOnDimensionInfoAndOrderData(dimensionInfo, dimension, 'div');
+             // dimensionsSetInOrders.push(dimensionInfo);
+            this.createDimensionInputOnDrawingBasingOnDimensionInfo(dimensionInfo, 'div');
 
-          });
+
+
+         // });
+
         });
+        this.setValuesOfInputsForModesWithOrderData (dimensions);
       }
     }
   }
+  setValuesOfInputsForModesWithOrderData (dimensionsFromOrder: Dimension []) {
+    const inputs: HTMLDivElement[] = this.host.nativeElement.querySelectorAll('.dimensionInput');
+    inputs.forEach((input)=>
+    dimensionsFromOrder.forEach(dOrder=>{
+      if(input.id === dOrder.dimensionId){
+        input.innerHTML = dOrder.dimensionvalue;
+        if(input.innerHTML.length>0) {
+          input.classList.add('inputDimensionWithoutPlaceholder');
+        }
+        if (this.secondIndexDimensions.includes(input.id)) {
+          this.LValue = dOrder.dimensionvalue;
+          console.log(`setting Lvalue to = ${this.LValue}`);
+        }
+        if (this.firstIndexDimensions.includes(input.id)) {
+          this.DVaLe = dOrder.dimensionvalue;
+        }
 
+      }
+    })
+    )
+  }
   // tslint:disable-next-line:max-line-length
   createDimensionInputOnDrawingWithSetValueBasingOnDimensionInfoAndOrderData(dimensionInfo: DimensionTextFIeldInfo, dimension: Dimension, inputTag: string): void {
     const input = this.renderer.createElement(inputTag);
     const inputContainer = this.renderer.createElement('div');
-    input.innerHTML = dimension.dimensionvalue;
+   if(dimensionInfo.dimensionId=== dimension.dimensionId){
+     input.innerHTML = dimension.dimensionvalue;
+   }
+
     this.setInputPositionAndSeizeBazingOnDatabaseData(dimensionInfo, input, inputContainer);
     this.renderer.appendChild(inputContainer, input);
     if (this.secondIndexDimensions.includes(input.id)) {
@@ -1066,6 +1094,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     }
     return dimensionsTextFieldInfoTable;
   }
+
 
   setInputPositionAndSeizeBazingOnDatabaseData(dimensionInfo: DimensionTextFIeldInfo, input: HTMLDivElement, inputContainer: HTMLDivElement): void {
     // tslint:disable-next-line:max-line-length
