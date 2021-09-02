@@ -243,8 +243,13 @@ public setPartialOrderName(): string{
       this.buildIndex();
     }
 
+if(createOrderDto && createOrderDto.product.productType) {
+  this.orderName = this.productTypeName + ' '+  createOrderDto.orderName;
+}
+else {
+  this.setOrderName();
+}
 
-    this.setOrderName();
   }
 
   enableTableForm(): void {
