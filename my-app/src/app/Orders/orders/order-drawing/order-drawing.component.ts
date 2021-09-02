@@ -223,8 +223,10 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     } else if (this.orderOperationMode === OrderOperationMode.SHOWPRODUCT) {
       const foundProductResponse = await this.productBackendService.findRecordById(this.selectedProductId).toPromise();
       const foundproduct: Product = foundProductResponse.body;
+
       this.createProductDto = {
-        ...foundproduct
+        ...foundproduct,
+
       };
       this.bgImageVariable = this.rootUrl + this.createProductDto.urlOfOrginalDrawing;
       this.tableFormService.setInitDataFromDrawingTableFromCreateOrderDto(null, this.createProductDto);
@@ -282,10 +284,13 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
         const dimensionsInfo = this.createOrderDto.product.dimensionsTextFieldInfo;
         const dimensions: Dimension [] = this.createOrderDto.orderDetails.dimensions;
         dimensionsInfo.forEach((dimensionInfo) => {
+          //this.createDimensionInputOnDrawingBasingOnDimensionInfo(dimensionInfo, 'div')
           dimensions.forEach((dimension) => {
             if (dimensionInfo.dimensionId === dimension.dimensionId) {
               this.createDimensionInputOnDrawingWithSetValueBasingOnDimensionInfoAndOrderData(dimensionInfo, dimension, 'div');
+
             }
+
           });
         });
       }
@@ -821,7 +826,8 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     const createProductDto: CreateProductDto = {
       ...this.createProductDto,
       dimensionsTextFieldInfo: dimensionFieldInfoTable,
-      drawinAndTableInfo: this.getDrawingAndTabelInformationFromViev()
+      drawinAndTableInfo: this.getDrawingAndTabelInformationFromViev(),
+
     };
     if (this.orderOperationMode === OrderOperationMode.CREATENEWPRODUCT && this.validateCreateProductDtoBeforeSavingInDatab(createProductDto) === true) {
       this.productBackendService.addRecords(createProductDto).subscribe((product) => {
@@ -841,8 +847,9 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
       // tslint:disable-next-line:max-line-length
     } else if (this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT && this.validateCreateProductDtoBeforeSavingInDatab(createProductDto) === true) {
       this.productBackendService.deleteRecordById(this.selectedProductId).subscribe((deleteSuccessResponse) => {
-        this.productBackendService.addRecords(createProductDto).subscribe((product) => {
 
+        this.productBackendService.addRecords(createProductDto).subscribe((product) => {
+          const savedProduct= product.body;
           console.log('dodano nowy Product');
           this.statusService.operationSuccessStatusMessage = this.messageService.returnSuccessMessageToUserForSuccessBackendResponseForUpdate();
           this.router.navigateByUrl(url);

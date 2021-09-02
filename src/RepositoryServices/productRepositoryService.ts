@@ -128,6 +128,8 @@ class ProductService implements RepositoryService {
 
         const productTosave: Product = {
             ...createProductDto,
+            id: null,
+
         };
         const savedProduct: Product = await this.repository.save(productTosave);
         const recordToReturn = await this.findOneProductById(String(savedProduct.id)); // dont use just the value of save functions cause it does not see eager relations, always use getByIdAfterSave

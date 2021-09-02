@@ -63,7 +63,16 @@
           <span class="content-row-first">{{orderNames.productBottom + ': '}}</span>
           <span>{{this.bottom.value.code + ' - ' + getNameInSelectedLanguage(this.bottom.value.vocabulary.localizedNames)}}</span>
         </div>
+
+
     </div>
+      <div *ngIf="this.messageToUserIfProductOutOfDate"
+           class="alert alert-danger">
+
+        <div class="validatorInfo">
+          {{this.messageToUserIfProductOutOfDate}}
+        </div>
+      </div>
     <div *ngIf="!productConfirmed">
       <p>{{orderNames.pressButtonToChooseProductByDrawing}} </p>
       <button class="button button-second" type="button" (click)="chooseProductByMiniatureButtonAction();"> {{orderNames.chooseProductByDrawingButtonDescription}}</button>
@@ -132,6 +141,13 @@
           <span class="hidden">{{this.generalNamesInSelectedLanguage.addMaterialDescriptionToDrawingTabel}}</span>
         </label>
       </fieldset>
+      <div *ngIf="this.messageToUserIfMaterialOutOfDate"
+           class="alert alert-danger">
+
+        <div class="validatorInfo">
+          {{this.messageToUserIfMaterialOutOfDate}}
+        </div>
+      </div>
     </div>
     <div *ngIf="!this.materialConfirmed"
          class="alert alert-danger">

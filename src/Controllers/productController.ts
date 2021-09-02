@@ -68,7 +68,7 @@ class ProductController implements Controller{
 
 
     private addOneProduct = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        const productData=req.body;
+        const productData: CreateProductDto=req.body;
         console.log(productData);
 
         try {
@@ -140,13 +140,9 @@ class ProductController implements Controller{
         const createProductDto: CreateProductDto = request.body;
         try{
             const foundProduct:Product=await this.service.findOneProductByProductTypeProductTopTypeProductBottomTypeAndAppropriateCodes(createProductDto);
-            if(foundProduct){
 
-                response.send(foundProduct)
-            }
-            else {
-                next(new ProductNotFoundExceptionn(null));
-            }
+                response.send(foundProduct);
+
         }
         catch (error) {
             next(error);

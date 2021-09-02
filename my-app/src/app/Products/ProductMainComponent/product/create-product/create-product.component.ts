@@ -198,7 +198,6 @@ export class CreateProductComponent implements OnInit, AfterContentChecked, Afte
     } else if (this.operationMode === ProductModeEnum.UPDATE && this.changeDrawingClicked === true) {
       this.backendService.createProductDto = {
         dimensionsTextFieldInfo: this.productToUpdate.dimensionsTextFieldInfo, // to keep old dimensions in new drawing change to:  dimensionsTextFieldInfo: this.productToUpdate.dimensionsTextFieldInfo,
-
         productBottom: this.bottom.value,
         productTop: this.top.value,
         productType: productType,

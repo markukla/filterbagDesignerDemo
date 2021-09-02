@@ -101,6 +101,10 @@ export class CreateOrderComponent implements OnInit, AfterContentChecked, AfterV
   showUserInputErrorWindow: boolean;
   indexDubledMessages: string[]= [];
   orginallMaterialCoppy: Material[];
+  productIsOutOfDate: boolean = false;
+  materialIsOutOfDate: boolean = false;
+  messageToUserIfProductOutOfDate: string;
+  messageToUserIfMaterialOutOfDate: string;
 
   // @ViewChild('commentToOrder', {read: ElementRef}) commentToOrder: ElementRef;
   @ViewChild('businessPartner', {read: ElementRef}) htmlselectBusinessPartner: ElementRef<HTMLSelectElement>;
@@ -259,6 +263,7 @@ setFormControlValuesForUpdateOrShowDrawingMode(createOrderDto: CreateOrderDto): 
       if(createOrderDto.addMaterialDescription){
         this.addMaterialDescriptiontoDrawingTabel.setValue(createOrderDto.addMaterialDescription);
       }
+      this.checkIfProductOrMaterialIAreOutOfDateForUpdateMode();
     }
   }
 
@@ -585,6 +590,7 @@ ngAfterContentChecked(): void {
       this.selectMaterialsByInput();
     }
 
+
     // this.changeModeTOCreateNewIfPartnerProductOrMaterialChangedInUpdateOrCOnfirmMode();
   }
 
@@ -742,13 +748,14 @@ updateDrawing(): void {
 
 setAllowSubmit(): void {
     if (this.isPartner === true) {
-      if (this.productConfirmed === true && this.materialConfirmed === true) {
+
+      if (this.productConfirmed === true && this.materialConfirmed === true && this.productIsOutOfDate ===false && this.materialIsOutOfDate=== false) {
         this.allowSubmit = true;
       } else {
         this.allowSubmit = false;
       }
     } else {
-      if (this.productConfirmed === true && this.materialConfirmed === true && this.partnerConfirmed === true) {
+      if (this.productConfirmed === true && this.materialConfirmed === true && this.partnerConfirmed === true && this.productIsOutOfDate ===false && this.materialIsOutOfDate=== false) {
         this.allowSubmit = true;
       } else {
         this.allowSubmit = false;
@@ -1040,5 +1047,45 @@ handleIndexValidationBackendErrorMessage(error:any, oldIndex:string):void {
   }
   selectMaterialOnMousleave(materialSelect: HTMLSelectElement) {
     materialSelect.style.width= '100%';
+  }
+  checkIfProductOrMaterialIAreOutOfDateForUpdateMode() {
+    console.log(`this.selectedProduct= ${this.selectedProduct.id} `);
+
+
+    if(this.selectedProduct && this.selectedProduct.softDeleteDate !== null){
+      this.productIsOutOfDate= true;
+      const createProductDtoFromProduct: CreateProductDto = {
+        ... this.selectedProduct
+      }
+      this.productBackendService.getProductByTypeTopBottom(createProductDtoFromProduct).subscribe(product=>{
+        if(product.body && product.body.softDeleteDate === null) {
+          this.selectedProduct= product.body;
+
+          this.productIsOutOfDate= false;
+          this.messageToUserIfProductOutOfDate = 'Rysunek produktu został zaktualizowany, skorzystaj z opcji Zmień wymiary produktu aby kontynuować';
+        }
+        else {
+          this.messageToUserIfProductOutOfDate= 'Wybrany produkt  nie jest już dostęny zmień produkt aby kontynuować'
+        }
+      });
+    }
+
+    if (this.selectedMaterial && this.selectedMaterial.softDeleteDate !== null) {
+      this.materialIsOutOfDate = true;
+      const createMaterialDtoFromSelectedMaterial = {
+        ... this.selectedMaterial
+      }
+      this.materialBackendService.findMaterialBycode(createMaterialDtoFromSelectedMaterial).subscribe(material=>{
+        if(material && material.softDeleteDate===null) {
+          this.selectedMaterial= material;
+          this.createOrderDto = this.updateCreateOrderDto(this.createOrderDto);
+          this.messageToUserIfMaterialOutOfDate= 'Uwaga wybrany materiał został zaktualizowany ostatniej edycji zapytania';
+        this.materialIsOutOfDate = false;
+        }
+        else {
+          this.messageToUserIfMaterialOutOfDate= 'Uwaga wybrnay materiał jest obecnie niedostępny, zmień materiał, aby kontynuować';
+        }
+      });
+    }
   }
 }

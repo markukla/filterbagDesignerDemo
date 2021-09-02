@@ -6,4 +6,5 @@ export class Material{
   materialCode: string;
   materialName: string;
   vocabulary: Vocabulary;
+  softDeleteDate?:Date;
 }
