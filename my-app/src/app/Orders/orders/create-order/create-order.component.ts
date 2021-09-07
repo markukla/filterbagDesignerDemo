@@ -633,6 +633,8 @@ confirmOrchangeProductButtonAction(): void {
       this.bottom.disable({onlySelf: true});
       this.confirmOrCHangeProductParmatersButtonInfo = this.orderNames.ChangeProduct;
       this.productConfirmed = true;
+      this.productIsOutOfDate= false;
+      this.messageToUserIfProductOutOfDate= null;
     } else if (this.productConfirmed === true) {
       this.type.enable({onlySelf: true});
       this.top.enable({onlySelf: true});
@@ -684,6 +686,8 @@ confirmOrChangeMaterialButtonAction(): void {
         this.backendService.createOrderDtoForConfirmUpdateShowDrawing.productMaterial = this.selectedMaterial;
       }
       this.materialConfirmed = true;
+      this.materialIsOutOfDate = false;
+      this.messageToUserIfMaterialOutOfDate= null;
     } else if (this.materialConfirmed === true) {
       this.productMaterial.enable({onlySelf: true});
       this.confirmOrCHangeMaterialButtonInfo = this.orderNames.ConfirmMaterial;
@@ -749,13 +753,13 @@ updateDrawing(): void {
 setAllowSubmit(): void {
     if (this.isPartner === true) {
 
-      if (this.productConfirmed === true && this.materialConfirmed === true && this.productIsOutOfDate ===false && this.materialIsOutOfDate=== false) {
+      if (this.productConfirmed === true  && this.materialConfirmed === true && this.productIsOutOfDate ===false && this.materialIsOutOfDate=== false && this.backendService.confirmButtonClickedInChangeDrawingMode=== true) {
         this.allowSubmit = true;
       } else {
         this.allowSubmit = false;
       }
     } else {
-      if (this.productConfirmed === true && this.materialConfirmed === true && this.partnerConfirmed === true && this.productIsOutOfDate ===false && this.materialIsOutOfDate=== false) {
+      if (this.productConfirmed === true && this.materialConfirmed === true && this.partnerConfirmed === true && this.productIsOutOfDate ===false && this.materialIsOutOfDate=== false && this.backendService.confirmButtonClickedInChangeDrawingMode=== true) {
         this.allowSubmit = true;
       } else {
         this.allowSubmit = false;
@@ -1054,36 +1058,42 @@ handleIndexValidationBackendErrorMessage(error:any, oldIndex:string):void {
 
     if(this.selectedProduct && this.selectedProduct.softDeleteDate !== null){
       this.productIsOutOfDate= true;
+
       const createProductDtoFromProduct: CreateProductDto = {
         ... this.selectedProduct
       }
       this.productBackendService.getProductByTypeTopBottom(createProductDtoFromProduct).subscribe(product=>{
         if(product.body && product.body.softDeleteDate === null) {
           this.selectedProduct= product.body;
+          this.createOrderDto = this.updateCreateOrderDto(this.createOrderDto);
+          this.backendService.confirmButtonClickedInChangeDrawingMode= false;
+          sessionStorage.setItem('confirmButtonClickedJSON', JSON.stringify(this.backendService.confirmButtonClickedInChangeDrawingMode));
 
           this.productIsOutOfDate= false;
-          this.messageToUserIfProductOutOfDate = 'Rysunek produktu został zaktualizowany, skorzystaj z opcji Zmień wymiary produktu aby kontynuować';
+          this.messageToUserIfProductOutOfDate = this.generalNamesInSelectedLanguage.changeDrawingToContinue;
         }
         else {
-          this.messageToUserIfProductOutOfDate= 'Wybrany produkt  nie jest już dostęny zmień produkt aby kontynuować'
+          this.messageToUserIfProductOutOfDate= this.generalNamesInSelectedLanguage.productIsNoLongerAvaliable;
         }
       });
     }
 
     if (this.selectedMaterial && this.selectedMaterial.softDeleteDate !== null) {
       this.materialIsOutOfDate = true;
-      const createMaterialDtoFromSelectedMaterial = {
-        ... this.selectedMaterial
+      const materialData = {
+        code: this.selectedMaterial.materialCode
       }
-      this.materialBackendService.findMaterialBycode(createMaterialDtoFromSelectedMaterial).subscribe(material=>{
+      this.materialBackendService.findMaterialBycode(materialData).subscribe(material=>{
         if(material && material.softDeleteDate===null) {
           this.selectedMaterial= material;
           this.createOrderDto = this.updateCreateOrderDto(this.createOrderDto);
-          this.messageToUserIfMaterialOutOfDate= 'Uwaga wybrany materiał został zaktualizowany ostatniej edycji zapytania';
+          console.log('This material has been updated since last order version');
+          this.messageToUserIfMaterialOutOfDate=this.generalNamesInSelectedLanguage.materialUpdatedSinceLastOrderVersion;
+
         this.materialIsOutOfDate = false;
         }
         else {
-          this.messageToUserIfMaterialOutOfDate= 'Uwaga wybrnay materiał jest obecnie niedostępny, zmień materiał, aby kontynuować';
+          this.messageToUserIfMaterialOutOfDate=this.generalNamesInSelectedLanguage.materialIsNoLongerAvaliable;
         }
       });
     }

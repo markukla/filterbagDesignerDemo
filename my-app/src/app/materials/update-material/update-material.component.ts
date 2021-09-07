@@ -98,8 +98,9 @@ export class UpdateMaterialComponent implements OnInit {
       materialCode: this.materialCode.value,
       materialName: this.materialName.value
     };
-
-        this.materialBackendService.updateRecordById(this.selectedMaterialId, material).subscribe((material) => {
+    /*
+          Old verssion= classic updated
+          this.materialBackendService.updateRecordById(this.selectedMaterialId, material).subscribe((material) => {
             this.operationStatusMessage = this.backendMessageService.returnSuccessMessageToUserForSuccessBackendResponseForUpdate();
           navigateToUrlAfterTimout(this.authenticationService._previousUrl, this.router);
           }, error => {
@@ -107,6 +108,18 @@ export class UpdateMaterialComponent implements OnInit {
 
           }
         )
+*/
+this.materialBackendService.deleteRecordById(this.selectedMaterialId).subscribe(success=>{
+  this.materialBackendService.addRecords(material).subscribe((addedMaterial=>{
+    this.operationStatusMessage = this.backendMessageService.returnSuccessMessageToUserForSuccessBackendResponseForUpdate();
+    navigateToUrlAfterTimout(this.authenticationService._previousUrl, this.router);
+  }), error => {
+    this.operationStatusMessage = this.backendMessageService.returnErrorToUserBasingOnBackendErrorStringForUpdate(error);
+  })
+}, error => {
+  this.operationStatusMessage = this.backendMessageService.returnErrorToUserBasingOnBackendErrorStringForUpdate(error);
+  console.log('could not remove old material')
+});
 
 
 

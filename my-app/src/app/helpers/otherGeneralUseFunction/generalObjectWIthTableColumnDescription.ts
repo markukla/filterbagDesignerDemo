@@ -77,7 +77,11 @@ export const generalNamesInSelectedLanguage = {
   otherBusinessPartnerWithThisCodeAlreadyExist: 'Błędna nazwa firmy - zmień nazwę, ta nazwa jest już zajęta przez partnera z innym kodem=  ',
   otherBusinessPartnerWithThisCodeAndDiffrentNameAlreadyExist: 'Błędna nazwa firmy - zmień nazwę, dla podanego kodu jest już  przyporządkowana nazwa=  ',
   otherBusinessPartnerWithThisFullNameCodeAndCompanyNameAllreadyExist: "Inny partner handlowy z podanym imieniem i nazwisiem, nazwą firmy i kodem już istnieje w bazie danych",
-  filterByCodes: 'Filtruj produkty określająć jeden lub wiele z poniższych parametrów'
+  filterByCodes: 'Filtruj produkty określająć jeden lub wiele z poniższych parametrów',
+  changeDrawingToContinue: 'Rysunek produktu został zaktualizowany, skorzystaj z opcji Zmień wymiary produktu i przycisku zatwierdź aby kontynuować',
+  productIsNoLongerAvaliable: 'Wybrany produkt  nie jest już dostęny, zmień produkt aby kontynuować',
+  materialIsNoLongerAvaliable: 'Wybrany materiał nie jest już dostępny, zmień materiał aby kontynuować',
+  materialUpdatedSinceLastOrderVersion: 'Uwaga parmaetry wybranego maeriału zostały zaktualizowane od ostatniej wersji zapytania'
 /*  <a [routerLink]="['/orders']" routerLinkActive="active"> Zamówienia</a>
   <a [routerLink]="['/businessPartners']" routerLinkActive="active"> Partnerzy</a>
   <a [routerLink]="['/materials']" routerLinkActive="active"> Materialy</a>

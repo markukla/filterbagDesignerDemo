@@ -394,6 +394,8 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
         this.orderBackendService.createOrderDtoForConfirmUpdateShowDrawing = this.createOrderDtoToSaveInDatabase();
         this.router.navigateByUrl(`orders/addOrUpdateOrConfirmOrder?mode=${OrderOperationMode.CONFIRMNEW}`);
       } else if (this.orderOperationMode === OrderOperationMode.UPDATEDRAWING && this.selectedOrderId) {
+        this.orderBackendService.confirmButtonClickedInChangeDrawingMode= true;
+        sessionStorage.setItem('confirmButtonClickedJSON', JSON.stringify(this.orderBackendService.confirmButtonClickedInChangeDrawingMode));
         this.orderBackendService.createOrderDtoForConfirmUpdateShowDrawing = this.createOrderDtoToSaveInDatabase();
         // tslint:disable-next-line:max-line-length
         this.router.navigateByUrl(`orders/addOrUpdateOrConfirmOrder?orderId=${this.selectedOrderId}&mode=${OrderOperationMode.CONFIRMUPDATE}`);

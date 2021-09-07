@@ -37,6 +37,7 @@ export class OrderBackendService {
   selectedMaterial: Material;
   logedUser: User;
   createOrderDtoForConfirmUpdateShowDrawing: CreateOrderDto;
+  confirmButtonClickedInChangeDrawingMode: boolean = true;
   constructor(private http: HttpClient,
               private tableService: GeneralTableService,
               private authenticatoinService: AuthenticationService,
@@ -164,10 +165,16 @@ export class OrderBackendService {
 
   setCreateOrderDtoBasingOnSessionStorage():void{
     const createOrderDtoFromSessionStorage = JSON.parse(sessionStorage.getItem('createOrderDto'));
+
     if(createOrderDtoFromSessionStorage){
       this.createOrderDtoForConfirmUpdateShowDrawing = createOrderDtoFromSessionStorage;
     }
+    const confirmButtonFromSessionStorage= JSON.parse((sessionStorage.getItem('confirmButtonClicked')));
+    if(confirmButtonFromSessionStorage) {
+      this.confirmButtonClickedInChangeDrawingMode = confirmButtonFromSessionStorage;
+    }
   }
+
 
   findSapOrderById(id: string): Observable<HttpResponse<OrderToExport>>{
     const getUrl = `${this.rootURL + this.sapEndpointUrl}/${id}`;
