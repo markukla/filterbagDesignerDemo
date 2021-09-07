@@ -24,6 +24,7 @@ import {addWarning} from "@angular-devkit/build-angular/src/utils/webpack-diagno
 import OrderToExportEntity from "../../OrdersTypesAndClasses/OrderToExportEntity";
 import OrderToExport from "../../OrdersTypesAndClasses/OrderToExportEntity";
 import {OrderExportDto} from "../../OrdersTypesAndClasses/orderExportDto";
+import CreateProductDto from "../../../Products/ProductTypesAndClasses/product.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -122,6 +123,10 @@ export class OrderBackendService {
 
     };
     return createOrderDto;
+  }
+  findOrdersWithProductTypeProductTopProductBottom (createProductdto: CreateProductDto): Observable<Order> {
+    const getUrl = `${this.rootURL + this.endpointUrl}/ProductTypeTopBottom`;
+    return this.http.post<Order>(getUrl, createProductdto );
   }
    createOrderTableCellFromOrderEntity(order: Order): OrderforTableCell {
     let orderTableCell: OrderforTableCell;

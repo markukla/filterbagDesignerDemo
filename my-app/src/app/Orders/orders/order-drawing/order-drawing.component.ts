@@ -44,6 +44,7 @@ import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../../helpers/o
 import {OperationStatusServiceService} from "../../../OperationStatusComponent/operation-status/operation-status-service.service";
 import {BackendMessageService} from "../../../helpers/ErrorHandling/backend-message.service";
 import {TabelAndDrawinglnformation} from "../../../Products/ProductTypesAndClasses/tabeAndDrawinglnformation";
+import Order from "../../OrdersTypesAndClasses/orderEntity";
 
 @Component({
   selector: 'app-order-drawing',
@@ -111,6 +112,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   allNotDeletedFirstIndexDimensions: LocalizedDimensionCode[];
   allNotDeletedSecondIndexDimensions: LocalizedDimensionCode[];
   allNotDeletedNoIndexDimensions: LocalizedDimensionCode[];
+  orderWithThisProductCode: Order;
 
   constructor(
     private orderBackendService: OrderBackendService,
@@ -235,6 +237,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
       // tslint:disable-next-line:max-line-length
     } else if (this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT || this.orderOperationMode === OrderOperationMode.CREATENEWPRODUCT) {
       this.createProductDto = this.productBackendService.createProductDto;
+      this.orderWithThisProductCode=  await this.orderBackendService.findOrdersWithProductTypeProductTopProductBottom(this.createProductDto).toPromise()
       this.bgImageVariable = this.rootUrl + this.createProductDto.urlOfOrginalDrawing;
       this.tableFormService.setInitDataFromDrawingTableFromCreateOrderDto(null, this.createProductDto);
       this.tableFormService.disableTableForm();
@@ -849,7 +852,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     };
   }
 
-  saveProductInDatabas(): void {
+saveProductInDatabas(): void {
     const url = `/products`;
 
     const dimensionFieldInfoTable: DimensionTextFIeldInfo[] = this.getTextFieldsPositionsAndIdAndPushItToTable();
@@ -876,28 +879,33 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
       });
       // tslint:disable-next-line:max-line-length
     } else if (this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT && this.validateCreateProductDtoBeforeSavingInDatab(createProductDto) === true) {
-      this.productBackendService.deleteRecordById(this.selectedProductId).subscribe((deleteSuccessResponse) => {
+      if( this.validateCreateProductDtoForUpdateMode(createProductDto)=== true) {
 
-        this.productBackendService.addRecords(createProductDto).subscribe((product) => {
-          const savedProduct= product.body;
-          console.log('dodano nowy Product');
-          this.statusService.operationSuccessStatusMessage = this.messageService.returnSuccessMessageToUserForSuccessBackendResponseForUpdate();
-          this.router.navigateByUrl(url);
-        }, (error) => {
-          console.log(error);
+
+        this.productBackendService.deleteRecordById(this.selectedProductId).subscribe((deleteSuccessResponse) => {
+
+          this.productBackendService.addRecords(createProductDto).subscribe((product) => {
+            const savedProduct = product.body;
+            console.log('dodano nowy Product');
+            this.statusService.operationSuccessStatusMessage = this.messageService.returnSuccessMessageToUserForSuccessBackendResponseForUpdate();
+            this.router.navigateByUrl(url);
+          }, (error) => {
+            console.log(error);
+            this.statusService.operationFailerStatusMessage = this.messageService.returnErrorToUserBasingOnBackendErrorStringForUpdate(error);
+            this.router.navigateByUrl(url);
+          })
+        }, error => {
           this.statusService.operationFailerStatusMessage = this.messageService.returnErrorToUserBasingOnBackendErrorStringForUpdate(error);
           this.router.navigateByUrl(url);
-        })
-      }, error => {
-        this.statusService.operationFailerStatusMessage = this.messageService.returnErrorToUserBasingOnBackendErrorStringForUpdate(error);
-        this.router.navigateByUrl(url);
 
-      });
+        });
+      }
 
     }
   }
 
   validateCreateProductDtoBeforeSavingInDatab(createProductDto: CreateProductDto): boolean {
+    this.userInputErrorMessages=[];
     const inputs = createProductDto.dimensionsTextFieldInfo;
     let createProductDtoValid: boolean = true;
     if (inputs) {
@@ -949,7 +957,51 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
     return createProductDtoValid;
   }
 
+ validateCreateProductDtoForUpdateMode(createProductDto: CreateProductDto): boolean{
+    let productDtoValid= true;
+this.userInputErrorMessages= [];
+    if(this.orderWithThisProductCode) {
+      /*
+            this.createProductDto.dimensionsTextFieldInfo.forEach(dimensionInfo=>{
+        createProductDto.dimensionsTextFieldInfo.forEach(changedDimensionTextFiledInfo=>{
 
+        })
+      })
+
+      * */
+      const firstIndexDimensionInUpdatedProduct: DimensionTextFIeldInfo[] = this.createProductDto.dimensionsTextFieldInfo.filter(di=>this.firstIndexDimensions.includes(this.allDimensionCodes.filter(d=>String(d.id)===di.dimensionId)[0].dimensionCode));
+   const secondIndexDimensionsInUpdatedProduct: DimensionTextFIeldInfo[] = this.createProductDto.dimensionsTextFieldInfo.filter(di=>this.secondIndexDimensions.includes(this.allDimensionCodes.filter(d=>String(d.id)===di.dimensionId)[0].dimensionCode));
+   const firstIndexDimensionInCreateProductDto: DimensionTextFIeldInfo [] = createProductDto.dimensionsTextFieldInfo.filter(di=>this.firstIndexDimensions.includes(this.allDimensionCodes.filter(d=>String(d.id)===di.dimensionId)[0].dimensionCode));
+   const secondIndexDimensionsInCreateProductDto: DimensionTextFIeldInfo [] =createProductDto.dimensionsTextFieldInfo.filter(di=>this.secondIndexDimensions.includes(this.allDimensionCodes.filter(d=>String(d.id)===di.dimensionId)[0].dimensionCode));
+      // assumption that this tables length equlas 1
+      if(firstIndexDimensionInCreateProductDto[0].dimensionId !== firstIndexDimensionInUpdatedProduct[0].dimensionId ) {
+
+        const failMassage = 'Nie możesz zmodyfikować pierwszego wymiaru do indeksu, bo istnieją już zapytania z poprzednim'
+        this.userInputErrorMessages.push(failMassage);
+        const id= firstIndexDimensionInCreateProductDto[0].dimensionId;
+        const wrongFirstIndexDimenssionInput: HTMLElement= document.getElementById(id);
+        this.drawing.nativeElement.removeChild(wrongFirstIndexDimenssionInput.parentNode);
+        this.createDimensionInputOnDrawingBasingOnDimensionInfo(firstIndexDimensionInUpdatedProduct[0], 'div');
+
+      }
+      if(secondIndexDimensionsInCreateProductDto[0].dimensionId !== secondIndexDimensionsInUpdatedProduct[0].dimensionId ) {
+
+        const failMassage = 'Nie możesz zmodyfikować drugiego wymiaru do indeksu, bo istnieją już zapytania z poprzednim'
+        this.userInputErrorMessages.push(failMassage);
+        const id= secondIndexDimensionsInCreateProductDto[0].dimensionId;
+        const wrongSecondIndexDimenssionInput: HTMLElement= document.getElementById(id);
+        this.drawing.nativeElement.removeChild(wrongSecondIndexDimenssionInput.parentNode);
+        this.createDimensionInputOnDrawingBasingOnDimensionInfo(secondIndexDimensionsInUpdatedProduct[0], 'div');
+      }
+    }
+   if (this.userInputErrorMessages.length > 0) {
+     productDtoValid= false;
+     this.showUserInputErrorWindow = true;
+   }
+
+ return productDtoValid;
+
+}
   async getPreviouslyUsedCodes(): Promise<void> {
     try {
 

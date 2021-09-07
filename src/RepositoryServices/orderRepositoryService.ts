@@ -76,6 +76,45 @@ class OrderService implements RepositoryService {
         return foundOrder
 
     }
+    public async findOneOrderByProductTypeTopeBottom(createProductDto: CreateProductDto): Promise<Order> {
+        /*const foundOrder: Order = await this.repository.findOne(id, {relations:["product","productMaterial"]});
+        if (!foundOrder) {
+            throw new OrderNotFoundException(id);
+        }
+        return foundOrder;*/
+        const foundOrder= await getConnection().createQueryBuilder(Order,'order')
+            .leftJoinAndSelect('order.register','oregister')
+            // .leftJoinAndSelect('register.orders','ordersInRegister')
+            .leftJoinAndSelect('order.creator','creators')
+            .leftJoinAndSelect('order.orderDetails', 'details')
+            .leftJoinAndSelect('order.businessPartner', 'partner')
+            .leftJoinAndSelect('order.productMaterial', 'material')
+            .leftJoinAndSelect('material.vocabulary','vMaterial')
+            .leftJoinAndSelect('vMaterial.localizedNames','vMaterialnames')
+            .leftJoinAndSelect('vMaterialnames.language','vMateriallanguage')
+            .leftJoinAndSelect('order.product', 'product')
+            .leftJoinAndSelect('product.productType', 'productType')
+            .leftJoinAndSelect('productType.vocabulary','vType')
+            .leftJoinAndSelect('vType.localizedNames','vTypenames')
+            .leftJoinAndSelect('vTypenames.language','vTypelanguage')
+            .leftJoinAndSelect('product.productBottom', 'productBottom')
+            .leftJoinAndSelect('productBottom.vocabulary','vBottom')
+            .leftJoinAndSelect('vBottom.localizedNames','vBottomnames')
+            .leftJoinAndSelect('vBottomnames.language','vBottomlanguage')
+            .leftJoinAndSelect('product.productTop', 'productTop')
+            .leftJoinAndSelect('productTop.vocabulary','vTop')
+            .leftJoinAndSelect('vTop.localizedNames','vTopnames')
+            .leftJoinAndSelect('vTopnames.language','vToplanguage')
+            .where("productType.id= :productTypeValue", {productTypeValue: createProductDto.productType.id})
+            .andWhere("productBottom.id= :productBottomValue", {productBottomValue: createProductDto.productBottom.id})
+            .andWhere("productTop.id= :productTopValue", {productTopValue:createProductDto.productTop.id})
+            .andWhere("product.softDeleteDate is null")
+            .getOne()
+
+        return foundOrder
+
+    }
+
 
 
 

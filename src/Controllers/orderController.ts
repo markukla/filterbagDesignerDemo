@@ -51,7 +51,9 @@ class OrderController implements Controller {
         this.router.get(`${this.path}/:id`, authMiddleware, this.getOneOrderById);
         this.router.get(`${this.path}/orderVersionRegister/:id`, authMiddleware, this.findOrderVersionRegisterById);
         this.router.get(`${this.path}/orderNumber/newest`, authMiddleware, this.getOrderNumberForNewOrder);
-        this.router.post(`/api/drawing/save/pdf`, authMiddleware, this.usePuppetearToObtainDrawingPdf)
+        this.router.post(`/api/drawing/save/pdf`, authMiddleware, this.usePuppetearToObtainDrawingPdf);
+        this.router.post(`${this.path}/ProductTypeTopBottom`, authMiddleware, adminAuthorizationMiddleware, this.findOrderByProductTypeTopBottom)
+
 
 
 
@@ -207,6 +209,28 @@ class OrderController implements Controller {
         }
 
     }
+    private findOrderByProductTypeTopBottom = async (request: express.Request, response: express.Response, next: express.NextFunction) => {
+        try {
+            const productDto: CreateProductDto = request.body;
+
+
+            const foundOrder = await this.service.findOneOrderByProductTypeTopeBottom(productDto);
+
+           if(foundOrder) {
+               response.send(foundOrder);
+            }
+           else {
+               response.send(null);
+           }
+
+
+
+        } catch (error) {
+            next(error);
+        }
+
+    }
+
 
     private getOrderNumberForNewOrder = async (request: express.Request, response: express.Response, next: express.NextFunction) => {
         try {
