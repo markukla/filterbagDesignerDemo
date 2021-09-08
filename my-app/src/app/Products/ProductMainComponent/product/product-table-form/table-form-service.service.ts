@@ -242,13 +242,15 @@ public setPartialOrderName(): string{
 
       this.buildIndex();
     }
-
-if(createOrderDto && createOrderDto.product.productType) {
+/*
+not needed cause material is soft deleted and new create for update
+if(createOrderDto && createOrderDto.product.productType && createOrderDto.orderName !==null) {
   this.orderName = this.productTypeName + ' '+  createOrderDto.orderName;
 }
 else {
   this.setOrderName();
-}
+}*/
+    this.setOrderName();
 
   }
 
