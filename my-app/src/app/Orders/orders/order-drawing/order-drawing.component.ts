@@ -927,8 +927,10 @@ saveProductInDatabas(): void {
         if(this.secondIndexDimensions.includes(valueOfInputId)){
           collectionOfSecondtIndexDiMensionsInCreateProductDto.push(valueOfInputId);
         }
+        const notEditableDimensionInput= this.allNotEditableDimensionsCodes.map(d=>String(d.id)).includes(inputId);
+        // if index is notEditable it can be duplicated !!!!
+        if (index !== self.indexOf(inputId) && notEditableDimensionInput=== false) {
 
-        if (index !== self.indexOf(inputId)) {
           // tslint:disable-next-line:max-line-length
           /* if index of current element in array is not equal index od its first occurence in array (indexOf returns first occurence) so it is duplicated*/
           const failMassage = this.orderNames.allDimensionsMustBeUnique + ' ' + valueOfInputId;
