@@ -1193,8 +1193,11 @@ this.userInputErrorMessages= [];
         input.style.minHeight = Number(dimensionInfo.dimensionTexFieldHeight) + 'vw';
       }
 
-
-      if (this.orderOperationMode === OrderOperationMode.SHOWDRAWING || this.orderOperationMode === OrderOperationMode.SHOWDRAWINGCONFIRM ||this.orderOperationMode === OrderOperationMode.SHOWPRODUCT) {
+      const notEditableDimensionInput= this.allNotEditableDimensionsCodes.map(d=>String(d.id)).includes(input.id);
+     if(notEditableDimensionInput){
+       input.innerHTML= inputIdValue;
+     }
+      if (this.orderOperationMode === OrderOperationMode.SHOWDRAWING || this.orderOperationMode === OrderOperationMode.SHOWDRAWINGCONFIRM ||this.orderOperationMode === OrderOperationMode.SHOWPRODUCT || notEditableDimensionInput) {
         input.style.border = 'none';
         input.contentEditable ='false';
       }
