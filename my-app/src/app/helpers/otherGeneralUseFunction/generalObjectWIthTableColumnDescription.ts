@@ -78,10 +78,15 @@ export const generalNamesInSelectedLanguage = {
   otherBusinessPartnerWithThisCodeAndDiffrentNameAlreadyExist: 'Błędna nazwa firmy - zmień nazwę, dla podanego kodu jest już  przyporządkowana nazwa=  ',
   otherBusinessPartnerWithThisFullNameCodeAndCompanyNameAllreadyExist: "Inny partner handlowy z podanym imieniem i nazwisiem, nazwą firmy i kodem już istnieje w bazie danych",
   filterByCodes: 'Filtruj produkty określająć jeden lub wiele z poniższych parametrów',
+
   changeDrawingToContinue: 'Rysunek produktu został zaktualizowany, skorzystaj z opcji Zmień wymiary produktu i przycisku zatwierdź aby kontynuować',
   productIsNoLongerAvaliable: 'Wybrany produkt  nie jest już dostęny, zmień produkt aby kontynuować',
   materialIsNoLongerAvaliable: 'Wybrany materiał nie jest już dostępny, zmień materiał aby kontynuować',
-  materialUpdatedSinceLastOrderVersion: 'Uwaga parmaetry wybranego maeriału zostały zaktualizowane od ostatniej wersji zapytania'
+  materialUpdatedSinceLastOrderVersion: 'Uwaga parmaetry wybranego maeriału zostały zaktualizowane od ostatniej wersji zapytania',
+  dimensionWillBeRemoved: 'Utworzony wymiar zostanie usunięty i odtworzony oryginalny wymiar do indeksu',
+  canNotChangeFirstIndexDimension: 'Nie możesz zmienić pierwszego wymiaru do indeksu, bo istnieją już zapytania z aktualnym.',
+  canNotChangeSecondIndexDimension: 'Nie możesz zmienić drugiego wymiaru do indeksu, bo istnieją już zapytania z aktualnym. ',
+  notEditableDimension: "Wymiar nieedytowalny"
 /*  <a [routerLink]="['/orders']" routerLinkActive="active"> Zamówienia</a>
   <a [routerLink]="['/businessPartners']" routerLinkActive="active"> Partnerzy</a>
   <a [routerLink]="['/materials']" routerLinkActive="active"> Materialy</a>

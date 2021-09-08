@@ -25,6 +25,9 @@
         <option [ngValue]="this.allDimensionRolesToSelect[2]">
           {{dimensionCodeNames.dimensionRoleNoIndex}}
         </option>
+        <option [ngValue]="this.allDimensionRolesToSelect[3]">
+          {{this.generalNamesInSelectedLanguage.notEditableDimension}}
+        </option>
       </select>
       <div *ngIf="role.invalid && (role.dirty || role.touched)" class="alert alert-danger">
         <div class="validatorInfo" *ngIf="role.errors.required">

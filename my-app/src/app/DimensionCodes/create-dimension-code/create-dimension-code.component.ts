@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChildren} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import ProductBottom from '../../Products/ProductTypesAndClasses/productBottom.entity';
 import ProductTop from '../../Products/ProductTypesAndClasses/productTop.entity';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
@@ -13,10 +13,8 @@ import OperationModeEnum from '../../util/OperationModeEnum';
 import {LanguageBackendService} from '../../Languages/languageServices/language-backend.service';
 import Language from '../../Languages/LanguageTypesAndClasses/languageEntity';
 import {LanguageFormService} from '../../LanguageForm/language-form.service';
-import BackendErrorResponse from '../../helpers/ErrorHandling/backendErrorResponse';
 import {BackendMessageService} from '../../helpers/ErrorHandling/backend-message.service';
 import {AuthenticationService} from '../../LoginandLogOut/AuthenticationServices/authentication.service';
-import {setTabelColumnAndOtherNamesForSelectedLanguage} from "../../helpers/otherGeneralUseFunction/getNameInGivenLanguage";
 import {
   dimensionNames,
   generalNamesInSelectedLanguage
@@ -36,7 +34,7 @@ export class CreateDimensionCodeComponent implements OnInit {
   allTopsToSelect: ProductTop[];
   form: FormGroup;
   // tslint:disable-next-line:max-line-length
-  allDimensionRolesToSelect: DimensionRoleEnum[] = [DimensionRoleEnum.FIRSTINDEXDIMENSION, DimensionRoleEnum.SECONDINDEXDIMENSION, DimensionRoleEnum.NOINDEXDIMENSION];
+  allDimensionRolesToSelect: DimensionRoleEnum[] = [DimensionRoleEnum.FIRSTINDEXDIMENSION, DimensionRoleEnum.SECONDINDEXDIMENSION, DimensionRoleEnum.NOINDEXDIMENSION, DimensionRoleEnum.NOTEDITABLEDIMENSION];
   firstIndexDimensionRole: string;
   secondIndexDimensionRole: string;
   noIndexDimensionRole: string;

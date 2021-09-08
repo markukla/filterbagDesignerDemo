@@ -12,7 +12,10 @@ import {
 import {DimensionCodeForTableCell} from "../DimensionCodesTypesAnClasses/dimensionCodeForTableCell";
 import DimensionCode from "../DimensionCodesTypesAnClasses/diemensionCode.entity";
 import {AuthenticationService} from "../../LoginandLogOut/AuthenticationServices/authentication.service";
-import {dimensionNames} from "../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
+import {
+  dimensionNames,
+  generalNamesInSelectedLanguage
+} from "../../helpers/otherGeneralUseFunction/generalObjectWIthTableColumnDescription";
 import DimensionRoleEnum from "../DimensionCodesTypesAnClasses/dimensionRoleEnum";
 import {GeneralTableService} from "../../util/GeneralTableService/general-table.service";
 
@@ -23,10 +26,13 @@ export class DimensionCodeBackendService {
   rootURL = API_URL;
   endpointUrl = '/api/dimensionCodes';
   dimensionNames = dimensionNames;
+  generalNames= generalNamesInSelectedLanguage;
 
   constructor(private http: HttpClient,
               private tableService: GeneralTableService,
               private authenticationService: AuthenticationService) {
+    this.dimensionNames = this.authenticationService.dimensionNamesInSelectedLanguage;
+    this.generalNames = this.authenticationService.generalNamesInSelectedLanguage;
   }
 
   getRecords(): Observable<HttpResponse<DimensionCode[]>> {
@@ -110,6 +116,10 @@ export class DimensionCodeBackendService {
     else if(diemensionCode.dimensionRole === DimensionRoleEnum.SECONDINDEXDIMENSION) {
       dimensionRole = dimensionNames.dimensionRoleSecondIndex;
     }
+    else if(diemensionCode.dimensionRole === DimensionRoleEnum.NOTEDITABLEDIMENSION) {
+      dimensionRole = this.generalNames.notEditableDimension;
+    }
+
     else {
       dimensionRole = dimensionNames.dimensionRoleNoIndex;
     }

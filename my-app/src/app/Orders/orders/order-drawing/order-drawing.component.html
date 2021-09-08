@@ -50,6 +50,14 @@
         >
         <label for="dimensionRoleNoIndexDimension">{{this.dimensionRoleNoIndexDimensionDescription}}</label>
       </div>
+      <div class="form-group">
+
+
+        <input type="radio" formControlName="dimensionRole" name="dimensionRole" id="notEditableDimension"
+               [value]="notEditableDimension"
+        >
+        <label for="dimensionRoleNoIndexDimension">{{this.generalNamesInSelectedLanguage.notEditableDimension}}</label>
+      </div>
     </form>
     <form [formGroup]="createDimensionsForm" (ngSubmit)="onSubmitForInputCreating()">
       <fieldset *ngIf="dimensionRole.value === dimensionRoleFirstIndex" class="fieldset">
@@ -78,6 +86,15 @@
         <select class="select-input" formControlName="dimensionCodeControll" id="noIndex" #dimensionIdSelect>
           <option [ngValue]="null" disabled>{{this.generalNamesInSelectedLanguage.select + ' '+ this.dimensionNames.dimensionCode}}</option>
           <option *ngFor="let code of allNotDeletedNoIndexDimensions" [ngValue]="code.id">
+            {{ code.dimensionCode + '-' + code.localizedDimensionName.nameInThisLanguage}}
+          </option>
+        </select>
+      </fieldset>
+      <fieldset *ngIf="dimensionRole.value === notEditableDimension" class="fieldset">
+        <label class="label label-second" for="notEditabel">{{this.generalNamesInSelectedLanguage.select + ' '+ this.dimensionNames.dimensionRoleNoIndex}}</label>
+        <select class="select-input" formControlName="dimensionCodeControll" id="notEditabel" #dimensionIdSelect>
+          <option [ngValue]="null" disabled>{{this.generalNamesInSelectedLanguage.select + ' '+ this.dimensionNames.dimensionCode}}</option>
+          <option *ngFor="let code of allNotDeletedNotEditableDimensions" [ngValue]="code.id">
             {{ code.dimensionCode + '-' + code.localizedDimensionName.nameInThisLanguage}}
           </option>
         </select>

@@ -238,7 +238,7 @@ export class CreateOrderComponent implements OnInit, AfterContentChecked, AfterV
 
 setFormControlValuesForUpdateOrShowDrawingMode(createOrderDto: CreateOrderDto): void {
     if (createOrderDto) {
-      console.error('in setFormControlValuesForUpdateOrShowDrawingMode');
+
       if (createOrderDto.businessPartner) {
         this.businessPartner.setValue(createOrderDto.businessPartner);
         this.selectedPartner = createOrderDto.businessPartner;
@@ -263,6 +263,7 @@ setFormControlValuesForUpdateOrShowDrawingMode(createOrderDto: CreateOrderDto): 
       if(createOrderDto.addMaterialDescription){
         this.addMaterialDescriptiontoDrawingTabel.setValue(createOrderDto.addMaterialDescription);
       }
+      if(this.orderOperationMode === OrderOperationMode.UPDATE || this.orderOperationMode === OrderOperationMode.CONFIRMUPDATE)
       this.checkIfProductOrMaterialIAreOutOfDateForUpdateMode();
     }
   }

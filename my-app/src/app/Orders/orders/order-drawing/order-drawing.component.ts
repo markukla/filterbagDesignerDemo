@@ -91,6 +91,7 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   dimensionRoleSecondIndex: DimensionRoleEnum = DimensionRoleEnum.SECONDINDEXDIMENSION;
   dimensionRoleNoIndexDimensionDescription: string;
   dimensionRoleNoIndex: DimensionRoleEnum = DimensionRoleEnum.NOINDEXDIMENSION;
+  notEditableDimension: DimensionRoleEnum= DimensionRoleEnum.NOTEDITABLEDIMENSION;
   dragable = true;
   createDimensionClicked = false;
   userInputErrorMessages: string[] = [];
@@ -112,7 +113,12 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
   allNotDeletedFirstIndexDimensions: LocalizedDimensionCode[];
   allNotDeletedSecondIndexDimensions: LocalizedDimensionCode[];
   allNotDeletedNoIndexDimensions: LocalizedDimensionCode[];
+  allNotEditableDimensionsCodes: LocalizedDimensionCode[];
+  allNotDeletedNotEditableDimensions: LocalizedDimensionCode[];
+
   orderWithThisProductCode: Order;
+  allDimensions: DimensionCode[];
+
 
   constructor(
     private orderBackendService: OrderBackendService,
@@ -976,7 +982,7 @@ this.userInputErrorMessages= [];
       // assumption that this tables length equlas 1
       if(firstIndexDimensionInCreateProductDto[0].dimensionId !== firstIndexDimensionInUpdatedProduct[0].dimensionId ) {
 
-        const failMassage = 'Nie możesz zmodyfikować pierwszego wymiaru do indeksu, bo istnieją już zapytania z poprzednim'
+        const failMassage = this.generalNamesInSelectedLanguage.canNotChangeFirstIndexDimension + ' ' + this.generalNamesInSelectedLanguage.dimensionWillBeRemoved;
         this.userInputErrorMessages.push(failMassage);
         const id= firstIndexDimensionInCreateProductDto[0].dimensionId;
         const wrongFirstIndexDimenssionInput: HTMLElement= document.getElementById(id);
@@ -986,7 +992,7 @@ this.userInputErrorMessages= [];
       }
       if(secondIndexDimensionsInCreateProductDto[0].dimensionId !== secondIndexDimensionsInUpdatedProduct[0].dimensionId ) {
 
-        const failMassage = 'Nie możesz zmodyfikować drugiego wymiaru do indeksu, bo istnieją już zapytania z poprzednim'
+        const failMassage = this.generalNamesInSelectedLanguage.canNotChangeSecondIndexDimension + ' ' + this.generalNamesInSelectedLanguage.dimensionWillBeRemoved;
         this.userInputErrorMessages.push(failMassage);
         const id= secondIndexDimensionsInCreateProductDto[0].dimensionId;
         const wrongSecondIndexDimenssionInput: HTMLElement= document.getElementById(id);
@@ -1006,6 +1012,7 @@ this.userInputErrorMessages= [];
     try {
 
       const allDimensions = await this.dimensionBackendService.getRecords().toPromise();
+      this.allDimensions= allDimensions.body;
       this.allDimensionCodes = this.getLocalizedNameFromAllLanguage(allDimensions.body);
       this.tableFormService.allIndexDimenssions = this.allDimensionCodes;
 
@@ -1045,6 +1052,15 @@ this.userInputErrorMessages= [];
 
     } catch (error: any) {
       console.log('could not get noIndexDimensions');
+    }
+    try {
+      const allnotEditableDimensions= this.allDimensions.filter(dimension=> dimension.dimensionRole=== DimensionRoleEnum.NOTEDITABLEDIMENSION);
+    this.allNotEditableDimensionsCodes= this.getLocalizedNameFromAllLanguage(allnotEditableDimensions);
+    const allNotDeletedNotEditableDimensions = allnotEditableDimensions.filter(d=> d.softDeleteDate === null);
+    this.allNotDeletedNotEditableDimensions= this.getLocalizedNameFromAllLanguage(allNotDeletedNotEditableDimensions);
+    }
+    catch (eror){
+      console.log('could not get notEditableDimensions')
     }
   }
 
@@ -1177,6 +1193,7 @@ this.userInputErrorMessages= [];
         input.style.minHeight = Number(dimensionInfo.dimensionTexFieldHeight) + 'vw';
       }
 
+
       if (this.orderOperationMode === OrderOperationMode.SHOWDRAWING || this.orderOperationMode === OrderOperationMode.SHOWDRAWINGCONFIRM ||this.orderOperationMode === OrderOperationMode.SHOWPRODUCT) {
         input.style.border = 'none';
         input.contentEditable ='false';
@@ -1191,13 +1208,15 @@ this.userInputErrorMessages= [];
 
 
       }
-      if(this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT || this.orderOperationMode === OrderOperationMode.SHOWPRODUCT) {
+      let diemsionIsNotEditable: boolean=  this.allNotEditableDimensionsCodes.map(d=>String(d.id)).includes(input.id);
+      if(this.orderOperationMode === OrderOperationMode.UPDATEPRODUCT || this.orderOperationMode === OrderOperationMode.SHOWPRODUCT || diemsionIsNotEditable){
       this.renderer.setProperty(input, 'innerHTML', inputIdValue);
       input.contentEditable='false';
-      if(this.orderOperationMode === OrderOperationMode.SHOWPRODUCT){
+      if(this.orderOperationMode === OrderOperationMode.SHOWPRODUCT || diemsionIsNotEditable){
         input.style.border = 'none';
       }
       }
+
 
     } else {
       console.error('can not set input position because no dimension info value');
