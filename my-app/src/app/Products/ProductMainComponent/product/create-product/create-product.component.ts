@@ -196,6 +196,9 @@ export class CreateProductComponent implements OnInit, AfterContentChecked, Afte
       };
       this.router.navigateByUrl(`orders/drawing?mode=${OrderOperationMode.CREATENEWPRODUCT}`);
     } else if (this.operationMode === ProductModeEnum.UPDATE && this.changeDrawingClicked === true) {
+      this.type.enable();
+      this.top.enable();
+      this.bottom.enable();
       this.backendService.createProductDto = {
         dimensionsTextFieldInfo: this.productToUpdate.dimensionsTextFieldInfo, // to keep old dimensions in new drawing change to:  dimensionsTextFieldInfo: this.productToUpdate.dimensionsTextFieldInfo,
         productBottom: this.bottom.value,
@@ -207,6 +210,9 @@ export class CreateProductComponent implements OnInit, AfterContentChecked, Afte
       sessionStorage.setItem('createProductDto', JSON.stringify(this.backendService.createProductDto));
       this.router.navigateByUrl(`orders/drawing?productId=${this.selectedProductToUpdateId}&mode=${OrderOperationMode.UPDATEPRODUCT}`);
     } else if (this.operationMode === ProductModeEnum.UPDATE) {
+      this.type.enable();
+      this.top.enable();
+      this.bottom.enable();
       this.backendService.createProductDto = {
         ...this.productToUpdate,
         dimensionsTextFieldInfo: this.productToUpdate.dimensionsTextFieldInfo,
@@ -280,6 +286,7 @@ export class CreateProductComponent implements OnInit, AfterContentChecked, Afte
     HtmlTypeOptionElement.forEach((option) => {
       if (option.id === productTypeId) {
         this.selectTypeElement.nativeElement.value = option.value;
+        this.type.disable();
       }
     });
     const HtmlTopOptionElement: HTMLOptionElement[] = this.element.nativeElement.querySelectorAll('.selectTopValues');
@@ -287,6 +294,7 @@ export class CreateProductComponent implements OnInit, AfterContentChecked, Afte
     HtmlTopOptionElement.forEach((option) => {
       if (option.id === productTopId) {
         this.selectTopElement.nativeElement.value = option.value;
+        this.top.disable();
       }
     });
     const HtmlBottomOptionElement: HTMLOptionElement[] = this.element.nativeElement.querySelectorAll('.selectBottomValues');
@@ -294,6 +302,7 @@ export class CreateProductComponent implements OnInit, AfterContentChecked, Afte
     HtmlBottomOptionElement.forEach((option) => {
       if (option.id === productBottomId) {
         this.selectBottomElement.nativeElement.value = option.value;
+        this.bottom.disable();
       }
     });
   }
@@ -333,13 +342,9 @@ export class CreateProductComponent implements OnInit, AfterContentChecked, Afte
         return false;
       }
     } else if (this.operationMode === ProductModeEnum.UPDATE && this.changeDrawingClicked === false) {
-      if (this.form.valid) {
-        return true;
-      } else {
-        return false;
-      }
+     return true;
     } else if (this.operationMode === ProductModeEnum.UPDATE && this.changeDrawingClicked === true) {
-      if (this.form.valid && this.uploadSuccessStatus === true) {
+      if (this.uploadSuccessStatus === true) {
         return true;
       } else {
         return false;

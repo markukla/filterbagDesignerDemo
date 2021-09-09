@@ -1272,8 +1272,8 @@ textField.onmousedown = (event)=>{
           textField.parentNode.classList.remove('dimensionInputContainerTop', 'dimensionInputContainerRight', 'dimensionInputContainerBottom', 'dimensionInputContainerLeft');
           textField.parentNode.classList.add('dimensionInputContainerRight');
 
-          textField.style.width = this.makeWidthValueToBecomeHeightValueOrOposite(orginalHeight);
-          textField.style.height = this.makeWidthValueToBecomeHeightValueOrOposite(orginalWidth);
+          textField.style.minwidth = this.makeWidthValueToBecomeHeightValueOrOposite(orginalHeight);
+          textField.style.minheight = this.makeWidthValueToBecomeHeightValueOrOposite(orginalWidth);
           this.position = 'right';
         } else if (this.position === 'right') {
           textField.parentNode.classList.remove('dimensionInputContainerTop', 'dimensionInputContainerRight', 'dimensionInputContainerBottom', 'dimensionInputContainerLeft');
@@ -1282,8 +1282,8 @@ textField.onmousedown = (event)=>{
         } else {
           textField.parentNode.classList.remove('dimensionInputContainerTop', 'dimensionInputContainerRight', 'dimensionInputContainerBottom', 'dimensionInputContainerLeft');
           textField.parentNode.classList.add('dimensionInputContainerBottom');
-          textField.style.width = this.makeWidthValueToBecomeHeightValueOrOposite(orginalHeight);
-          textField.style.height = this.makeWidthValueToBecomeHeightValueOrOposite(orginalWidth);
+          textField.style.minwidth = this.makeWidthValueToBecomeHeightValueOrOposite(orginalHeight);
+          textField.style.minheight = this.makeWidthValueToBecomeHeightValueOrOposite(orginalWidth);
           this.position = 'bottom';
         }
 
