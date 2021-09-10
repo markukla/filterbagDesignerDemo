@@ -1188,12 +1188,16 @@ this.userInputErrorMessages= [];
         const transformAsNumber = Number(dimensionInfo.transform);
 
       }
-      if (dimensionInfo.dimensionTexFieldWidth && dimensionInfo.dimensionTexFieldWidth !== '' && Number(dimensionInfo.dimensionTexFieldWidth) !== 0) {
+      /*
+      No needed now if dimension are not resizible ?
+       if (dimensionInfo.dimensionTexFieldWidth && dimensionInfo.dimensionTexFieldWidth !== '' && Number(dimensionInfo.dimensionTexFieldWidth) !== 0) {
         input.style.minWidth = Number(dimensionInfo.dimensionTexFieldWidth) + 'vw';
       }
       if (dimensionInfo.dimensionTexFieldHeight && dimensionInfo.dimensionTexFieldHeight !== '' && Number(dimensionInfo.dimensionTexFieldHeight) !== 0) {
         input.style.minHeight = Number(dimensionInfo.dimensionTexFieldHeight) + 'vw';
       }
+      * */
+
 
       const notEditableDimensionInput= this.allNotEditableDimensionsCodes.map(d=>String(d.id)).includes(input.id);
      if(notEditableDimensionInput){
