@@ -157,6 +157,7 @@ export class OrderBackendService {
           orderVersionRegisterId: null,
           businessPartnerCompanyName: order.businessPartner.businesPartnerCompanyName,
           commentToOrderString: order.commentToOrder,
+          creatorName: order.creator.fulName
         };
       }
       return orderTableCell;

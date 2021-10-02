@@ -29,7 +29,7 @@ const config = {
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DB,
     entities: [Role, User, BlackListedToken, DimensionCode, Language, Material, Order, OrderDetails, OrderVersionRegister, Product, ProductBottom, ProductTop, ProductType, Vocabulary, LocalizedName, OrderToExport, BusinessPartnerFromSap],
-    synchronize: false,
+    synchronize: true,
     migrations: [
         "src/migration/**/*.ts"
     ],

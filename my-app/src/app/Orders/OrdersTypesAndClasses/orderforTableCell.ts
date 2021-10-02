@@ -19,6 +19,7 @@ class OrderforTableCell {
   businessPartnerEmail: string;
   orderVersionRegisterId: number;
   commentToOrderString: string;
+  creatorName: string;
 }
 
 

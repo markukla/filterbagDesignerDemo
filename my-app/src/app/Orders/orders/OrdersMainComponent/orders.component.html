@@ -12,18 +12,18 @@
     <tr class="table-top">
       <th [appSort]="records" data-order="asc" data-name="orderTotalNumber" scope="col"><span>{{orderNames.orderNumber}}</span></th>
       <th [appSort]="records" data-order="desc" data-name="businessPartnerCompanyName" scope="col"><span>{{orderNames.businessPartner}}</span></th>
-      <th [appSort]="records" data-order="desc" data-name="businessPartnerFulname"><span>{{orderNames.creator}}</span></th>
-      <th [appSort]="records" data-order="desc" data-name="businessPartnerEmail"><span>{{generalUserNames.email}}</span></th>
+      <th [appSort]="records" data-order="desc" data-name="creatorName"><span>{{orderNames.creator}}</span></th>
+     <!-- <th [appSort]="records" data-order="desc" data-name="businessPartnerEmail"><span>{{generalUserNames.email}}</span></th> -->
       <th [appSort]="records" data-order="desc" data-name="index"><span>{{orderNames.index}}</span></th>
       <th [appSort]="records" data-order="desc" data-name="orderName"><span>{{generalNamesInSelectedLanguage.name}}</span></th>
       <th [appSort]="records" data-order="asc" data-name="date" data-typ="date"><span>{{orderNames.date}}</span></th>
-      <th>Ilość</th>
+      <th>{{this.generalNamesInSelectedLanguage.quantity}}</th>
     </tr>
     <tr class="table-search">
       <th><input class="tableSearchInput input" [appSearch]="records" serchedColumn="orderTotalNumber" id="serchInNumbers" [placeholder]="generalNamesInSelectedLanguage.search" /></th>
       <th><input class="tableSearchInput input"  [appSearch]="records" serchedColumn="businessPartnerCompanyName" id="serchInPartners" [placeholder]="generalNamesInSelectedLanguage.search" /></th>
-      <th><input class="tableSearchInput input"  [appSearch]="records" serchedColumn="businessPartnerFulname" id="serchInPartnerNames" [placeholder]="generalNamesInSelectedLanguage.search" /></th>
-      <th><input class="tableSearchInput input"  [appSearch]="records" serchedColumn="businessPartnerEmail" id="serchInEmails" [placeholder]="generalNamesInSelectedLanguage.search" /></th>
+      <th><input class="tableSearchInput input" [appSearch]="records" serchedColumn="creatorName" id="serchInCreaatorNames" [placeholder]="generalNamesInSelectedLanguage.search" /></th>
+      <!-- <th><input class="tableSearchInput input"  [appSearch]="records" serchedColumn="businessPartnerEmail" id="serchInEmails" [placeholder]="generalNamesInSelectedLanguage.search" /></th> -->
       <th><input class="tableSearchInput input" [appSearch]="records" serchedColumn="index" id="serchInIndex" [placeholder]="generalNamesInSelectedLanguage.search" /></th>
       <th><input class="tableSearchInput input"  [appSearch]="records" serchedColumn="orderName" id="serchInOrderNames" [placeholder]="generalNamesInSelectedLanguage.search" /></th>
       <th><input class="tableSearchInput input"  [appSearch]="records" serchedColumn="dateString" id="serchInDates" [placeholder]="generalNamesInSelectedLanguage.search" /></th>
@@ -38,8 +38,8 @@ for version with pagination
     <tr *ngFor="let record of records">
       <td>{{record.orderTotalNumber}}</td>
       <td>{{record.businessPartnerCompanyName}}</td>
-      <td>{{record.businessPartnerFulname}}</td>
-      <td>{{record.businessPartnerEmail}}</td>
+      <td>{{record.creatorName}}</td>
+     <!-- <td>{{record.businessPartnerEmail}}</td>-->
       <td>{{record.index}}</td>
       <td>{{record.orderName}}</td>
       <td>{{record.dateString}}</td>
