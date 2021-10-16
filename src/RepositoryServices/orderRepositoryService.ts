@@ -64,11 +64,6 @@ class OrderService implements RepositoryService {
             .leftJoinAndSelect('vTop.localizedNames','vTopnames')
             .leftJoinAndSelect('vTopnames.language','vToplanguage')
             .where("order.id = :id", {id:Number(id)})
-
-
-
-
-
             .getOne();
         if (!foundOrder) {
             throw new OrderNotFoundException(id);

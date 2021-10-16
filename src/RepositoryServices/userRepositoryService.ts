@@ -1,5 +1,5 @@
 
-import {DeleteResult, EntityManager, getManager, getRepository} from "typeorm";
+import {DeleteResult, EntityManager, getConnection, getManager, getRepository} from "typeorm";
 import RepositoryService from "../interfaces/service.interface";
 import User from "../Models/Users/user.entity";
 import CreatePrivilegedUserDto from "../Models/Users/PrivilegedUsers/user.dto";
@@ -29,6 +29,7 @@ import BusinessPartnerWithThisNameAndDiffrentCodeAlreadyExist from "../Exception
 import PartnerWithThisFullNameCodeAndCompanyNameAlreadyExistException from "../Exceptions/PartnerWithThisFullNameCodeAndCompanyNameAlreadyExistException";
 import BusinessPartnerWithThisCodeAndDiffrentNameAlreadyExist
     from "../Exceptions/BuisnessPartnerWithThisCodeAndDiffrentNameAlreadyExists";
+import Product from "../Models/Products/product.entity";
 
 class UserService implements RepositoryService {
 
@@ -41,23 +42,37 @@ class UserService implements RepositoryService {
 
     public async findUserByEmail(email: string): Promise<User> {
 
-        const foundUser = await this.manager.findOne(User,
-            {
-                email: email,
-                softDeleteDate: null
-            },
-            {relations: ['roles']});
+        const foundUser = await getConnection().createQueryBuilder(User,'user')
+
+            .leftJoinAndSelect('user.roles', 'roles')
+            .where("user.softDeleteDate is null")
+            .andWhere("user.email = :email", {email: email})
+            .getOne();
 
         return foundUser;
 
 
     }
 
+    public async findAllUsers(): Promise<User[]> {
+
+        const foundUsers =  await getConnection().createQueryBuilder(User,'user')
+
+            .leftJoinAndSelect('user.roles', 'roles')
+            .where("user.softDeleteDate is null")
+            .getMany();
+        return foundUsers;
+
+
+    }
+
     public async findUserById(id: string): Promise<User> {  // user here reference to all kind of users so business partners and privilliged users
 
-        const foundUser = await this.manager.findOne(User, id,
+        const foundUser = await getConnection().createQueryBuilder(User,'user')
 
-            {relations: ['roles']});
+            .leftJoinAndSelect('user.roles', 'roles')
+            .where("user.id = :id", {id:Number(id)})
+            .getOne();
 
         if (!foundUser) {
             throw new UserNotFoundException(id);
@@ -109,7 +124,7 @@ class UserService implements RepositoryService {
     public getAllPrivilegedUsers = async (): Promise<User[]> => {
         // in relation option: it takes table name as paramter, not enity name
 
-        const allUsers: User[] = await this.manager.find(User, {relations: ['roles']});
+        const allUsers: User[] = await this.findAllUsers();
 
         const adminOrEditors: User[] = [];
 
@@ -126,7 +141,7 @@ class UserService implements RepositoryService {
     public getAllAdmins = async (): Promise<User[]> => {
         // in relation option: it takes table name as paramter, not enity name
 
-        const allUsers: User[] = await this.manager.find(User, {relations: ['roles']});
+        const allUsers: User[] = await this.findAllUsers();
 
         const admins: User[] = [];
 
@@ -143,7 +158,7 @@ class UserService implements RepositoryService {
     public getAllEditors = async (): Promise<User[]> => {
         // in relation option: it takes table name as paramter, not enity name
 
-        const allUsers: User[] = await this.manager.find(User, {relations: ['roles']});
+        const allUsers: User[] = await this.findAllUsers();
 
         const editors: User[] = [];
 
@@ -162,7 +177,7 @@ class UserService implements RepositoryService {
     public findOnePrivilegedUserById = async (id: string): Promise<User> => {
 
 
-        const foundUser: User = await this.manager.findOne(User, id, {relations: ["roles"]});// relations it is not a table name, but field name, cause there could be many relations betwean 2 tables
+        const foundUser: User = await this.findUserById(id)// relations it is not a table name, but field name, cause there could be many relations betwean 2 tables
         if (!foundUser) {
             throw new UserNotFoundException(String(id));
         } else if (foundUser) {
@@ -180,13 +195,7 @@ class UserService implements RepositoryService {
     public updatePrivilegedUserWithoutPasssword = async (id: number, userData: UpdatePrivilegedUserWithouTPasswordDto): Promise<User> => {
         let privilligedUserToupdate: User = await this.findOnePrivilegedUserById(String(id));
         if (privilligedUserToupdate) {
-            const userWithThisEmail: User =
-                await this.manager.findOne(User,
-                    {
-                        email: userData.email,
-                        softDeleteDate: null
-                    },
-                    {relations: ['roles']});
+            const userWithThisEmail: User = await this.findUserByEmail(userData.email);
 
 
             const otherUserWithThisEmailAlreadyExist: boolean = (userWithThisEmail && userWithThisEmail.id !== id);
@@ -340,8 +349,8 @@ class UserService implements RepositoryService {
             });
             await this.manager.save(businesPartner);
             businesPartner.password = undefined;
-
-            return businesPartner;
+            const businessPartnerToReturn= await this.findOnePartnerById(String(businesPartner.id));
+            return businessPartnerToReturn;
         } else if (validationResult.foultList) {
             throw new WeekPasswordException(validationResult.foultList)
         }
@@ -352,7 +361,7 @@ class UserService implements RepositoryService {
     public getAllBusinessPartners = async (): Promise<User[]> => {
         // in relation option: it takes table name as paramter, not enity name
 
-        const allUsers: User[] = await this.manager.find(User, {relations: ['roles']});
+        const allUsers: User[] = await this.findAllUsers();
         const businesPartners: User[] = [];
 
         allUsers.forEach(user => {
@@ -367,7 +376,9 @@ class UserService implements RepositoryService {
     public findOnePartnerById = async (id: string): Promise<User> => {
 
 
-        const foundUser: User = await this.manager.findOne(User, id, {relations: ['roles', 'ordersOfPartner']});
+    //    const foundUser: User = await this.manager.findOne(User, id, {relations: ['roles', 'ordersOfPartner']});
+        const foundUser: User = await this.findUserById(id);
+
         if (!foundUser) {
             throw new BusinessPartnerNotFoundException(String(id));
         }
@@ -394,12 +405,7 @@ class UserService implements RepositoryService {
 
 
         // dont allow to change email if email is asigned to other user or businessPartner, becasuse it make proper log in process imposssible
-        const userWithThisEmail: User = await this.manager.findOne(User,
-            {
-                email: businessPartnerdata.email,
-                softDeleteDate: null
-            },
-            {relations: ['roles']});
+        const userWithThisEmail: User = await this.findUserByEmail(businessPartnerdata.email)
         if(userWithThisEmail) {
             const otherUserWithThisEmailAlreadyExist: boolean = (userWithThisEmail && userWithThisEmail.id !== id);
             if (otherUserWithThisEmailAlreadyExist) {
@@ -438,7 +444,7 @@ const partnerWithThisCodeInDatabase= await this.findBusinessPartnerByCode(busine
         });
         await this.manager.save(businessPartner);
 
-        const updatedPartner = await this.manager.findOne(User, id, {relations: ['roles']});
+        const updatedPartner = await this.findOnePartnerById(String(id));
         updatedPartner.password = undefined;
         return updatedPartner;
 
