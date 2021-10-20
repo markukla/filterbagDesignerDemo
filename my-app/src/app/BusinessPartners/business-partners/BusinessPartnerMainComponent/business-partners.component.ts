@@ -53,7 +53,16 @@ export class BusinessPartnersComponent implements OnInit, AfterContentChecked {
 
   ngOnInit(): void {
 
-    const routeParams = this.route.paramMap.subscribe(params=> {
+
+
+
+
+      this.initColumnNamesInSelectedLanguage();
+      this.selectedId = this.tableService.selectedId;
+      this.getRecords();
+      /*
+      for version with pagination:
+       const routeParams = this.route.paramMap.subscribe(params=> {
       const currentPageNumber = Number(params.get('pageNumber'));
       this.numberOfRecordsForPage = 100;
       this.paginator = new Pagninator(currentPageNumber);
@@ -62,14 +71,12 @@ export class BusinessPartnersComponent implements OnInit, AfterContentChecked {
       this.deleteButtonInfo = 'usuń';
       this.updateButtonInfo = 'modyfikuj dane';
       this.getRecords();
-      /*
-      for version with pagination:
        if(currentPageNumber ===1){
         this.getRecords();
       }
       * */
 
-    });
+
 
 
   }

@@ -576,13 +576,16 @@ export class OrderDrawingComponent implements OnInit, AfterViewInit, AfterConten
           this.tableFormService.buildIndex();
           this.tableFormService.setOrderName();
         }
-        if (!this.secondIndexDimensions.includes(valueOfEventTargetId) && !this.firstIndexDimensions.includes(valueOfEventTargetId)) {
+/*
+Commented out cause customer resigned from this functionality
+
+   if (!this.secondIndexDimensions.includes(valueOfEventTargetId) && !this.firstIndexDimensions.includes(valueOfEventTargetId)) {
           const maxLength = 3;
           if (event.target.innerHTML.length > maxLength) {
             event.target.innerHTML = event.target.innerHTML.slice(0, maxLength);
           }
         }
-      }
+*/      }
     }
 
   }

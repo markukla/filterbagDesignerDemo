@@ -82,7 +82,9 @@ for version with pagination
 
 
     <h3 class="heading-second">{{this.generalNamesInSelectedLanguage.exportToSapAndGeneretePdf}}</h3>
-    <p>{{this.generalNamesInSelectedLanguage.chooseLanguageForPdfGEneration}}</p>
+
+    <div *ngIf="showSapExportConfirmOrResignButton===true">
+      <p>{{this.generalNamesInSelectedLanguage.chooseLanguageForPdfGEneration}}</p>
     <div *ngFor="let language of this.languages">
 
 
@@ -92,9 +94,12 @@ for version with pagination
       <label  [for]="language.languageCode">{{language.languageCode}}</label>
     </fieldset>
     </div>
-    <p>{{this.generalNamesInSelectedLanguage.sapExportOperationIsIrreversible}}</p>
-    <button id="confirmDeleteButton" class="button button-popup" (click)="confirmExportAction();">{{this.generalNamesInSelectedLanguage.yes}}</button>
-    <button id="resignFromDeletingButton" class="button button-popup" (click)="resignFromExportAction();">{{this.generalNamesInSelectedLanguage.no}}</button>
+
+      <p>{{this.generalNamesInSelectedLanguage.sapExportOperationIsIrreversible}}</p>
+      <button id="confirmDeleteButton" class="button button-popup" (click)="confirmExportAction();">{{this.generalNamesInSelectedLanguage.yes}}</button>
+      <button id="resignFromDeletingButton" class="button button-popup" (click)="resignFromExportAction();">{{this.generalNamesInSelectedLanguage.no}}</button>
+    </div>
+
    <div *ngIf="this.waitForServerResponse">
      <p>{{this.waitForServerResponse}}</p>
 

@@ -63,6 +63,7 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
   });
   sapFailerMessege: string;
   sapSuccessMessege: string;
+  showSapExportConfirmOrResignButton: boolean;
 
 
   constructor(public tableService: GeneralTableService,
@@ -256,6 +257,7 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
   }
 
   confirmExportAction() {
+    this.showSapExportConfirmOrResignButton=false;
     this.waitForServerResponse= this.generalNamesInSelectedLanguage.waitForServerResponse;
     this.orderForSapDto.languageCodeForPdf= this.languageCodeForPdf;
     this.orderForSapDto.rysunek= this.orderForSapDto.rysunek + this.languageCodeForPdf.toLowerCase();
@@ -274,6 +276,7 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
   }
 
   resignFromExportAction() {
+    this.showSapExportConfirmOrResignButton=false;
     this.orderForSapDto= null;
     this.waitForServerResponse= undefined;
     this.sapSuccessMessege= undefined;
@@ -289,6 +292,7 @@ export class OrdersComponent implements OnInit, AfterContentChecked {
   }
 
   showExportToSapForm(id: number) {
+    this.showSapExportConfirmOrResignButton= true;
 
     const orderSelectedToExportWithAllLanguages: Order = this.ordersWithNamesInAllLanguages.filter(order=> order.id===id)[0];
      this.orderForSapDto= {
