@@ -46,7 +46,7 @@ class App {
         const publicDirectoryPath= path.join(__dirname, './public');
         console.log(`publicDirectoryPath= ${publicDirectoryPath}`);
         this.app.use(express.static(publicDirectoryPath));
-        this.app.use(express.static(process.cwd()+"/my-app/dist/projekt1FilterFront/"));
+        this.app.use(express.static(process.cwd()+"/my-app/dist/filterbagDesignerDemo/"));
         /* process.cwd() -This method returns a string specifying the current working directory of the node.js process.*/
         this.app.set('views', path.join(__dirname, 'views'));
         this.app.set('view engine', 'ejs');
@@ -54,14 +54,14 @@ class App {
         this.app.use(bodyParser.urlencoded({ extended: true }));
         this.app.use(cookieParser());
         this.app.get('/', (req:any,res:any) => {
-            res.sendFile(process.cwd()+"/my-app/dist/projekt1FilterFront/index.html")
+            res.sendFile(process.cwd()+"/my-app/dist/filterbagDesignerDemo/index.html")
         });
         this.app.get('/*', function(req:any, res:any, next) {
             if(req.url.includes('api')){
                return next();
 
             }
-            res.sendFile(process.cwd()+"/my-app/dist/projekt1FilterFront/index.html")
+            res.sendFile(process.cwd()+"/my-app/dist/filterbagDesignerDemo/index.html")
         });
     }
 

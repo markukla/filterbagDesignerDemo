@@ -8,12 +8,12 @@ import UpdatePrivilegedUserWithouTPasswordDto from "../Models/Users/PrivilegedUs
 import UpdateBussinessPartnerWithoutPassword from "../Models/Users/BusinessPartner/modyfyBusinessPartent.dto";
 
 class UsersExampleForTests {
-    public hashedPassword: string = "$2b$10$fpooDkA4UaG/9nDsuuUmB.bIUJ7ittTknMl8nEMQ9o28UQPXqdZBC";
-    public correctUnhashedPasswordOfexampleUserInDatabase: string = "Nicram12";
+    public hashedPassword: string = "$2b$10$KxCY5Zm6yPNGPo5DpZpfxe8Ss50UnSJVxzm711UYA.iRrV28AsfH2";
+    public correctUnhashedPasswordOfexampleUserInDatabase: string = "Admin123";
     public wrongUnhashedPasswordOfexampleUserInDatabase: string = "Nicrrerere12";
     public activeAdminUserExample: User = {
-        fulName: 'Jacek Luczak',
-        email: 'jacek.luczak@outlook.com',
+        fulName: 'Jan Admin',
+        email: 'admin.admin@gmail.com',
         password: this.hashedPassword,
         active: true,
         id: 1,
@@ -70,8 +70,8 @@ class UsersExampleForTests {
         softDeleteDate: null,
     }
     public activePartnerUserExample: User = {
-        fulName: 'Marian Kukla',
-        email: 'marian@kukla.com',
+        fulName: 'Marian Nowak',
+        email: 'marian@gmail.com',
         password: this.hashedPassword,
         active: true,
         id: 4,
@@ -94,7 +94,7 @@ class UsersExampleForTests {
 
         "fulName": 'John Smith',
         "email": 'john@smith.com',
-        "password": "Nicram12",
+        "password": "Admin123",
         "active": true,
         "isAdmin": true
 
@@ -104,7 +104,7 @@ class UsersExampleForTests {
 
         "fulName": 'Marcin kuklinski',
         "email": 'kuklinski@gmail.com',
-        "password": "Nicram12",
+        "password": "Admin123",
         "active": true,
         "isAdmin": false
 
@@ -114,7 +114,7 @@ class UsersExampleForTests {
 
         "fulName": 'Jan Kowalski',
         "email": 'kowalski@gmail.com',
-        "password": "Nicram1234",
+        "password": "Admin123",
         "active": true,
         "code": "POL1",
         "businesPartnerCompanyName": "Polpharma",

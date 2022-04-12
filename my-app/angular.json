@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/projekt1FilterFront",
+            "outputPath": "dist/filterbagDesignerDemo",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -115,18 +115,18 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "projekt1FilterFront:serve"
+            "devServerTarget": "filterbagDesignerDemo:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "projekt1FilterFront:serve:production"
+              "devServerTarget": "filterbagDesignerDemo:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "projekt1FilterFront",
+  "defaultProject": "filterbagDesignerDemo",
   "cli": {
     "analytics": false
   }
